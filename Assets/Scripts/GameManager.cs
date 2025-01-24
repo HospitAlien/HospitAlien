@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 0.2f)
+                    if (chance <= 0.1f)
                     {
                         Debug.Log("hi");
                         SpawnPatient();
@@ -126,18 +126,18 @@ public class GameManager : MonoBehaviour
 
 
     
-    public void patientCured(int patientIndex){
+    public void PatientCured(int patientIndex){
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
         score += 1;
     }   
 
-    public void AlienDeleted(int patientIndex)
+    public void PatientDied(int patientIndex)
     {
         Debug.Log("Alien with index " + patientIndex + " has been deleted.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
-        score += 1;
+        score -= 1; //Every time an alien dies the score is reduced
     }
 
 

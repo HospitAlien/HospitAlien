@@ -80,7 +80,7 @@ public class AlienBehaviour : MonoBehaviour
     // Function to delete the alien object
     void Delete()
     {
-        gameManager.AlienDeleted(index);
+        gameManager.PatientDied(index);
         Destroy(gameObject);
     }
 
