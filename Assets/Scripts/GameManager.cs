@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 1.0f)
+                    if (chance <= 0.2f)
                     {
                         Debug.Log("hi");
                         SpawnPatient();
@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
         {
             // Set the target location for the patient to move towards
             patientBehaviour.SetTarget(spawnPoint);
+            patientBehaviour.SetIndex(newSpot);
         }
 
 
@@ -130,6 +131,14 @@ public class GameManager : MonoBehaviour
         currentPatientCount--;
         score += 1;
     }   
+
+    public void AlienDeleted(int patientIndex)
+    {
+        Debug.Log("Alien with index " + patientIndex + " has been deleted.");
+        spotOccupied[patientIndex] = false;
+        currentPatientCount--;
+        score += 1;
+    }
 
 
 }
