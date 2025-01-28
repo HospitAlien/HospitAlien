@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -68,11 +69,12 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     // Wait 10 seconds, then try to spawn with 30% chance this percentage in the future will change depending on factors
-                    yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 0.3f)
+                    if (chance <= 0.1f)
                     {
+                        Debug.Log("hi");
                         SpawnPatient();
                     }
                 }
@@ -102,7 +104,20 @@ public class GameManager : MonoBehaviour
 
         // Select a random spawn location from the spawnLocations array
         Transform spawnPoint = spawnLocations[newSpot];
-        Instantiate(patientPrefab, spawnPoint.position, Quaternion.identity);
+
+
+        GameObject patient = Instantiate(patientPrefab, new Vector3(-15f,1f,7.5f), Quaternion.identity);
+        
+        // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
+        AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();
+
+        if (patientBehaviour != null)
+        {
+            // Set the target location for the patient to move towards
+            patientBehaviour.SetTarget(spawnPoint);
+            patientBehaviour.SetIndex(newSpot);
+        }
+
 
         // Increment the patient count
         currentPatientCount++;
@@ -111,12 +126,19 @@ public class GameManager : MonoBehaviour
 
 
     
-    public void patientCured(int patientIndex){
+    public void PatientCured(int patientIndex){
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
         score += 1;
     }   
 
+    public void PatientDied(int patientIndex)
+    {
+        Debug.Log("Alien with index " + patientIndex + " has been deleted.");
+        spotOccupied[patientIndex] = false;
+        currentPatientCount--;
+        score -= 1; //Every time an alien dies the score is reduced
+    }
+
 
 }
-

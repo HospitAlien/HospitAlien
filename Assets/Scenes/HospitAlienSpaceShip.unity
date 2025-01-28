@@ -520,7 +520,7 @@ MonoBehaviour:
   score: 0
   maxPatients: 6
   currentPatientCount: 0
-  patientPrefab: {fileID: 8223633048825448428, guid: ce687e998bb50cd329762f0e7358f237, type: 3}
+  patientPrefab: {fileID: 3522305715912331524, guid: ce687e998bb50cd329762f0e7358f237, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
