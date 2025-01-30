@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,33 +14,43 @@ public class GameManager : MonoBehaviour
     private Transform[] spawnLocations;
 
 
+    public TextMeshPro scoreText;
+    private string scoreString = "Score: %0";
+
+    void UpdateScoreText()
+    {
+        scoreText.text = scoreString.Replace("%0", score.ToString());
+    }
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         score = 0;
+        UpdateScoreText();
         spotOccupied = new bool[maxPatients]; //Initially these will all be false
 
 
 
-         // Define 6 spawn locations programmatically
+        // Define 6 spawn locations programmatically
         spawnLocations = new Transform[6];  // Array of 6 spawn locations
-        
+
         // Defining spawn points at specific positions
         spawnLocations[0] = new GameObject("SpawnPoint1").transform;
         spawnLocations[0].position = new Vector3(2, 2, -2);  // Position 1
-        
+
         spawnLocations[1] = new GameObject("SpawnPoint2").transform;
         spawnLocations[1].position = new Vector3(2, 2, 0);  // Position 2
-        
+
         spawnLocations[2] = new GameObject("SpawnPoint3").transform;
         spawnLocations[2].position = new Vector3(2, 2, 2);  // Position 3
-        
+
         spawnLocations[3] = new GameObject("SpawnPoint4").transform;
         spawnLocations[3].position = new Vector3(-2, 2, -2);  // Position 4
-        
+
         spawnLocations[4] = new GameObject("SpawnPoint5").transform;
         spawnLocations[4].position = new Vector3(-2, 2, 0);  // Position 5
-        
+
         spawnLocations[5] = new GameObject("SpawnPoint6").transform;
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
 
@@ -49,7 +60,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 
@@ -59,7 +70,8 @@ public class GameManager : MonoBehaviour
     {
         while (true) //in the future this can be changed to while game is running
         {
-            if(currentPatientCount < 6){
+            if (currentPatientCount < 6)
+            {
 
                 if (currentPatientCount == 0) //if there are no patients we should spawn one in 5 seconds
                 {
@@ -78,7 +90,9 @@ public class GameManager : MonoBehaviour
                         SpawnPatient();
                     }
                 }
-            }else{ //otherwise we dont want to overwelm the program so we will wait a second before checking again
+            }
+            else
+            { //otherwise we dont want to overwelm the program so we will wait a second before checking again
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -106,8 +120,8 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
 
 
-        GameObject patient = Instantiate(patientPrefab, new Vector3(-15f,1f,7.5f), Quaternion.identity);
-        
+        GameObject patient = Instantiate(patientPrefab, new Vector3(-15f, 1f, 7.5f), Quaternion.identity);
+
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();
 
@@ -121,16 +135,19 @@ public class GameManager : MonoBehaviour
 
         // Increment the patient count
         currentPatientCount++;
-        
+
     }
 
 
-    
-    public void PatientCured(int patientIndex){
+
+    public void PatientCured(int patientIndex)
+    {
+        Debug.Log("Alien with index " + patientIndex + " has been cured.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
         score += 1;
-    }   
+        UpdateScoreText();
+    }
 
     public void PatientDied(int patientIndex)
     {
@@ -138,6 +155,7 @@ public class GameManager : MonoBehaviour
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
         score -= 1; //Every time an alien dies the score is reduced
+        UpdateScoreText();
     }
 
 
