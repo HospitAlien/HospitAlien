@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 67947092}
   - component: {fileID: 67947091}
   m_Layer: 0
-  m_Name: ISDK_TeleportInteraction1
+  m_Name: ISDK_TeleportInteraction5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,7 +667,7 @@ Transform:
   m_GameObject: {fileID: 173831566}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.000000029802319, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0000002, y: 0.01, z: 3.0000002}
+  m_LocalPosition: {x: 2.0000002, y: 0.05, z: 3.0000002}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -777,7 +777,7 @@ Transform:
   m_GameObject: {fileID: 203353067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.000003010034}
-  m_LocalPosition: {x: -1.9999995, y: 0.01, z: -3}
+  m_LocalPosition: {x: -1.9999995, y: 0.05, z: -3}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -887,7 +887,7 @@ Transform:
   m_GameObject: {fileID: 233754358}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.000003010034}
-  m_LocalPosition: {x: 1.9999996, y: 0.01, z: -3}
+  m_LocalPosition: {x: 1.9999996, y: 0.05, z: -3}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -907,7 +907,7 @@ GameObject:
   - component: {fileID: 243871978}
   - component: {fileID: 243871977}
   m_Layer: 0
-  m_Name: ISDK_TeleportInteraction1
+  m_Name: ISDK_TeleportInteraction4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1280,7 +1280,7 @@ MonoBehaviour:
   _data: {fileID: 0}
   _allowTeleport: 1
   _equalDistanceToBlockerOverride: 0
-  _tieBreakerScore: 100
+  _tieBreakerScore: 10
   _surface: {fileID: 319964198}
   _targetPoint: {fileID: 319964196}
   _faceTargetDirection: 1
@@ -2037,7 +2037,7 @@ GameObject:
   - component: {fileID: 637881997}
   - component: {fileID: 637881996}
   m_Layer: 0
-  m_Name: ISDK_TeleportInteraction1
+  m_Name: ISDK_TeleportInteraction3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2529,7 +2529,7 @@ Transform:
   m_GameObject: {fileID: 1281712468}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071057, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 3, y: 0.01, z: 0}
+  m_LocalPosition: {x: 3, y: 0.05, z: 0}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3050,7 +3050,7 @@ GameObject:
   - component: {fileID: 1563708155}
   - component: {fileID: 1563708154}
   m_Layer: 0
-  m_Name: ISDK_TeleportInteraction1
+  m_Name: ISDK_TeleportInteraction6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3348,7 +3348,7 @@ Transform:
   m_GameObject: {fileID: 1608547208}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.00000013411044, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0000002, y: 0.01, z: 3.0000005}
+  m_LocalPosition: {x: -2.0000002, y: 0.05, z: 3.0000005}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3691,7 +3691,7 @@ GameObject:
   - component: {fileID: 1759154166}
   - component: {fileID: 1759154165}
   m_Layer: 0
-  m_Name: ISDK_TeleportInteraction1
+  m_Name: ISDK_TeleportInteraction2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3868,7 +3868,7 @@ Transform:
   m_GameObject: {fileID: 1799472601}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -3.0000005, y: 0.01, z: 0}
+  m_LocalPosition: {x: -3.0000005, y: 0.05, z: 0}
   m_LocalScale: {x: 0.1, y: 1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
