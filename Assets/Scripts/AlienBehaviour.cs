@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class AlienBehaviour : MonoBehaviour
 {
@@ -13,13 +14,16 @@ public class AlienBehaviour : MonoBehaviour
 
     private static GameManager gameManager;
 
+    private bool isReady = false; // Flag to check the patient have moved to right place
+    private bool isCured = false; // Flag to check if the alien is cured
+
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        targetLocation = new Vector3(target.position.x, transform.position.y,target.position.z);
+        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
 
         if (gameManager == null)
         {
@@ -33,8 +37,8 @@ public class AlienBehaviour : MonoBehaviour
         timerGO.transform.localPosition = new Vector3(0, 2, 0); // Position it above the alien's head
 
         timerText = timerGO.AddComponent<TextMesh>();
-        timerText.fontSize = 100; 
-        timerText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f); 
+        timerText.fontSize = 100;
+        timerText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         timerText.color = Color.black;
         timerText.alignment = TextAlignment.Center;
         timerText.anchor = TextAnchor.MiddleCenter;
@@ -49,17 +53,19 @@ public class AlienBehaviour : MonoBehaviour
         if (target != null)
         {
             Vector3 direction = (targetLocation - transform.position).normalized;
-            float distanceToTarget =  Vector3.Distance( transform.position,targetLocation);
+            float distanceToTarget = Vector3.Distance(transform.position, targetLocation);
 
             float stoppingDistance = 0.1f;
             if (distanceToTarget > stoppingDistance)
             {
                 float speed = 3f;
+                isReady = false;
                 rb.MovePosition(transform.position + direction * speed * Time.fixedDeltaTime);
             }
             else
             {
                 rb.MovePosition(targetLocation);
+                isReady = true;
             }
         }
     }
@@ -84,6 +90,30 @@ public class AlienBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // Function called when alien is cured
+    public void Cure()
+    {
+        if (isCured)
+        {
+            return; // Prevent curing the same alien multiple times
+        }
+        isCured = true;
+        gameManager.PatientCured(index);
+        Destroy(gameObject);
+    }
+
+    // Detect collision with the player's controller
+    void OnTriggerEnter(Collider collider)
+    {
+        if (isReady) // Only interact with the alien if it has reached the target location
+        {
+            if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
+            {
+                Cure();
+            }
+        }
+    }
+
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
@@ -91,6 +121,6 @@ public class AlienBehaviour : MonoBehaviour
 
     public void SetIndex(int newIndex)
     {
-        index = newIndex;    
+        index = newIndex;
     }
 }
