@@ -52,7 +52,7 @@ public class AlienBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (target != null && !agent.isStopped)
+        if (target != null)
         {
 
 
@@ -60,8 +60,6 @@ public class AlienBehaviour : MonoBehaviour
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
                 isReady = true;
-                agent.isStopped = true;
-                Debug.Log("Reached target location");
             }
             else
             {
