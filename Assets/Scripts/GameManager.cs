@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
                     float chance = Random.Range(0f, 1f);
                     if (chance <= 0.1f)
                     {
-                        Debug.Log("hi");
                         SpawnPatient();
                     }
                 }
@@ -120,7 +119,7 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
 
 
-        GameObject patient = Instantiate(patientPrefab, new Vector3(-15f, 1f, 7.5f), Quaternion.identity);
+        GameObject patient = Instantiate(patientPrefab, new Vector3(-15f, 0.08333334f, 7.5f), Quaternion.identity);
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();

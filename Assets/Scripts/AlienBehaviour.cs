@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 using System;
 
@@ -6,13 +7,13 @@ public class AlienBehaviour : MonoBehaviour
 {
     public Transform target;
     private int index;
-    private Rigidbody rb;
     private Vector3 targetLocation;
 
     private float timer = 30f;  // Start with a 30-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
 
     private static GameManager gameManager;
+    private NavMeshAgent agent;
 
     private bool isReady = false; // Flag to check the patient have moved to right place
     private bool isCured = false; // Flag to check if the alien is cured
@@ -21,9 +22,10 @@ public class AlienBehaviour : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        agent = GetComponent<NavMeshAgent>();
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
+
+        agent.SetDestination(targetLocation);
 
         if (gameManager == null)
         {
@@ -34,11 +36,11 @@ public class AlienBehaviour : MonoBehaviour
         // Create a new TextMesh object for displaying the countdown
         GameObject timerGO = new GameObject("TimerText");
         timerGO.transform.SetParent(transform);
-        timerGO.transform.localPosition = new Vector3(0, 2, 0); // Position it above the alien's head
+        timerGO.transform.localPosition = new Vector3(0, 0.2f, 0); // Position it above the alien's head
 
         timerText = timerGO.AddComponent<TextMesh>();
         timerText.fontSize = 100;
-        timerText.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        timerText.transform.localScale = new Vector3(0.005f, 0.005f, 0.005f);
         timerText.color = Color.black;
         timerText.alignment = TextAlignment.Center;
         timerText.anchor = TextAnchor.MiddleCenter;
@@ -52,20 +54,16 @@ public class AlienBehaviour : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 direction = (targetLocation - transform.position).normalized;
-            float distanceToTarget = Vector3.Distance(transform.position, targetLocation);
 
-            float stoppingDistance = 0.1f;
-            if (distanceToTarget > stoppingDistance)
+
+            // Check if the agent has reached the destination
+            if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                float speed = 3f;
-                isReady = false;
-                rb.MovePosition(transform.position + direction * speed * Time.fixedDeltaTime);
+                isReady = true;
             }
             else
             {
-                rb.MovePosition(targetLocation);
-                isReady = true;
+                isReady = false;
             }
         }
     }

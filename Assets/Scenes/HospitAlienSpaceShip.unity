@@ -3588,7 +3588,7 @@ MonoBehaviour:
   score: 0
   maxPatients: 6
   currentPatientCount: 0
-  patientPrefab: {fileID: 3522305715912331524, guid: ce687e998bb50cd329762f0e7358f237, type: 3}
+  patientPrefab: {fileID: 1528835828261860716, guid: 3a6c16bfe35ddea428914ac01e3afffc, type: 3}
   scoreText: {fileID: 540311353}
 --- !u!1 &1668148964
 GameObject:
@@ -4265,7 +4265,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1608304510}
-  - {fileID: 1326093463}
   - {fileID: 278098256}
   - {fileID: 233754362}
   - {fileID: 1281712472}
@@ -4275,3 +4274,4 @@ SceneRoots:
   - {fileID: 1608547212}
   - {fileID: 2098182239}
   - {fileID: 540311355}
+  - {fileID: 1326093463}
