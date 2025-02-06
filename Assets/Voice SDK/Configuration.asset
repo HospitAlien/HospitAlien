@@ -22,11 +22,60 @@ MonoBehaviour:
     isPrivate: 1
     createdAt: 2025-01-28T06:26:11-0800
     trainingStatus: 1
-    lastTrainDuration: 0
-    lastTrainedAt: 1969-12-31T16:00:00-0800
-    nextTrainAt: 1969-12-31T16:00:00-0800
-    intents: []
-    entities: []
+    lastTrainDuration: 48
+    lastTrainedAt: 2025-01-31T11:10:04-0800
+    nextTrainAt: 2025-01-31T11:09:16-0800
+    intents:
+    - id: 594341850054781
+      name: change_color
+      entities:
+      - name: colour:colour
+        id: 1022459989713207
+      - name: shape:shape
+        id: 1243030700129943
+    entities:
+    - name: colour
+      id: 1999658613854952
+      lookups:
+      - free-text
+      - keywords
+      roles:
+      - name: colour
+        id: 1022459989713207
+      keywords:
+      - keyword: green
+        synonyms:
+        - green
+      - keyword: purple
+        synonyms:
+        - purple
+      - keyword: red
+        synonyms:
+        - red
+    - name: shape
+      id: 1343412656672383
+      lookups:
+      - keywords
+      roles:
+      - name: shape
+        id: 1243030700129943
+      keywords:
+      - keyword: capsule
+        synonyms:
+        - capsule
+        - pill
+      - keyword: cube
+        synonyms:
+        - box
+        - cube
+      - keyword: cylinder
+        synonyms:
+        - cylinder
+        - tube
+      - keyword: sphere
+        synonyms:
+        - ball
+        - sphere
     traits: []
     versionTags: []
     voices:
