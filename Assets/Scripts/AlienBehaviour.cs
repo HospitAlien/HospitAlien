@@ -101,16 +101,26 @@ public class AlienBehaviour : MonoBehaviour
     }
 
     // Detect collision with the player's controller
-    void OnTriggerEnter(Collider collider)
+    // void OnTriggerEnter(Collider collider)
+    // {
+    //     if (isReady) // Only interact with the alien if it has reached the target location
+    //     {
+    //         if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
+    //         {
+    //             Cure();
+    //         }
+    //     }
+    // }
+
+    // Detect collision with syringe
+    void OnCollisionEnter(Collision collision)
     {
-        if (isReady) // Only interact with the alien if it has reached the target location
-        {
-            if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
-            {
-                Cure();
-            }
+        if(collision.gameObject.CompareTag("Syringe")){
+            Debug.Log("SYRINGE!!!");
+            Cure();
         }
     }
+
 
     public void SetTarget(Transform newTarget)
     {

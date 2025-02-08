@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Anchor
   - Controller
+  - Syringe
   layers:
   - Default
   - TransparentFX
