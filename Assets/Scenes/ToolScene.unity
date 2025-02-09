@@ -1108,7 +1108,7 @@ MonoBehaviour:
   _data: {fileID: 0}
   _pointableElement: {fileID: 342519416}
   _rigidbody: {fileID: 1857425155}
-  _grabSource: {fileID: 459959907}
+  _grabSource: {fileID: 1252414095}
   _resetGrabOnGrabsUpdated: 1
   _physicsGrabbable: {fileID: 0}
   _movementProvider: {fileID: 342519413}
@@ -1362,11 +1362,6 @@ Animator:
 --- !u!33 &459959905 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: 8674443298074211029, guid: 9bd1101b58b79458dba03529c57f6d5e, type: 3}
-  m_PrefabInstance: {fileID: 1994536852}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &459959907 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4364070051821178716, guid: 9bd1101b58b79458dba03529c57f6d5e, type: 3}
   m_PrefabInstance: {fileID: 1994536852}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &462754514
@@ -3169,6 +3164,11 @@ MonoBehaviour:
   _materialBlock: {fileID: 462754517}
   _reticleMode: 1
   _hideReticle: 1
+--- !u!4 &1252414095 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2029525369266837727, guid: 9bd1101b58b79458dba03529c57f6d5e, type: 3}
+  m_PrefabInstance: {fileID: 1994536852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1287367646
 GameObject:
   m_ObjectHideFlags: 0
