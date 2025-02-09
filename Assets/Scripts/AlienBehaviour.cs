@@ -3,9 +3,14 @@ using UnityEngine.AI;
 using System.Collections;
 using System;
 
+struct Status{
+    public bool needsInjection;
+}
+
 public class AlienBehaviour : MonoBehaviour
 {
     public Transform target;
+    
     private int index;
     private Vector3 targetLocation;
 
@@ -18,10 +23,21 @@ public class AlienBehaviour : MonoBehaviour
     private bool isReady = false; // Flag to check the patient have moved to right place
     private bool isCured = false; // Flag to check if the alien is cured
 
+    private ParticleSystem sweatParticles;
 
+    private Status status;
+
+    void InitiateStatus(){
+        System.Random random = new System.Random();
+
+        status.needsInjection = random.NextDouble() < 0.5;
+    }
 
     void Start()
     {
+        InitiateStatus();
+        sweatParticles = GetComponent<ParticleSystem>();
+
         agent = GetComponent<NavMeshAgent>();
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
 
@@ -50,6 +66,10 @@ public class AlienBehaviour : MonoBehaviour
 
     }
 
+    void Update(){
+
+    }
+
     void FixedUpdate()
     {
         if (target != null)
@@ -63,8 +83,16 @@ public class AlienBehaviour : MonoBehaviour
             }
             else
             {
+                agent.SetDestination(targetLocation);
                 isReady = false;
             }
+        }
+
+
+        if(status.needsInjection){
+            sweatParticles.Play();
+        }else{
+            sweatParticles.Stop();
         }
     }
 
@@ -101,23 +129,29 @@ public class AlienBehaviour : MonoBehaviour
     }
 
     // Detect collision with the player's controller
-    // void OnTriggerEnter(Collider collider)
-    // {
-    //     if (isReady) // Only interact with the alien if it has reached the target location
-    //     {
-    //         if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
-    //         {
-    //             Cure();
-    //         }
-    //     }
-    // }
+    void OnTriggerEnter(Collider collider)
+    {
+        if (isReady && !status.needsInjection) // Only interact with the alien if it has reached the target location
+        {
+            if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
+            {
+                Cure();
+            }
+        }
+    }
 
     // Detect collision with syringe
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Syringe")){
-            Debug.Log("SYRINGE!!!");
-            Cure();
+        if(isReady)
+        {
+            if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
+                Debug.Log("SYRINGE!!!");
+                Cure();
+            }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
+                Debug.Log("KILLED BY SYRINGE");
+                Delete();
+            }
         }
     }
 
