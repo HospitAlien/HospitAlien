@@ -3,9 +3,19 @@ using UnityEngine.AI;
 using System.Collections;
 using System;
 
+struct Status{
+    public bool needsInjection;
+
+    public bool isHealthy()
+    {
+        return (!needsInjection);
+    }
+}
+
 public class AlienBehaviour : MonoBehaviour
 {
     public Transform target;
+    
     private int index;
     private Vector3 targetLocation;
 
@@ -18,21 +28,40 @@ public class AlienBehaviour : MonoBehaviour
     private bool isReady = false; // Flag to check the patient have moved to right place
     private bool isCured = false; // Flag to check if the alien is cured
 
+    private ParticleSystem sweatParticles;
 
+    private Status status;
+
+    void InitiateStatus(){
+        System.Random random = new System.Random();
+
+        if(random.NextDouble() < 0.5){
+            status.needsInjection = true;
+            sweatParticles.Play();
+        }
+ 
+    }
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
-
-        agent.SetDestination(targetLocation);
-
         if (gameManager == null)
         {
             gameManager = FindAnyObjectByType<GameManager>();
         }
 
 
+        sweatParticles = GetComponent<ParticleSystem>();
+
+        agent = GetComponent<NavMeshAgent>();
+        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
+        agent.SetDestination(targetLocation);
+
+
+        InitiateStatus();
+        InitiateTimer();
+    }
+
+    void InitiateTimer(){
         // Create a new TextMesh object for displaying the countdown
         GameObject timerGO = new GameObject("TimerText");
         timerGO.transform.SetParent(transform);
@@ -47,8 +76,8 @@ public class AlienBehaviour : MonoBehaviour
 
         // Start the countdown coroutine
         StartCoroutine(CountdownTimer());
-
     }
+
 
     void FixedUpdate()
     {
@@ -63,6 +92,7 @@ public class AlienBehaviour : MonoBehaviour
             }
             else
             {
+                agent.SetDestination(targetLocation);
                 isReady = false;
             }
         }
@@ -103,11 +133,35 @@ public class AlienBehaviour : MonoBehaviour
     // Detect collision with the player's controller
     void OnTriggerEnter(Collider collider)
     {
-        if (isReady) // Only interact with the alien if it has reached the target location
+        if (isReady && !status.needsInjection) // Only interact with the alien if it has reached the target location
         {
             if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
             {
                 Cure();
+            }
+        }
+    }
+
+    // Detect collision with syringe
+    void OnCollisionEnter(Collision collision)
+    {
+
+        if(isReady)
+        {
+            if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
+                Debug.Log("CURED BY SYRINGE");
+                status.needsInjection = false;
+                sweatParticles.Stop();
+                if(status.isHealthy()){
+                    Cure();
+                }
+                collision.gameObject.tag = "Used-Syringe"; //We should probably move it to the syringe script
+                
+
+            }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
+                collision.gameObject.tag = "Used-Syringe"; 
+                Debug.Log("KILLED BY SYRINGE");
+                Delete();
             }
         }
     }
