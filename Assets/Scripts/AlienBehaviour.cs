@@ -5,10 +5,10 @@ using System;
 
 struct Status{
     public bool needsInjection;
-
+    public bool needsExtinguishing;
     public bool isHealthy()
     {
-        return (!needsInjection);
+        return (!needsInjection && !needsExtinguishing);
     }
 }
 
@@ -30,14 +30,20 @@ public class AlienBehaviour : MonoBehaviour
 
     private ParticleSystem sweatParticles;
 
+    public ParticleSystem fireParticles;
+
     private Status status;
 
     void InitiateStatus(){
         System.Random random = new System.Random();
 
-        if(random.NextDouble() < 0.5){
+        if(random.NextDouble() < 0.4){ 
             status.needsInjection = true;
             sweatParticles.Play();
+        }else if(random.NextDouble() < 0.4){
+            status.needsExtinguishing = true;
+            fireParticles.Play();
+            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
  
     }
@@ -166,6 +172,28 @@ public class AlienBehaviour : MonoBehaviour
         }
     }
 
+    //Detect collision with fire extinguisher foam
+    void OnParticleCollision(GameObject particle)
+    {
+
+        // Check if the particle colliding with the alien is from the fire extinguisher
+        if (particle.CompareTag("Fire-Extinguisher"))
+        {
+            Debug.Log("FIRE Particle hit the alien!");
+
+        }
+        if(isReady)
+        {
+            if(particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing ){
+                Debug.Log("CURED BY FOAM");
+                status.needsExtinguishing = false;
+                fireParticles.Stop();
+                if(status.isHealthy()){
+                    Cure();
+                }
+        }
+    }
+}
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
