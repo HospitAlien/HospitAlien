@@ -3789,8 +3789,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ScoreBoard
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3d91ce7557252944d965298de53ed858, type: 2}
-  m_sharedMaterial: {fileID: 2866627323271722420, guid: 3d91ce7557252944d965298de53ed858, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
+  m_sharedMaterial: {fileID: 4687939059374929122, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3884,7 +3884,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2866627323271722420, guid: 3d91ce7557252944d965298de53ed858, type: 2}
+  - {fileID: 4687939059374929122, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4268,7 +4268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9bd1101b58b79458dba03529c57f6d5e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.3
+      value: 5.623
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9bd1101b58b79458dba03529c57f6d5e, type: 3}
       propertyPath: m_LocalPosition.z

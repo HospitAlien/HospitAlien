@@ -8,7 +8,7 @@ struct Status{
 
     public bool isHealthy()
     {
-        return !needsInjection;
+        return (!needsInjection && false);
     }
 }
 
@@ -35,25 +35,33 @@ public class AlienBehaviour : MonoBehaviour
     void InitiateStatus(){
         System.Random random = new System.Random();
 
-        status.needsInjection = random.NextDouble() < 0.5;
+        if(random.NextDouble() < 0.5){
+            status.needsInjection = true;
+            sweatParticles.Play();
+        }
+ 
     }
 
     void Start()
     {
-        InitiateStatus();
-        sweatParticles = GetComponent<ParticleSystem>();
-
-        agent = GetComponent<NavMeshAgent>();
-        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
-
-        agent.SetDestination(targetLocation);
-
         if (gameManager == null)
         {
             gameManager = FindAnyObjectByType<GameManager>();
         }
 
 
+        sweatParticles = GetComponent<ParticleSystem>();
+
+        agent = GetComponent<NavMeshAgent>();
+        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
+        agent.SetDestination(targetLocation);
+
+
+        InitiateStatus();
+        InitiateTimer();
+    }
+
+    void InitiateTimer(){
         // Create a new TextMesh object for displaying the countdown
         GameObject timerGO = new GameObject("TimerText");
         timerGO.transform.SetParent(transform);
@@ -68,12 +76,8 @@ public class AlienBehaviour : MonoBehaviour
 
         // Start the countdown coroutine
         StartCoroutine(CountdownTimer());
-
     }
 
-    void Update(){
-
-    }
 
     void FixedUpdate()
     {
@@ -91,13 +95,6 @@ public class AlienBehaviour : MonoBehaviour
                 agent.SetDestination(targetLocation);
                 isReady = false;
             }
-        }
-
-
-        if(status.needsInjection){
-            sweatParticles.Play();
-        }else{
-            sweatParticles.Stop();
         }
     }
 
@@ -148,13 +145,16 @@ public class AlienBehaviour : MonoBehaviour
     // Detect collision with syringe
     void OnCollisionEnter(Collision collision)
     {
+
         if(isReady)
         {
             if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
                 status.needsInjection = false;
+                sweatParticles.Stop();
                 if(status.isHealthy()){
                     Cure();
                 }
+                collision.gameObject.tag = "Used-Syringe"; //We should probably move it to the syringe script
                 
 
             }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
