@@ -8,7 +8,7 @@ struct Status{
 
     public bool isHealthy()
     {
-        return (!needsInjection && false);
+        return (!needsInjection);
     }
 }
 
