@@ -5,6 +5,11 @@ using System;
 
 struct Status{
     public bool needsInjection;
+
+    public bool isHealthy()
+    {
+        return !needsInjection;
+    }
 }
 
 public class AlienBehaviour : MonoBehaviour
@@ -146,15 +151,18 @@ public class AlienBehaviour : MonoBehaviour
         if(isReady)
         {
             if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
-                Debug.Log("SYRINGE!!!");
-                Cure();
+                status.needsInjection = false;
+                if(status.isHealthy()){
+                    Cure();
+                }
+                
+
             }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
                 Debug.Log("KILLED BY SYRINGE");
                 Delete();
             }
         }
     }
-
 
     public void SetTarget(Transform newTarget)
     {
