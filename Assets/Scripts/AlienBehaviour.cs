@@ -149,6 +149,7 @@ public class AlienBehaviour : MonoBehaviour
         if(isReady)
         {
             if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
+                Debug.Log("CURED BY SYRINGE");
                 status.needsInjection = false;
                 sweatParticles.Stop();
                 if(status.isHealthy()){
