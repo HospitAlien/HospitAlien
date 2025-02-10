@@ -22,9 +22,9 @@ MonoBehaviour:
     isPrivate: 1
     createdAt: 2025-01-28T06:26:11-0800
     trainingStatus: 1
-    lastTrainDuration: 48
-    lastTrainedAt: 2025-01-31T11:10:04-0800
-    nextTrainAt: 2025-01-31T11:09:16-0800
+    lastTrainDuration: 58
+    lastTrainedAt: 2025-02-10T09:43:11-0800
+    nextTrainAt: 2025-02-10T09:42:13-0800
     intents:
     - id: 594341850054781
       name: change_color
@@ -33,6 +33,14 @@ MonoBehaviour:
         id: 1022459989713207
       - name: shape:shape
         id: 1243030700129943
+    - id: 957594249833861
+      name: find_issue
+      entities: []
+    - id: 1734385430476876
+      name: wit$create_timer
+      entities:
+      - name: wit$duration:duration
+        id: 1884805938990338
     entities:
     - name: colour
       id: 1999658613854952
@@ -76,6 +84,13 @@ MonoBehaviour:
         synonyms:
         - ball
         - sphere
+    - name: wit$duration
+      id: 535a80fb-4be9-4991-a48e-8b2ca4ef6e54
+      lookups: []
+      roles:
+      - name: duration
+        id: 1884805938990338
+      keywords: []
     traits: []
     versionTags: []
     voices:
