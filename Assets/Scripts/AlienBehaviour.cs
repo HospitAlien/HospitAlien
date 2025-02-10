@@ -158,6 +158,7 @@ public class AlienBehaviour : MonoBehaviour
                 
 
             }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
+                collision.gameObject.tag = "Used-Syringe"; 
                 Debug.Log("KILLED BY SYRINGE");
                 Delete();
             }
