@@ -5,10 +5,10 @@ using System;
 
 struct Status{
     public bool needsInjection;
-
+    public bool needsExtinguishing;
     public bool isHealthy()
     {
-        return (!needsInjection);
+        return (!needsInjection && !needsExtinguishing);
     }
 }
 
@@ -28,16 +28,23 @@ public class AlienBehaviour : MonoBehaviour
     private bool isReady = false; // Flag to check the patient have moved to right place
     private bool isCured = false; // Flag to check if the alien is cured
 
-    private ParticleSystem sweatParticles;
+    public ParticleSystem sweatParticles;
+
+    public ParticleSystem fireParticles;
 
     private Status status;
 
     void InitiateStatus(){
         System.Random random = new System.Random();
 
-        if(random.NextDouble() < 0.5){
+        if(random.NextDouble() < 0.4){ 
             status.needsInjection = true;
             sweatParticles.Play();
+        }
+        if(random.NextDouble() < 0.4){
+            status.needsExtinguishing = true;
+            fireParticles.Play();
+            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
  
     }
@@ -50,7 +57,6 @@ public class AlienBehaviour : MonoBehaviour
         }
 
 
-        sweatParticles = GetComponent<ParticleSystem>();
 
         agent = GetComponent<NavMeshAgent>();
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
@@ -142,29 +148,48 @@ public class AlienBehaviour : MonoBehaviour
         }
     }
 
-    // Detect collision with syringe
-    void OnCollisionEnter(Collision collision)
+
+    //Detect collision with fire extinguisher foam
+    void OnParticleCollision(GameObject particle)
     {
 
+        // Check if the particle colliding with the alien is from the fire extinguisher
+        if (particle.CompareTag("Fire-Extinguisher"))
+        {
+            Debug.Log("FIRE Particle hit the alien!");
+
+        }
         if(isReady)
         {
-            if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
-                Debug.Log("CURED BY SYRINGE");
-                status.needsInjection = false;
-                sweatParticles.Stop();
+            if(particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing ){
+                Debug.Log("CURED BY FOAM");
+                status.needsExtinguishing = false;
+                fireParticles.Stop();
                 if(status.isHealthy()){
                     Cure();
                 }
-                collision.gameObject.tag = "Used-Syringe"; //We should probably move it to the syringe script
-                
+            }
+        }
+    }
 
-            }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
-                collision.gameObject.tag = "Used-Syringe"; 
-                Debug.Log("KILLED BY SYRINGE");
+    void Syrined(){
+
+        if(isReady)
+        {
+            if(status.needsInjection ){
+                status.needsInjection = false;
+                if(status.isHealthy()){
+                    Cure();
+                }else{
+                    sweatParticles.Stop();
+                }
+                
+            }else{
                 Delete();
             }
         }
     }
+
 
     public void SetTarget(Transform newTarget)
     {
