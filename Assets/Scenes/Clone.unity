@@ -848,7 +848,7 @@ MonoBehaviour:
   PrependedText: 
   AppendedText: 
   _ttsService: {fileID: 888154967}
-  presetVoiceID: WIT$SOUTHERN ACCENT
+  presetVoiceID: WIT$CARTOON BABY
   customWitVoiceSettings:
     SettingsId: 
     PrependedText: 
