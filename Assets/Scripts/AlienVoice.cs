@@ -65,16 +65,21 @@ public class AlienVoice : MonoBehaviour
     private void HandleWitResponse(WitResponseNode response)
     {
         Debug.Log("WitResponse received by handler!");
+
         if(IntentMatches(response, "find_issue"))
         {
             Debug.Log("Intent matches");
             SayIllness();
         }
+        else if(IntentMatches(response, "greeting"))
+        {
+            Debug.Log("Greeting recognised");
+            TTSScript.Speak("I am in agony, help please");
+        }
         else
         {
             Debug.Log("Intent doesn't match");
         }
-
         VoiceExperience.Deactivate();
         
         VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
