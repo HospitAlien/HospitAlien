@@ -6,12 +6,14 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    private GlobalVariableManager gvm;
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
     private bool[] spotOccupied;
     public GameObject patientPrefab;
     private Transform[] spawnLocations;
+    private bool gameStarted = false;
 
 
     public TextMeshPro scoreText;
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gvm = FindFirstObjectByType<GlobalVariableManager>();
+
         score = 0;
         UpdateScoreText();
         spotOccupied = new bool[maxPatients]; //Initially these will all be false
@@ -68,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnPatients()
     {
-        while (true) //in the future this can be changed to while game is running
+        while (gvm.GameStarted) //in the future this can be changed to while game is running
         {
             if (currentPatientCount < 6)
             {
