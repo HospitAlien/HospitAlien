@@ -42,6 +42,22 @@ public class GlobalVariableManager : MonoBehaviour
         }
     }
 
+
+    public event Action<GameSettingsIO> OnGameSettingChangedEvent;
+    public GameSettingsIO GameSettings
+    {
+        get { return gameSettings; }
+        set
+        {
+            if (gameSettings != value)
+            {
+                gameSettings = value;
+                OnGameSettingChangedEvent?.Invoke(value);
+            }
+        }
+    }
+
+
     // Place to save the file
     private string settingFilePath;
     private string leaderBoardFilePath;

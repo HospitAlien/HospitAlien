@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -6,20 +5,31 @@ public class VignetteManager : MonoBehaviour
 {
     public OVRVignette vignette;
     public OVRCameraRig cameraRig;
-    public float VignetteStrength = 100;
-    private const float VIGNETTE_OFF = 160;
+    public float VignetteStrength = 50;
+    private const float VIGNETTE_OFF = 120;
 
 
     private Quaternion lastRotation;
     private float targetVignetteFieldOfView;
 
+    private GlobalVariableManager gvm;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         lastRotation = cameraRig.transform.rotation;
         vignette.enabled = false;
         targetVignetteFieldOfView = VIGNETTE_OFF;
+        gvm = FindFirstObjectByType<GlobalVariableManager>();
+        UpdateVignetteStrength(gvm.GameSettings);
+        gvm.OnGameSettingChangedEvent += UpdateVignetteStrength;
+    }
+
+    private void UpdateVignetteStrength(GameSettingsIO settings)
+    {
+        VignetteStrength = gvm.GameSettings.vignetteStrength;
     }
 
     // Update is called once per frame
@@ -30,7 +40,7 @@ public class VignetteManager : MonoBehaviour
         // if camera is rotating bigger than 10 degree per sec, turn on the vignette
         if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 10)
         {
-            targetVignetteFieldOfView = 140 - VignetteStrength;
+            targetVignetteFieldOfView = 90 - VignetteStrength;
         }
         else targetVignetteFieldOfView = VIGNETTE_OFF;
 

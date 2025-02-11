@@ -10,7 +10,7 @@ public class GameSettingsIO : ScriptableObject
     public int comfortMode = 0;
 
     [Header("Vignette Strength")]
-    [Tooltip("Range 30.0 - 100.0")]
-    public float vignetteStrength = 100.0f;
+    [Tooltip("Range 0.0 - 50.0")]
+    public float vignetteStrength = 50.0f;
 
 }

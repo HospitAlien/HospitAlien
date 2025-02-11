@@ -509,7 +509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vignette: {fileID: 801151025}
   cameraRig: {fileID: 1981082592}
-  VignetteStrength: 81.1
+  VignetteStrength: 50
 --- !u!114 &801151027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -799,6 +799,14 @@ PrefabInstance:
     - target: {fileID: 2066077660669252974, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483171112400622654, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: field of view
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483171112407822892, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: disableEyeAnchorCameras
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2514675399181695721, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_LocalPosition.x
