@@ -10,7 +10,6 @@ public class AlienVoice : MonoBehaviour
 
     public TTSSpeaker TTSScript;
     public AppVoiceExperience VoiceExperience;
-    public string Intent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,6 +21,29 @@ public class AlienVoice : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void Awake()
+    {
+        GameObject TTSSpeaker = GameObject.Find("TTSSpeaker");
+        if (TTSSpeaker != null)
+        {
+            TTSScript = TTSSpeaker.GetComponent<TTSSpeaker>();
+        }
+        else
+        {
+            Debug.Log("TTSpeaker not found");
+        }
+
+        GameObject VoiceExperienceObject = GameObject.Find("App Voice Experience");
+        if (VoiceExperienceObject != null)
+        {
+            VoiceExperience = VoiceExperienceObject.GetComponent<AppVoiceExperience>();
+        }
+        else
+        {
+            Debug.Log("VoiceExperienceObject not found");
+        }
     }
 
 
@@ -43,7 +65,7 @@ public class AlienVoice : MonoBehaviour
     private void HandleWitResponse(WitResponseNode response)
     {
         Debug.Log("WitResponse received by handler!");
-        if(IntentMatches(response))
+        if(IntentMatches(response, "find_issue"))
         {
             Debug.Log("Intent matches");
             SayIllness();
@@ -65,7 +87,7 @@ public class AlienVoice : MonoBehaviour
         TTSScript.Speak("SayIllness Called");
     }
 
-    private bool IntentMatches(WitResponseNode response)
+    private bool IntentMatches(WitResponseNode response, string Intent)
     {
         var ReceivedIntent = response?["intents"]?[0]?["name"]?.Value;
         Debug.Log(ReceivedIntent);
