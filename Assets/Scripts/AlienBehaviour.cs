@@ -45,8 +45,7 @@ public class AlienBehaviour : MonoBehaviour
             status.needsExtinguishing = true;
             fireParticles.Play();
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
-        }
- 
+        }  
     }
 
     void Start()
@@ -62,8 +61,10 @@ public class AlienBehaviour : MonoBehaviour
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
         agent.SetDestination(targetLocation);
 
-
-        InitiateStatus();
+        while (status.isHealthy())
+        {
+            InitiateStatus();
+        }
         InitiateTimer();
     }
 
@@ -139,13 +140,11 @@ public class AlienBehaviour : MonoBehaviour
     // Detect collision with the player's controller
     void OnTriggerEnter(Collider collider)
     {
-        if (isReady && !status.needsInjection) // Only interact with the alien if it has reached the target location
+        if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
         {
-            if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
-            {
-                Cure();
-            }
+            //veeraj's
         }
+     
     }
 
 
