@@ -65,7 +65,7 @@ public class GlobalVariableManager : MonoBehaviour
     private void Awake()
     {
         _gamePlaying = false;
-        _disableMovement = true;
+        _disableMovement = false;
 
         // Get the file path for the settings file
         settingFilePath = Path.Combine(Application.persistentDataPath, "settings.json");

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: settings
   m_EditorClassIdentifier: 
   comfortMode: 0
-  vignetteStrength: 100
+  vignetteStrength: 50
