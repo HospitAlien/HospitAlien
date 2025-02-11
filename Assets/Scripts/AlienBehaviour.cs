@@ -28,7 +28,7 @@ public class AlienBehaviour : MonoBehaviour
     private bool isReady = false; // Flag to check the patient have moved to right place
     private bool isCured = false; // Flag to check if the alien is cured
 
-    private ParticleSystem sweatParticles;
+    public ParticleSystem sweatParticles;
 
     public ParticleSystem fireParticles;
 
@@ -40,7 +40,8 @@ public class AlienBehaviour : MonoBehaviour
         if(random.NextDouble() < 0.4){ 
             status.needsInjection = true;
             sweatParticles.Play();
-        }else if(random.NextDouble() < 0.4){
+        }
+        if(random.NextDouble() < 0.4){
             status.needsExtinguishing = true;
             fireParticles.Play();
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
@@ -56,7 +57,6 @@ public class AlienBehaviour : MonoBehaviour
         }
 
 
-        sweatParticles = GetComponent<ParticleSystem>();
 
         agent = GetComponent<NavMeshAgent>();
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
