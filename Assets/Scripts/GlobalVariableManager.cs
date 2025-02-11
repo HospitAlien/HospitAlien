@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using System;
 
 // This script is used to manage global variables that need to be shared between objects and scene.
 // It also manages the saving and loading for variable that need to be stored.
@@ -11,7 +12,35 @@ public class GlobalVariableManager : MonoBehaviour
     public GameSettingsIO gameSettings;
     public LeaderBoardIO leaderBoard;
 
-    public bool GameStarted;
+    private bool _disableMovement;
+    public event Action<bool> OnMovementChangedEvent;
+    public bool IsMovementDisabled
+    {
+        get { return _disableMovement; }
+        set
+        {
+            if (_disableMovement != value)
+            {
+                _disableMovement = value;
+                OnMovementChangedEvent?.Invoke(value);
+            }
+        }
+    }
+
+    private bool _gamePlaying;
+    public event Action<bool> OnGamePlayingChangedEvent;
+    public bool IsGamePlaying
+    {
+        get { return _gamePlaying; }
+        set
+        {
+            if (_gamePlaying != value)
+            {
+                _gamePlaying = value;
+                OnGamePlayingChangedEvent?.Invoke(value);
+            }
+        }
+    }
 
     // Place to save the file
     private string settingFilePath;
@@ -19,11 +48,12 @@ public class GlobalVariableManager : MonoBehaviour
 
     private void Awake()
     {
+        _gamePlaying = false;
+        _disableMovement = true;
+
         // Get the file path for the settings file
         settingFilePath = Path.Combine(Application.persistentDataPath, "settings.json");
         leaderBoardFilePath = Path.Combine(Application.persistentDataPath, "LeaderBoard.json");
-        GameStarted = false;
-
         // Load the settings from the file
         LoadSettings();
         LoadLeaderBoard();
@@ -55,11 +85,6 @@ public class GlobalVariableManager : MonoBehaviour
         Debug.Log("Game setting saved to:" + settingFilePath);
     }
 
-    private void OnApplicationQuit()
-    {
-        SaveSettings();
-    }
-
     // Load the leaderboard if the file exists
     public void LoadLeaderBoard()
     {
@@ -80,5 +105,11 @@ public class GlobalVariableManager : MonoBehaviour
         string json = JsonUtility.ToJson(leaderBoard, prettyPrint: true);
         File.WriteAllText(leaderBoardFilePath, json);
         Debug.Log("LeaderBoard saved to:" + leaderBoardFilePath);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveSettings();
+        SaveLeaderBoard();
     }
 }

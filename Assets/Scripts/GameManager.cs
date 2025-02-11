@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private bool[] spotOccupied;
     public GameObject patientPrefab;
     private Transform[] spawnLocations;
-    private bool gameStarted = false;
+    private bool _gamePlaying = false;
 
 
     public TextMeshPro scoreText;
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
+        gvm.OnGamePlayingChangedEvent += GameStatusController;
 
         score = 0;
         UpdateScoreText();
@@ -57,9 +58,9 @@ public class GameManager : MonoBehaviour
 
         spawnLocations[5] = new GameObject("SpawnPoint6").transform;
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
-
-        StartCoroutine(SpawnPatients());
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -67,12 +68,24 @@ public class GameManager : MonoBehaviour
 
     }
 
-
+    public void GameStatusController(bool gamePlaying)
+    {
+        if (gamePlaying)
+        {
+            _gamePlaying = true;
+            StartCoroutine(SpawnPatients());
+        }
+        else
+        {
+            _gamePlaying = false;
+            StopAllCoroutines();
+        }
+    }
 
 
     IEnumerator SpawnPatients()
     {
-        while (gvm.GameStarted) //in the future this can be changed to while game is running
+        while (true)
         {
             if (currentPatientCount < 6)
             {
