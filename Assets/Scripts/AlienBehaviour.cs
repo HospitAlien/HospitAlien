@@ -33,6 +33,7 @@ public class AlienBehaviour : MonoBehaviour
     public ParticleSystem fireParticles;
 
     private Status status;
+    public AlienVoice alienVoice;
 
     void InitiateStatus(){
         System.Random random = new System.Random();
@@ -50,6 +51,8 @@ public class AlienBehaviour : MonoBehaviour
 
     void Start()
     {
+        alienVoice = GetComponent<AlienVoice>();
+
         if (gameManager == null)
         {
             gameManager = FindAnyObjectByType<GameManager>();
@@ -142,7 +145,8 @@ public class AlienBehaviour : MonoBehaviour
     {
         if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
         {
-            //veeraj's
+            //Voice chat function
+            alienVoice.ActivateListening();
         }
      
     }
