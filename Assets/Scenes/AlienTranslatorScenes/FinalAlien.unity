@@ -1171,9 +1171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d5ca45159314f458dbed8a19ecbdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TTSScript: {fileID: 519932909}
-  VoiceExperience: {fileID: 1699612882}
-  Intent: find_issue
+  TTSScript: {fileID: 0}
+  VoiceExperience: {fileID: 0}
 --- !u!136 &1562257375
 CapsuleCollider:
   m_ObjectHideFlags: 0
