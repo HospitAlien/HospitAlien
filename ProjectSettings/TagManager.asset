@@ -9,6 +9,7 @@ TagManager:
   - Syringe
   - Used-Syringe
   - Fire-Extinguisher
+  - Alien
   layers:
   - Default
   - TransparentFX

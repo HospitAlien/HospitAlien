@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 5356836326902834332}
   m_Layer: 0
   m_Name: Alien1
-  m_TagString: Untagged
+  m_TagString: Alien
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1581,7 +1581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
       propertyPath: ShapeModule.angle
-      value: 10
+      value: 14.42
       objectReference: {fileID: 0}
     - target: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
       propertyPath: ShapeModule.length
@@ -1621,7 +1621,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
       propertyPath: ShapeModule.radius.value
-      value: 0.5
+      value: 0.48
       objectReference: {fileID: 0}
     - target: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
       propertyPath: ShapeModule.placementMode
@@ -1661,7 +1661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 0.39
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
       propertyPath: ShapeModule.randomPositionAmount

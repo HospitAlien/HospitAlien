@@ -148,29 +148,6 @@ public class AlienBehaviour : MonoBehaviour
         }
     }
 
-    // Detect collision with syringe
-    void OnCollisionEnter(Collision collision)
-    {
-
-        if(isReady)
-        {
-            if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
-                Debug.Log("CURED BY SYRINGE");
-                status.needsInjection = false;
-                sweatParticles.Stop();
-                if(status.isHealthy()){
-                    Cure();
-                }
-                collision.gameObject.tag = "Used-Syringe"; //We should probably move it to the syringe script
-                
-
-            }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
-                collision.gameObject.tag = "Used-Syringe"; 
-                Debug.Log("KILLED BY SYRINGE");
-                Delete();
-            }
-        }
-    }
 
     //Detect collision with fire extinguisher foam
     void OnParticleCollision(GameObject particle)
@@ -191,9 +168,29 @@ public class AlienBehaviour : MonoBehaviour
                 if(status.isHealthy()){
                     Cure();
                 }
+            }
         }
     }
-}
+
+    void Syrined(){
+
+        if(isReady)
+        {
+            if(status.needsInjection ){
+                status.needsInjection = false;
+                if(status.isHealthy()){
+                    Cure();
+                }else{
+                    sweatParticles.Stop();
+                }
+                
+            }else{
+                Delete();
+            }
+        }
+    }
+
+
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
