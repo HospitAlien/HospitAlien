@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System;
+using System.Linq;
 
 struct Status{
     public bool needsInjection;
@@ -10,6 +11,22 @@ struct Status{
     {
         return (!needsInjection && !needsExtinguishing);
     }
+
+    public string getIllness()
+    {
+        string response = string.Empty;
+        if (needsExtinguishing)
+        {
+            response += "I'm burning.\n";
+        }
+        else if (needsInjection)
+        {
+            response += "I need a jab.\n";
+        }
+
+        return response;
+    }
+
 }
 
 public class AlienBehaviour : MonoBehaviour
@@ -33,6 +50,14 @@ public class AlienBehaviour : MonoBehaviour
     public ParticleSystem fireParticles;
 
     private Status status;
+    private AlienVoice alienVoice;
+
+    public string getVoiceLine()
+    {
+            return status.getIllness();
+    }
+
+    
 
     void InitiateStatus(){
         System.Random random = new System.Random();
@@ -45,12 +70,13 @@ public class AlienBehaviour : MonoBehaviour
             status.needsExtinguishing = true;
             fireParticles.Play();
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
-        }
- 
+        }  
     }
 
     void Start()
     {
+        alienVoice = GetComponent<AlienVoice>();
+
         if (gameManager == null)
         {
             gameManager = FindAnyObjectByType<GameManager>();
@@ -62,8 +88,10 @@ public class AlienBehaviour : MonoBehaviour
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
         agent.SetDestination(targetLocation);
 
-
-        InitiateStatus();
+        while (status.isHealthy())
+        {
+            InitiateStatus();
+        }
         InitiateTimer();
     }
 
@@ -139,13 +167,12 @@ public class AlienBehaviour : MonoBehaviour
     // Detect collision with the player's controller
     void OnTriggerEnter(Collider collider)
     {
-        if (isReady && !status.needsInjection) // Only interact with the alien if it has reached the target location
+        if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
         {
-            if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
-            {
-                Cure();
-            }
+            //Voice chat function
+            alienVoice.ActivateListening();
         }
+     
     }
 
 

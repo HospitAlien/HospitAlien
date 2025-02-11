@@ -951,6 +951,7 @@ GameObject:
   - component: {fileID: 4507713444613570042}
   - component: {fileID: 4999284276919289421}
   - component: {fileID: 5356836326902834332}
+  - component: {fileID: 6685683700078005948}
   m_Layer: 0
   m_Name: Alien1
   m_TagString: Alien
@@ -1071,6 +1072,20 @@ MonoBehaviour:
   target: {fileID: 0}
   sweatParticles: {fileID: 2604348844787910538}
   fireParticles: {fileID: 454932969967861052}
+--- !u!114 &6685683700078005948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5879373601513950369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d5ca45159314f458dbed8a19ecbdfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TTSScript: {fileID: 0}
+  VoiceExperience: {fileID: 0}
 --- !u!1 &5893504565661780350
 GameObject:
   m_ObjectHideFlags: 0
