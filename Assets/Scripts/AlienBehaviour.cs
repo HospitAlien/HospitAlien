@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System;
+using System.Linq;
 
 struct Status{
     public bool needsInjection;
@@ -10,6 +11,22 @@ struct Status{
     {
         return (!needsInjection && !needsExtinguishing);
     }
+
+    public string getIllness()
+    {
+        string response = string.Empty;
+        if (needsExtinguishing)
+        {
+            response += "I'm burning.\n";
+        }
+        else if (needsInjection)
+        {
+            response += "I need a jab.\n";
+        }
+
+        return response;
+    }
+
 }
 
 public class AlienBehaviour : MonoBehaviour
@@ -33,7 +50,14 @@ public class AlienBehaviour : MonoBehaviour
     public ParticleSystem fireParticles;
 
     private Status status;
-    public AlienVoice alienVoice;
+    private AlienVoice alienVoice;
+
+    public string getVoiceLine()
+    {
+            return status.getIllness();
+    }
+
+    
 
     void InitiateStatus(){
         System.Random random = new System.Random();

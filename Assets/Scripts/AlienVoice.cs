@@ -3,6 +3,7 @@ using Meta.WitAi.TTS.Utilities;
 using Oculus.Voice;
 using Meta.WitAi.Json;
 using Meta.WitAi.Data.Configuration.Tabs;
+using static Status;
 
 
 public class AlienVoice : MonoBehaviour
@@ -10,11 +11,12 @@ public class AlienVoice : MonoBehaviour
 
     public TTSSpeaker TTSScript;
     public AppVoiceExperience VoiceExperience;
+    private AlienBehaviour alienBehaviour;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        alienBehaviour = GetComponent<AlienBehaviour>();
     }
 
     // Update is called once per frame
@@ -89,7 +91,7 @@ public class AlienVoice : MonoBehaviour
     public void SayIllness()
     {
         Debug.Log("SayIllness Called");
-        TTSScript.Speak("SayIllness Called");
+        TTSScript.Speak(alienBehaviour.getVoiceLine());
     }
 
     private bool IntentMatches(WitResponseNode response, string Intent)
