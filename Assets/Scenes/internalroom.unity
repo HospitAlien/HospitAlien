@@ -320,6 +320,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: internalroom2
       objectReference: {fileID: 0}
+    - target: {fileID: 1322470802644222442, guid: cd8c6ab572d954d05bc863e8bc3e1160, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.97508
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322470802644222442, guid: cd8c6ab572d954d05bc863e8bc3e1160, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.1235
+      objectReference: {fileID: 0}
+    - target: {fileID: 1322470802644222442, guid: cd8c6ab572d954d05bc863e8bc3e1160, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1243
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
