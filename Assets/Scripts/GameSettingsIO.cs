@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Create a new scriptable object to store global variables
@@ -13,4 +14,25 @@ public class GameSettingsIO : ScriptableObject
     [Tooltip("Range 0.0 - 50.0")]
     public float vignetteStrength = 50.0f;
 
+    public int ComfortMode
+    {
+        get => comfortMode;
+        set
+        {
+            comfortMode = value;
+            OnSettingChanged?.Invoke(this);
+        }
+    }
+
+    public float VignetteStrength
+    {
+        get => vignetteStrength;
+        set
+        {
+            vignetteStrength = value;
+            OnSettingChanged?.Invoke(this);
+        }
+    }
+
+    public event Action<GameSettingsIO> OnSettingChanged;
 }

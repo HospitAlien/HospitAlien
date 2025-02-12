@@ -41,14 +41,14 @@ public class ControlManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // If the player presses the "B" button on the right controller, change the movement status
-        if (OVRInput.GetDown(OVRInput.Button.Two))
-        {
-            gvm.IsMovementDisabled = !gvm.IsMovementDisabled;
-        }
-    }
+    // void Update()
+    // {
+    //     // If the player presses the "B" button on the right controller, change the movement status
+    //     if (OVRInput.GetDown(OVRInput.Button.Two))
+    //     {
+    //         gvm.IsMovementDisabled = !gvm.IsMovementDisabled;
+    //     }
+    // }
 
     void OnDestroy()
     {

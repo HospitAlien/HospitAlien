@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -13,7 +12,7 @@ public class GameManager : MonoBehaviour
     private bool[] spotOccupied;
     public GameObject patientPrefab;
     private Transform[] spawnLocations;
-    private bool _gamePlaying = false;
+    // private bool _gamePlaying = false;
 
 
     public TextMeshPro scoreText;
@@ -63,21 +62,21 @@ public class GameManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
+    // void Update()
+    // {
 
-    }
+    // }
 
     public void GameStatusController(bool gamePlaying)
     {
         if (gamePlaying)
         {
-            _gamePlaying = true;
+            // _gamePlaying = true;
             StartCoroutine(SpawnPatients());
         }
         else
         {
-            _gamePlaying = false;
+            // _gamePlaying = false;
             StopAllCoroutines();
         }
     }
