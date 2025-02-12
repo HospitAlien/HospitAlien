@@ -8,6 +8,8 @@ TagManager:
   - Controller
   - Syringe
   - Used-Syringe
+  - Fire-Extinguisher
+  - Alien
   layers:
   - Default
   - TransparentFX

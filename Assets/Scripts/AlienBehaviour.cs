@@ -2,14 +2,31 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System;
+using System.Linq;
 
 struct Status{
     public bool needsInjection;
-
+    public bool needsExtinguishing;
     public bool isHealthy()
     {
-        return (!needsInjection);
+        return (!needsInjection && !needsExtinguishing);
     }
+
+    public string getIllness()
+    {
+        string response = string.Empty;
+        if (needsExtinguishing)
+        {
+            response += "I'm burning.\n";
+        }
+        else if (needsInjection)
+        {
+            response += "I need a jab.\n";
+        }
+
+        return response;
+    }
+
 }
 
 public class AlienBehaviour : MonoBehaviour
@@ -28,36 +45,53 @@ public class AlienBehaviour : MonoBehaviour
     private bool isReady = false; // Flag to check the patient have moved to right place
     private bool isCured = false; // Flag to check if the alien is cured
 
-    private ParticleSystem sweatParticles;
+    public ParticleSystem sweatParticles;
+
+    public ParticleSystem fireParticles;
 
     private Status status;
+    private AlienVoice alienVoice;
+
+    public string getVoiceLine()
+    {
+            return status.getIllness();
+    }
+
+    
 
     void InitiateStatus(){
         System.Random random = new System.Random();
 
-        if(random.NextDouble() < 0.5){
+        if(random.NextDouble() < 0.4){ 
             status.needsInjection = true;
             sweatParticles.Play();
         }
- 
+        if(random.NextDouble() < 0.4){
+            status.needsExtinguishing = true;
+            fireParticles.Play();
+            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
+        }  
     }
 
     void Start()
     {
+        alienVoice = GetComponent<AlienVoice>();
+
         if (gameManager == null)
         {
             gameManager = FindAnyObjectByType<GameManager>();
         }
 
 
-        sweatParticles = GetComponent<ParticleSystem>();
 
         agent = GetComponent<NavMeshAgent>();
         targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
         agent.SetDestination(targetLocation);
 
-
-        InitiateStatus();
+        while (status.isHealthy())
+        {
+            InitiateStatus();
+        }
         InitiateTimer();
     }
 
@@ -133,38 +167,56 @@ public class AlienBehaviour : MonoBehaviour
     // Detect collision with the player's controller
     void OnTriggerEnter(Collider collider)
     {
-        if (isReady && !status.needsInjection) // Only interact with the alien if it has reached the target location
+        if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
         {
-            if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
-            {
-                Cure();
+            //Voice chat function
+            alienVoice.ActivateListening();
+        }
+     
+    }
+
+
+    //Detect collision with fire extinguisher foam
+    void OnParticleCollision(GameObject particle)
+    {
+
+        // Check if the particle colliding with the alien is from the fire extinguisher
+        if (particle.CompareTag("Fire-Extinguisher"))
+        {
+            Debug.Log("FIRE Particle hit the alien!");
+
+        }
+        if(isReady)
+        {
+            if(particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing ){
+                Debug.Log("CURED BY FOAM");
+                status.needsExtinguishing = false;
+                fireParticles.Stop();
+                if(status.isHealthy()){
+                    Cure();
+                }
             }
         }
     }
 
-    // Detect collision with syringe
-    void OnCollisionEnter(Collision collision)
-    {
+    void Syrined(){
 
         if(isReady)
         {
-            if(collision.gameObject.CompareTag("Syringe")  && status.needsInjection ){
-                Debug.Log("CURED BY SYRINGE");
+            if(status.needsInjection ){
                 status.needsInjection = false;
-                sweatParticles.Stop();
                 if(status.isHealthy()){
                     Cure();
+                }else{
+                    sweatParticles.Stop();
                 }
-                collision.gameObject.tag = "Used-Syringe"; //We should probably move it to the syringe script
                 
-
-            }else if(collision.gameObject.CompareTag("Syringe")  && !status.needsInjection ){
-                collision.gameObject.tag = "Used-Syringe"; 
-                Debug.Log("KILLED BY SYRINGE");
+            }else{
                 Delete();
             }
         }
     }
+
 
     public void SetTarget(Transform newTarget)
     {
