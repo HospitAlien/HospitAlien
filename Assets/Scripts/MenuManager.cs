@@ -6,7 +6,7 @@ public class MenuManager : MonoBehaviour
     public GameObject menu;
     public Transform CenterEyeAnchor;
     private GlobalVariableManager gvm;
-    private bool isMenuOpen = false;
+    private bool isMenuOpen;
     public float distanceFromPlayer = 0.5f;
     public float checkInterval = 2f; // Check every 2 seconds menu distance from player
     public float distanceThreshold = 2f;
@@ -16,6 +16,7 @@ public class MenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        isMenuOpen = false;
         if (menu != null)
         {
             menu.SetActive(false);
