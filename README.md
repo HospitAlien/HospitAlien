@@ -43,10 +43,8 @@
 
 To avoid merge confilct, please test functions on your own scene.
 
-When you want to add things to the main scene(HospitAlienSpaceShip) please use main_scene branch. Frist pull from the branch and notify others you are doing it. After make the changes, notify others and push to the branch directly.
+When you want to change any thing in the main scene(HospitAlienSpaceShip). Please frist pull from 'dev' branch and notify others you are doing it.
 
-If you need some assest for editing main scene. pull the dev branch to the main_scene.
-
-ONLY pull between dev and main_scene. Don't pull directly from your branch!
+After finish all changes, create pull request and add a note 'This PR include changes in main scene!'
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
