@@ -57,6 +57,9 @@ public class GameManager : MonoBehaviour
 
         spawnLocations[5] = new GameObject("SpawnPoint6").transform;
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
+
+        // Start the game manually for debug, comment this line in production
+        // StartCoroutine(SpawnPatients());
     }
 
 
@@ -135,7 +138,7 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
 
 
-        GameObject patient = Instantiate(patientPrefab, new Vector3(-15f, 0.08333334f, 7.5f), Quaternion.identity);
+        GameObject patient = Instantiate(patientPrefab, new Vector3(-10f, 0.08333334f, 7.5f), Quaternion.identity);
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();
