@@ -43,8 +43,8 @@
 
 To avoid merge confilct, please test functions on your own scene.
 
-When you want to change any thing in the main scene(HospitAlienSpaceShip). Please frist pull from 'dev' branch and notify others you are doing it.
+When you want to change any thing in the main scene(HospitAlienSpaceShip). Please frist pull from `dev` branch and notify others you are doing it.
 
-After finish all changes, create pull request and add a note 'This PR include changes in main scene!'
+After finish all changes, create pull request and add a note `This PR include changes in main scene!`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
