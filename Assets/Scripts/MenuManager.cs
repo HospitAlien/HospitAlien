@@ -16,10 +16,10 @@ public class MenuManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        isMenuOpen = false;
+        isMenuOpen = true;
         if (menu != null)
         {
-            menu.SetActive(false);
+            menu.SetActive(true);
         }
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (vignetteSlider != null)
