@@ -4,7 +4,8 @@ using System.Collections;
 using System;
 using System.Linq;
 
-struct Status{
+struct Status
+{
     public bool needsInjection;
     public bool needsExtinguishing;
     public bool isHealthy()
@@ -32,11 +33,11 @@ struct Status{
 public class AlienBehaviour : MonoBehaviour
 {
     public Transform target;
-    
+
     private int index;
     private Vector3 targetLocation;
 
-    private float timer = 30f;  // Start with a 30-second timer
+    private float timer = 60f;  // Start with a 30-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
 
     private static GameManager gameManager;
@@ -54,23 +55,26 @@ public class AlienBehaviour : MonoBehaviour
 
     public string getVoiceLine()
     {
-            return status.getIllness();
+        return status.getIllness();
     }
 
-    
 
-    void InitiateStatus(){
+
+    void InitiateStatus()
+    {
         System.Random random = new System.Random();
 
-        if(random.NextDouble() < 0.4){ 
+        if (random.NextDouble() < 0.4)
+        {
             status.needsInjection = true;
             sweatParticles.Play();
         }
-        if(random.NextDouble() < 0.4){
+        if (random.NextDouble() < 0.4)
+        {
             status.needsExtinguishing = true;
             fireParticles.Play();
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
-        }  
+        }
     }
 
     void Start()
@@ -95,7 +99,8 @@ public class AlienBehaviour : MonoBehaviour
         InitiateTimer();
     }
 
-    void InitiateTimer(){
+    void InitiateTimer()
+    {
         // Create a new TextMesh object for displaying the countdown
         GameObject timerGO = new GameObject("TimerText");
         timerGO.transform.SetParent(transform);
@@ -172,7 +177,7 @@ public class AlienBehaviour : MonoBehaviour
             //Voice chat function
             alienVoice.ActivateListening();
         }
-     
+
     }
 
 
@@ -186,32 +191,41 @@ public class AlienBehaviour : MonoBehaviour
             Debug.Log("FIRE Particle hit the alien!");
 
         }
-        if(isReady)
+        if (isReady)
         {
-            if(particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing ){
+            if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)
+            {
                 Debug.Log("CURED BY FOAM");
                 status.needsExtinguishing = false;
                 fireParticles.Stop();
-                if(status.isHealthy()){
+                if (status.isHealthy())
+                {
                     Cure();
                 }
             }
         }
     }
 
-    void Syrined(){
+    void Syrined()
+    {
 
-        if(isReady)
+        if (isReady)
         {
-            if(status.needsInjection ){
+            if (status.needsInjection)
+            {
                 status.needsInjection = false;
-                if(status.isHealthy()){
+                if (status.isHealthy())
+                {
                     Cure();
-                }else{
+                }
+                else
+                {
                     sweatParticles.Stop();
                 }
-                
-            }else{
+
+            }
+            else
+            {
                 Delete();
             }
         }

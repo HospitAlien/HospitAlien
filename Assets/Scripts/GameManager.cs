@@ -1,17 +1,18 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    private GlobalVariableManager gvm;
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
     private bool[] spotOccupied;
     public GameObject patientPrefab;
     private Transform[] spawnLocations;
+    // private bool _gamePlaying = false;
 
 
     public TextMeshPro scoreText;
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gvm = FindFirstObjectByType<GlobalVariableManager>();
+        gvm.OnGamePlayingChangedEvent += GameStatusController;
+
         score = 0;
         UpdateScoreText();
         spotOccupied = new bool[maxPatients]; //Initially these will all be false
@@ -53,22 +57,34 @@ public class GameManager : MonoBehaviour
 
         spawnLocations[5] = new GameObject("SpawnPoint6").transform;
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
-
-        StartCoroutine(SpawnPatients());
     }
+
+
 
     // Update is called once per frame
-    void Update()
+    // void Update()
+    // {
+
+    // }
+
+    public void GameStatusController(bool gamePlaying)
     {
-
+        if (gamePlaying)
+        {
+            // _gamePlaying = true;
+            StartCoroutine(SpawnPatients());
+        }
+        else
+        {
+            // _gamePlaying = false;
+            StopAllCoroutines();
+        }
     }
-
-
 
 
     IEnumerator SpawnPatients()
     {
-        while (true) //in the future this can be changed to while game is running
+        while (true)
         {
             if (currentPatientCount < 6)
             {
@@ -84,7 +100,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 0.1f)
+                    if (chance <= 0.06f)
                     {
                         SpawnPatient();
                     }
