@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7225657935504900835
 Transform:
   m_ObjectHideFlags: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
   _tieBreakerScore: 10
   _surface: {fileID: 2034236986753747560}
   _targetPoint: {fileID: 7225657935504900835}
-  _faceTargetDirection: 1
+  _faceTargetDirection: 0
   _eyeLevel: 0
 --- !u!114 &1729365907603336871
 MonoBehaviour:
