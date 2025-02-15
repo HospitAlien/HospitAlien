@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - Controller
+  - Syringe
+  - Used-Syringe
+  - Fire-Extinguisher
+  - Alien
   layers:
   - Default
   - TransparentFX
