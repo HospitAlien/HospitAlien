@@ -1,99 +1,114 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject menu;
-    public Transform CenterEyeAnchor;
-    private GlobalVariableManager gvm;
-    private bool isMenuOpen;
     public float distanceFromPlayer = 0.5f;
-    public float checkInterval = 2f; // Check every 2 seconds menu distance from player
-    public float distanceThreshold = 2f;
     public Vector3 additionalOffset = Vector3.zero;
     public Slider vignetteSlider;
+    private Transform _camera;
+    private GlobalVariableManager _gvm;
+    private bool _isMenuOpen;
+    private IEnumerator _moveMenuCoroutine;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        isMenuOpen = true;
-        if (menu != null)
-        {
-            menu.SetActive(true);
-        }
-        gvm = FindFirstObjectByType<GlobalVariableManager>();
-        if (vignetteSlider != null)
-        {
-            vignetteSlider.value = gvm.gameSettings.VignetteStrength;
-        }
+        if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
+        _gvm = FindFirstObjectByType<GlobalVariableManager>();
+        if (_gvm == null) Debug.LogError("GlobalVariableManager is not found in the scene!");
+        if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(_gvm.gameSettings.VignetteStrength); // Init the slider value
+        _camera = Camera.main.transform;
     }
 
     private void OnEnable()
     {
-        InvokeRepeating(nameof(CheckMenuDistance), 0f, checkInterval);
+        InvokeRepeating(nameof(CheckMenuIsVisible), 0f, 1f);
     }
 
     private void OnDisable()
     {
-        CancelInvoke(nameof(CheckMenuDistance));
+        CancelInvoke(nameof(CheckMenuIsVisible));
     }
 
-    private void CheckMenuDistance()
+    private void CheckMenuIsVisible()
     {
         if (!menu.activeSelf) return;
 
-        Vector3 horizontalOffset = new Vector3(
-            menu.transform.position.x - CenterEyeAnchor.position.x,
-            0,
-            menu.transform.position.z - CenterEyeAnchor.position.z
-        );
-
-        float currentDistance = horizontalOffset.magnitude;
-
-        // If the distance between the player and the menu is greater than the threshold, close the menu
-        if (currentDistance > distanceThreshold)
-        {
-            menu.SetActive(false);
-            isMenuOpen = false;
-        }
+        if (!menu.GetComponent<Renderer>().isVisible) MoveMenuSmoothly();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If the player presses the "B" button on the right controller, open or close the menu
-        if (OVRInput.GetDown(OVRInput.Button.Two))
+        // If the player presses the "Menu" button on the left controller, open or close the menu
+        if (OVRInput.GetDown(OVRInput.Button.Start))
         {
-            if (!isMenuOpen)
-            {
-                MoveMenu();
-                menu.SetActive(true);
-                isMenuOpen = true;
-            }
-            else
-            {
-                menu.SetActive(false);
-                isMenuOpen = false;
-            }
+            if (_isMenuOpen) CloseMenu();
+            else OpenMenu();
         }
+        CheckMenuIsVisible();
+    }
+
+    public void OpenMenu()
+    {
+        MoveMenu();
+        menu.SetActive(true);
+        _isMenuOpen = true;
+    }
+
+    public void CloseMenu()
+    {
+        menu.SetActive(false);
+        _isMenuOpen = false;
     }
 
     public void MoveMenu()
     {
-        Vector3 targetPosition = CenterEyeAnchor.position + CenterEyeAnchor.forward * distanceFromPlayer;
-        targetPosition += CenterEyeAnchor.TransformDirection(additionalOffset);
+        Vector3 targetPosition = _camera.position + _camera.forward * distanceFromPlayer;
+        // Add additional offset to the target position
+        targetPosition += _camera.TransformDirection(additionalOffset);
+
         menu.transform.position = targetPosition;
-        menu.transform.LookAt(CenterEyeAnchor.position);
+        menu.transform.LookAt(_camera.position);
+    }
+
+    public void MoveMenuSmoothly()
+    {
+        Vector3 targetPosition = _camera.position + _camera.forward * distanceFromPlayer;
+        // Add additional offset to the target position
+        targetPosition += _camera.TransformDirection(additionalOffset);
+        if (_moveMenuCoroutine != null) StopCoroutine(_moveMenuCoroutine);
+        _moveMenuCoroutine = MoveMenuCoroutine(targetPosition);
+        StartCoroutine(_moveMenuCoroutine);
+    }
+
+    private IEnumerator MoveMenuCoroutine(Vector3 targetPosition)
+    {
+        Vector3 startPosition = menu.transform.position;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 0.5f)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / 0.5f;
+            menu.transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            menu.transform.LookAt(_camera.position);
+            yield return null;
+        }
+
+        menu.transform.position = targetPosition;
     }
 
     public void UpdateVignetteStrength(float strength)
     {
-        gvm.gameSettings.VignetteStrength = strength;
-        Debug.Log("Vignette strength updated to " + strength);
+        _gvm.gameSettings.VignetteStrength = strength;
     }
 
     public void UpdateGameStatus(bool start)
     {
-        gvm.IsGamePlaying = start;
+        _gvm.IsGamePlaying = start;
     }
 }
