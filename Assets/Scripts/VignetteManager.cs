@@ -11,8 +11,9 @@ public class VignetteManager : MonoBehaviour
 
 
     private Quaternion lastRotation;
-    private float targetVignetteFieldOfView;
+    private Vector3 lastPosition;
 
+    private float targetVignetteFieldOfView;
     private GlobalVariableManager gvm;
 
 
@@ -24,35 +25,51 @@ public class VignetteManager : MonoBehaviour
         vignette.enabled = false;
         targetVignetteFieldOfView = VIGNETTE_OFF;
         gvm = FindFirstObjectByType<GlobalVariableManager>();
-        UpdateVignetteStrength(gvm.gameSettings);
+        VignetteStrength = gvm.gameSettings.VignetteStrength;
         gvm.gameSettings.OnSettingChanged += UpdateVignetteStrength;
     }
 
     private void UpdateVignetteStrength(GameSettingsIO settings)
     {
-        VignetteStrength = settings.vignetteStrength;
-        ActiveVignette(500);
+        if (settings.ComfortModeOption != GameSettingsIO.comfortMode.Vignette)
+        {
+            VignetteStrength = 0;
+            vignette.enabled = false;
+        }
+        else
+        if (settings.VignetteStrength != VignetteStrength)
+        {
+            VignetteStrength = settings.VignetteStrength;
+            ActiveVignette(1f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gvm.gameSettings.ComfortModeOption != GameSettingsIO.comfortMode.Vignette)
+        {
+            return;
+        }
         // get the rotation of the camera rig
         Quaternion currentRotation = cameraRig.transform.rotation;
-        // if camera is rotating bigger than 10 degree per sec, turn on the vignette
-        if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 10)
+        // if camera is rotating bigger than 5 degree per sec, turn on the vignette
+        if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 5)
         {
-            ActiveVignette(50);
+            ActiveVignette(0.05f);
         }
         lastRotation = currentRotation;
 
-        // when the time is up, turn off the vignette
-        if (remainTime > 0)
-            remainTime -= Time.deltaTime * 1000;
-        else
+        // if camera is moving bigger than 0.1 unit per sec, turn on the vignette
+        if (Vector3.Distance(cameraRig.transform.position, lastPosition) / Time.deltaTime > 0.1)
         {
-            targetVignetteFieldOfView = VIGNETTE_OFF;
+            ActiveVignette(0.05f);
         }
+
+        // when the time is up, turn off the vignette
+        remainTime -= Time.deltaTime;
+        if (remainTime < 0)
+            targetVignetteFieldOfView = VIGNETTE_OFF;
 
         // smooth transition of the vignette
         vignette.VignetteFieldOfView = Mathf.Lerp(vignette.VignetteFieldOfView, targetVignetteFieldOfView, Time.deltaTime * 20.0f);
@@ -63,10 +80,8 @@ public class VignetteManager : MonoBehaviour
         else vignette.enabled = false;
     }
 
-    private void ActiveVignette(float milliseconds)
+    public void ActiveVignette(float seconds)
     {
-        vignette.enabled = true;
-        targetVignetteFieldOfView = 90 - VignetteStrength;
-        remainTime = milliseconds;
+        remainTime = seconds;
     }
 }
