@@ -30,6 +30,7 @@ public class GameSettingsIO : ScriptableObject
     public enum moveMode
     {
         teleport,
+        both,
         walk
     }
     [Header("Movement Options")]
