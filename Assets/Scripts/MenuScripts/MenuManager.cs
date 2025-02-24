@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
     private Transform _camera;
     private GlobalVariableManager gvm;
     private bool _isMenuOpen;
-    private int _menuNotVisibleCounter = 99;
+    private int _menuNotVisibleCounter = -1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength); // Init the slider value
         _camera = Camera.main.transform;
-        OpenMenu(Vector3.down * 5f);
+        OpenMenu(Vector3.down * 10f);
     }
 
     private void CheckMenuIsVisible()

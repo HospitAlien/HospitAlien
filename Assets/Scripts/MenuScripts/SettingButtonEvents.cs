@@ -8,6 +8,7 @@ public class SettingButtonEvents : MonoBehaviour
     void Start()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
+        if (gvm == null) Debug.LogError("GlobalVariableManager not found");
     }
 
     public void SetComfortModeToNone(bool isOn)
