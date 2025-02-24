@@ -7,6 +7,7 @@ public class MoveManager : MonoBehaviour
     public GameObject RightTeleportControllerInteractor;
     public Transform CameraRig;
     public Transform CenterEyeAnchor;
+    public float moveSpeed = 2.0f;
 
     private GameSettingsIO.moveMode currentMovementMode;
 
@@ -52,7 +53,7 @@ public class MoveManager : MonoBehaviour
     private void MoveCameraRigWithThumbStick(Vector2 thumbStick, Vector3 forward, Vector3 right)
     {
         Vector3 moveDirection = right * thumbStick.x + forward * thumbStick.y;
-        CameraRig.transform.position += moveDirection * Time.deltaTime;
+        CameraRig.transform.position += moveSpeed * Time.deltaTime * moveDirection;
     }
 
 
