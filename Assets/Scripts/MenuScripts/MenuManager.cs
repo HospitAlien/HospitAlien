@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -21,7 +20,7 @@ public class MenuManager : MonoBehaviour
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength); // Init the slider value
         _camera = Camera.main.transform;
-        OpenMenu();
+        OpenMenu(Vector3.down * 5f);
     }
 
     private void CheckMenuIsVisible()
@@ -29,7 +28,7 @@ public class MenuManager : MonoBehaviour
         if (!menu.activeSelf) return;
         if (!menuRenderer.isVisible) _menuNotVisibleCounter++;
         else _menuNotVisibleCounter = 0;
-        if (_menuNotVisibleCounter > 4) MoveMenuSmoothly();
+        if (_menuNotVisibleCounter > 2) MoveMenuSmoothly();
     }
 
     void Update()
@@ -49,17 +48,20 @@ public class MenuManager : MonoBehaviour
 
     private void CloseMenu()
     {
+        CancelInvoke(nameof(CheckMenuIsVisible));
         _isMenuOpen = false;
         menu.SetActive(false);
-        CancelInvoke(nameof(CheckMenuIsVisible));
     }
 
-    private void OpenMenu()
+    private void OpenMenu(Vector3 offset = default)
     {
         _isMenuOpen = true;
-        MoveMenu();
         menu.SetActive(true);
-        InvokeRepeating(nameof(CheckMenuIsVisible), 0f, 0.5f);
+        Vector3 targetPosition = _camera.position + _camera.forward * distanceFromPlayer;
+        targetPosition += offset;
+        transform.position = targetPosition;
+        transform.LookAt(_camera.position);
+        InvokeRepeating(nameof(CheckMenuIsVisible), 1f, 0.5f);
     }
 
     public void ToggleMenu(bool forceOpen = false)
@@ -67,14 +69,6 @@ public class MenuManager : MonoBehaviour
         if (forceOpen && _isMenuOpen) CloseMenu();
         if (_isMenuOpen) CloseMenu();
         else OpenMenu();
-    }
-
-    public void MoveMenu()
-    {
-        Vector3 targetPosition = _camera.position + _camera.forward * distanceFromPlayer;
-
-        transform.position = targetPosition;
-        transform.LookAt(_camera.position);
     }
 
     public void MoveMenuSmoothly()
@@ -91,26 +85,5 @@ public class MenuManager : MonoBehaviour
             {
                 transform.LookAt(_camera.position);
             });
-    }
-
-    // Used by buttons in the menu
-    public void UpdateVignetteStrength(float strength)
-    {
-        gvm.gameSettings.VignetteStrength = strength;
-    }
-
-    public void UpdateGameStatus(bool start)
-    {
-        gvm.IsGamePlaying = start;
-    }
-
-    public class a
-    {
-        public int b;
-
-        public a(int b)
-        {
-            this.b = b;
-        }
     }
 }
