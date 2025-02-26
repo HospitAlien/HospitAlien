@@ -2,8 +2,6 @@ using UnityEngine;
 using Meta.WitAi.TTS.Utilities;
 using Oculus.Voice;
 using Meta.WitAi.Json;
-using Meta.WitAi.Data.Configuration.Tabs;
-using static Status;
 
 
 public class AlienVoice : MonoBehaviour
@@ -22,7 +20,7 @@ public class AlienVoice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void Awake()
@@ -68,12 +66,12 @@ public class AlienVoice : MonoBehaviour
     {
         Debug.Log("WitResponse received by handler!");
 
-        if(IntentMatches(response, "find_issue"))
+        if (IntentMatches(response, "find_issue"))
         {
             Debug.Log("Intent matches");
             SayIllness();
         }
-        else if(IntentMatches(response, "greeting"))
+        else if (IntentMatches(response, "greeting"))
         {
             Debug.Log("Greeting recognised");
             TTSScript.Speak("I am in agony, help please");
@@ -83,9 +81,9 @@ public class AlienVoice : MonoBehaviour
             Debug.Log("Intent doesn't match");
         }
         VoiceExperience.Deactivate();
-        
+
         VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
-       
+
     }
 
     public void SayIllness()
