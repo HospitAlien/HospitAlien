@@ -12,21 +12,6 @@ public class GlobalVariableManager : MonoBehaviour
     public GameSettingsIO gameSettings;
     public LeaderBoardIO leaderBoard;
 
-    private bool _disableMovement;
-    public event Action<bool> OnMovementChangedEvent;
-    public bool IsMovementDisabled
-    {
-        get { return _disableMovement; }
-        set
-        {
-            if (_disableMovement != value)
-            {
-                _disableMovement = value;
-                OnMovementChangedEvent?.Invoke(value);
-            }
-        }
-    }
-
     private bool _gamePlaying;
     public event Action<bool> OnGamePlayingChangedEvent;
     public bool IsGamePlaying
@@ -50,7 +35,6 @@ public class GlobalVariableManager : MonoBehaviour
     private void Awake()
     {
         _gamePlaying = false;
-        _disableMovement = false;
 
         // Get the file path for the settings file
         settingFilePath = Path.Combine(Application.persistentDataPath, "settings.json");
@@ -66,14 +50,14 @@ public class GlobalVariableManager : MonoBehaviour
     // Load the settings if the file exists
     public void LoadSettings()
     {
-        if (File.Exists(settingFilePath))
+        if (!Application.isEditor && File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(settingFilePath);
             JsonUtility.FromJsonOverwrite(json, gameSettings);
         }
         else
         {
-            Debug.Log("Setting file not found, using default settings.");
+            Debug.Log("Using default settings.");
         }
     }
 
@@ -89,14 +73,14 @@ public class GlobalVariableManager : MonoBehaviour
     // Load the leaderboard if the file exists
     public void LoadLeaderBoard()
     {
-        if (File.Exists(leaderBoardFilePath))
+        if (!Application.isEditor && File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(leaderBoardFilePath);
             JsonUtility.FromJsonOverwrite(json, leaderBoard);
         }
         else
         {
-            Debug.Log("LeaderBoard file not found, using default settings.");
+            Debug.Log("Using default leader board.");
         }
     }
 

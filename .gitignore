@@ -135,3 +135,6 @@ Thumbs.db
 Desktop.ini
 
 **/ignore.conf
+
+# Ignore unity temp files
+/.utmp/
