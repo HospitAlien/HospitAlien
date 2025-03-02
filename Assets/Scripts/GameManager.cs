@@ -15,8 +15,16 @@ public class GameManager : MonoBehaviour
     // private bool _gamePlaying = false;
 
 
+    //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
+    private int eventState = 0;
+
+
     public TextMeshPro scoreText;
     private string scoreString = "Score: %0";
+
+    //I want to have
+
+
 
     void UpdateScoreText()
     {
@@ -60,6 +68,7 @@ public class GameManager : MonoBehaviour
 
         // Start the game manually for debug, comment this line in production
         // StartCoroutine(SpawnPatients());
+        StartCoroutine(eventRoutine());
     }
 
 
@@ -83,6 +92,23 @@ public class GameManager : MonoBehaviour
             StopAllCoroutines();
         }
     }
+
+    IEnumerator eventRoutine(){
+
+        //we first want to find out what event is going to happen 
+        System.Random random = new System.Random();
+        int newEvent = random.Next(1, 1);
+        Debug.Log("Event is: " + newEvent);
+
+        //need to find the time before the next event, should happen every 2/3 minutes
+        int waitTime = random.Next(10,20);
+        Debug.Log("Waiting " + waitTime + " seconds");
+        yield return new WaitForSeconds(waitTime);
+        Debug.Log("EVENT!!!!");
+
+
+    }
+
 
 
     IEnumerator SpawnPatients()
@@ -173,6 +199,12 @@ public class GameManager : MonoBehaviour
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
         score -= 1; //Every time an alien dies the score is reduced
+        UpdateScoreText();
+    }
+
+    public void PizzaEaten(){
+        Debug.Log("Pizza slice has been eaten, reward some score");
+        score += 1;
         UpdateScoreText();
     }
 
