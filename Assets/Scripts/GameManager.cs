@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
     private int eventState = 0;
+    public GameObject pizzaPrefab;
 
 
     public TextMeshPro scoreText;
@@ -95,18 +96,29 @@ public class GameManager : MonoBehaviour
 
     IEnumerator eventRoutine(){
 
-        //we first want to find out what event is going to happen 
-        System.Random random = new System.Random();
-        int newEvent = random.Next(1, 1);
-        Debug.Log("Event is: " + newEvent);
+        while (true)
+        {
+            //we first want to find out what event is going to happen 
+            System.Random random = new System.Random();
+            int newEvent = random.Next(1, 1);
 
-        //need to find the time before the next event, should happen every 2/3 minutes
-        int waitTime = random.Next(10,20);
-        Debug.Log("Waiting " + waitTime + " seconds");
-        yield return new WaitForSeconds(waitTime);
-        Debug.Log("EVENT!!!!");
+            //need to find the time before the next event, should happen every 2/3 minutes
+            int waitTime = random.Next(120,180);
+            yield return new WaitForSeconds(waitTime);
+
+            if(newEvent == 1){
+                PizzaTime();
+            }
+        }
+    }
+
+    void PizzaTime(){
+        Debug.Log("PIZZZZAAAAA!!!");
+        eventState = 1;
+        //we need to wait until there are no aliens around before the event officially starts
 
 
+        //we need to start spawning in a bunch of pizza and make some decorations appear or something
     }
 
 
