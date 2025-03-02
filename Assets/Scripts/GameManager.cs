@@ -106,7 +106,9 @@ public class GameManager : MonoBehaviour
             int waitTime = random.Next(120,180);
             yield return new WaitForSeconds(waitTime);
 
+            eventState = newEvent;
             if(newEvent == 1){
+                yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
                 PizzaTime();
             }
         }
@@ -114,8 +116,6 @@ public class GameManager : MonoBehaviour
 
     void PizzaTime(){
         Debug.Log("PIZZZZAAAAA!!!");
-        eventState = 1;
-        //we need to wait until there are no aliens around before the event officially starts
 
 
         //we need to start spawning in a bunch of pizza and make some decorations appear or something
