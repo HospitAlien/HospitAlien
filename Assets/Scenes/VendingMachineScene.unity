@@ -1359,7 +1359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syringePrefab: {fileID: 4495153602603455775, guid: 5c38bda0200857247a73b80630340de3, type: 3}
   spawnInterval: 5
-  spawnOffset: {x: 0, y: -1, z: 0}
+  spawnOffset: {x: -1, y: 0, z: 0}
 --- !u!1 &268978229
 GameObject:
   m_ObjectHideFlags: 0

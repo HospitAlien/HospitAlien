@@ -9,7 +9,7 @@ public class VendingButton : MonoBehaviour
     public float spawnInterval = 5f;
 
     // Offset relative to the parent (vending machine) position; default is one unit down
-    public Vector3 spawnOffset = new Vector3(0f, -1f, 0f);
+    public Vector3 spawnOffset = new Vector3(-1f, 0f, 0f);
 
     void Start()
     {
