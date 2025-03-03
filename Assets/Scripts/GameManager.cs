@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
 
     public TextMeshPro scoreText;
-    private string scoreString = "Score: %0";
+    private string scoreString = "Money: £%0";
 
     void UpdateScoreText()
     {
@@ -158,12 +158,12 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void PatientCured(int patientIndex)
+    public void PatientCured(int patientIndex, int reward = 100)
     {
         Debug.Log("Alien with index " + patientIndex + " has been cured.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
-        score += 1;
+        score += reward;
         UpdateScoreText();
     }
 
@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Alien with index " + patientIndex + " has been deleted.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
-        score -= 1; //Every time an alien dies the score is reduced
+        score -= 200; //Every time an alien dies the score is reduced
         UpdateScoreText();
     }
 
