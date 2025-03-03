@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
 
         // Start the game manually for debug, comment this line in production
-        // StartCoroutine(SpawnPatients());
+        StartCoroutine(SpawnPatients());
         StartCoroutine(eventRoutine());
     }
 
@@ -103,22 +103,55 @@ public class GameManager : MonoBehaviour
             int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen every 2/3 minutes
-            int waitTime = random.Next(120,180);
+            int waitTime = random.Next(5,10);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
+            Debug.Log("waiting for patients to despawn");
             if(newEvent == 1){
                 yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-                PizzaTime();
+                yield return StartCoroutine(PizzaTime());
             }
+
+
+            eventState = 0;
         }
     }
 
-    void PizzaTime(){
-        Debug.Log("PIZZZZAAAAA!!!");
+    IEnumerator PizzaTime(){
+        List<GameObject> spawnedPizzas = new List<GameObject>();
+        System.Random random = new System.Random();
+
+        //the pizza event is on for 30s It spawns pizza throughout the room this can be eaten by the doctor to earn coins
+        float pizzaEventDuration = 30f;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < pizzaEventDuration)
+        {
+            if (Random.Range(0f, 1f) > 0.5f) // 50% chance pizza
+            {
+
+                Vector3 randomPosition = new Vector3(
+                    Random.Range(-10f, 10f),
+                    1f,
+                    Random.Range(-10f, 10f)
+                );
+
+                GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
+                spawnedPizzas.Add(pizza);
+            }
+
+            yield return new WaitForSeconds(0.4f);
+
+            timeElapsed += 0.4f;
+        }
 
 
-        //we need to start spawning in a bunch of pizza and make some decorations appear or something
+        //once the loop ends we need to delete all the pizzas
+        foreach (GameObject pizza in spawnedPizzas)
+        {
+            Destroy(pizza);
+        }
     }
 
 
@@ -127,7 +160,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (currentPatientCount < 6)
+            if (currentPatientCount < 6 && eventState == 0)
             {
 
                 if (currentPatientCount == 0) //if there are no patients we should spawn one in 5 seconds

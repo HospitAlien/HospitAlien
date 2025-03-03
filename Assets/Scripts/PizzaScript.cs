@@ -21,7 +21,6 @@ public class PizzaScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PizzaEaten();
     }
 
 
