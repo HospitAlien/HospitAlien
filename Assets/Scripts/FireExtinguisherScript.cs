@@ -5,8 +5,18 @@ public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
 {
     private float pressThreshold = 0.5f;
 
+    private ParticleSystem foam;
+
+    private void Awake(){
+        if(foam == null){
+            foam = GetComponent<ParticleSystem>();
+        }
+    }
+
+
     public void BeginUse()
     {
+        foam.Play();
         Debug.Log("Begin use");
     }
 
@@ -18,6 +28,7 @@ public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
 
     public void EndUse()
     {
+        foam.Stop();
         Debug.Log("End use");
     }
 
