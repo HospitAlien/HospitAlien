@@ -36,7 +36,7 @@ public class LeaderBoardManager : MonoBehaviour
             }
             else
             {
-                leaderboardItems[i].SetActive(false);
+                // leaderboardItems[i].SetActive(false);
             }
         }
     }

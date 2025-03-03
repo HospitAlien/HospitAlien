@@ -6,7 +6,7 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject menu;
     public Renderer menuRenderer;
-    public float distanceFromPlayer = 0.8f;
+    public float distanceFromPlayer = 1.2f;
     public Slider vignetteSlider;
     private Transform _camera;
     private GlobalVariableManager gvm;
