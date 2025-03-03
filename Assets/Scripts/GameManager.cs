@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
 
         // Start the game manually for debug, comment this line in production
-        StartCoroutine(SpawnPatients());
-        StartCoroutine(eventRoutine());
+        // StartCoroutine(SpawnPatients());
+        // StartCoroutine(eventRoutine());
     }
 
 
@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
         {
             // _gamePlaying = true;
             StartCoroutine(SpawnPatients());
+            StartCoroutine(eventRoutine());
         }
         else
         {
@@ -104,7 +105,7 @@ public class GameManager : MonoBehaviour
             int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen every 2/3 minutes
-            int waitTime = random.Next(5, 10);
+            int waitTime = random.Next(120, 180);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
