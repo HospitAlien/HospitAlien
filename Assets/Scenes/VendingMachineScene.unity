@@ -1286,7 +1286,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1358,7 +1358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syringePrefab: {fileID: 4495153602603455775, guid: 5c38bda0200857247a73b80630340de3, type: 3}
-  spawnInterval: 5
   spawnOffset: {x: -1, y: 0, z: 0}
 --- !u!1 &268978229
 GameObject:
