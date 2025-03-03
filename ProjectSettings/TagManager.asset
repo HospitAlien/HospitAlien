@@ -10,6 +10,14 @@ TagManager:
   - Used-Syringe
   - Fire-Extinguisher
   - Alien
+  - QDSUISharedThemeColor
+  - QDSUIAccentColor
+  - QDSUISecondaryButton
+  - QDSUIPrimaryButton
+  - QDSUIIcon
+  - QDSUIDestructiveButton
+  - QDSUIToggleCheckboxRadio
+  - Shrapnel
   layers:
   - Default
   - TransparentFX
