@@ -13,18 +13,8 @@ MonoBehaviour:
   m_Name: LeaderBoard
   m_EditorClassIdentifier: 
   topScores:
-  - playerName: 
-    score: 0
-  - playerName: 
-    score: 0
-  - playerName: 
-    score: 0
-  - playerName: 
-    score: 0
-  - playerName: 
-    score: 0
-  - playerName: 
-    score: 0
+  - playerName: aaa
+    score: 10
   - playerName: 
     score: 0
   - playerName: 
