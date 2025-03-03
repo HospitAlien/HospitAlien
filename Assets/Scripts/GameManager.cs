@@ -94,7 +94,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator eventRoutine(){
+    IEnumerator eventRoutine()
+    {
 
         while (true)
         {
@@ -103,12 +104,13 @@ public class GameManager : MonoBehaviour
             int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen every 2/3 minutes
-            int waitTime = random.Next(5,10);
+            int waitTime = random.Next(5, 10);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
             Debug.Log("waiting for patients to despawn");
-            if(newEvent == 1){
+            if (newEvent == 1)
+            {
                 yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
                 yield return StartCoroutine(PizzaTime());
             }
@@ -118,7 +120,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator PizzaTime(){
+    IEnumerator PizzaTime()
+    {
         List<GameObject> spawnedPizzas = new List<GameObject>();
         System.Random random = new System.Random();
 
@@ -247,9 +250,10 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
     }
 
-    public void PizzaEaten(){
+    public void PizzaEaten()
+    {
         Debug.Log("Pizza slice has been eaten, reward some score");
-        score += 1;
+        score += 50;
         UpdateScoreText();
     }
 

@@ -15,7 +15,7 @@ public class PizzaScript : MonoBehaviour
         {
             gameManager = FindAnyObjectByType<GameManager>();
         }
-        
+
     }
 
     // Update is called once per frame
@@ -24,9 +24,21 @@ public class PizzaScript : MonoBehaviour
     }
 
 
-    private void PizzaEaten(){
+    private void PizzaEaten()
+    {
         //if the pizza is eaten we want to call the function within gameManager to update score
         Destroy(gameObject);
         gameManager.PizzaEaten();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Pizza collided with " + other.gameObject.name);
+
+
+        if (other.gameObject.CompareTag("MainCamera"))
+        {
+            PizzaEaten();
+        }
     }
 }
