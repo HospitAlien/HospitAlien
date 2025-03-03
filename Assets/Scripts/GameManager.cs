@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
 
         // Start the game manually for debug, comment this line in production
-        // StartCoroutine(SpawnPatients());
+        StartCoroutine(SpawnPatients());
         // StartCoroutine(eventRoutine());
     }
 

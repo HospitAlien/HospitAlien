@@ -8,9 +8,13 @@ struct Status
 {
     public bool needsInjection;
     public bool needsExtinguishing;
+    public int shrapnelCount;
+
+
+
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing);
+        return (!needsInjection && !needsExtinguishing && shrapnelCount == 0);
     }
 
     public string getIllness()
@@ -47,8 +51,9 @@ public class AlienBehaviour : MonoBehaviour
     private bool isCured = false; // Flag to check if the alien is cured
 
     public ParticleSystem sweatParticles;
-
     public ParticleSystem fireParticles;
+    public GameObject shrapnel;
+    public Transform bodyTransform; //used to find the body 
 
     private Status status;
     private AlienVoice alienVoice;
@@ -77,6 +82,14 @@ public class AlienBehaviour : MonoBehaviour
             reward += 100;
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
+
+        if (random.NextDouble() < 0.4)
+        {
+            initiateShrapnel();
+            status.shrapnelCount = 4;
+        }
+
+
     }
 
     void Start()
@@ -158,6 +171,43 @@ public class AlienBehaviour : MonoBehaviour
         gameManager.PatientDied(index);
         Destroy(gameObject);
     }
+
+
+    private void initiateShrapnel()
+    {
+        int count = 0;
+        while (count < 4)
+        {
+            // Use Unity's Random class for generating random numbers
+            float offsetX = UnityEngine.Random.Range(-0.3f, 0.3f);
+            float offsetY = UnityEngine.Random.Range(0f, 0.5f);
+            float offsetZ = 0f;  // Depth offset (use if you want to spawn swords further into the body)
+
+            // Spawn the new shrapnel at the calculated position
+            Vector3 newPosition = bodyTransform.position + new Vector3(offsetX, offsetY, offsetZ);
+            GameObject newShrapnel = Instantiate(shrapnel, newPosition, bodyTransform.rotation);
+            newShrapnel.transform.SetParent(transform); // Set the shrapnel as a child of the player
+
+            count++;
+        }
+    }
+
+    public void shrapnelRemoved()
+    {
+        status.shrapnelCount = status.shrapnelCount-1;
+        if (status.isHealthy()){
+            Cure();
+        }
+    }
+
+    public void shrapnelInserted()
+    {
+        status.shrapnelCount = status.shrapnelCount+1;
+    }
+
+
+
+
 
     // Function called when alien is cured
     public void Cure()
