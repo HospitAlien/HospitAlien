@@ -20,22 +20,6 @@ public class ShrapnelBehaviour : MonoBehaviour
         GrabInteractable.WhenSelectingInteractorRemoved.Action += ObjectReleased;
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
-
-
-        Collider parentCollider = GetComponent<Collider>();
-
-        // Get all colliders in the children of the current object
-        Collider[] childrenColliders = GetComponentsInChildren<Collider>();
-
-        foreach (Collider col in childrenColliders)
-        {
-            // Check if the collider belongs to the parent (since it's a child, skip parent collider itself)
-            if (col != parentCollider)
-            {
-                // Ignore collision between the child's collider and the parent's collider
-                Physics.IgnoreCollision(col, parentCollider);
-            }
-        }
     }
 
     private void ObjectHeld(GrabInteractor interactor)
