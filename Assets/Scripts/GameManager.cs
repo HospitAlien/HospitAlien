@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
+    public Transform alienSpawnPoint;
     private bool[] spotOccupied;
     public GameObject patientPrefab;
     private Transform[] spawnLocations;
@@ -213,7 +214,7 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
 
 
-        GameObject patient = Instantiate(patientPrefab, new Vector3(-10f, 0.08333334f, 7.5f), Quaternion.identity);
+        GameObject patient = Instantiate(patientPrefab, alienSpawnPoint.position, Quaternion.identity);
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();
