@@ -213,6 +213,7 @@ public class AlienBehaviour : MonoBehaviour
     public void shrapnelRemoved()
     {
         status.shrapnelRemoved();
+        Debug.Log("Removed " + status.shrapnelCount);
         if (status.isHealthy())
         {
             Cure();
@@ -221,6 +222,7 @@ public class AlienBehaviour : MonoBehaviour
 
     public void shrapnelInserted()
     {
+        Debug.Log("INSERTED");
         status.shrapnelInserted();
     }
 
