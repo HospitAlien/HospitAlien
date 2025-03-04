@@ -5254,7 +5254,7 @@ MonoBehaviour:
   _maxInteractors: -1
   _maxSelectingInteractors: -1
   _data: {fileID: 0}
-  _handUseDelegate: {fileID: 0}
+  _handUseDelegate: {fileID: 7970470344446731621}
   _useFingers:
     _thumbRequirement: 0
     _indexRequirement: 2
