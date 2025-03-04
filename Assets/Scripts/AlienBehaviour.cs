@@ -85,8 +85,9 @@ public class AlienBehaviour : MonoBehaviour
 
         if (random.NextDouble() < 0.4)
         {
+            status.shrapnelCount = 0;
+            reward += 100;
             initiateShrapnel();
-            status.shrapnelCount = 4;
         }
 
 
@@ -194,15 +195,18 @@ public class AlienBehaviour : MonoBehaviour
 
     public void shrapnelRemoved()
     {
-        status.shrapnelCount = status.shrapnelCount-1;
-        if (status.isHealthy()){
+        status.shrapnelCount = status.shrapnelCount - 1;
+        Debug.Log("Shrapnel removed, ramaining: " + status.shrapnelCount);
+        if (status.isHealthy())
+        {
             Cure();
         }
     }
 
     public void shrapnelInserted()
     {
-        status.shrapnelCount = status.shrapnelCount+1;
+        Debug.Log("Shrapnel inserted, total: " + status.shrapnelCount);
+        status.shrapnelCount = status.shrapnelCount + 1;
     }
 
 
@@ -238,11 +242,11 @@ public class AlienBehaviour : MonoBehaviour
     {
 
         // Check if the particle colliding with the alien is from the fire extinguisher
-        if (particle.CompareTag("Fire-Extinguisher"))
-        {
-            Debug.Log("FIRE Particle hit the alien!");
+        // if (particle.CompareTag("Fire-Extinguisher"))
+        // {
+        //     Debug.Log("FIRE Particle hit the alien!");
 
-        }
+        // }
         if (isReady)
         {
             if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)

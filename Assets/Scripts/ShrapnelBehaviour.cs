@@ -14,18 +14,20 @@ public class ShrapnelBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!insideAlien){ //also want to check that it is not being held
+        if (!insideAlien)
+        { //also want to check that it is not being held
             Destroy(gameObject);
         }
-        
+
     }
 
     void OnTriggerExit(Collider collider)
     {
-        if(!collider.CompareTag("Shrapnel")){
+        if (!collider.CompareTag("Shrapnel"))
+        {
             AlienBehaviour alien = collider.GetComponentInParent<AlienBehaviour>();
-            if(alien != null)
-            {          
+            if (alien != null)
+            {
                 alien.shrapnelRemoved();
                 insideAlien = false;
             }
@@ -34,10 +36,11 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if(!collider.CompareTag("Shrapnel")){
+        if (!collider.CompareTag("Shrapnel"))
+        {
             AlienBehaviour alien = collider.GetComponentInParent<AlienBehaviour>();
-            if(alien != null)
-            {          
+            if (alien != null)
+            {
                 alien.shrapnelInserted();
                 insideAlien = true;
             }
