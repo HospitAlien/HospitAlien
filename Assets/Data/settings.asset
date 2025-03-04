@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f524b77c52ebe19438b9ef997ee270d3, type: 3}
-  m_Name: settings
+  m_Name: Settings
   m_EditorClassIdentifier: 
   comfortModeOption: 0
   vignetteStrength: 50
   turnModeOption: 0
-  moveModeOption: 1
+  moveModeOption: 0

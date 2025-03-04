@@ -52,14 +52,14 @@ public class AlienBehaviour : MonoBehaviour
 
     private Status status;
     private AlienVoice alienVoice;
+    private int reward = 0;
 
     public string getVoiceLine()
     {
         return status.getIllness();
     }
 
-
-
+    //TODO: I think its better to roll a random number to decide how many troubles the alien has then select from a list with weighted probabilities
     void InitiateStatus()
     {
         System.Random random = new System.Random();
@@ -68,11 +68,13 @@ public class AlienBehaviour : MonoBehaviour
         {
             status.needsInjection = true;
             sweatParticles.Play();
+            reward += 100;
         }
         if (random.NextDouble() < 0.4)
         {
             status.needsExtinguishing = true;
             fireParticles.Play();
+            reward += 100;
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
     }
@@ -165,14 +167,14 @@ public class AlienBehaviour : MonoBehaviour
             return; // Prevent curing the same alien multiple times
         }
         isCured = true;
-        gameManager.PatientCured(index);
+        gameManager.PatientCured(index, reward);
         Destroy(gameObject);
     }
 
     // Detect collision with the player's controller
-    void OnTriggerEnter(Collider collider)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
+        if (collision.gameObject.CompareTag("AlienTranslator")) // Cure the alien if it collides with the controller
         {
             //Voice chat function
             alienVoice.ActivateListening();

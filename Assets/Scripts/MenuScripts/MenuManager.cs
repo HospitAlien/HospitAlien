@@ -6,12 +6,12 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject menu;
     public Renderer menuRenderer;
-    public float distanceFromPlayer = 0.8f;
+    public float distanceFromPlayer = 1.2f;
     public Slider vignetteSlider;
     private Transform _camera;
     private GlobalVariableManager gvm;
     private bool _isMenuOpen;
-    private int _menuNotVisibleCounter = -1;
+    private bool _isMenuMoving;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,9 +26,8 @@ public class MenuManager : MonoBehaviour
     private void CheckMenuIsVisible()
     {
         if (!menu.activeSelf) return;
-        if (!menuRenderer.isVisible) _menuNotVisibleCounter++;
-        else _menuNotVisibleCounter = 0;
-        if (_menuNotVisibleCounter > 2) MoveMenuSmoothly();
+        if (!menuRenderer.isVisible) MoveMenuToPlayerSmoothly();
+        else if (_isMenuMoving) transform.DOKill();
     }
 
     void Update()
@@ -42,7 +41,7 @@ public class MenuManager : MonoBehaviour
         float distance = Vector3.Distance(transform.position, _camera.position);
         if (distance > 2.5)
         {
-            MoveMenuSmoothly();
+            MoveMenuToPlayer();
         }
     }
 
@@ -57,11 +56,8 @@ public class MenuManager : MonoBehaviour
     {
         _isMenuOpen = true;
         menu.SetActive(true);
-        Vector3 targetPosition = _camera.position + _camera.forward * distanceFromPlayer;
-        targetPosition += offset;
-        transform.position = targetPosition;
-        transform.LookAt(_camera.position);
-        InvokeRepeating(nameof(CheckMenuIsVisible), 1f, 0.5f);
+        MoveMenuToPlayer(offset);
+        InvokeRepeating(nameof(CheckMenuIsVisible), 2f, 0.1f);
     }
 
     public void ToggleMenu(bool forceOpen = false)
@@ -71,9 +67,20 @@ public class MenuManager : MonoBehaviour
         else OpenMenu();
     }
 
-    public void MoveMenuSmoothly()
+    public void MoveMenuToPlayer(Vector3 offset = default)
     {
-        Vector3 targetPosition = _camera.position + _camera.forward * distanceFromPlayer;
+        Vector3 forwardOnXZ = new Vector3(_camera.forward.x, 0, _camera.forward.z).normalized;
+        Vector3 targetPosition = _camera.position + forwardOnXZ * distanceFromPlayer;
+        targetPosition += offset;
+        transform.position = targetPosition;
+        transform.LookAt(_camera.position);
+    }
+
+    public void MoveMenuToPlayerSmoothly(Vector3 offset = default)
+    {
+        Vector3 forwardOnXZ = new Vector3(_camera.forward.x, 0, _camera.forward.z).normalized;
+        Vector3 targetPosition = _camera.position + forwardOnXZ * distanceFromPlayer;
+        targetPosition += offset;
 
         // If the coroutine is already running, stop it
         transform.DOKill();
