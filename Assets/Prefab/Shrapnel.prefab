@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1290af55166236f4c92d7a0e26564007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GrabInteractable: {fileID: 4992350755707719476}
 --- !u!54 &-4453972840467229947
 Rigidbody:
   m_ObjectHideFlags: 0

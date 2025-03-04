@@ -8,13 +8,14 @@ struct Status
 {
     public bool needsInjection;
     public bool needsExtinguishing;
+    public bool hasShrapnel;
     public int shrapnelCount;
 
 
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && shrapnelCount == 0);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel);
     }
 
     public string getIllness()
@@ -30,6 +31,21 @@ struct Status
         }
 
         return response;
+    }
+
+    public void shrapnelRemoved()
+    {
+        shrapnelCount = shrapnelCount - 1;
+        if (shrapnelCount == 0)
+        {
+            hasShrapnel = false;
+        }
+    }
+
+    public void shrapnelInserted()
+    {
+        shrapnelCount = shrapnelCount + 1;
+        hasShrapnel = true;
     }
 
 }
@@ -69,24 +85,25 @@ public class AlienBehaviour : MonoBehaviour
     {
         System.Random random = new System.Random();
 
-        if (random.NextDouble() < 0.4)
-        {
-            status.needsInjection = true;
-            sweatParticles.Play();
-            reward += 100;
-        }
-        if (random.NextDouble() < 0.4)
-        {
-            status.needsExtinguishing = true;
-            fireParticles.Play();
-            reward += 100;
-            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
-        }
+        // if (random.NextDouble() < 0.4)
+        // {
+        //     status.needsInjection = true;
+        //     sweatParticles.Play();
+        //     reward += 100;
+        // }
+        // if (random.NextDouble() < 0.4)
+        // {
+        //     status.needsExtinguishing = true;
+        //     fireParticles.Play();
+        //     reward += 100;
+        //     Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
+        // }
 
         if (random.NextDouble() < 0.4)
         {
             status.shrapnelCount = 0;
             reward += 100;
+            status.hasShrapnel = true;
             initiateShrapnel();
         }
 
@@ -195,8 +212,7 @@ public class AlienBehaviour : MonoBehaviour
 
     public void shrapnelRemoved()
     {
-        status.shrapnelCount = status.shrapnelCount - 1;
-        Debug.Log("Shrapnel removed, ramaining: " + status.shrapnelCount);
+        status.shrapnelRemoved();
         if (status.isHealthy())
         {
             Cure();
@@ -205,8 +221,7 @@ public class AlienBehaviour : MonoBehaviour
 
     public void shrapnelInserted()
     {
-        Debug.Log("Shrapnel inserted, total: " + status.shrapnelCount);
-        status.shrapnelCount = status.shrapnelCount + 1;
+        status.shrapnelInserted();
     }
 
 
