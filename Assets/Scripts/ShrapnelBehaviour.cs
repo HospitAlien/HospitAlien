@@ -4,17 +4,19 @@ public class ShrapnelBehaviour : MonoBehaviour
 {
 
     private bool insideAlien;
+    private OVRGrabbable grabbable;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         insideAlien = true;
+        grabbable = GetComponent<OVRGrabbable>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!insideAlien)
+        if (!insideAlien && !grabbable.isGrabbed)
         { //also want to check that it is not being held
             Destroy(gameObject);
         }
