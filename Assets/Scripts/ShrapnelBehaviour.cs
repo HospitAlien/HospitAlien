@@ -6,6 +6,9 @@ using System.Collections;
 public class ShrapnelBehaviour : MonoBehaviour
 {
     private bool insideAlien;
+    private bool beingHeld;
+
+
     public GrabInteractable GrabInteractable;
     private Coroutine destroyCoroutine;
 
@@ -16,6 +19,8 @@ public class ShrapnelBehaviour : MonoBehaviour
     void Start()
     {
         insideAlien = true;
+        beingHeld = false;
+
         GrabInteractable.WhenSelectingInteractorAdded.Action += ObjectHeld;
         GrabInteractable.WhenSelectingInteractorRemoved.Action += ObjectReleased;
         rb = GetComponent<Rigidbody>();
@@ -25,6 +30,8 @@ public class ShrapnelBehaviour : MonoBehaviour
     private void ObjectHeld(GrabInteractor interactor)
     {
         //when the object is held i want it to be isTrigger
+        beingHeld = true;
+
         collider.isTrigger = true;
 
         if (destroyCoroutine != null)
@@ -36,6 +43,8 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     private void ObjectReleased(GrabInteractor interactor)
     {
+        beingHeld = false;
+
         collider.isTrigger = false;
 
         if (!insideAlien)
@@ -52,7 +61,7 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (!collider.CompareTag("Shrapnel"))
+        if (!collider.CompareTag("Shrapnel") && beingHeld)
         {
             AlienBehaviour alien = collider.GetComponentInParent<AlienBehaviour>();
             if (alien != null)
