@@ -15,13 +15,24 @@ public class ShrapnelBehaviour : MonoBehaviour
     void Start()
     {
         insideAlien = true;
+        GrabInteractable.WhenSelectingInteractorAdded.Action += ObjectHeld;
         GrabInteractable.WhenSelectingInteractorRemoved.Action += ObjectReleased;
         rb = GetComponent<Rigidbody>();
     }
 
+    private void ObjectHeld(GrabInteractor interactor)
+    {
+        if (destroyCoroutine != null)
+        {
+            StopCoroutine(destroyCoroutine);
+            destroyCoroutine = null;
+        }
+    }
+
     private void ObjectReleased(GrabInteractor interactor)
     {
-        if(!insideAlien){
+        if (!insideAlien)
+        {
             destroyCoroutine = StartCoroutine(DestroyObjectAfterTime(5f));
         }
     }
@@ -42,7 +53,7 @@ public class ShrapnelBehaviour : MonoBehaviour
                 alien.shrapnelRemoved();
                 insideAlien = false;
 
-                rb.useGravity = true;
+                rb.isKinematic = false;
             }
         }
     }
@@ -65,10 +76,10 @@ public class ShrapnelBehaviour : MonoBehaviour
                     destroyCoroutine = null;
                     Debug.Log("Destroy coroutine stopped.");
                 }
-                rb.useGravity = false;
+                rb.isKinematic = true;
 
             }
-            
+
         }
     }
 }
