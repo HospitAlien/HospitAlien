@@ -7,9 +7,12 @@ public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
 
     private ParticleSystem foam;
 
-    private void Awake(){
-        if(foam == null){
-            foam = GetComponent<ParticleSystem>();
+    private void Awake()
+    {
+        foam = GetComponent<ParticleSystem>();
+        if (foam == null)
+        {
+            Debug.LogError("No particle system found on fire extinguisher!");
         }
     }
 
