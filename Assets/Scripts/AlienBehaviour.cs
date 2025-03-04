@@ -101,7 +101,7 @@ public class AlienBehaviour : MonoBehaviour
 
         if (random.NextDouble() < 0.4)
         {
-            status.shrapnelCount = 0;
+            status.shrapnelCount = 4;
             reward += 100;
             status.hasShrapnel = true;
             initiateShrapnel();
