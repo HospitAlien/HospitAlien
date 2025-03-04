@@ -8360,6 +8360,7 @@ MonoBehaviour:
   maxPatients: 6
   currentPatientCount: 0
   patientPrefab: {fileID: 5879373601513950369, guid: e6ac4d4b9aace1b4ab0a309b2ffd6396, type: 3}
+  AlienSpawnPoint: {fileID: 1926531239}
   pizzaPrefab: {fileID: 7913098986590926786, guid: 2f027f81d5f396f4faa1a113b53eeb38, type: 3}
   scoreText: {fileID: 773349209}
 --- !u!4 &30385979553072343
