@@ -17,6 +17,7 @@ TagManager:
   - QDSUIIcon
   - QDSUIDestructiveButton
   - QDSUIToggleCheckboxRadio
+  - Shrapnel
   - AlienTranslator
   layers:
   - Default
