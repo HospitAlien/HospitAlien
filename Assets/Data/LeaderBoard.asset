@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: LeaderBoard
   m_EditorClassIdentifier: 
   topScores:
-  - playerName: aaa
-    score: 10
-  - playerName: 
-    score: 0
+  - playerName: good_doctor
+    score: 1450
+  - playerName: Bruce
+    score: 1000
   - playerName: 
     score: 0
   - playerName: 
