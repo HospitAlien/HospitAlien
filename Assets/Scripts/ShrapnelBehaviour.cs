@@ -27,6 +27,18 @@ public class ShrapnelBehaviour : MonoBehaviour
         collider = GetComponent<Collider>();
     }
 
+    void Update()
+    {
+        if (insideAlien)
+        {
+            rb.isKinematic = true;
+        }
+        else
+        {
+            rb.isKinematic = false;
+        }
+    }
+
     private void ObjectHeld(GrabInteractor interactor)
     {
         //when the object is held i want it to be isTrigger
@@ -43,6 +55,7 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     private void ObjectReleased(GrabInteractor interactor)
     {
+        Debug.Log("Object released");
         beingHeld = false;
 
         collider.isTrigger = false;
@@ -50,6 +63,13 @@ public class ShrapnelBehaviour : MonoBehaviour
         if (!insideAlien)
         {
             destroyCoroutine = StartCoroutine(DestroyObjectAfterTime(5f));
+            rb.isKinematic = false;
+            Debug.Log("Kinematic false");
+        }
+        else
+        {
+            rb.isKinematic = true;
+            Debug.Log("Kinematic true");
         }
     }
 
@@ -61,15 +81,15 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (!collider.CompareTag("Shrapnel") && beingHeld)
+
+        if (!collider.CompareTag("Shrapnel") && beingHeld && insideAlien)
         {
             AlienBehaviour alien = collider.GetComponentInParent<AlienBehaviour>();
             if (alien != null)
             {
+                Debug.Log("Trigger exit " + collider.name);
                 alien.shrapnelRemoved();
                 insideAlien = false;
-
-                rb.isKinematic = false;
             }
         }
     }
@@ -91,8 +111,6 @@ public class ShrapnelBehaviour : MonoBehaviour
                     StopCoroutine(destroyCoroutine);
                     destroyCoroutine = null;
                     Debug.Log("Destroy coroutine stopped.");
-
-                    rb.isKinematic = true;
                 }
 
             }

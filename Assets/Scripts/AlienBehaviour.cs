@@ -57,7 +57,7 @@ public class AlienBehaviour : MonoBehaviour
     private int index;
     private Vector3 targetLocation;
 
-    private float timer = 60f;  // Start with a 30-second timer
+    private float timer = 60;  // Start with a 60-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
 
     private static GameManager gameManager;
@@ -85,19 +85,19 @@ public class AlienBehaviour : MonoBehaviour
     {
         System.Random random = new System.Random();
 
-        // if (random.NextDouble() < 0.4)
-        // {
-        //     status.needsInjection = true;
-        //     sweatParticles.Play();
-        //     reward += 100;
-        // }
-        // if (random.NextDouble() < 0.4)
-        // {
-        //     status.needsExtinguishing = true;
-        //     fireParticles.Play();
-        //     reward += 100;
-        //     Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
-        // }
+        if (random.NextDouble() < 0.4)
+        {
+            status.needsInjection = true;
+            sweatParticles.Play();
+            reward += 100;
+        }
+        if (random.NextDouble() < 0.4)
+        {
+            status.needsExtinguishing = true;
+            fireParticles.Play();
+            reward += 100;
+            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
+        }
 
         if (random.NextDouble() < 0.4)
         {
@@ -206,7 +206,7 @@ public class AlienBehaviour : MonoBehaviour
 
             float randomXRotation = UnityEngine.Random.Range(-30f, 30f);
             float randomZRotation = UnityEngine.Random.Range(0f, 360f);
-            
+
             // Construct a new rotation with random x and z rotation values, keeping the y rotation the same as bodyTransform
             Quaternion randomRotation = Quaternion.Euler(randomXRotation, bodyTransform.rotation.eulerAngles.y, randomZRotation);
 
