@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private bool[] spotOccupied;
     public GameObject patientPrefab;
     private Transform[] spawnLocations;
+    public Transform AlienSpawnPoint;
     // private bool _gamePlaying = false;
 
 
@@ -213,7 +214,7 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
 
 
-        GameObject patient = Instantiate(patientPrefab, new Vector3(-10f, 0.08333334f, 7.5f), Quaternion.identity);
+        GameObject patient = Instantiate(patientPrefab, AlienSpawnPoint.transform.position, Quaternion.identity);
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();

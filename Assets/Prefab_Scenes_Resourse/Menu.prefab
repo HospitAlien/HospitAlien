@@ -7664,6 +7664,14 @@ MonoBehaviour:
   menuRenderer: {fileID: 7042392737146489917}
   distanceFromPlayer: 1.2
   vignetteSlider: {fileID: 3972752278225272997}
+  movementToggles:
+  - {fileID: 8582826761679482602}
+  - {fileID: 9027827706359328615}
+  - {fileID: 7849900005676921346}
+  comfortToggles:
+  - {fileID: 7559004192810491378}
+  - {fileID: 7372850935980604209}
+  - {fileID: 1743431953509317589}
 --- !u!1 &3774034659077333505
 GameObject:
   m_ObjectHideFlags: 0
@@ -14323,7 +14331,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7378882425125961787}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6306181
+  m_Size: 0.63061816
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

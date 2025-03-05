@@ -252,9 +252,9 @@ public class AlienBehaviour : MonoBehaviour
     }
 
     // Detect collision with the player's controller
-    void OnTriggerEnter(Collider collider)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
+        if (collision.gameObject.CompareTag("AlienTranslator")) // Cure the alien if it collides with the controller
         {
             //Voice chat function
             alienVoice.ActivateListening();

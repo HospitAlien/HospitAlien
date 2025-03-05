@@ -15,4 +15,4 @@ MonoBehaviour:
   comfortModeOption: 0
   vignetteStrength: 50
   turnModeOption: 0
-  moveModeOption: 0
+  moveModeOption: 1

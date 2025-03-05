@@ -18,6 +18,7 @@ TagManager:
   - QDSUIDestructiveButton
   - QDSUIToggleCheckboxRadio
   - Shrapnel
+  - AlienTranslator
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,9 @@ using System;
 // Note: This script must be attached ONCE ONLY to a GameObject in the start scene!
 public class GlobalVariableManager : MonoBehaviour
 {
+    [Tooltip("The default settings for the game")]
     public GameSettingsIO gameSettings;
+    [Tooltip("The default leader board for the game")]
     public LeaderBoardIO leaderBoard;
 
     private bool _gamePlaying;
@@ -58,6 +60,8 @@ public class GlobalVariableManager : MonoBehaviour
         else
         {
             Debug.Log("Using default settings.");
+            // copy the default settings to avoid change the default
+            gameSettings = Instantiate(gameSettings);
         }
     }
 
@@ -65,9 +69,12 @@ public class GlobalVariableManager : MonoBehaviour
     // Save the settings to a file
     public void SaveSettings()
     {
-        string json = JsonUtility.ToJson(gameSettings, prettyPrint: true);
-        File.WriteAllText(settingFilePath, json);
-        Debug.Log("Game setting saved to:" + settingFilePath);
+        if (!Application.isEditor)
+        {
+            string json = JsonUtility.ToJson(gameSettings, prettyPrint: true);
+            File.WriteAllText(settingFilePath, json);
+            Debug.Log("Game setting saved to:" + settingFilePath);
+        }
     }
 
     // Load the leaderboard if the file exists
@@ -80,6 +87,8 @@ public class GlobalVariableManager : MonoBehaviour
         }
         else
         {
+            // copy the default leader board tto avoid change the default
+            leaderBoard = Instantiate(leaderBoard);
             Debug.Log("Using default leader board.");
         }
     }
@@ -87,9 +96,12 @@ public class GlobalVariableManager : MonoBehaviour
     // Save the leaderboard to a file
     public void SaveLeaderBoard()
     {
-        string json = JsonUtility.ToJson(leaderBoard, prettyPrint: true);
-        File.WriteAllText(leaderBoardFilePath, json);
-        Debug.Log("LeaderBoard saved to:" + leaderBoardFilePath);
+        if (!Application.isEditor)
+        {
+            string json = JsonUtility.ToJson(leaderBoard, prettyPrint: true);
+            File.WriteAllText(leaderBoardFilePath, json);
+            Debug.Log("LeaderBoard saved to:" + leaderBoardFilePath);
+        }
     }
 
     private void OnApplicationQuit()
