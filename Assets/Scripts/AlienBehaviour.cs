@@ -70,6 +70,9 @@ public class AlienBehaviour : MonoBehaviour
     public Transform bodyTransform; //used to find the body 
     public GameObject coinParticlePrefab;
 
+    private float lastVoiceTime = -Mathf.Infinity;
+    private float voiceCooldownTime = 3f;
+
     private Status status;
     private AlienVoice alienVoice;
     private int reward = 0;
@@ -222,9 +225,18 @@ public class AlienBehaviour : MonoBehaviour
     {
         status.shrapnelRemoved();
         Debug.Log("Removed " + status.shrapnelCount);
-        if (status.isHealthy())
-        {
-            Cure();
+
+        if(status.shrapnelCount == 0){
+            if (status.isHealthy())
+            {
+                Cure();
+            }else{
+                if (Time.time - lastVoiceTime >= voiceCooldownTime)
+                {
+                    alienVoice.SayLine("Thanks for removing the shrapnel");
+                    lastVoiceTime = Time.time; // Update the time the voice line was last played
+                }
+            }
         }
     }
 
@@ -295,6 +307,8 @@ public class AlienBehaviour : MonoBehaviour
                 if (status.isHealthy())
                 {
                     Cure();
+                }else{
+                    alienVoice.SayLine("the fire was put out");
                 }
             }
         }
@@ -315,6 +329,7 @@ public class AlienBehaviour : MonoBehaviour
                 else
                 {
                     sweatParticles.Stop();
+                    alienVoice.SayLine("I really needed that injection!");  
                 }
 
             }
