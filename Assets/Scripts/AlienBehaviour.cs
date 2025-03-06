@@ -11,8 +11,6 @@ struct Status
     public bool hasShrapnel;
     public int shrapnelCount;
 
-
-
     public bool isHealthy()
     {
         return (!needsInjection && !needsExtinguishing && !hasShrapnel);
@@ -70,6 +68,7 @@ public class AlienBehaviour : MonoBehaviour
     public ParticleSystem fireParticles;
     public GameObject shrapnel;
     public Transform bodyTransform; //used to find the body 
+    public GameObject coinParticlePrefab;
 
     private Status status;
     private AlienVoice alienVoice;
@@ -248,6 +247,17 @@ public class AlienBehaviour : MonoBehaviour
         }
         isCured = true;
         gameManager.PatientCured(index, reward);
+
+        Debug.Log("Spawn coins");
+
+        if (coinParticlePrefab != null)
+        {
+            Vector3 spawnPosition = transform.position + new Vector3(0f, 0.5f, 0f);
+            // Instantiate the particle system at the current position and with the current rotation
+            Instantiate(coinParticlePrefab, spawnPosition, Quaternion.Euler(-90f, 0f, 0f));
+            Debug.Log("Coins spawned");
+        }
+
         Destroy(gameObject);
     }
 
