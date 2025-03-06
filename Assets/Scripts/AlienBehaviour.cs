@@ -241,6 +241,8 @@ public class AlienBehaviour : MonoBehaviour
     // Function called when alien is cured
     public void Cure()
     {
+        alienVoice.SayLine("Ah... Nuch better");
+
         if (isCured)
         {
             return; // Prevent curing the same alien multiple times
