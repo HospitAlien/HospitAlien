@@ -188,6 +188,8 @@ public class AlienBehaviour : MonoBehaviour
     // Function to delete the alien object
     void Delete()
     {
+        alienVoice.SayLine("You failed me!");
+
         gameManager.PatientDied(index);
         Destroy(gameObject);
     }
