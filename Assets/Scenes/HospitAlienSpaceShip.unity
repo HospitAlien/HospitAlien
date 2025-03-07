@@ -6736,10 +6736,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Event_Texts_Area
       objectReference: {fileID: 0}
-    - target: {fileID: 2522940883951585190, guid: 512d6158f906d124aae15068781f8ea1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7904878272608166776, guid: 512d6158f906d124aae15068781f8ea1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6785,6 +6781,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 512d6158f906d124aae15068781f8ea1, type: 3}
+--- !u!1 &1605188005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2522940883951585190, guid: 512d6158f906d124aae15068781f8ea1, type: 3}
+  m_PrefabInstance: {fileID: 1605188004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1690608207
 GameObject:
   m_ObjectHideFlags: 0
@@ -8351,8 +8352,9 @@ MonoBehaviour:
   maxPatients: 6
   currentPatientCount: 0
   patientPrefab: {fileID: 5879373601513950369, guid: e6ac4d4b9aace1b4ab0a309b2ffd6396, type: 3}
-  AlienSpawnPoint: {fileID: 1926531239}
   pizzaPrefab: {fileID: 3336058304413499452, guid: 2f027f81d5f396f4faa1a113b53eeb38, type: 3}
+  AlienSpawnPoint: {fileID: 1926531239}
+  EventCanvas: {fileID: 1605188005}
   scoreText: {fileID: 773349209}
 --- !u!4 &30385979553072343
 Transform:
