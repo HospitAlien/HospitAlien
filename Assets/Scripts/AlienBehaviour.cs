@@ -270,7 +270,10 @@ public class AlienBehaviour : MonoBehaviour
         {
             Vector3 spawnPosition = transform.position + new Vector3(0f, 0.5f, 0f);
             // Instantiate the particle system at the current position and with the current rotation
-            Instantiate(coinParticlePrefab, spawnPosition, Quaternion.Euler(-90f, 0f, 0f));
+            GameObject newObject = Instantiate(coinParticlePrefab, spawnPosition, Quaternion.Euler(-90f, 0f, 0f));
+            CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
+            theCoins.SetRate(12);
+
             Debug.Log("Coins spawned");
         }
 

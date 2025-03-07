@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class DestroyOnParticleFinish : MonoBehaviour
+public class CoinBehaviour : MonoBehaviour
 {
+
+    private int rateOverTime;
     private ParticleSystem particleSystem;
     private AudioSource audioSource;
 
@@ -28,5 +30,11 @@ public class DestroyOnParticleFinish : MonoBehaviour
             // Destroy the GameObject after the particles finish
             Destroy(gameObject);
         }
+        var emission = particleSystem.emission;
+        emission.rateOverTime = rateOverTime;
+    }
+
+    public void SetRate(int rate){
+        rateOverTime = rate;
     }
 }

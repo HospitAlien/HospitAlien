@@ -606,7 +606,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0.5
     gravitySource: 0
-    maxNumParticles: 31
+    maxNumParticles: 117
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -4847,7 +4847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625873d3f4c83f8439ca66ed38e033ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
 --- !u!82 &5817775866131220869
 AudioSource:
   m_ObjectHideFlags: 0
