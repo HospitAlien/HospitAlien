@@ -3717,9 +3717,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed586a6d31dac24e8535512211c56e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 100
+  scrollSpeed: 500
   textWidth: 800
-  eventText: Lunch Time - Grab Pizza And Eat
+  eventText: Hello Everyone!
+  eventTextColor: {r: 0, g: 0.98118925, b: 1, a: 1}
 --- !u!1 &1219755495
 GameObject:
   m_ObjectHideFlags: 0
