@@ -232,6 +232,29 @@ public class AlienBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void ChangeLeftHandMaterial()
+    {
+        // Finds the "left_hand" transform
+        Transform leftHandTransform = transform.Find("hands/left_hand");
+        if (leftHandTransform != null)
+        {
+            Renderer leftHandRenderer = leftHandTransform.GetComponent<Renderer>();
+            if (leftHandRenderer != null)
+            {
+                // Change the material
+                leftHandRenderer.material = Resources.Load<Material>("Amputate"); ;
+            }
+            else
+            {
+                Debug.LogError("Renderer component not found on left_hand");
+            }
+        }
+        else
+        {
+            Debug.LogError("left_hand not found under hands");
+        }
+    }
+
     private void initiateAmputation()
     {
         // Create a new GameObject to detect axe hits
@@ -240,7 +263,9 @@ public class AlienBehaviour : MonoBehaviour
         amputationDetector.transform.localPosition = Vector3.zero;
         amputationDetector.transform.localRotation = Quaternion.identity;
         amputationDetector.AddComponent<AmputationBehaviour>();
+        ChangeLeftHandMaterial();
     }
+
 
     private void initiateShrapnel()
     {
