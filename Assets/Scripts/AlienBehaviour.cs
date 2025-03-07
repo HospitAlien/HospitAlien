@@ -9,12 +9,13 @@ struct Status
 {
     public bool needsInjection;
     public bool needsExtinguishing;
+    public bool needsAmputation;
     public bool hasShrapnel;
     public int shrapnelCount;
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && !needsAmputation);
     }
 
     public string getIllness()
@@ -27,6 +28,10 @@ struct Status
         else if (needsInjection)
         {
             response += "I need a jab.\n";
+        }
+        else if (needsAmputation)
+        {
+            response += "My arm is ruined! \n";
         }
 
         return response;
@@ -112,6 +117,11 @@ public class AlienBehaviour : MonoBehaviour
             initiateShrapnel();
         }
 
+        if (random.NextDouble() < 0.4)
+        {
+            status.needsAmputation = true;
+            initiateAmputation();
+        }
 
     }
 
@@ -222,6 +232,15 @@ public class AlienBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void initiateAmputation()
+    {
+        // Create a new GameObject to detect axe hits
+        GameObject amputationDetector = new GameObject("AmputationDetector");
+        amputationDetector.transform.SetParent(transform);
+        amputationDetector.transform.localPosition = Vector3.zero;
+        amputationDetector.transform.localRotation = Quaternion.identity;
+        amputationDetector.AddComponent<AmputationBehaviour>();
+    }
 
     private void initiateShrapnel()
     {
