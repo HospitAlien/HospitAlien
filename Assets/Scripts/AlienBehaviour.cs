@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 
@@ -55,7 +56,7 @@ public class AlienBehaviour : MonoBehaviour
     public Transform target;
 
     private int index;
-    private Vector3 targetLocation;
+    public Vector3 targetLocation;
 
     private float timer = 60;  // Start with a 60-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
@@ -74,6 +75,9 @@ public class AlienBehaviour : MonoBehaviour
     private Status status;
     private AlienVoice alienVoice;
     private int reward = 0;
+
+    private Dictionary<Vector3, (Vector3, Quaternion)> beds
+        = new Dictionary<Vector3, (Vector3, Quaternion)>();
 
     public string getVoiceLine()
     {
@@ -130,6 +134,19 @@ public class AlienBehaviour : MonoBehaviour
             InitiateStatus();
         }
         InitiateTimer();
+
+        beds[new Vector3(-2f, 2f, 2)] = (new Vector3(-2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(0f, 2f, 2f)] = (new Vector3(0, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(2f, 2f, 2f)] = (new Vector3(2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(2f, 2f, 0f)] = (new Vector3(3.6f, 1, -1), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(2f, 2f, -2f)] = (new Vector3(2, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
+        beds[new Vector3(0f, 2f, -2f)] = (new Vector3(0, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
+
+
+
+
+
+
     }
 
     void InitiateTimer()
@@ -160,7 +177,19 @@ public class AlienBehaviour : MonoBehaviour
             // Check if the agent has reached the destination
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
+                //Move the alien to bed and disable path-finding
+                agent.Warp(beds[target.position].Item1);
+                agent.enabled = false;
+                transform.rotation = beds[target.position].Item2;
+                target = null;
                 isReady = true;
+                //Reposition timer so it's not on the floor (it's rotated alongside the alien")
+                Transform timerText = transform.Find("TimerText");
+                if (timerText != null)
+                {
+                    timerText.localPosition = new Vector3(0f, 0.15f, 0.06f);
+                    timerText.localRotation = Quaternion.Euler(-90f, 180f, 0f);
+                }
             }
             else
             {
