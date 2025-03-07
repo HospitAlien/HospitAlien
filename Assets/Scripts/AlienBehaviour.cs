@@ -177,17 +177,9 @@ public class AlienBehaviour : MonoBehaviour
             // Check if the agent has reached the destination
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                
-                Debug.Log("Teleport attempted");
-                agent.ResetPath();
                 agent.Warp(beds[target.position].Item1);
-                agent.updateRotation = false;
                 agent.enabled = false;
                 transform.rotation = beds[target.position].Item2;
-                Debug.Log(beds[target.position].Item2);
-                Debug.Log(transform.rotation);
-                Debug.Log(transform.position);
-                agent.isStopped = true;
                 target = null;
                 isReady = true;
             }
