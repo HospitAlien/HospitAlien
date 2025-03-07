@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 
 // How to use:
@@ -167,6 +168,10 @@ public class EventTextController : MonoBehaviour
         textSouth2.GetComponent<TextMeshProUGUI>().color = eventTextColor;
         textWest1.GetComponent<TextMeshProUGUI>().color = eventTextColor;
         textWest2.GetComponent<TextMeshProUGUI>().color = eventTextColor;
+        transform.Find("Canvas_North").GetComponent<Image>().color = eventTextColor;
+        transform.Find("Canvas_East").GetComponent<Image>().color = eventTextColor;
+        transform.Find("Canvas_South").GetComponent<Image>().color = eventTextColor;
+        transform.Find("Canvas_West").GetComponent<Image>().color = eventTextColor;
         if (resetPosition) ResetTextPosition();
     }
 }
