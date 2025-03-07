@@ -60,10 +60,10 @@ public class GameManager : MonoBehaviour
         spawnLocations[2].position = new Vector3(2, 2, 2);  // Position 3
 
         spawnLocations[3] = new GameObject("SpawnPoint4").transform;
-        spawnLocations[3].position = new Vector3(-2, 2, -2);  // Position 4
+        spawnLocations[3].position = new Vector3(0, 2, -2);  // Position 4
 
         spawnLocations[4] = new GameObject("SpawnPoint5").transform;
-        spawnLocations[4].position = new Vector3(-2, 2, 0);  // Position 5
+        spawnLocations[4].position = new Vector3(0, 2, 2);  // Position 5
 
         spawnLocations[5] = new GameObject("SpawnPoint6").transform;
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
