@@ -8,9 +8,14 @@ struct Status
 {
     public bool needsInjection;
     public bool needsExtinguishing;
+    public bool hasShrapnel;
+    public int shrapnelCount;
+
+
+
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel);
     }
 
     public string getIllness()
@@ -28,6 +33,21 @@ struct Status
         return response;
     }
 
+    public void shrapnelRemoved()
+    {
+        shrapnelCount = shrapnelCount - 1;
+        if (shrapnelCount == 0)
+        {
+            hasShrapnel = false;
+        }
+    }
+
+    public void shrapnelInserted()
+    {
+        shrapnelCount = shrapnelCount + 1;
+        hasShrapnel = true;
+    }
+
 }
 
 public class AlienBehaviour : MonoBehaviour
@@ -37,7 +57,7 @@ public class AlienBehaviour : MonoBehaviour
     private int index;
     private Vector3 targetLocation;
 
-    private float timer = 60f;  // Start with a 30-second timer
+    private float timer = 60;  // Start with a 60-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
 
     private static GameManager gameManager;
@@ -47,19 +67,20 @@ public class AlienBehaviour : MonoBehaviour
     private bool isCured = false; // Flag to check if the alien is cured
 
     public ParticleSystem sweatParticles;
-
     public ParticleSystem fireParticles;
+    public GameObject shrapnel;
+    public Transform bodyTransform; //used to find the body 
 
     private Status status;
     private AlienVoice alienVoice;
+    private int reward = 0;
 
     public string getVoiceLine()
     {
         return status.getIllness();
     }
 
-
-
+    //TODO: I think its better to roll a random number to decide how many troubles the alien has then select from a list with weighted probabilities
     void InitiateStatus()
     {
         System.Random random = new System.Random();
@@ -68,13 +89,25 @@ public class AlienBehaviour : MonoBehaviour
         {
             status.needsInjection = true;
             sweatParticles.Play();
+            reward += 100;
         }
         if (random.NextDouble() < 0.4)
         {
             status.needsExtinguishing = true;
             fireParticles.Play();
+            reward += 100;
             Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
+
+        if (random.NextDouble() < 0.4)
+        {
+            status.shrapnelCount = 4;
+            reward += 100;
+            status.hasShrapnel = true;
+            initiateShrapnel();
+        }
+
+
     }
 
     void Start()
@@ -157,6 +190,55 @@ public class AlienBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
+
+    private void initiateShrapnel()
+    {
+        int count = 0;
+        while (count < 4)
+        {
+            // Use Unity's Random class for generating random numbers
+            float offsetX = UnityEngine.Random.Range(-0.3f, 0.3f);
+            float offsetY = UnityEngine.Random.Range(0f, 0.5f);
+            float offsetZ = 0.1f;  // Depth offset (use if you want to spawn swords further into the body)
+
+            // Spawn the new shrapnel at the calculated position
+            Vector3 newPosition = bodyTransform.position + new Vector3(offsetX, offsetY, offsetZ);
+
+            float randomXRotation = UnityEngine.Random.Range(-30f, 30f);
+            float randomZRotation = UnityEngine.Random.Range(0f, 360f);
+
+            // Construct a new rotation with random x and z rotation values, keeping the y rotation the same as bodyTransform
+            Quaternion randomRotation = Quaternion.Euler(randomXRotation, bodyTransform.rotation.eulerAngles.y, randomZRotation);
+
+
+
+            GameObject newShrapnel = Instantiate(shrapnel, newPosition, randomRotation);
+            newShrapnel.transform.SetParent(transform); // Set the shrapnel as a child of the player
+
+            count++;
+        }
+    }
+
+    public void shrapnelRemoved()
+    {
+        status.shrapnelRemoved();
+        Debug.Log("Removed " + status.shrapnelCount);
+        if (status.isHealthy())
+        {
+            Cure();
+        }
+    }
+
+    public void shrapnelInserted()
+    {
+        Debug.Log("INSERTED");
+        status.shrapnelInserted();
+    }
+
+
+
+
+
     // Function called when alien is cured
     public void Cure()
     {
@@ -165,14 +247,14 @@ public class AlienBehaviour : MonoBehaviour
             return; // Prevent curing the same alien multiple times
         }
         isCured = true;
-        gameManager.PatientCured(index);
+        gameManager.PatientCured(index, reward);
         Destroy(gameObject);
     }
 
     // Detect collision with the player's controller
-    void OnTriggerEnter(Collider collider)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collider.CompareTag("Controller")) // Cure the alien if it collides with the controller
+        if (collision.gameObject.CompareTag("AlienTranslator")) // Cure the alien if it collides with the controller
         {
             //Voice chat function
             alienVoice.ActivateListening();
@@ -186,11 +268,11 @@ public class AlienBehaviour : MonoBehaviour
     {
 
         // Check if the particle colliding with the alien is from the fire extinguisher
-        if (particle.CompareTag("Fire-Extinguisher"))
-        {
-            Debug.Log("FIRE Particle hit the alien!");
+        // if (particle.CompareTag("Fire-Extinguisher"))
+        // {
+        //     Debug.Log("FIRE Particle hit the alien!");
 
-        }
+        // }
         if (isReady)
         {
             if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)

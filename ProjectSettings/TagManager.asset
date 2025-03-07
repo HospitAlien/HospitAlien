@@ -10,13 +10,15 @@ TagManager:
   - Used-Syringe
   - Fire-Extinguisher
   - Alien
-  - QDSUIToggleCheckboxRadio
   - QDSUISharedThemeColor
-  - QDSUIDestructiveButton
-  - QDSUIPrimaryButton
-  - QDSUIIcon
   - QDSUIAccentColor
   - QDSUISecondaryButton
+  - QDSUIPrimaryButton
+  - QDSUIIcon
+  - QDSUIDestructiveButton
+  - QDSUIToggleCheckboxRadio
+  - Shrapnel
+  - AlienTranslator
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Effect Teleport
   - 
   - 
   - 

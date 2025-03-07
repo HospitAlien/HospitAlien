@@ -969,8 +969,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.5388932, y: 0.035223927, z: -4.543048}
-  m_LocalScale: {x: 23.251665, y: 23.251665, z: 23.251665}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 21, y: 21, z: 21}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1096334803181794447}
   - {fileID: 3629218062706091888}
@@ -1072,6 +1072,8 @@ MonoBehaviour:
   target: {fileID: 0}
   sweatParticles: {fileID: 2604348844787910538}
   fireParticles: {fileID: 454932969967861052}
+  shrapnel: {fileID: 4177759664629391277, guid: b0ff8cc36a5f4234fbe29e045fd88b53, type: 3}
+  bodyTransform: {fileID: 1096334803181794447}
 --- !u!114 &6685683700078005948
 MonoBehaviour:
   m_ObjectHideFlags: 0

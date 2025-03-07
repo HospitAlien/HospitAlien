@@ -70,7 +70,7 @@ public class VignetteManager : MonoBehaviour
             Vector3 currentPosition = _cameraRig.transform.position;
             // if camera is smoothly moving, turn on the vignette
             float speed = Vector3.Distance(currentPosition, lastPosition) / Time.deltaTime;
-            if (speed > 0.1 && speed < 2.5)
+            if (speed > 0.3 && speed < 7)
             {
                 ActiveVignette(0.05f);
             }
