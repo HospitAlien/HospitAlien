@@ -108,4 +108,9 @@ public class AlienVoice : MonoBehaviour
 
         return false;
     }
+
+    public void SayLine(string Line){
+        Debug.Log("Say line called");
+        TTSScript.Speak(Line);
+    }
 }

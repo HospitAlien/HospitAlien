@@ -1044,7 +1044,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5879373601513950369}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.045
+  m_Radius: 0.02
   m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 10
@@ -1074,6 +1074,7 @@ MonoBehaviour:
   fireParticles: {fileID: 454932969967861052}
   shrapnel: {fileID: 4177759664629391277, guid: b0ff8cc36a5f4234fbe29e045fd88b53, type: 3}
   bodyTransform: {fileID: 1096334803181794447}
+  coinParticlePrefab: {fileID: 8789034786812375928, guid: e7e3fa7811d5a964f868c145a88fc11e, type: 3}
 --- !u!114 &6685683700078005948
 MonoBehaviour:
   m_ObjectHideFlags: 0
