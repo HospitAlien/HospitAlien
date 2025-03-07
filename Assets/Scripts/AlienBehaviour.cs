@@ -380,18 +380,37 @@ public class AlienBehaviour : MonoBehaviour
 
         if(status.curSize == -1){
             status.curSize+=1;
-            transform.localScale *= 2;
+            StartCoroutine(ScaleOverTime(2f, 0.5f));
         }
-
-
 
         if(status.curSize == 0){
             if(status.isHealthy()){
                 Cure();
             }
         }
-
     }
+
+
+    IEnumerator ScaleOverTime(float targetMultiplier, float duration)
+    {
+        Vector3 initialScale = transform.localScale;
+        Vector3 targetScale = initialScale * targetMultiplier;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final scale is exactly the target
+        transform.localScale = targetScale;
+    }
+
+
+
+
 
 
     public void SetTarget(Transform newTarget)
