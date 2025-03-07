@@ -12,8 +12,6 @@ struct Status
     public bool hasShrapnel;
     public int shrapnelCount;
 
-
-
     public bool isHealthy()
     {
         return (!needsInjection && !needsExtinguishing && !hasShrapnel);
@@ -71,6 +69,10 @@ public class AlienBehaviour : MonoBehaviour
     public ParticleSystem fireParticles;
     public GameObject shrapnel;
     public Transform bodyTransform; //used to find the body 
+    public GameObject coinParticlePrefab;
+
+    private float lastVoiceTime = -Mathf.Infinity;
+    private float voiceCooldownTime = 3f;
 
     private Status status;
     private AlienVoice alienVoice;
@@ -100,7 +102,6 @@ public class AlienBehaviour : MonoBehaviour
             status.needsExtinguishing = true;
             fireParticles.Play();
             reward += 100;
-            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
 
         if (random.NextDouble() < 0.4)
@@ -215,6 +216,8 @@ public class AlienBehaviour : MonoBehaviour
     // Function to delete the alien object
     void Delete()
     {
+        alienVoice.SayLine("You failed me!");
+
         gameManager.PatientDied(index);
         Destroy(gameObject);
     }
@@ -251,16 +254,23 @@ public class AlienBehaviour : MonoBehaviour
     public void shrapnelRemoved()
     {
         status.shrapnelRemoved();
-        Debug.Log("Removed " + status.shrapnelCount);
-        if (status.isHealthy())
-        {
-            Cure();
+
+        if(status.shrapnelCount == 0){
+            if (status.isHealthy())
+            {
+                Cure();
+            }else{
+                if (Time.time - lastVoiceTime >= voiceCooldownTime)
+                {
+                    alienVoice.SayLine("Thanks for removing the shrapnel");
+                    lastVoiceTime = Time.time; // Update the time the voice line was last played
+                }
+            }
         }
     }
 
     public void shrapnelInserted()
     {
-        Debug.Log("INSERTED");
         status.shrapnelInserted();
     }
 
@@ -271,12 +281,27 @@ public class AlienBehaviour : MonoBehaviour
     // Function called when alien is cured
     public void Cure()
     {
+        alienVoice.SayLine("Ah... Nuch better");
+
         if (isCured)
         {
             return; // Prevent curing the same alien multiple times
         }
         isCured = true;
         gameManager.PatientCured(index, reward);
+
+        Debug.Log("Spawn coins");
+
+        if (coinParticlePrefab != null)
+        {
+            Vector3 spawnPosition = transform.position + new Vector3(0f, 0.5f, 0f);
+            // Instantiate the particle system at the current position and with the current rotation
+            GameObject newObject = Instantiate(coinParticlePrefab, spawnPosition, Quaternion.Euler(-90f, 0f, 0f));
+            CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
+            theCoins.SetRate(12);
+
+        }
+
         Destroy(gameObject);
     }
 
@@ -306,12 +331,13 @@ public class AlienBehaviour : MonoBehaviour
         {
             if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)
             {
-                Debug.Log("CURED BY FOAM");
                 status.needsExtinguishing = false;
                 fireParticles.Stop();
                 if (status.isHealthy())
                 {
                     Cure();
+                }else{
+                    alienVoice.SayLine("the fire was put out");
                 }
             }
         }
@@ -332,6 +358,7 @@ public class AlienBehaviour : MonoBehaviour
                 else
                 {
                     sweatParticles.Stop();
+                    alienVoice.SayLine("I really needed that injection!");  
                 }
 
             }
