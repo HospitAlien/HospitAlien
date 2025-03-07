@@ -31,7 +31,7 @@ public class PizzaScript : MonoBehaviour
             // Instantiate the particle system at the current position and with the current rotation
             GameObject newObject = Instantiate(coinParticlePrefab, transform.position, Quaternion.Euler(-90f, 0f, 0f));
             CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
-            theCoins.SetRate(12);
+            theCoins.SetRate(3);
 
             Debug.Log("Coins spawned");
         }

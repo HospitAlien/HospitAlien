@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e24fd9206154f2e47bf34482df825ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinParticlePrefab: {fileID: 8789034786812375928, guid: e7e3fa7811d5a964f868c145a88fc11e, type: 3}
 --- !u!33 &4048774519570721958 stripped
 MeshFilter:
   m_CorrespondingSourceObject: {fileID: 1926771475393040843, guid: a0b23faf4dc5ee6479ccc60e7e9a99bf, type: 3}

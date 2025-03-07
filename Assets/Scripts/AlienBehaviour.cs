@@ -98,7 +98,6 @@ public class AlienBehaviour : MonoBehaviour
             status.needsExtinguishing = true;
             fireParticles.Play();
             reward += 100;
-            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
 
         if (random.NextDouble() < 0.4)
@@ -226,7 +225,6 @@ public class AlienBehaviour : MonoBehaviour
     public void shrapnelRemoved()
     {
         status.shrapnelRemoved();
-        Debug.Log("Removed " + status.shrapnelCount);
 
         if(status.shrapnelCount == 0){
             if (status.isHealthy())
@@ -244,7 +242,6 @@ public class AlienBehaviour : MonoBehaviour
 
     public void shrapnelInserted()
     {
-        Debug.Log("INSERTED");
         status.shrapnelInserted();
     }
 
@@ -274,7 +271,6 @@ public class AlienBehaviour : MonoBehaviour
             CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
             theCoins.SetRate(12);
 
-            Debug.Log("Coins spawned");
         }
 
         Destroy(gameObject);
@@ -306,7 +302,6 @@ public class AlienBehaviour : MonoBehaviour
         {
             if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)
             {
-                Debug.Log("CURED BY FOAM");
                 status.needsExtinguishing = false;
                 fireParticles.Stop();
                 if (status.isHealthy())
