@@ -11,10 +11,12 @@ struct Status
     public bool needsExtinguishing;
     public bool hasShrapnel;
     public int shrapnelCount;
+    public int curSize;
+
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0);
     }
 
     public string getIllness()
@@ -110,6 +112,11 @@ public class AlienBehaviour : MonoBehaviour
             reward += 100;
             status.hasShrapnel = true;
             initiateShrapnel();
+        }
+
+        if(true){ //shrink
+            status.curSize = -1;
+            transform.localScale /= 2f;
         }
 
 
@@ -367,6 +374,23 @@ public class AlienBehaviour : MonoBehaviour
                 Delete();
             }
         }
+    }
+
+    void EnlargementPilled(){
+
+        if(status.curSize == -1){
+            status.curSize+=1;
+            transform.localScale *= 2;
+        }
+
+
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+
     }
 
 
