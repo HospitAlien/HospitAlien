@@ -1284,7 +1284,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"845c59f1023d04d249269ff0906fa0b2\",\"type\":3}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -1771,8 +1771,8 @@
     "m_ObjectId": "5980233a4b0e4db1b578609f755931e5",
     "m_Title": "Edge Color",
     "m_Position": {
-        "x": -1443.333251953125,
-        "y": 83.33331298828125
+        "x": -1443.3333740234375,
+        "y": 83.33334350585938
     }
 }
 
@@ -2552,7 +2552,7 @@
     "m_Title": "Noise Selection",
     "m_Position": {
         "x": -3559.333251953125,
-        "y": -773.3333129882813
+        "y": -773.333251953125
     }
 }
 
@@ -2683,7 +2683,7 @@
     "m_Title": "Directional Dissolve",
     "m_Position": {
         "x": -2757.333251953125,
-        "y": 416.66668701171877
+        "y": 416.66656494140627
     }
 }
 
