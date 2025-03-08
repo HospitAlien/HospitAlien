@@ -560,7 +560,7 @@ Transform:
   m_GameObject: {fileID: 4562658360604749281}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.75, y: 0.76, z: 5.6}
+  m_LocalPosition: {x: -0.3447714, y: 0.77110034, z: 5.9188156}
   m_LocalScale: {x: 36.080933, y: 32.05881, z: 42.86699}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -648,7 +648,7 @@ MonoBehaviour:
   dissolveDuration: 2
   startCutoff: -2
   endCutoff: 2
-  dissolveShader: {fileID: -6465566751694194690, guid: aeae83a8afb73eb40adffb298b4db03d, type: 3}
+  dissolveShader: {fileID: -6465566751694194690, guid: 5b480cdf1a2e53a4486a90fecae7d48d, type: 3}
 --- !u!1 &7685981689484577720
 GameObject:
   m_ObjectHideFlags: 0
