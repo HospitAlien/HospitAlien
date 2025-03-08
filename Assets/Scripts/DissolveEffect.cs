@@ -43,6 +43,19 @@ public class DissolveEffect : MonoBehaviour
                 Debug.Log("No dissolve shader assigned!");
             }
 
+            // Copy the _BaseMap texture if available.
+            if (originalMatInstance.HasProperty("_BaseMap") && newDissolveMat.HasProperty("_BaseMap"))
+            {
+                Texture originalTexture = originalMatInstance.GetTexture("_BaseMap");
+                newDissolveMat.SetTexture("_BaseMap", originalTexture);
+            }
+            // Copy the _BaseColor if available.
+            if (originalMatInstance.HasProperty("_BaseColor") && newDissolveMat.HasProperty("_BaseColor"))
+            {
+                Color originalColor = originalMatInstance.GetColor("_BaseColor");
+                newDissolveMat.SetColor("_BaseColor", originalColor);
+            }
+
             // assign the new material back to the renderer
             renderers[i].material = newDissolveMat;
 

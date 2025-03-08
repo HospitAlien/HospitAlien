@@ -1274,7 +1274,7 @@
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "Base Texture",
     "m_DefaultReferenceName": "_Base_Texture",
-    "m_OverrideReferenceName": "_BaseMap",
+    "m_OverrideReferenceName": "_MainTex",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",
@@ -1771,8 +1771,8 @@
     "m_ObjectId": "5980233a4b0e4db1b578609f755931e5",
     "m_Title": "Edge Color",
     "m_Position": {
-        "x": -1443.3333740234375,
-        "y": 83.33334350585938
+        "x": -1443.000244140625,
+        "y": 83.0001220703125
     }
 }
 
@@ -2551,8 +2551,8 @@
     "m_ObjectId": "993e657e3fa8429d97278306860a9482",
     "m_Title": "Noise Selection",
     "m_Position": {
-        "x": -3559.333251953125,
-        "y": -773.333251953125
+        "x": -3559.0,
+        "y": -773.9999389648438
     }
 }
 
@@ -2682,8 +2682,8 @@
     "m_ObjectId": "a7017ddb4a4e4eb7b6434460b6e65acf",
     "m_Title": "Directional Dissolve",
     "m_Position": {
-        "x": -2757.333251953125,
-        "y": 416.66656494140627
+        "x": -2757.0,
+        "y": 416.0
     }
 }
 
