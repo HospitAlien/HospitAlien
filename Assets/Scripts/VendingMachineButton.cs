@@ -7,16 +7,17 @@ public class VendingButton : MonoBehaviour
     // Offset relative to the parent (vending machine) position
     public Vector3 spawnOffset = new Vector3(0f, 0f, 2.4f);
 
-    void Start(){}
+    void Start() { }
 
-    private void OnTriggerEnter(){
+    private void OnTriggerEnter()
+    {
         SpawnSyringe();
     }
 
 
     void SpawnSyringe()
     {
-        Vector3 spawnPosition = transform.parent.position + spawnOffset;
+        Vector3 spawnPosition = transform.parent.Find("TableLight").position + spawnOffset;
 
         Instantiate(syringePrefab, spawnPosition, transform.parent.rotation);
         Debug.Log("Syringe spawned at: " + spawnPosition);
