@@ -114,9 +114,14 @@ public class AlienBehaviour : MonoBehaviour
             initiateShrapnel();
         }
 
-        if(true){ //shrink
-            status.curSize = -1;
-            transform.localScale /= 2f;
+        // if(true){ //shrink
+        //     status.curSize = -1;
+        //     transform.localScale /= 2f;
+        // }
+
+        if(true){ //enlargement
+            status.curSize = 1;
+            transform.localScale *= 1.4f;
         }
 
 
@@ -381,6 +386,21 @@ public class AlienBehaviour : MonoBehaviour
         if(status.curSize == -1){
             status.curSize+=1;
             StartCoroutine(ScaleOverTime(2f, 0.5f));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+    void ShrinkPilled(){
+
+        if(status.curSize == 1){
+            status.curSize-=1;
+            //transform.localScale /= 1.4f;
+            StartCoroutine(ScaleOverTime((1/(1.4f)), 0.5f));
         }
 
         if(status.curSize == 0){
