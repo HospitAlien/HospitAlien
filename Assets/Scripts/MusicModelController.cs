@@ -4,40 +4,61 @@ using Unity.Barracuda;
 public class MusicModelController : MonoBehaviour
 {
     public NNModel musicModelAsset;
-
     private Model runtimeModel;
     private IWorker worker;
 
-    // Initialise the model
+    // Input normalization parameters (from your training scaler for inputs)
+    // Input Mean: [3.535, 15.237, 621.12627065]
+    // Input Std:  [1.71836405, 8.87923595, 360.16064903]
+    public Vector3 inputMean = new Vector3(3.535f, 15.237f, 621.12627065f);
+    public Vector3 inputStd  = new Vector3(1.71836405f, 8.87923595f, 360.16064903f);
+
+    // Output inverse transformation parameters (from your training scaler for outputs)
+    // Output Mean: [0.513, 170.24190998, 0.84639]
+    // Output Std:  [0.49983097, 17.42446607, 0.11485238]
+    public Vector3 outputMean = new Vector3(0.513f, 170.24191f, 0.84639f);
+    public Vector3 outputStd  = new Vector3(0.49983097f, 17.42447f, 0.11485238f);
+
     void Start()
     {
         runtimeModel = ModelLoader.Load(musicModelAsset);
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.Auto, runtimeModel);
     }
 
-    // Evaluate the model using the 3 input parameters: numPatients, totalInjuries, totalTimeLeft
+    // Evaluate the model using 3 input parameters: numPatients, totalInjuries, totalTimeLeft.
+    // This method first normalizes the raw inputs, executes the model,
+    // and then applies the inverse transformation to the outputs.
     public float[] EvaluateModel(float numPatients, float totalInjuries, float totalTimeLeft)
     {
-        // Create a 1x3 input tensor
-        Tensor inputTensor = new Tensor(1, 3);
-        inputTensor[0, 0] = numPatients;
-        inputTensor[0, 1] = totalInjuries;
-        inputTensor[0, 2] = totalTimeLeft;
+        // Normalize inputs:
+        float normPatients = (numPatients - inputMean.x) / inputStd.x;
+        float normInjuries = (totalInjuries - inputMean.y) / inputStd.y;
+        float normTimeLeft = (totalTimeLeft - inputMean.z) / inputStd.z;
 
-        // Execute the model
+        // Create a 1x3 input tensor with normalized values.
+        Tensor inputTensor = new Tensor(1, 3);
+        inputTensor[0, 0] = normPatients;
+        inputTensor[0, 1] = normInjuries;
+        inputTensor[0, 2] = normTimeLeft;
+
+        // Execute the model.
         worker.Execute(inputTensor);
 
-        // Get the output from the "output" layer (our exported model's output name)
+        // Retrieve the raw outputs from the "output" layer.
         Tensor outputTensor = worker.PeekOutput("output");
-
-        // The model outputs 3 values: musicTrack, tempo, volume
         float[] modelOutput = new float[3];
         for (int i = 0; i < 3; i++)
         {
             modelOutput[i] = outputTensor[0, i];
         }
 
-        // Dispose tensors to free resources
+        // Apply inverse transformation to each output:
+        // realValue = (normalizedValue * std) + mean
+        modelOutput[0] = modelOutput[0] * outputStd.x + outputMean.x; // musicTrack
+        modelOutput[1] = modelOutput[1] * outputStd.y + outputMean.y; // tempo
+        modelOutput[2] = modelOutput[2] * outputStd.z + outputMean.z; // volume
+
+        // Dispose tensors to free resources.
         inputTensor.Dispose();
         outputTensor.Dispose();
 
@@ -46,7 +67,6 @@ public class MusicModelController : MonoBehaviour
 
     void OnDestroy()
     {
-        // Clean up the Barracuda worker when the object is destroyed
         worker?.Dispose();
     }
 }

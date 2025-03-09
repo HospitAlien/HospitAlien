@@ -674,6 +674,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicModelAsset: {fileID: 5022602860645237092, guid: cf56bfa55a4fa504fa3051b9da200e32, type: 3}
+  inputMean: {x: 3.535, y: 15.237, z: 621.1263}
+  inputStd: {x: 1.718364, y: 8.879236, z: 360.16064}
+  outputMean: {x: 0.513, y: 170.24191, z: 0.84639}
+  outputStd: {x: 0.49983096, y: 17.42447, z: 0.11485238}
 --- !u!4 &111785000
 Transform:
   m_ObjectHideFlags: 0

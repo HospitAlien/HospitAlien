@@ -19,6 +19,7 @@ public class MusicManager : MonoBehaviour
         float numberOfPatients = gameManager.GetNumberOfPatients();
         float totalInjuries = gameManager.GetTotalInjuries();
         float totalTimeLeft = gameManager.GetTotalTimeLeft();
+        Debug.Log($"num patients: {numberOfPatients}, total injuries {totalInjuries}, totaltimeleft: {totalTimeLeft}");
         
         // Evaluate the neural network model with these parameters.
         // The model should output three values:
@@ -26,7 +27,8 @@ public class MusicManager : MonoBehaviour
         //   - outputs[1]: The tempo (in BPM, e.g., between 60 and 200)
         //   - outputs[2]: The overall volume (0 to 1)
         float[] outputs = modelController.EvaluateModel(numberOfPatients, totalInjuries, totalTimeLeft);
-        
+        Debug.Log($"Model Outputs -> Decision: {outputs[0]}, Tempo: {outputs[1]}, Volume: {outputs[2]}");
+
         float musicTrackDecision = outputs[0];
         float tempo = outputs[1];
         float volume = outputs[2];
@@ -40,6 +42,8 @@ public class MusicManager : MonoBehaviour
             }
             intenseTrack.pitch = tempo / baseBPM;
             intenseTrack.volume = volume;
+            Debug.Log($"Intense Track - Pitch: {intenseTrack.pitch}, Volume: {intenseTrack.volume}");
+
         }
         else
         {
@@ -50,6 +54,8 @@ public class MusicManager : MonoBehaviour
             }
             calmTrack.pitch = tempo / baseBPM;
             calmTrack.volume = volume;
+            Debug.Log($"Calm Track - Pitch: {calmTrack.pitch}, Volume: {calmTrack.volume}");
+
         }
     }
 }

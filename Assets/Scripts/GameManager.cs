@@ -75,8 +75,8 @@ public class GameManager : MonoBehaviour
         EventCanvas.SetActive(false);
 
         // Start the game manually for debug, comment this line in production
-        // StartCoroutine(SpawnPatients());
-        // StartCoroutine(eventRoutine());
+        StartCoroutine(SpawnPatients());
+        StartCoroutine(eventRoutine());
     }
 
 
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         {
             //we first want to find out what event is going to happen 
             System.Random random = new System.Random();
-            int newEvent = random.Next(1, 1);
+            int newEvent = random.Next(0, 2);
 
             //need to find the time before the next event, should happen every 2/3 minutes
             int waitTime = random.Next(120, 180);
@@ -297,7 +297,7 @@ public class GameManager : MonoBehaviour
         var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
         foreach (AlienBehaviour alien in aliens)
         {
-            total += Mathf.Pow(60 - alien.GetRemainingTime(), 1.3f);
+            total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
         }
         return total;
     }
