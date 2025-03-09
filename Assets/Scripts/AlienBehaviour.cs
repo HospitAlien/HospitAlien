@@ -73,6 +73,9 @@ public class AlienBehaviour : MonoBehaviour
     public Transform bodyTransform; //used to find the body 
     public GameObject coinParticlePrefab;
 
+    public AudioSource growthSFX;
+    public AudioSource shrinkSFX;
+
     private float lastVoiceTime = -Mathf.Infinity;
     private float voiceCooldownTime = 3f;
 
@@ -187,6 +190,7 @@ public class AlienBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (target != null)
         {
 
@@ -297,7 +301,7 @@ public class AlienBehaviour : MonoBehaviour
     // Function called when alien is cured
     public void Cure()
     {
-        alienVoice.SayLine("Ah... Nuch better");
+        alienVoice.SayLine("Ah... Much better");
 
         if (isCured)
         {
@@ -389,9 +393,11 @@ public class AlienBehaviour : MonoBehaviour
 
         if(status.curSize == -1){
             status.curSize+=1;
+            growthSFX.Play();
             StartCoroutine(ScaleOverTime(2f, 0.5f));
         }else if(status.curSize == 0){
             status.curSize+=1;
+            growthSFX.Play();
             StartCoroutine(ScaleOverTime(1.4f, 0.5f));
         }
 
@@ -406,10 +412,11 @@ public class AlienBehaviour : MonoBehaviour
 
         if(status.curSize == 1){
             status.curSize-=1;
-            //transform.localScale /= 1.4f;
+            shrinkSFX.Play();
             StartCoroutine(ScaleOverTime((1/(1.4f)), 0.5f));
         }else if(status.curSize == 0){
             status.curSize-=1;
+            shrinkSFX.Play();
             StartCoroutine(ScaleOverTime(0.5f, 0.5f));
         }
 

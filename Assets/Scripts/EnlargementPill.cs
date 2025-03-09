@@ -5,7 +5,6 @@ public class EnlargementPill : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -21,7 +20,6 @@ public class EnlargementPill : MonoBehaviour
             collision.gameObject.SendMessage("EnlargementPilled");
             Destroy(gameObject);
         }
-    
     }
 
 }
