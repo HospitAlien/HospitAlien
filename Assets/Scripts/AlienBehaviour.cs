@@ -255,6 +255,7 @@ public class AlienBehaviour : MonoBehaviour
         }
     }
 
+    //Add a child to hold colliders to detect axe hits
     private void initiateAmputation()
     {
         // Create a new GameObject to detect axe hits
@@ -266,8 +267,48 @@ public class AlienBehaviour : MonoBehaviour
         ChangeLeftHandMaterial();
     }
 
+    //Called when enough axe hits are delivered, amputates the arm and updates status
+    public void Amputate()
+    {
+        Transform leftHandTransform = transform.Find("hands/left_hand");
+        if (leftHandTransform != null)
+        {
+            //Give arm gravity
+            Rigidbody rb = leftHandTransform.gameObject.AddComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.isKinematic = false;
 
-    private void initiateShrapnel()
+            //Detach
+            leftHandTransform.parent = null;
+
+            //Update status
+            status.needsAmputation = false;
+
+            if (status.isHealthy())
+            {
+                Cure();
+            }
+            else
+            {
+                if (Time.time - lastVoiceTime >= voiceCooldownTime)
+                {
+                    alienVoice.SayLine("Thanks for cutting it off!");
+                    lastVoiceTime = Time.time; // Update the time the voice line was last played
+                }
+            }
+
+            //Despawn hand in 10s. Could be changed so that players have to bin the arm.
+            Destroy(leftHandTransform.gameObject, 10f);
+        }
+        else
+        {
+            Debug.LogError("left_hand not found under hands");
+        }
+
+    }
+
+
+        private void initiateShrapnel()
     {
         int count = 0;
         while (count < 4)

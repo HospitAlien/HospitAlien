@@ -2,9 +2,16 @@ using UnityEngine;
 
 public class AmputationBehaviour : MonoBehaviour
 {
+    private AlienBehaviour alienBehaviour;
+    private int hitCount = 0;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        alienBehaviour = GetComponentInParent<AlienBehaviour>();
+        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
         CreateCollider();
     }
 
@@ -12,6 +19,21 @@ public class AmputationBehaviour : MonoBehaviour
     void Update()
     {
         
+    }
+
+    // Counts up hits.
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Axe"))
+        {
+        hitCount++;
+        Debug.Log("Hit by axe: " + hitCount);
+
+        if (hitCount >= 5)
+        {
+            alienBehaviour.Amputate();
+        }
+        }
     }
 
     public void CreateCollider()
