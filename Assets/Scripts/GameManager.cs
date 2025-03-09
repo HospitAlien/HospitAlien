@@ -270,4 +270,35 @@ public class GameManager : MonoBehaviour
     }
 
 
+
+
+    //exposing stuff to music manager
+     public int GetNumberOfPatients()
+    {
+        return currentPatientCount;
+    }
+
+    // Returns the total number of injuries by summing each active alien's injury count.
+    public int GetTotalInjuries()
+    {
+        int total = 0;
+        var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
+        foreach (AlienBehaviour alien in aliens)
+        {
+            total += alien.GetInjuryCount();
+        }
+        return total;
+    }
+
+    // Returns the total remaining time from all active aliens.
+    public float GetTotalTimeLeft()
+    {
+        float total = 0f;
+        var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
+        foreach (AlienBehaviour alien in aliens)
+        {
+            total += Mathf.Pow(60 - alien.GetRemainingTime(), 1.3f);
+        }
+        return total;
+    }
 }
