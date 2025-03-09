@@ -11,10 +11,12 @@ struct Status
     public bool needsExtinguishing;
     public bool hasShrapnel;
     public int shrapnelCount;
+    public int curSize;
+
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0);
     }
 
     public string getIllness()
@@ -71,6 +73,9 @@ public class AlienBehaviour : MonoBehaviour
     public Transform bodyTransform; //used to find the body 
     public GameObject coinParticlePrefab;
 
+    public AudioSource growthSFX;
+    public AudioSource shrinkSFX;
+
     private float lastVoiceTime = -Mathf.Infinity;
     private float voiceCooldownTime = 3f;
 
@@ -111,6 +116,20 @@ public class AlienBehaviour : MonoBehaviour
             status.hasShrapnel = true;
             initiateShrapnel();
         }
+
+        if(random.NextDouble() < 0.4){
+
+            if(random.NextDouble() < 0.5){ //shrink
+                status.curSize = -1;
+                transform.localScale /= 2f;
+            }else{ //enlargement
+                status.curSize = 1;
+                transform.localScale *= 1.4f;
+            }
+
+        }
+
+
 
 
     }
@@ -171,6 +190,7 @@ public class AlienBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (target != null)
         {
 
@@ -281,7 +301,7 @@ public class AlienBehaviour : MonoBehaviour
     // Function called when alien is cured
     public void Cure()
     {
-        alienVoice.SayLine("Ah... Nuch better");
+        alienVoice.SayLine("Ah... Much better");
 
         if (isCured)
         {
@@ -368,6 +388,66 @@ public class AlienBehaviour : MonoBehaviour
             }
         }
     }
+
+    void EnlargementPilled(){
+
+        if(status.curSize == -1){
+            status.curSize+=1;
+            growthSFX.Play();
+            StartCoroutine(ScaleOverTime(2f, 0.5f));
+        }else if(status.curSize == 0){
+            status.curSize+=1;
+            growthSFX.Play();
+            StartCoroutine(ScaleOverTime(1.4f, 0.5f));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+    void ShrinkPilled(){
+
+        if(status.curSize == 1){
+            status.curSize-=1;
+            shrinkSFX.Play();
+            StartCoroutine(ScaleOverTime((1/(1.4f)), 0.5f));
+        }else if(status.curSize == 0){
+            status.curSize-=1;
+            shrinkSFX.Play();
+            StartCoroutine(ScaleOverTime(0.5f, 0.5f));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+
+    IEnumerator ScaleOverTime(float targetMultiplier, float duration)
+    {
+        Vector3 initialScale = transform.localScale;
+        Vector3 targetScale = initialScale * targetMultiplier;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final scale is exactly the target
+        transform.localScale = targetScale;
+    }
+
+
+
+
 
 
     public void SetTarget(Transform newTarget)
