@@ -114,15 +114,19 @@ public class AlienBehaviour : MonoBehaviour
             initiateShrapnel();
         }
 
-        // if(true){ //shrink
-        //     status.curSize = -1;
-        //     transform.localScale /= 2f;
-        // }
+        if(random.NextDouble() < 0.4){
 
-        if(true){ //enlargement
-            status.curSize = 1;
-            transform.localScale *= 1.4f;
+            if(random.NextDouble() < 0.5){ //shrink
+                status.curSize = -1;
+                transform.localScale /= 2f;
+            }else{ //enlargement
+                status.curSize = 1;
+                transform.localScale *= 1.4f;
+            }
+
         }
+
+
 
 
     }
@@ -386,6 +390,9 @@ public class AlienBehaviour : MonoBehaviour
         if(status.curSize == -1){
             status.curSize+=1;
             StartCoroutine(ScaleOverTime(2f, 0.5f));
+        }else if(status.curSize == 0){
+            status.curSize+=1;
+            StartCoroutine(ScaleOverTime(1.4f, 0.5f));
         }
 
         if(status.curSize == 0){
@@ -401,6 +408,9 @@ public class AlienBehaviour : MonoBehaviour
             status.curSize-=1;
             //transform.localScale /= 1.4f;
             StartCoroutine(ScaleOverTime((1/(1.4f)), 0.5f));
+        }else if(status.curSize == 0){
+            status.curSize-=1;
+            StartCoroutine(ScaleOverTime(0.5f, 0.5f));
         }
 
         if(status.curSize == 0){
