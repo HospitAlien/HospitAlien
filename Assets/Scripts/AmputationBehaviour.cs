@@ -18,8 +18,8 @@ public class AmputationBehaviour : MonoBehaviour
     {
         // Create the first BoxCollider with a specific center
         BoxCollider collider = gameObject.AddComponent<BoxCollider>();
-        collider.center = new Vector3(-0.38f, 1.23f, -0.01f);
-        collider.size = new Vector3(0.13f, 0.2f, 0.23f);
+        collider.center = new Vector3(-0.62f, 0.81f, -0.04f);
+        collider.size = new Vector3(0.22f, 0.08f, 0.23f);
     }
 
 }
