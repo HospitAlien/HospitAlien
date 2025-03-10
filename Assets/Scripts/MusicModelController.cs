@@ -8,16 +8,16 @@ public class MusicModelController : MonoBehaviour
     private IWorker worker;
 
     // Input normalization parameters (from your training scaler for inputs)
-    // Input Mean: [3.47, 15.296, 617.46335079]
-    // Input Std:  [1.74272775, 8.83155615, 363.25787182]
-    public Vector3 inputMean = new Vector3(3.47f, 15.296f, 617.46335079f);
-    public Vector3 inputStd  = new Vector3(1.74272775f, 8.83155615f, 363.25787182f);
+    // Input Mean: [3.445, 15.247, 621.40217027]
+    // Input Std:  [1.71200905, 8.92849321, 359.8968479]
+    public Vector3 inputMean = new Vector3(3.445f, 15.247f, 621.40217027f);
+    public Vector3 inputStd  = new Vector3(1.71200905f, 8.92849321f, 359.8968479f);
 
     // Output inverse transformation parameters (from your training scaler for outputs)
-    // Output Mean: [0.512, 130.07831994, 0.84223]
-    // Output Std:  [0.49985598, 20.42676928, 0.11949614]
-    public Vector3 outputMean = new Vector3(0.512f, 130.07831994f, 0.84223f);
-    public Vector3 outputStd  = new Vector3(0.49985598f, 20.42676928f, 0.11949614f);
+    // Output Mean: [0.498, 107.29541003, 0.84068]
+    // Output Std:  [0.499996, 11.52709076, 0.11822833]
+    public Vector3 outputMean = new Vector3(0.498f, 107.29541003f, 0.84068f);
+    public Vector3 outputStd  = new Vector3(0.499996f, 11.52709076f, 0.11822833f);
 
     void Start()
     {
@@ -26,8 +26,7 @@ public class MusicModelController : MonoBehaviour
     }
 
     // Evaluate the model using 3 input parameters: numPatients, totalInjuries, totalTimeLeft.
-    // This method normalizes the raw inputs, executes the model,
-    // and then applies the inverse transformation to the outputs.
+    // The method normalizes the inputs, runs the model, then applies the inverse transformation to the outputs.
     public float[] EvaluateModel(float numPatients, float totalInjuries, float totalTimeLeft)
     {
         // Normalize inputs:
