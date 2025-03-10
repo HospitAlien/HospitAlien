@@ -104,6 +104,8 @@ public class ShrapnelBehaviour : MonoBehaviour
                 alien.shrapnelInserted();
                 insideAlien = true;
 
+                transform.SetParent(collider.transform.parent);
+
 
                 if (destroyCoroutine != null)
                 {

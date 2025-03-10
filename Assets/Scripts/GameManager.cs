@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,19 +10,21 @@ public class GameManager : MonoBehaviour
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
-    private bool[] spotOccupied;
     public GameObject patientPrefab;
-    private Transform[] spawnLocations;
+    public GameObject pizzaPrefab;
     public Transform AlienSpawnPoint;
+    public GameObject EventCanvas;
+    private EventTextController eventTextController;
+    public TextMeshPro scoreText;
     // private bool _gamePlaying = false;
 
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
+
+
+    private Transform[] spawnLocations;
     private int eventState = 0;
-    public GameObject pizzaPrefab;
-
-
-    public TextMeshPro scoreText;
+    private bool[] spotOccupied;
     private string scoreString = "Money: £%0";
 
     //I want to have
@@ -60,13 +63,16 @@ public class GameManager : MonoBehaviour
         spawnLocations[2].position = new Vector3(2, 2, 2);  // Position 3
 
         spawnLocations[3] = new GameObject("SpawnPoint4").transform;
-        spawnLocations[3].position = new Vector3(-2, 2, -2);  // Position 4
+        spawnLocations[3].position = new Vector3(0, 2, -2);  // Position 4
 
         spawnLocations[4] = new GameObject("SpawnPoint5").transform;
-        spawnLocations[4].position = new Vector3(-2, 2, 0);  // Position 5
+        spawnLocations[4].position = new Vector3(0, 2, 2);  // Position 5
 
         spawnLocations[5] = new GameObject("SpawnPoint6").transform;
         spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
+
+        eventTextController = EventCanvas.GetComponent<EventTextController>();
+        EventCanvas.SetActive(false);
 
         // Start the game manually for debug, comment this line in production
         // StartCoroutine(SpawnPatients());
@@ -127,6 +133,10 @@ public class GameManager : MonoBehaviour
         List<GameObject> spawnedPizzas = new List<GameObject>();
         System.Random random = new System.Random();
 
+        eventTextController.SetEventText("Lunch Time! Grab And Eat Pizza!");
+        eventTextController.SetEventColor(Color.yellow);
+        EventCanvas.SetActive(true);
+
         //the pizza event is on for 30s It spawns pizza throughout the room this can be eaten by the doctor to earn coins
         float pizzaEventDuration = 30f;
         float timeElapsed = 0f;
@@ -151,7 +161,7 @@ public class GameManager : MonoBehaviour
             timeElapsed += 0.4f;
         }
 
-
+        EventCanvas.SetActive(false);
         //once the loop ends we need to delete all the pizzas
         foreach (GameObject pizza in spawnedPizzas)
         {

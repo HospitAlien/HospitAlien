@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 
@@ -10,12 +11,12 @@ struct Status
     public bool needsExtinguishing;
     public bool hasShrapnel;
     public int shrapnelCount;
-
+    public int curSize;
 
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0);
     }
 
     public string getIllness()
@@ -55,7 +56,7 @@ public class AlienBehaviour : MonoBehaviour
     public Transform target;
 
     private int index;
-    private Vector3 targetLocation;
+    public Vector3 targetLocation;
 
     private float timer = 60;  // Start with a 60-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
@@ -70,10 +71,20 @@ public class AlienBehaviour : MonoBehaviour
     public ParticleSystem fireParticles;
     public GameObject shrapnel;
     public Transform bodyTransform; //used to find the body 
+    public GameObject coinParticlePrefab;
+
+    public AudioSource growthSFX;
+    public AudioSource shrinkSFX;
+
+    private float lastVoiceTime = -Mathf.Infinity;
+    private float voiceCooldownTime = 3f;
 
     private Status status;
     private AlienVoice alienVoice;
     private int reward = 0;
+
+    private Dictionary<Vector3, (Vector3, Quaternion)> beds
+        = new Dictionary<Vector3, (Vector3, Quaternion)>();
 
     public string getVoiceLine()
     {
@@ -96,7 +107,6 @@ public class AlienBehaviour : MonoBehaviour
             status.needsExtinguishing = true;
             fireParticles.Play();
             reward += 100;
-            Debug.Log("fire alien spawn"); //TODO there is a bug with water + fire aliens for tomorrow!!!
         }
 
         if (random.NextDouble() < 0.4)
@@ -106,6 +116,20 @@ public class AlienBehaviour : MonoBehaviour
             status.hasShrapnel = true;
             initiateShrapnel();
         }
+
+        if(random.NextDouble() < 0.4){
+
+            if(random.NextDouble() < 0.5){ //shrink
+                status.curSize = -1;
+                transform.localScale /= 2f;
+            }else{ //enlargement
+                status.curSize = 1;
+                transform.localScale *= 1.4f;
+            }
+
+        }
+
+
 
 
     }
@@ -130,6 +154,19 @@ public class AlienBehaviour : MonoBehaviour
             InitiateStatus();
         }
         InitiateTimer();
+
+        beds[new Vector3(-2f, 2f, 2)] = (new Vector3(-2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(0f, 2f, 2f)] = (new Vector3(0, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(2f, 2f, 2f)] = (new Vector3(2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(2f, 2f, 0f)] = (new Vector3(3.6f, 1, -1), Quaternion.Euler(-90, 180, 0));
+        beds[new Vector3(2f, 2f, -2f)] = (new Vector3(2, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
+        beds[new Vector3(0f, 2f, -2f)] = (new Vector3(0, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
+
+
+
+
+
+
     }
 
     void InitiateTimer()
@@ -153,6 +190,7 @@ public class AlienBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (target != null)
         {
 
@@ -160,7 +198,19 @@ public class AlienBehaviour : MonoBehaviour
             // Check if the agent has reached the destination
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
+                //Move the alien to bed and disable path-finding
+                agent.Warp(beds[target.position].Item1);
+                agent.enabled = false;
+                transform.rotation = beds[target.position].Item2;
+                target = null;
                 isReady = true;
+                //Reposition timer so it's not on the floor (it's rotated alongside the alien")
+                Transform timerText = transform.Find("TimerText");
+                if (timerText != null)
+                {
+                    timerText.localPosition = new Vector3(0f, 0.15f, 0.06f);
+                    timerText.localRotation = Quaternion.Euler(-90f, 180f, 0f);
+                }
             }
             else
             {
@@ -186,6 +236,8 @@ public class AlienBehaviour : MonoBehaviour
     // Function to delete the alien object
     void Delete()
     {
+        alienVoice.SayLine("You failed me!");
+
         gameManager.PatientDied(index);
         Destroy(gameObject);
     }
@@ -222,16 +274,23 @@ public class AlienBehaviour : MonoBehaviour
     public void shrapnelRemoved()
     {
         status.shrapnelRemoved();
-        Debug.Log("Removed " + status.shrapnelCount);
-        if (status.isHealthy())
-        {
-            Cure();
+
+        if(status.shrapnelCount == 0){
+            if (status.isHealthy())
+            {
+                Cure();
+            }else{
+                if (Time.time - lastVoiceTime >= voiceCooldownTime)
+                {
+                    alienVoice.SayLine("Thanks for removing the shrapnel");
+                    lastVoiceTime = Time.time; // Update the time the voice line was last played
+                }
+            }
         }
     }
 
     public void shrapnelInserted()
     {
-        Debug.Log("INSERTED");
         status.shrapnelInserted();
     }
 
@@ -242,12 +301,27 @@ public class AlienBehaviour : MonoBehaviour
     // Function called when alien is cured
     public void Cure()
     {
+        alienVoice.SayLine("Ah... Much better");
+
         if (isCured)
         {
             return; // Prevent curing the same alien multiple times
         }
         isCured = true;
         gameManager.PatientCured(index, reward);
+
+        Debug.Log("Spawn coins");
+
+        if (coinParticlePrefab != null)
+        {
+            Vector3 spawnPosition = transform.position + new Vector3(0f, 0.5f, 0f);
+            // Instantiate the particle system at the current position and with the current rotation
+            GameObject newObject = Instantiate(coinParticlePrefab, spawnPosition, Quaternion.Euler(-90f, 0f, 0f));
+            CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
+            theCoins.SetRate(12);
+
+        }
+
         Destroy(gameObject);
     }
 
@@ -277,12 +351,13 @@ public class AlienBehaviour : MonoBehaviour
         {
             if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)
             {
-                Debug.Log("CURED BY FOAM");
                 status.needsExtinguishing = false;
                 fireParticles.Stop();
                 if (status.isHealthy())
                 {
                     Cure();
+                }else{
+                    alienVoice.SayLine("the fire was put out");
                 }
             }
         }
@@ -303,6 +378,7 @@ public class AlienBehaviour : MonoBehaviour
                 else
                 {
                     sweatParticles.Stop();
+                    alienVoice.SayLine("I really needed that injection!");  
                 }
 
             }
@@ -312,6 +388,66 @@ public class AlienBehaviour : MonoBehaviour
             }
         }
     }
+
+    void EnlargementPilled(){
+
+        if(status.curSize == -1){
+            status.curSize+=1;
+            growthSFX.Play();
+            StartCoroutine(ScaleOverTime(2f, 0.5f));
+        }else if(status.curSize == 0){
+            status.curSize+=1;
+            growthSFX.Play();
+            StartCoroutine(ScaleOverTime(1.4f, 0.5f));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+    void ShrinkPilled(){
+
+        if(status.curSize == 1){
+            status.curSize-=1;
+            shrinkSFX.Play();
+            StartCoroutine(ScaleOverTime((1/(1.4f)), 0.5f));
+        }else if(status.curSize == 0){
+            status.curSize-=1;
+            shrinkSFX.Play();
+            StartCoroutine(ScaleOverTime(0.5f, 0.5f));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+
+    IEnumerator ScaleOverTime(float targetMultiplier, float duration)
+    {
+        Vector3 initialScale = transform.localScale;
+        Vector3 targetScale = initialScale * targetMultiplier;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final scale is exactly the target
+        transform.localScale = targetScale;
+    }
+
+
+
+
 
 
     public void SetTarget(Transform newTarget)

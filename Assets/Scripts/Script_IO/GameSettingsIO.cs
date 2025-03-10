@@ -13,11 +13,11 @@ public class GameSettingsIO : ScriptableObject
         None
     }
     [Header("Comfort Options")]
-    public comfortMode comfortModeOption = comfortMode.Vignette;
+    [SerializeField] private comfortMode comfortModeOption = comfortMode.Vignette;
 
     [Header("Vignette Strength")]
     [Tooltip("Range 0.0 - 50.0")]
-    public float vignetteStrength = 50.0f;
+    [SerializeField] private float vignetteStrength = 50.0f;
 
     public enum turnMode
     {
@@ -25,7 +25,7 @@ public class GameSettingsIO : ScriptableObject
         Snap
     }
     [Header("Turn mode")]
-    public turnMode turnModeOption = turnMode.Smooth;
+    [SerializeField] private turnMode turnModeOption = turnMode.Smooth;
 
     public enum moveMode
     {
@@ -34,7 +34,11 @@ public class GameSettingsIO : ScriptableObject
         walk
     }
     [Header("Movement Options")]
-    public moveMode moveModeOption = moveMode.teleport;
+    [SerializeField] private moveMode moveModeOption = moveMode.teleport;
+
+    [Header("Camera Height")]
+    [Tooltip("Range 0.6m(2ft) - 2.4m(8ft), the base line is 1.8m(6ft)")]
+    [SerializeField] private float cameraHeight = 1.8f;
 
 
     public comfortMode ComfortModeOption
@@ -43,7 +47,7 @@ public class GameSettingsIO : ScriptableObject
         set
         {
             comfortModeOption = value;
-            OnSettingChanged?.Invoke(this);
+            OnComfortSettingChanged?.Invoke(this);
         }
     }
 
@@ -53,7 +57,7 @@ public class GameSettingsIO : ScriptableObject
         set
         {
             vignetteStrength = value;
-            OnSettingChanged?.Invoke(this);
+            OnComfortSettingChanged?.Invoke(this);
         }
     }
 
@@ -77,5 +81,16 @@ public class GameSettingsIO : ScriptableObject
         }
     }
 
+    public float CameraHeight
+    {
+        get => cameraHeight;
+        set
+        {
+            cameraHeight = value;
+            OnSettingChanged?.Invoke(this);
+        }
+    }
+
     public event Action<GameSettingsIO> OnSettingChanged;
+    public event Action<GameSettingsIO> OnComfortSettingChanged;
 }
