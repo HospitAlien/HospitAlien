@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
         {
             //we first want to find out what event is going to happen 
             System.Random random = new System.Random();
-            int newEvent = random.Next(0, 2);
+            int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen every 2/3 minutes
             int waitTime = random.Next(120, 180);
