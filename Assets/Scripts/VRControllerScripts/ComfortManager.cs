@@ -26,6 +26,7 @@ public class ComfortManager : MonoBehaviour
 
     private void OnComfortModeChanged(GameSettingsIO settings)
     {
+        TurnOffComfortMode(true);
         comfortMode = settings.ComfortModeOption;
         if (comfortMode == GameSettingsIO.comfortMode.Vignette)
         {
@@ -35,13 +36,11 @@ public class ComfortManager : MonoBehaviour
         }
         else if (comfortMode == GameSettingsIO.comfortMode.Passthrough)
         {
-            vignetteProvider.TurnVignetteOff(true);
             vignetteProvider.enabled = false;
             _passthroughProvider.enabled = true;
         }
         else
         {
-            vignetteProvider.TurnVignetteOff(true);
             vignetteProvider.enabled = false;
             _passthroughProvider.enabled = false;
         }
@@ -96,10 +95,10 @@ public class ComfortManager : MonoBehaviour
             _passthroughProvider.TurnPassThroughOn();
     }
 
-    private void TurnOffComfortMode()
+    private void TurnOffComfortMode(bool immediate = false)
     {
         if (comfortMode == GameSettingsIO.comfortMode.Vignette)
-            vignetteProvider.TurnVignetteOff();
+            vignetteProvider.TurnVignetteOff(immediate);
         else if (comfortMode == GameSettingsIO.comfortMode.Passthrough)
             _passthroughProvider.TurnPassThroughOff();
     }

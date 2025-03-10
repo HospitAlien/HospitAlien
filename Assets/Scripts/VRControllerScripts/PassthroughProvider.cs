@@ -37,6 +37,7 @@ public class PassthroughProvider : MonoBehaviour
     {
         _isPassThroughOn = true;
         layer.textureOpacity = 1;
+        layer.enabled = true;
         _camera.clearFlags = CameraClearFlags.SolidColor;
         foreach (GameObject obj in _objects)
         {
@@ -48,6 +49,7 @@ public class PassthroughProvider : MonoBehaviour
     {
         _isPassThroughOn = false;
         layer.textureOpacity = 0;
+        layer.enabled = false;
         _camera.clearFlags = CameraClearFlags.Skybox;
         foreach (GameObject obj in _objects)
         {
