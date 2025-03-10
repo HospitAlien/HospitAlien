@@ -13,7 +13,12 @@ public class MusicManager : MonoBehaviour
     
     // Base BPM used for adjusting pitch (assumes 120 BPM is the base)
     public float baseBPM = 120f;
-    
+    void Start() {
+        //  start playing calm track by default.
+        calmTrack.Play();
+        intenseTrack.Stop();
+    }
+
     void Update()
     {
         float numberOfPatients = gameManager.GetNumberOfPatients();
@@ -37,6 +42,7 @@ public class MusicManager : MonoBehaviour
         {
             if (!intenseTrack.isPlaying)
             {
+                Debug.Log("intense starting, calm stopping");
                 intenseTrack.Play();
                 calmTrack.Stop();
             }
@@ -49,6 +55,7 @@ public class MusicManager : MonoBehaviour
         {
             if (!calmTrack.isPlaying)
             {
+                Debug.Log("calm starting, intense stopping");
                 calmTrack.Play();
                 intenseTrack.Stop();
             }
