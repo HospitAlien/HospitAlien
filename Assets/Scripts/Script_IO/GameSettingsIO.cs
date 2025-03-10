@@ -36,6 +36,10 @@ public class GameSettingsIO : ScriptableObject
     [Header("Movement Options")]
     [SerializeField] private moveMode moveModeOption = moveMode.teleport;
 
+    [Header("Camera Height")]
+    [Tooltip("Range 0.6m(2ft) - 2.4m(8ft), the base line is 1.8m(6ft)")]
+    [SerializeField] private float cameraHeight = 1.8f;
+
 
     public comfortMode ComfortModeOption
     {
@@ -73,6 +77,16 @@ public class GameSettingsIO : ScriptableObject
         set
         {
             moveModeOption = value;
+            OnSettingChanged?.Invoke(this);
+        }
+    }
+
+    public float CameraHeight
+    {
+        get => cameraHeight;
+        set
+        {
+            cameraHeight = value;
             OnSettingChanged?.Invoke(this);
         }
     }

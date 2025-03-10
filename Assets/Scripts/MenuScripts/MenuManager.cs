@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
+using System;
 
 public class MenuManager : MonoBehaviour
 {
@@ -8,12 +10,14 @@ public class MenuManager : MonoBehaviour
     public Renderer menuRenderer;
     public float distanceFromPlayer = 1.2f;
     public Slider vignetteSlider;
+    public Slider cameraHeightSlider;
     public Toggle[] movementToggles;
     public Toggle[] comfortToggles;
+    public TextMeshProUGUI vignetteStrengthText;
+    public TextMeshProUGUI cameraHeightText;
     private Transform _camera;
     private GlobalVariableManager gvm;
     private bool _isMenuOpen;
-    private bool _isMenuMoving;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,10 +25,14 @@ public class MenuManager : MonoBehaviour
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength); // Init the slider value
+        SetVignetteStrengthText(gvm.gameSettings.VignetteStrength); // Init the text
+        if (cameraHeightSlider != null) cameraHeightSlider.SetValueWithoutNotify(gvm.gameSettings.CameraHeight * 100); // Init the slider value
+        SetCameraHeightText(gvm.gameSettings.CameraHeight * 100); // Init the text
         if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true; // Init the movement toggle
         if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true; // Init the comfort toggle
         _camera = Camera.main.transform;
         OpenMenu(Vector3.up * 10f);
+
     }
 
     private void CheckMenuIsVisible()
@@ -96,5 +104,23 @@ public class MenuManager : MonoBehaviour
             {
                 transform.LookAt(_camera.position);
             });
+    }
+
+    public void SetVignetteStrengthText(float strength)
+    {
+        vignetteStrengthText.text = "Vignette Strength: %0".Replace("%0", strength.ToString());
+    }
+
+    public void SetCameraHeightText(float height)
+    {
+        cameraHeightText.text = "Camera Height: %0".Replace("%0", MetersToFeetInches(height));
+    }
+    public static string MetersToFeetInches(float centimeters)
+    {
+        int totalInch = (int)Math.Floor(centimeters / 2.54);
+        int feet = totalInch / 12;
+        int remainingInches = totalInch % 12;
+
+        return $"{feet}ft{remainingInches}in";
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class SettingButtonEvents : MonoBehaviour
 {
     private GlobalVariableManager gvm;
+    public MenuManager menuManager;
 
     void Start()
     {
@@ -46,10 +47,12 @@ public class SettingButtonEvents : MonoBehaviour
     public void SetVignetteStrength(float strength)
     {
         gvm.gameSettings.VignetteStrength = strength;
+        menuManager.SetVignetteStrengthText(strength);
     }
 
-    public void SetGameStart(bool start)
+    public void SetCameraHeight(float height)
     {
-        gvm.IsGamePlaying = start;
+        gvm.gameSettings.CameraHeight = height / 100;
+        menuManager.SetCameraHeightText(height);
     }
 }
