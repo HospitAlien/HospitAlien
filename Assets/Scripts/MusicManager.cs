@@ -8,7 +8,14 @@ public class MusicManager : MonoBehaviour
     // Reference to the model controller that runs the NN 
     public MusicModelController modelController;
     
-    public AudioSource calmTrack;
+    //IMPORTANT!!!!!!!!!!
+    //IMPORTANT!!!!!!!!!!
+    //IMPORTANT!!!!!!!!!!
+    // you have to assign the audio component in the inspector, not the game object with the audio component
+    //IMPORTANT!!!!!!!!!!
+    //IMPORTANT!!!!!!!!!!
+    //IMPORTANT!!!!!!!!!!
+    public AudioSource calmTrack; 
     public AudioSource intenseTrack;
     
     // Base BPM used for adjusting pitch (assumes 120 BPM is the base)
