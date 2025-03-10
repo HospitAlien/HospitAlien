@@ -278,6 +278,11 @@ public class GameManager : MonoBehaviour
         return currentPatientCount;
     }
 
+    public int GetEvent()
+    {
+        return eventState;
+    }
+
     // Returns the total number of injuries by summing each active alien's injury count.
     public int GetTotalInjuries()
     {
