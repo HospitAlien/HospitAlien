@@ -5,24 +5,31 @@ using UnityEngine;
 public class CameraHeightManager : MonoBehaviour
 {
     private GlobalVariableManager gvm;
-    private float cameraHeightOffset = -1.8f;
+    private Camera _mainCamera;
+    private float cameraHeightBaseline = 1.82f;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
+        _mainCamera = OVRManager.FindMainCamera();
         gvm.gameSettings.OnSettingChanged += OnCameraHeightChanged;
     }
 
     private void OnCameraHeightChanged(GameSettingsIO settings)
     {
-        transform.position = new Vector3(transform.position.x, settings.CameraHeight + cameraHeightOffset, transform.position.z);
+        transform.position = new Vector3(transform.position.x, cameraHeightBaseline - settings.CameraHeight, transform.position.z);
     }
 
-    public void SetCameraHeightOffset(float offset)
+    public void SetCameraHeightBaseline(float baseLine)
     {
-        cameraHeightOffset = offset;
-        transform.position = new Vector3(transform.position.x, gvm.gameSettings.CameraHeight + cameraHeightOffset, transform.position.z);
+        cameraHeightBaseline = baseLine;
+        transform.position = new Vector3(transform.position.x, cameraHeightBaseline - gvm.gameSettings.CameraHeight, transform.position.z);
+    }
+
+    public void ResetCameraHeight()
+    {
+        gvm.gameSettings.CameraHeight = _mainCamera.transform.position.y - transform.position.y;
     }
 }

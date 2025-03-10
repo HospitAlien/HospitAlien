@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
+using UnityEditor;
 
 public class MenuManager : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class MenuManager : MonoBehaviour
     public Renderer menuRenderer;
     public float distanceFromPlayer = 1.2f;
     public Slider vignetteSlider;
-    public Slider cameraHeightSlider;
     public Toggle[] movementToggles;
     public Toggle[] comfortToggles;
     public TextMeshProUGUI vignetteStrengthText;
@@ -23,16 +23,26 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
+        CloseMenu();
         gvm = FindFirstObjectByType<GlobalVariableManager>();
-        if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength); // Init the slider value
-        SetVignetteStrengthText(gvm.gameSettings.VignetteStrength); // Init the text
-        if (cameraHeightSlider != null) cameraHeightSlider.SetValueWithoutNotify(gvm.gameSettings.CameraHeight * 100); // Init the slider value
-        SetCameraHeightText(gvm.gameSettings.CameraHeight * 100); // Init the text
-        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true; // Init the movement toggle
-        if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true; // Init the comfort toggle
         _camera = Camera.main.transform;
-        OpenMenu(Vector3.up * 10f);
+        OnSettingChanged(gvm.gameSettings);
+        OnComfortSettingChanged(gvm.gameSettings);
+        gvm.gameSettings.OnSettingChanged += OnSettingChanged;
+        gvm.gameSettings.OnComfortSettingChanged += OnComfortSettingChanged;
+    }
 
+    private void OnSettingChanged(GameSettingsIO settings)
+    {
+        SetCameraHeightText(gvm.gameSettings.CameraHeight * 100);
+    }
+
+    private void OnComfortSettingChanged(GameSettingsIO settings)
+    {
+        if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength);
+        SetVignetteStrengthText(gvm.gameSettings.VignetteStrength);
+        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true;
+        if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true;
     }
 
     private void CheckMenuIsVisible()
@@ -106,15 +116,16 @@ public class MenuManager : MonoBehaviour
             });
     }
 
-    public void SetVignetteStrengthText(float strength)
+    private void SetVignetteStrengthText(float strength)
     {
         vignetteStrengthText.text = "Vignette Strength: %0".Replace("%0", strength.ToString());
     }
 
-    public void SetCameraHeightText(float height)
+    private void SetCameraHeightText(float height)
     {
         cameraHeightText.text = "Camera Height: %0".Replace("%0", MetersToFeetInches(height));
     }
+
     public static string MetersToFeetInches(float centimeters)
     {
         int totalInch = (int)Math.Floor(centimeters / 2.54);
@@ -122,5 +133,11 @@ public class MenuManager : MonoBehaviour
         int remainingInches = totalInch % 12;
 
         return $"{feet}ft{remainingInches}in";
+    }
+
+    public void ResetCameraHeight()
+    {
+        FindFirstObjectByType<CameraHeightManager>().ResetCameraHeight();
+        MoveMenuToPlayerSmoothly();
     }
 }
