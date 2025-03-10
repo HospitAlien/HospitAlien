@@ -251,7 +251,7 @@ public class AlienBehaviour : MonoBehaviour
             // Use Unity's Random class for generating random numbers
             float offsetX = UnityEngine.Random.Range(-0.3f, 0.3f);
             float offsetY = UnityEngine.Random.Range(0f, 0.5f);
-            float offsetZ = 0.1f;  // Depth offset (use if you want to spawn swords further into the body)
+            float offsetZ = 0.1f;  // Depth offset (can be used to spawn metal further into the body)
 
             // Spawn the new shrapnel at the calculated position
             Vector3 newPosition = bodyTransform.position + new Vector3(offsetX, offsetY, offsetZ);
@@ -458,5 +458,20 @@ public class AlienBehaviour : MonoBehaviour
     public void SetIndex(int newIndex)
     {
         index = newIndex;
+    }
+
+
+    // Functions to pass info to game manager to pass to music manager
+
+    public float GetRemainingTime(){
+        return timer;
+    }
+
+    public int GetInjuryCount(){
+        int injuries = 0;
+        if (status.needsInjection) injuries++;
+        if (status.needsExtinguishing) injuries++;
+        if (status.hasShrapnel) injuries ++;
+        return injuries;
     }
 }
