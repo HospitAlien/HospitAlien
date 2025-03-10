@@ -20,13 +20,13 @@ public class ComfortManager : MonoBehaviour
     void Start()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
-        gvm.gameSettings.OnComfortSettingChanged += OnComfortModeChanged;
+        gvm.gameSettings.OnComfortSettingChanged += OnComfortSettingChanged;
         _passthroughProvider = FindFirstObjectByType<PassthroughProvider>();
     }
 
-    private void OnComfortModeChanged(GameSettingsIO settings)
+    private void OnComfortSettingChanged(GameSettingsIO settings)
     {
-        TurnOffComfortMode(true);
+        if (comfortMode != settings.ComfortModeOption) TurnOffComfortMode(true);
         comfortMode = settings.ComfortModeOption;
         if (comfortMode == GameSettingsIO.comfortMode.Vignette)
         {
