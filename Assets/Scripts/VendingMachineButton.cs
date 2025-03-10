@@ -2,24 +2,31 @@ using UnityEngine;
 
 public class VendingButton : MonoBehaviour
 {
-    public GameObject syringePrefab;
+    public GameObject objectPrefab;
 
     // Offset relative to the parent (vending machine) position
     public Vector3 spawnOffset = new Vector3(0f, 0.1f, 0f);
 
-    void Start() { }
+    private GameObject currentObject;
 
-    private void OnTriggerEnter()
+    private void OnTriggerEnter(Collider other)
     {
-        SpawnSyringe();
+        SpawnObject();
     }
 
-
-    void SpawnSyringe()
+    void SpawnObject()
     {
+        // If a syringe already exists, destroy it
+        if (currentSyringe != null)
+        {
+            Destroy(currentSyringe);
+        }
+
+        // Find the spawn position based on the parent's child "TableLight" position plus an offset
         Vector3 spawnPosition = transform.parent.Find("TableLight").position + spawnOffset;
 
-        Instantiate(syringePrefab, spawnPosition, transform.parent.rotation);
+        currentObject = Instantiate(objectPrefab, spawnPosition, transform.parent.rotation);
+
         Debug.Log("Syringe spawned at: " + spawnPosition);
     }
 }
