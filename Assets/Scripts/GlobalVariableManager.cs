@@ -34,20 +34,28 @@ public class GlobalVariableManager : MonoBehaviour
     private string settingFilePath;
     private string leaderBoardFilePath;
     private LeaderBoardIO leaderBoard;
+    private static GlobalVariableManager instance;
 
     private void Awake()
     {
-        _gamePlaying = false;
+        if (instance != null)
+        {
+            // if there is already an instance of this object, destroy this one
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
 
+        // Make sure this object is not destroyed when loading a new scene
+        DontDestroyOnLoad(gameObject);
+
+        _gamePlaying = false;
         // Get the file path for the settings file
         settingFilePath = Path.Combine(Application.persistentDataPath, "settings.json");
         leaderBoardFilePath = Path.Combine(Application.persistentDataPath, "LeaderBoard.json");
         // Load the settings from the file
         LoadSettings();
         LoadLeaderBoard();
-
-        // Make sure this object is not destroyed when loading a new scene
-        DontDestroyOnLoad(gameObject);
     }
 
     // Load the settings if the file exists
