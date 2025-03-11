@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1200266952721236617}
   - component: {fileID: 1316378947898717}
   - component: {fileID: 742532140056304006}
-  - component: {fileID: 8232186112976894643}
   m_Layer: 0
   m_Name: Enlargement Pill
   m_TagString: Untagged
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 4321750048508249038}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.866, y: 1.51, z: -2.1488874}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.10728, y: 0.10728, z: 0.10728}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -153,22 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7c905da38cffa242b28888d587fef37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8232186112976894643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4321750048508249038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27ec9a9328d7cf64cbde83b041c58d1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dissolveDuration: 2
-  startCutoff: -2
-  endCutoff: 2
-  dissolveShader: {fileID: -6465566751694194690, guid: 5b480cdf1a2e53a4486a90fecae7d48d, type: 3}
 --- !u!1 &4581835056306372287
 GameObject:
   m_ObjectHideFlags: 0
