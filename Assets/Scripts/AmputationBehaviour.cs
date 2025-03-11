@@ -38,6 +38,7 @@ public class AmputationBehaviour : MonoBehaviour
             if (hitCount >= 5)
             {
                 alienBehaviour.Amputate();
+                Destroy(this);
             }
         }
     }
