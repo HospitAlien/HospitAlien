@@ -7096,7 +7096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameSettings: {fileID: 11400000, guid: 1fb220422f7026346ba41660fb336ac3, type: 2}
-  defaultLeaderBoard: {fileID: 11400000, guid: 34d83eb4da6bff240bc16591c859eb30, type: 2}
+  defaultLeaderBoard: {fileID: 0}
 --- !u!1001 &1841611952
 PrefabInstance:
   m_ObjectHideFlags: 0

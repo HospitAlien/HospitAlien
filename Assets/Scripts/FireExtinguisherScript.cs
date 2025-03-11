@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
 {
-    private float pressThreshold = 0.5f;
-
     private ParticleSystem foam;
     private AudioSource spraySound;
 
@@ -12,7 +10,7 @@ public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
     {
         foam = GetComponent<ParticleSystem>();
         spraySound = GetComponent<AudioSource>();
-        
+
         if (foam == null)
         {
             Debug.LogError("No particle system found on fire extinguisher!");
