@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 5597577253481109909}
   - component: {fileID: 2562557476885790490}
   - component: {fileID: 535143644489553862}
+  - component: {fileID: 493069342026190216}
   m_Layer: 0
   m_Name: eye3
   m_TagString: Untagged
@@ -219,6 +220,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -9098576157301226792, guid: 9299f7320f6d02b4484046bd9d82ccdb, type: 3}
+--- !u!114 &493069342026190216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891707031689840007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c311af5426ad2f49bc61220fc07415d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodShotMaterial: {fileID: 2100000, guid: 9d26f9604db650246aaee62c8e6c31ab, type: 2}
 --- !u!1 &1327394345342649319
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,6 +1312,7 @@ GameObject:
   - component: {fileID: 2173269232394115160}
   - component: {fileID: 7544810718423489438}
   - component: {fileID: 524949399890548699}
+  - component: {fileID: 5521322420172373559}
   m_Layer: 0
   m_Name: eye1
   m_TagString: Untagged
@@ -1396,6 +1411,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4207121474635953186, guid: 9299f7320f6d02b4484046bd9d82ccdb, type: 3}
+--- !u!114 &5521322420172373559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893504565661780350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c311af5426ad2f49bc61220fc07415d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodShotMaterial: {fileID: 2100000, guid: 9d26f9604db650246aaee62c8e6c31ab, type: 2}
 --- !u!1 &6370788144615060193
 GameObject:
   m_ObjectHideFlags: 0
@@ -1517,6 +1545,7 @@ GameObject:
   - component: {fileID: 2731197739242706742}
   - component: {fileID: 799077164143829383}
   - component: {fileID: 7556502600252046814}
+  - component: {fileID: 2088513621375215872}
   m_Layer: 0
   m_Name: eye2
   m_TagString: Untagged
@@ -1615,6 +1644,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1691814320464107661, guid: 9299f7320f6d02b4484046bd9d82ccdb, type: 3}
+--- !u!114 &2088513621375215872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319873048019034886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c311af5426ad2f49bc61220fc07415d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodShotMaterial: {fileID: 2100000, guid: 9d26f9604db650246aaee62c8e6c31ab, type: 2}
 --- !u!1 &8970801678305085099
 GameObject:
   m_ObjectHideFlags: 0

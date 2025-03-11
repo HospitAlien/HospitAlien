@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EyeDrops
       objectReference: {fileID: 0}
+    - target: {fileID: 3056828176164487944, guid: 6c4129060f794e14a9860c083ee77115, type: 3}
+      propertyPath: m_TagString
+      value: Eye-Dropper
+      objectReference: {fileID: 0}
     - target: {fileID: 7712355141173084710, guid: 6c4129060f794e14a9860c083ee77115, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -12,11 +12,12 @@ struct Status
     public bool hasShrapnel;
     public int shrapnelCount;
     public int curSize;
+    public int numberOfBadEyes;
 
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && numberOfBadEyes == 0);
     }
 
     public string getIllness()
@@ -59,6 +60,10 @@ struct Status
     {
         shrapnelCount = shrapnelCount + 1;
         hasShrapnel = true;
+    }
+
+    public void applyEyeDrop(){
+        numberOfBadEyes = numberOfBadEyes -1;
     }
 
 }
@@ -108,40 +113,43 @@ public class AlienBehaviour : MonoBehaviour
     {
         System.Random random = new System.Random();
 
-        if (random.NextDouble() < 0.4)
-        {
-            status.needsInjection = true;
-            sweatParticles.Play();
-            reward += 100;
+        // if (random.NextDouble() < 0.4)
+        // {
+        //     status.needsInjection = true;
+        //     sweatParticles.Play();
+        //     reward += 100;
+        // }
+        // if (random.NextDouble() < 0.4)
+        // {
+        //     status.needsExtinguishing = true;
+        //     fireParticles.Play();
+        //     reward += 100;
+        // }
+
+        // if (random.NextDouble() < 0.4)
+        // {
+        //     status.shrapnelCount = 4;
+        //     reward += 100;
+        //     status.hasShrapnel = true;
+        //     initiateShrapnel();
+        // }
+
+        // if(random.NextDouble() < 0.4){
+
+        //     if(random.NextDouble() < 0.5){ //shrink
+        //         status.curSize = -1;
+        //         transform.localScale /= 2f;
+        //     }else{ //enlargement
+        //         status.curSize = 1;
+        //         transform.localScale *= 1.4f;
+        //     }
+        // }
+
+        if(true){
+            status.numberOfBadEyes = 1;
+            EyeScript eye1 = transform.Find("eye1").gameObject.GetComponent<EyeScript>();
+            eye1.activate(this);
         }
-        if (random.NextDouble() < 0.4)
-        {
-            status.needsExtinguishing = true;
-            fireParticles.Play();
-            reward += 100;
-        }
-
-        if (random.NextDouble() < 0.4)
-        {
-            status.shrapnelCount = 4;
-            reward += 100;
-            status.hasShrapnel = true;
-            initiateShrapnel();
-        }
-
-        if(random.NextDouble() < 0.4){
-
-            if(random.NextDouble() < 0.5){ //shrink
-                status.curSize = -1;
-                transform.localScale /= 2f;
-            }else{ //enlargement
-                status.curSize = 1;
-                transform.localScale *= 1.4f;
-            }
-
-        }
-
-
 
 
     }
@@ -252,6 +260,10 @@ public class AlienBehaviour : MonoBehaviour
 
         gameManager.PatientDied(index);
         Destroy(gameObject);
+    }
+
+    public void applyEyedrop(){
+        Debug.Log("Eye drop hit");
     }
 
 
@@ -373,6 +385,8 @@ public class AlienBehaviour : MonoBehaviour
                 }
             }
         }
+
+        Debug.Log("Hit parernt");
     }
 
     void Syrined()
