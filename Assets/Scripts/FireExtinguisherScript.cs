@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
 {
-    private float pressThreshold = 0.5f;
-
     private ParticleSystem foam;
+    private AudioSource spraySound;
 
     private void Awake()
     {
         foam = GetComponent<ParticleSystem>();
+        spraySound = GetComponent<AudioSource>();
+
         if (foam == null)
         {
             Debug.LogError("No particle system found on fire extinguisher!");
@@ -21,6 +22,7 @@ public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
     {
         foam.Play();
         Debug.Log("Begin use");
+        spraySound.Play();
     }
 
     public float ComputeUseStrength(float strength)
@@ -33,6 +35,7 @@ public class FireExtinguisherTrigger : MonoBehaviour, IHandGrabUseDelegate
     {
         foam.Stop();
         Debug.Log("End use");
+        spraySound.Stop();
     }
 
     // private void Update()

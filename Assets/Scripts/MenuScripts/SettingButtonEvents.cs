@@ -5,7 +5,7 @@ public class SettingButtonEvents : MonoBehaviour
 {
     private GlobalVariableManager gvm;
 
-    void Start()
+    void Awake()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (gvm == null) Debug.LogError("GlobalVariableManager not found");
@@ -48,8 +48,8 @@ public class SettingButtonEvents : MonoBehaviour
         gvm.gameSettings.VignetteStrength = strength;
     }
 
-    public void SetGameStart(bool start)
+    public void SetCameraHeight(float height)
     {
-        gvm.IsGamePlaying = start;
+        gvm.gameSettings.CameraHeight = height / 100;
     }
 }
