@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -181,7 +180,8 @@ public class GameManager : MonoBehaviour
                 if (currentPatientCount == 0) //if there are no patients we should spawn one in 5 seconds
                 {
                     yield return new WaitForSeconds(5f);
-                    if(eventState == 0){
+                    if (eventState == 0)
+                    {
                         SpawnPatient();
                     }
                 }
