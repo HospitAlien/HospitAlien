@@ -13,7 +13,7 @@ public class ShrapnelBehaviour : MonoBehaviour
     private Coroutine destroyCoroutine;
 
     private Rigidbody rb;
-    private Collider collider;
+    private Collider _collider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,7 +24,7 @@ public class ShrapnelBehaviour : MonoBehaviour
         GrabInteractable.WhenSelectingInteractorAdded.Action += ObjectHeld;
         GrabInteractable.WhenSelectingInteractorRemoved.Action += ObjectReleased;
         rb = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        _collider = GetComponent<Collider>();
     }
 
     void Update()
@@ -44,7 +44,7 @@ public class ShrapnelBehaviour : MonoBehaviour
         //when the object is held i want it to be isTrigger
         beingHeld = true;
 
-        collider.isTrigger = true;
+        _collider.isTrigger = true;
 
         if (destroyCoroutine != null)
         {
@@ -58,7 +58,7 @@ public class ShrapnelBehaviour : MonoBehaviour
         Debug.Log("Object released");
         beingHeld = false;
 
-        collider.isTrigger = false;
+        _collider.isTrigger = false;
 
         if (!insideAlien)
         {

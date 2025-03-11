@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
-using UnityEditor;
+using Oculus.Interaction;
 
 public class MenuManager : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
     public Slider vignetteSlider;
     public Toggle[] movementToggles;
     public Toggle[] comfortToggles;
+    public RayInteractable[] rayInteractablesToRestart;
     public TextMeshProUGUI vignetteStrengthText;
     public TextMeshProUGUI cameraHeightText;
     private Transform _camera;
@@ -78,8 +79,20 @@ public class MenuManager : MonoBehaviour
     {
         _isMenuOpen = true;
         menu.SetActive(true);
+        RestartRayInteractables();
         MoveMenuToPlayer(offset);
         InvokeRepeating(nameof(CheckMenuIsVisible), 2f, 0.1f);
+    }
+
+    // Restart the ray interactables can solve the problem that slider jump back to the original position when gliding outside of the menu
+    // **Note: I don't know why this works, but it just works :D
+    private void RestartRayInteractables()
+    {
+        foreach (RayInteractable rayInteractable in rayInteractablesToRestart)
+        {
+            rayInteractable.Disable();
+            rayInteractable.Enable();
+        }
     }
 
     public void ToggleMenu(bool forceOpen = false)
@@ -139,5 +152,11 @@ public class MenuManager : MonoBehaviour
     {
         FindFirstObjectByType<CameraHeightManager>().ResetCameraHeight();
         MoveMenuToPlayerSmoothly();
+    }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnSettingChanged -= OnSettingChanged;
+        gvm.gameSettings.OnComfortSettingChanged -= OnComfortSettingChanged;
     }
 }
