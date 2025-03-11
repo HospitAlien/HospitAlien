@@ -5,7 +5,7 @@ public class VendingButton : MonoBehaviour
     public GameObject objectPrefab;
 
     // Offset relative to the parent (vending machine) position
-    public Vector3 spawnOffset = new Vector3(0f, 0.1f, 0f);
+    public Vector3 spawnOffset = new Vector3(0f, 0.2f, 0f);
 
     private GameObject currentObject;
 
