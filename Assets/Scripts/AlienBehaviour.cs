@@ -31,17 +31,18 @@ struct Status
         {
             response += "I need a jab.\n";
         }
-        else if(hasShrapnel)
+        else if (hasShrapnel)
         {
             response += "There is shrapnel inside of me.\n";
         }
-        else if(curSize == -1)
+        else if (curSize == -1)
         {
             response += "I am really small.\n";
         }
-        else if(curSize == 1)
+        else if (curSize == 1)
         {
             response += "I am massive.\n";
+        }
         else if (needsAmputation)
         {
             response += "My arm is ruined! \n";
