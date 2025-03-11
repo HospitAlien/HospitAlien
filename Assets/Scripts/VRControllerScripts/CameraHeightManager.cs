@@ -6,7 +6,7 @@ public class CameraHeightManager : MonoBehaviour
 {
     private GlobalVariableManager gvm;
     private Camera _mainCamera;
-    private float cameraHeightBaseline = 1.82f;
+    private float cameraHeightBaseline = 1.83f;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -14,6 +14,7 @@ public class CameraHeightManager : MonoBehaviour
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         _mainCamera = OVRManager.FindMainCamera();
+        OnCameraHeightChanged(gvm.gameSettings);
         gvm.gameSettings.OnSettingChanged += OnCameraHeightChanged;
     }
 
@@ -31,5 +32,10 @@ public class CameraHeightManager : MonoBehaviour
     public void ResetCameraHeight()
     {
         gvm.gameSettings.CameraHeight = _mainCamera.transform.position.y - transform.position.y;
+    }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnSettingChanged -= OnCameraHeightChanged;
     }
 }

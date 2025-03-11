@@ -5,7 +5,7 @@ public class SettingButtonEvents : MonoBehaviour
 {
     private GlobalVariableManager gvm;
 
-    void Start()
+    void Awake()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (gvm == null) Debug.LogError("GlobalVariableManager not found");
