@@ -17,9 +17,9 @@ public class VendingButton : MonoBehaviour
     void SpawnObject()
     {
         // If a syringe already exists, destroy it
-        if (currentSyringe != null)
+        if (currentObject != null)
         {
-            Destroy(currentSyringe);
+            Destroy(currentObject);
         }
 
         // Find the spawn position based on the parent's child "TableLight" position plus an offset
