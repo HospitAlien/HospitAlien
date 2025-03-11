@@ -15,9 +15,9 @@ public class LeaderBoardManager : MonoBehaviour
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (gvm == null) Debug.LogError("GlobalVariableManager not found");
-        gvm.leaderBoard.OnLeaderBoardChanged += UpdateLeaderBoard;
+        gvm.LeaderBoard.OnLeaderBoardChanged += UpdateLeaderBoard;
 
-        UpdateLeaderBoard(gvm.leaderBoard);
+        UpdateLeaderBoard(gvm.LeaderBoard);
     }
 
     void UpdateLeaderBoard(LeaderBoardIO leaderBoard)

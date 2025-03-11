@@ -12,7 +12,7 @@ public class GlobalVariableManager : MonoBehaviour
     [Tooltip("The default settings for the game")]
     public GameSettingsIO gameSettings;
     [Tooltip("The default leader board for the game")]
-    public LeaderBoardIO leaderBoard;
+    public LeaderBoardIO defaultLeaderBoard;
 
     private bool _gamePlaying;
     public event Action<bool> OnGamePlayingChangedEvent;
@@ -33,6 +33,7 @@ public class GlobalVariableManager : MonoBehaviour
     // Place to save the file
     private string settingFilePath;
     private string leaderBoardFilePath;
+    private LeaderBoardIO leaderBoard;
 
     private void Awake()
     {
@@ -52,7 +53,7 @@ public class GlobalVariableManager : MonoBehaviour
     // Load the settings if the file exists
     public void LoadSettings()
     {
-        if (!Application.isEditor && File.Exists(settingFilePath))
+        if (File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(settingFilePath);
             JsonUtility.FromJsonOverwrite(json, gameSettings);
@@ -69,26 +70,23 @@ public class GlobalVariableManager : MonoBehaviour
     // Save the settings to a file
     public void SaveSettings()
     {
-        if (!Application.isEditor)
-        {
-            string json = JsonUtility.ToJson(gameSettings, prettyPrint: true);
-            File.WriteAllText(settingFilePath, json);
-            Debug.Log("Game setting saved to:" + settingFilePath);
-        }
+        string json = JsonUtility.ToJson(gameSettings, prettyPrint: true);
+        File.WriteAllText(settingFilePath, json);
+        Debug.Log("Game setting saved to:" + settingFilePath);
     }
 
     // Load the leaderboard if the file exists
     public void LoadLeaderBoard()
     {
-        if (!Application.isEditor && File.Exists(settingFilePath))
+        if (File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(leaderBoardFilePath);
-            JsonUtility.FromJsonOverwrite(json, leaderBoard);
+            JsonUtility.FromJsonOverwrite(json, defaultLeaderBoard);
         }
         else
         {
             // copy the default leader board tto avoid change the default
-            leaderBoard = Instantiate(leaderBoard);
+            leaderBoard = Instantiate(defaultLeaderBoard);
             Debug.Log("Using default leader board.");
         }
     }
@@ -96,12 +94,19 @@ public class GlobalVariableManager : MonoBehaviour
     // Save the leaderboard to a file
     public void SaveLeaderBoard()
     {
-        if (!Application.isEditor)
-        {
-            string json = JsonUtility.ToJson(leaderBoard, prettyPrint: true);
-            File.WriteAllText(leaderBoardFilePath, json);
-            Debug.Log("LeaderBoard saved to:" + leaderBoardFilePath);
-        }
+        string json = JsonUtility.ToJson(defaultLeaderBoard, prettyPrint: true);
+        File.WriteAllText(leaderBoardFilePath, json);
+        Debug.Log("LeaderBoard saved to:" + leaderBoardFilePath);
+    }
+
+    public LeaderBoardIO LeaderBoard
+    {
+        get { return leaderBoard; }
+    }
+
+    public void ClearLeaderBoard()
+    {
+        leaderBoard = Instantiate(defaultLeaderBoard);
     }
 
     private void OnApplicationQuit()
