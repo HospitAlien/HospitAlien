@@ -36,7 +36,7 @@ public class MusicManager : MonoBehaviour
         // Debug.Log($"num patients: {numberOfPatients}, total injuries {totalInjuries}, totaltimeleft: {totalTimeLeft}");
         
         // If eventState is 1, play the pizza track.
-        if (eventState == 1)
+        if (eventState == 1 && gameManager.currentPatientCount == 0)
         {
             if (!pizzaTrack.isPlaying)
             {
