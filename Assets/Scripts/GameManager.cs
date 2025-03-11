@@ -260,7 +260,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Alien with index " + patientIndex + " has been deleted.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
-        score -= 200; //Every time an alien dies the score is reduced
         UpdateScoreText();
     }
 
@@ -275,7 +274,7 @@ public class GameManager : MonoBehaviour
 
 
     //exposing stuff to music manager
-     public int GetNumberOfPatients()
+    public int GetNumberOfPatients()
     {
         return currentPatientCount;
     }
