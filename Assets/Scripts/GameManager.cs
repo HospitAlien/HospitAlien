@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
             int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen every 2/3 minutes
-            int waitTime = random.Next(120, 180);
+            int waitTime = random.Next(100, 120);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
@@ -181,7 +181,9 @@ public class GameManager : MonoBehaviour
                 if (currentPatientCount == 0) //if there are no patients we should spawn one in 5 seconds
                 {
                     yield return new WaitForSeconds(5f);
-                    SpawnPatient();
+                    if(eventState == 0){
+                        SpawnPatient();
+                    }
                 }
                 else
                 {
@@ -189,7 +191,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 0.06f)
+                    if (chance <= 0.06f && eventState == 0)
                     {
                         SpawnPatient();
                     }
@@ -258,7 +260,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Alien with index " + patientIndex + " has been deleted.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
-        score -= 200; //Every time an alien dies the score is reduced
         UpdateScoreText();
     }
 
@@ -270,4 +271,40 @@ public class GameManager : MonoBehaviour
     }
 
 
+
+
+    //exposing stuff to music manager
+    public int GetNumberOfPatients()
+    {
+        return currentPatientCount;
+    }
+
+    public int GetEvent()
+    {
+        return eventState;
+    }
+
+    // Returns the total number of injuries by summing each active alien's injury count.
+    public int GetTotalInjuries()
+    {
+        int total = 0;
+        var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
+        foreach (AlienBehaviour alien in aliens)
+        {
+            total += alien.GetInjuryCount();
+        }
+        return total;
+    }
+
+    // Returns the total remaining time from all active aliens.
+    public float GetTotalTimeLeft()
+    {
+        float total = 0f;
+        var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
+        foreach (AlienBehaviour alien in aliens)
+        {
+            total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
+        }
+        return total;
+    }
 }

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
+using System;
+using Oculus.Interaction;
 
 public class MenuManager : MonoBehaviour
 {
@@ -10,21 +13,37 @@ public class MenuManager : MonoBehaviour
     public Slider vignetteSlider;
     public Toggle[] movementToggles;
     public Toggle[] comfortToggles;
+    public RayInteractable[] rayInteractablesToRestart;
+    public TextMeshProUGUI vignetteStrengthText;
+    public TextMeshProUGUI cameraHeightText;
     private Transform _camera;
     private GlobalVariableManager gvm;
     private bool _isMenuOpen;
-    private bool _isMenuMoving;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
+        CloseMenu();
         gvm = FindFirstObjectByType<GlobalVariableManager>();
-        if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength); // Init the slider value
-        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true; // Init the movement toggle
-        if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true; // Init the comfort toggle
         _camera = Camera.main.transform;
-        OpenMenu(Vector3.up * 10f);
+        OnSettingChanged(gvm.gameSettings);
+        OnComfortSettingChanged(gvm.gameSettings);
+        gvm.gameSettings.OnSettingChanged += OnSettingChanged;
+        gvm.gameSettings.OnComfortSettingChanged += OnComfortSettingChanged;
+    }
+
+    private void OnSettingChanged(GameSettingsIO settings)
+    {
+        SetCameraHeightText(gvm.gameSettings.CameraHeight * 100);
+    }
+
+    private void OnComfortSettingChanged(GameSettingsIO settings)
+    {
+        if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength);
+        SetVignetteStrengthText(gvm.gameSettings.VignetteStrength);
+        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true;
+        if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true;
     }
 
     private void CheckMenuIsVisible()
@@ -60,8 +79,20 @@ public class MenuManager : MonoBehaviour
     {
         _isMenuOpen = true;
         menu.SetActive(true);
+        RestartRayInteractables();
         MoveMenuToPlayer(offset);
         InvokeRepeating(nameof(CheckMenuIsVisible), 2f, 0.1f);
+    }
+
+    // Restart the ray interactables can solve the problem that slider jump back to the original position when gliding outside of the menu
+    // **Note: I don't know why this works, but it just works :D
+    private void RestartRayInteractables()
+    {
+        foreach (RayInteractable rayInteractable in rayInteractablesToRestart)
+        {
+            rayInteractable.Disable();
+            rayInteractable.Enable();
+        }
     }
 
     public void ToggleMenu(bool forceOpen = false)
@@ -96,5 +127,36 @@ public class MenuManager : MonoBehaviour
             {
                 transform.LookAt(_camera.position);
             });
+    }
+
+    private void SetVignetteStrengthText(float strength)
+    {
+        vignetteStrengthText.text = "Vignette Strength: %0".Replace("%0", strength.ToString());
+    }
+
+    private void SetCameraHeightText(float height)
+    {
+        cameraHeightText.text = "Camera Height: %0".Replace("%0", MetersToFeetInches(height));
+    }
+
+    public static string MetersToFeetInches(float centimeters)
+    {
+        int totalInch = (int)Math.Floor(centimeters / 2.54);
+        int feet = totalInch / 12;
+        int remainingInches = totalInch % 12;
+
+        return $"{feet}ft{remainingInches}in";
+    }
+
+    public void ResetCameraHeight()
+    {
+        FindFirstObjectByType<CameraHeightManager>().ResetCameraHeight();
+        MoveMenuToPlayerSmoothly();
+    }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnSettingChanged -= OnSettingChanged;
+        gvm.gameSettings.OnComfortSettingChanged -= OnComfortSettingChanged;
     }
 }

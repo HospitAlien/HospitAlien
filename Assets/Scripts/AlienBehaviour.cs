@@ -12,10 +12,12 @@ struct Status
     public bool needsAmputation;
     public bool hasShrapnel;
     public int shrapnelCount;
+    public int curSize;
+
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && !needsAmputation);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && !needsAmputation);
     }
 
     public string getIllness()
@@ -29,6 +31,17 @@ struct Status
         {
             response += "I need a jab.\n";
         }
+        else if(hasShrapnel)
+        {
+            response += "There is shrapnel inside of me.\n";
+        }
+        else if(curSize == -1)
+        {
+            response += "I am really small.\n";
+        }
+        else if(curSize == 1)
+        {
+            response += "I am massive.\n";
         else if (needsAmputation)
         {
             response += "My arm is ruined! \n";
@@ -76,6 +89,9 @@ public class AlienBehaviour : MonoBehaviour
     public Transform bodyTransform; //used to find the body 
     public GameObject coinParticlePrefab;
 
+    public AudioSource growthSFX;
+    public AudioSource shrinkSFX;
+
     private float lastVoiceTime = -Mathf.Infinity;
     private float voiceCooldownTime = 3f;
 
@@ -117,11 +133,25 @@ public class AlienBehaviour : MonoBehaviour
             initiateShrapnel();
         }
 
-        if (random.NextDouble() < 1)
+        if (random.NextDouble() < 0.4)
         {
             status.needsAmputation = true;
             initiateAmputation();
         }
+        if(random.NextDouble() < 0.4){
+
+            if(random.NextDouble() < 0.5){ //shrink
+                status.curSize = -1;
+                transform.localScale /= 2f;
+            }else{ //enlargement
+                status.curSize = 1;
+                transform.localScale *= 1.4f;
+            }
+
+        }
+
+
+
 
     }
 
@@ -181,6 +211,7 @@ public class AlienBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (target != null)
         {
 
@@ -316,7 +347,7 @@ public class AlienBehaviour : MonoBehaviour
             // Use Unity's Random class for generating random numbers
             float offsetX = UnityEngine.Random.Range(-0.3f, 0.3f);
             float offsetY = UnityEngine.Random.Range(0f, 0.5f);
-            float offsetZ = 0.1f;  // Depth offset (use if you want to spawn swords further into the body)
+            float offsetZ = 0.1f;  // Depth offset (can be used to spawn metal further into the body)
 
             // Spawn the new shrapnel at the calculated position
             Vector3 newPosition = bodyTransform.position + new Vector3(offsetX, offsetY, offsetZ);
@@ -366,7 +397,7 @@ public class AlienBehaviour : MonoBehaviour
     // Function called when alien is cured
     public void Cure()
     {
-        alienVoice.SayLine("Ah... Nuch better");
+        alienVoice.SayLine("Ah... Much better");
 
         if (isCured)
         {
@@ -454,6 +485,66 @@ public class AlienBehaviour : MonoBehaviour
         }
     }
 
+    void EnlargementPilled(){
+
+        if(status.curSize == -1){
+            status.curSize+=1;
+            growthSFX.Play();
+            StartCoroutine(ScaleOverTime(2f, growthSFX.clip.length));
+        }else if(status.curSize == 0){
+            status.curSize+=1;
+            growthSFX.Play();
+            StartCoroutine(ScaleOverTime(1.4f, growthSFX.clip.length));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+    void ShrinkPilled(){
+
+        if(status.curSize == 1){
+            status.curSize-=1;
+            shrinkSFX.Play();
+            StartCoroutine(ScaleOverTime((1/(1.4f)), shrinkSFX.clip.length));
+        }else if(status.curSize == 0){
+            status.curSize-=1;
+            shrinkSFX.Play();
+            StartCoroutine(ScaleOverTime(0.5f, shrinkSFX.clip.length));
+        }
+
+        if(status.curSize == 0){
+            if(status.isHealthy()){
+                Cure();
+            }
+        }
+    }
+
+
+    IEnumerator ScaleOverTime(float targetMultiplier, float duration)
+    {
+        Vector3 initialScale = transform.localScale;
+        Vector3 targetScale = initialScale * targetMultiplier;
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final scale is exactly the target
+        transform.localScale = targetScale;
+    }
+
+
+
+
+
 
     public void SetTarget(Transform newTarget)
     {
@@ -463,5 +554,20 @@ public class AlienBehaviour : MonoBehaviour
     public void SetIndex(int newIndex)
     {
         index = newIndex;
+    }
+
+
+    // Functions to pass info to game manager to pass to music manager
+
+    public float GetRemainingTime(){
+        return timer;
+    }
+
+    public int GetInjuryCount(){
+        int injuries = 0;
+        if (status.needsInjection) injuries++;
+        if (status.needsExtinguishing) injuries++;
+        if (status.hasShrapnel) injuries ++;
+        return injuries;
     }
 }
