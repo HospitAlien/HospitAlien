@@ -8153,6 +8153,10 @@ MonoBehaviour:
   - {fileID: 7559004192810491378}
   - {fileID: 7372850935980604209}
   - {fileID: 1743431953509317589}
+  rayInteractablesToRestart:
+  - {fileID: 5435005401152614723}
+  - {fileID: 1908893778473518905}
+  - {fileID: 6718231204493094547}
   vignetteStrengthText: {fileID: 290249254395003247}
   cameraHeightText: {fileID: 3569140519448147991}
 --- !u!1 &3774034659077333505
