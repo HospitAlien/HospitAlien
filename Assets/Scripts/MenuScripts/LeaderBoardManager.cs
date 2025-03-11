@@ -18,6 +18,7 @@ public class LeaderBoardManager : MonoBehaviour
         gvm.LeaderBoard.OnLeaderBoardChanged += UpdateLeaderBoard;
 
         UpdateLeaderBoard(gvm.LeaderBoard);
+        Debug.Log("Leaderboard updated");
     }
 
     void UpdateLeaderBoard(LeaderBoardIO leaderBoard)

@@ -33,4 +33,9 @@ public class CameraHeightManager : MonoBehaviour
     {
         gvm.gameSettings.CameraHeight = _mainCamera.transform.position.y - transform.position.y;
     }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnSettingChanged -= OnCameraHeightChanged;
+    }
 }

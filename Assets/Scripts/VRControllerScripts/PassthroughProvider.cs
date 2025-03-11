@@ -10,9 +10,10 @@ public class PassthroughProvider : MonoBehaviour
     private Camera _camera;
     private bool _isPassThroughOn = false;
 
-    private void Start()
+    private void Awake()
     {
         _camera = OVRManager.FindMainCamera();
+        Debug.Log("Camera: " + _camera);
 
         if (OVRManager.HasInsightPassthroughInitFailed())
         {

@@ -33,7 +33,7 @@ public class GlobalVariableManager : MonoBehaviour
     // Place to save the file
     private string settingFilePath;
     private string leaderBoardFilePath;
-    private LeaderBoardIO leaderBoard;
+    private LeaderBoardIO leaderBoard = default;
     private static GlobalVariableManager instance;
 
     private void Awake()
@@ -86,15 +86,15 @@ public class GlobalVariableManager : MonoBehaviour
     // Load the leaderboard if the file exists
     public void LoadLeaderBoard()
     {
+        leaderBoard = Instantiate(defaultLeaderBoard);
         if (File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(leaderBoardFilePath);
-            JsonUtility.FromJsonOverwrite(json, defaultLeaderBoard);
+            JsonUtility.FromJsonOverwrite(json, leaderBoard);
         }
         else
         {
             // copy the default leader board tto avoid change the default
-            leaderBoard = Instantiate(defaultLeaderBoard);
             Debug.Log("Using default leader board.");
         }
     }

@@ -153,4 +153,10 @@ public class MenuManager : MonoBehaviour
         FindFirstObjectByType<CameraHeightManager>().ResetCameraHeight();
         MoveMenuToPlayerSmoothly();
     }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnSettingChanged -= OnSettingChanged;
+        gvm.gameSettings.OnComfortSettingChanged -= OnComfortSettingChanged;
+    }
 }

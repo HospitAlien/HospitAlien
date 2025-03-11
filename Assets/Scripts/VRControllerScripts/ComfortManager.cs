@@ -108,4 +108,9 @@ public class ComfortManager : MonoBehaviour
         TurnOnComfortMode();
         remainTime = seconds;
     }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnComfortSettingChanged -= OnComfortSettingChanged;
+    }
 }
