@@ -394,11 +394,11 @@ public class AlienBehaviour : MonoBehaviour
         if(status.curSize == -1){
             status.curSize+=1;
             growthSFX.Play();
-            StartCoroutine(ScaleOverTime(2f, 0.5f));
+            StartCoroutine(ScaleOverTime(2f, growthSFX.clip.length));
         }else if(status.curSize == 0){
             status.curSize+=1;
             growthSFX.Play();
-            StartCoroutine(ScaleOverTime(1.4f, 0.5f));
+            StartCoroutine(ScaleOverTime(1.4f, growthSFX.clip.length));
         }
 
         if(status.curSize == 0){
@@ -413,11 +413,11 @@ public class AlienBehaviour : MonoBehaviour
         if(status.curSize == 1){
             status.curSize-=1;
             shrinkSFX.Play();
-            StartCoroutine(ScaleOverTime((1/(1.4f)), 0.5f));
+            StartCoroutine(ScaleOverTime((1/(1.4f)), shrinkSFX.clip.length));
         }else if(status.curSize == 0){
             status.curSize-=1;
             shrinkSFX.Play();
-            StartCoroutine(ScaleOverTime(0.5f, 0.5f));
+            StartCoroutine(ScaleOverTime(0.5f, shrinkSFX.clip.length));
         }
 
         if(status.curSize == 0){

@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
             int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen every 2/3 minutes
-            int waitTime = random.Next(120, 180);
+            int waitTime = random.Next(100, 120);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
@@ -181,7 +181,9 @@ public class GameManager : MonoBehaviour
                 if (currentPatientCount == 0) //if there are no patients we should spawn one in 5 seconds
                 {
                     yield return new WaitForSeconds(5f);
-                    SpawnPatient();
+                    if(eventState == 0){
+                        SpawnPatient();
+                    }
                 }
                 else
                 {
@@ -189,7 +191,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 0.06f)
+                    if (chance <= 0.06f && eventState == 0)
                     {
                         SpawnPatient();
                     }
