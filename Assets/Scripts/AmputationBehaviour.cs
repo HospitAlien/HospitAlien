@@ -4,6 +4,9 @@ public class AmputationBehaviour : MonoBehaviour
 {
     private AlienBehaviour alienBehaviour;
     private int hitCount = 0;
+    GameObject bloodPrefab;
+    ParticleSystem bloodParticles;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -13,6 +16,8 @@ public class AmputationBehaviour : MonoBehaviour
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
         CreateCollider();
+        bloodPrefab = Resources.Load<GameObject>("BloodSpurtParticles");
+        CreateBloodParticles();
     }
 
     // Update is called once per frame
@@ -26,13 +31,14 @@ public class AmputationBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Axe"))
         {
-        hitCount++;
-        Debug.Log("Hit by axe: " + hitCount);
+            hitCount++;
+            bloodParticles.Play();
+            Debug.Log("Hit by axe: " + hitCount);
 
-        if (hitCount >= 5)
-        {
-            alienBehaviour.Amputate();
-        }
+            if (hitCount >= 5)
+            {
+                alienBehaviour.Amputate();
+            }
         }
     }
 
@@ -42,6 +48,13 @@ public class AmputationBehaviour : MonoBehaviour
         BoxCollider collider = gameObject.AddComponent<BoxCollider>();
         collider.center = new Vector3(-0.62f, 0.81f, -0.04f);
         collider.size = new Vector3(0.22f, 0.08f, 0.23f);
+    }
+
+    public void CreateBloodParticles()
+    {
+        GameObject bloodObject= Instantiate(bloodPrefab, transform);
+        bloodObject.transform.localPosition = new Vector3(-0.62f, 0.81f, -0.04f);
+        bloodParticles = bloodObject.GetComponent<ParticleSystem>();
     }
 
 }
