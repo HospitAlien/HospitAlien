@@ -68,7 +68,7 @@ public class AlienBehaviour : MonoBehaviour
     private int index;
     public Vector3 targetLocation;
 
-    private float timer = 60;  // Start with a 60-second timer
+    private float timer = 120;  // Start with a 120-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
 
     private static GameManager gameManager;
@@ -116,20 +116,20 @@ public class AlienBehaviour : MonoBehaviour
         {
             status.needsExtinguishing = true;
             fireParticles.Play();
-            reward += 100;
+            reward += 50;
         }
 
         if (random.NextDouble() < 0.4)
         {
             status.shrapnelCount = 4;
-            reward += 100;
+            reward += 150;
             status.hasShrapnel = true;
             initiateShrapnel();
         }
 
         if (random.NextDouble() < 0.4)
         {
-
+            reward += 100;
             if (random.NextDouble() < 0.5)
             { //shrink
                 status.curSize = -1;
@@ -140,7 +140,6 @@ public class AlienBehaviour : MonoBehaviour
                 status.curSize = 1;
                 transform.localScale *= 1.4f;
             }
-
         }
 
 
