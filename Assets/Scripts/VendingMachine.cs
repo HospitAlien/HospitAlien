@@ -21,8 +21,6 @@ public class VendingMachine : MonoBehaviour
         Vector3 spawnPosition = transform.Find("TableLight").position + spawnOffset;
 
         currentObject = Instantiate(gameObject, spawnPosition, transform.rotation);
-
-        Debug.Log("Syringe spawned at: " + spawnPosition);
     }
 
     public void DeregisterObject(GameObject gameObject)

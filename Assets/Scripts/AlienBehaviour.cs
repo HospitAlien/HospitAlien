@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.Linq;
 
 struct Status
 {
@@ -30,15 +28,15 @@ struct Status
         {
             response += "I need a jab.\n";
         }
-        else if(hasShrapnel)
+        else if (hasShrapnel)
         {
             response += "There is shrapnel inside of me.\n";
         }
-        else if(curSize == -1)
+        else if (curSize == -1)
         {
             response += "I am really small.\n";
         }
-        else if(curSize == 1)
+        else if (curSize == 1)
         {
             response += "I am massive.\n";
         }
@@ -70,7 +68,7 @@ public class AlienBehaviour : MonoBehaviour
     private int index;
     public Vector3 targetLocation;
 
-    private float timer = 60;  // Start with a 60-second timer
+    private float timer = 120;  // Start with a 120-second timer
     private TextMesh timerText; //This whole text thing is gonna be replaced with a nice UI Later
 
     private static GameManager gameManager;
@@ -118,27 +116,30 @@ public class AlienBehaviour : MonoBehaviour
         {
             status.needsExtinguishing = true;
             fireParticles.Play();
-            reward += 100;
+            reward += 50;
         }
 
         if (random.NextDouble() < 0.4)
         {
             status.shrapnelCount = 4;
-            reward += 100;
+            reward += 150;
             status.hasShrapnel = true;
             initiateShrapnel();
         }
 
-        if(random.NextDouble() < 0.4){
-
-            if(random.NextDouble() < 0.5){ //shrink
+        if (random.NextDouble() < 0.4)
+        {
+            reward += 100;
+            if (random.NextDouble() < 0.5)
+            { //shrink
                 status.curSize = -1;
                 transform.localScale /= 2f;
-            }else{ //enlargement
+            }
+            else
+            { //enlargement
                 status.curSize = 1;
                 transform.localScale *= 1.4f;
             }
-
         }
 
 
@@ -152,7 +153,7 @@ public class AlienBehaviour : MonoBehaviour
 
         if (gameManager == null)
         {
-            gameManager = FindAnyObjectByType<GameManager>();
+            gameManager = FindFirstObjectByType<GameManager>();
         }
 
 
@@ -173,12 +174,6 @@ public class AlienBehaviour : MonoBehaviour
         beds[new Vector3(2f, 2f, 0f)] = (new Vector3(3.6f, 1, -1), Quaternion.Euler(-90, 180, 0));
         beds[new Vector3(2f, 2f, -2f)] = (new Vector3(2, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
         beds[new Vector3(0f, 2f, -2f)] = (new Vector3(0, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
-
-
-
-
-
-
     }
 
     void InitiateTimer()
@@ -287,11 +282,14 @@ public class AlienBehaviour : MonoBehaviour
     {
         status.shrapnelRemoved();
 
-        if(status.shrapnelCount == 0){
+        if (status.shrapnelCount == 0)
+        {
             if (status.isHealthy())
             {
                 Cure();
-            }else{
+            }
+            else
+            {
                 if (Time.time - lastVoiceTime >= voiceCooldownTime)
                 {
                     alienVoice.SayLine("Thanks for removing the shrapnel");
@@ -368,7 +366,9 @@ public class AlienBehaviour : MonoBehaviour
                 if (status.isHealthy())
                 {
                     Cure();
-                }else{
+                }
+                else
+                {
                     alienVoice.SayLine("the fire was put out");
                 }
             }
@@ -390,7 +390,7 @@ public class AlienBehaviour : MonoBehaviour
                 else
                 {
                     sweatParticles.Stop();
-                    alienVoice.SayLine("I really needed that injection!");  
+                    alienVoice.SayLine("I really needed that injection!");
                 }
 
             }
@@ -401,39 +401,51 @@ public class AlienBehaviour : MonoBehaviour
         }
     }
 
-    void EnlargementPilled(){
+    void EnlargementPilled()
+    {
 
-        if(status.curSize == -1){
-            status.curSize+=1;
+        if (status.curSize == -1)
+        {
+            status.curSize += 1;
             growthSFX.Play();
             StartCoroutine(ScaleOverTime(2f, growthSFX.clip.length));
-        }else if(status.curSize == 0){
-            status.curSize+=1;
+        }
+        else if (status.curSize == 0)
+        {
+            status.curSize += 1;
             growthSFX.Play();
             StartCoroutine(ScaleOverTime(1.4f, growthSFX.clip.length));
         }
 
-        if(status.curSize == 0){
-            if(status.isHealthy()){
+        if (status.curSize == 0)
+        {
+            if (status.isHealthy())
+            {
                 Cure();
             }
         }
     }
 
-    void ShrinkPilled(){
+    void ShrinkPilled()
+    {
 
-        if(status.curSize == 1){
-            status.curSize-=1;
+        if (status.curSize == 1)
+        {
+            status.curSize -= 1;
             shrinkSFX.Play();
-            StartCoroutine(ScaleOverTime((1/(1.4f)), shrinkSFX.clip.length));
-        }else if(status.curSize == 0){
-            status.curSize-=1;
+            StartCoroutine(ScaleOverTime((1 / (1.4f)), shrinkSFX.clip.length));
+        }
+        else if (status.curSize == 0)
+        {
+            status.curSize -= 1;
             shrinkSFX.Play();
             StartCoroutine(ScaleOverTime(0.5f, shrinkSFX.clip.length));
         }
 
-        if(status.curSize == 0){
-            if(status.isHealthy()){
+        if (status.curSize == 0)
+        {
+            if (status.isHealthy())
+            {
                 Cure();
             }
         }
@@ -475,15 +487,17 @@ public class AlienBehaviour : MonoBehaviour
 
     // Functions to pass info to game manager to pass to music manager
 
-    public float GetRemainingTime(){
+    public float GetRemainingTime()
+    {
         return timer;
     }
 
-    public int GetInjuryCount(){
+    public int GetInjuryCount()
+    {
         int injuries = 0;
         if (status.needsInjection) injuries++;
         if (status.needsExtinguishing) injuries++;
-        if (status.hasShrapnel) injuries ++;
+        if (status.hasShrapnel) injuries++;
         return injuries;
     }
 }
