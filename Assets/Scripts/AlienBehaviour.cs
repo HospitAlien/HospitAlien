@@ -139,7 +139,7 @@ public class AlienBehaviour : MonoBehaviour
             initiateShrapnel();
         }
 
-        if (random.NextDouble() < 0.4)
+        if (random.NextDouble() < 1)
         {
             status.needsAmputation = true;
             initiateAmputation();
