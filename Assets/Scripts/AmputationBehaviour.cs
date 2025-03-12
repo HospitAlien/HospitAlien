@@ -6,6 +6,8 @@ public class AmputationBehaviour : MonoBehaviour
     private int hitCount = 0;
     GameObject bloodPrefab;
     ParticleSystem bloodParticles;
+    AudioSource audioSource;
+    AudioClip hitSound;
 
 
 
@@ -18,6 +20,11 @@ public class AmputationBehaviour : MonoBehaviour
         CreateCollider();
         bloodPrefab = Resources.Load<GameObject>("BloodSpurtParticles");
         CreateBloodParticles();
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+       
+        hitSound = Resources.Load<AudioClip>("AxeHitSound");
+
     }
 
     // Update is called once per frame
@@ -32,6 +39,7 @@ public class AmputationBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Axe"))
         {
             hitCount++;
+            audioSource.PlayOneShot(hitSound);
             bloodParticles.Play();
             Debug.Log("Hit by axe: " + hitCount);
 
