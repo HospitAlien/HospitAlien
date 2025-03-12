@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Barracuda;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class GameManager : MonoBehaviour
     public int currentPatientCount = 0;
     public GameObject patientPrefab;
     public GameObject pizzaPrefab;
-    public Transform AlienSpawnPoint;
     public GameObject EventCanvas;
+    public GameObject Portal;
     private EventTextController eventTextController;
     public TextMeshPro scoreText;
     // private bool _gamePlaying = false;
@@ -132,9 +133,9 @@ public class GameManager : MonoBehaviour
         List<GameObject> spawnedPizzas = new List<GameObject>();
         System.Random random = new System.Random();
 
+        EventCanvas.SetActive(true);
         eventTextController.SetEventText("Lunch Time! Grab And Eat Pizza!");
         eventTextController.SetEventColor(Color.yellow);
-        EventCanvas.SetActive(true);
 
         //the pizza event is on for 30s It spawns pizza throughout the room this can be eaten by the doctor to earn coins
         float pizzaEventDuration = 30f;
@@ -182,6 +183,7 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(5f);
                     if (eventState == 0)
                     {
+                        Debug.Log("Spawning patient");
                         SpawnPatient();
                     }
                 }
@@ -193,6 +195,7 @@ public class GameManager : MonoBehaviour
                     float chance = Random.Range(0f, 1f);
                     if (chance <= 0.06f && eventState == 0)
                     {
+                        Debug.Log("Spawning patient");
                         SpawnPatient();
                     }
                 }
@@ -224,10 +227,7 @@ public class GameManager : MonoBehaviour
 
         // Select a random spawn location from the spawnLocations array
         Transform spawnPoint = spawnLocations[newSpot];
-
-
-        GameObject patient = Instantiate(patientPrefab, AlienSpawnPoint.transform.position, Quaternion.identity);
-
+        GameObject patient = Instantiate(patientPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();
 
@@ -288,7 +288,7 @@ public class GameManager : MonoBehaviour
     public int GetTotalInjuries()
     {
         int total = 0;
-        var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
+        var aliens = FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
         foreach (AlienBehaviour alien in aliens)
         {
             total += alien.GetInjuryCount();
@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviour
     public float GetTotalTimeLeft()
     {
         float total = 0f;
-        var aliens = Object.FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
+        var aliens = FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
         foreach (AlienBehaviour alien in aliens)
         {
             total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
