@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Barracuda;
 
 public class GameManager : MonoBehaviour
 {
@@ -120,7 +119,8 @@ public class GameManager : MonoBehaviour
             if (newEvent == 1)
             {
                 yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-                yield return StartCoroutine(PizzaTime());
+                StartCoroutine(PizzaTime());
+                yield return new WaitUntil(() => eventState == 0); //wait till the event is over
             }
         }
     }
@@ -128,7 +128,6 @@ public class GameManager : MonoBehaviour
     IEnumerator PizzaTime()
     {
         List<GameObject> spawnedPizzas = new List<GameObject>();
-        System.Random random = new System.Random();
 
         EventCanvas.SetActive(true);
         eventTextController.SetEventText("Lunch Time! Grab And Eat Pizza!");
@@ -140,22 +139,19 @@ public class GameManager : MonoBehaviour
 
         while (timeElapsed < pizzaEventDuration)
         {
-            if (Random.Range(0f, 1f) > 0.5f) // 50% chance pizza
-            {
 
-                Vector3 randomPosition = new Vector3(
-                    Random.Range(-10f, 10f),
-                    1f,
-                    Random.Range(-10f, 10f)
-                );
+            Vector3 randomPosition = new Vector3(
+                Random.Range(-10f, 10f),
+                1f,
+                Random.Range(-10f, 10f)
+            );
 
-                GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
-                spawnedPizzas.Add(pizza);
-            }
+            GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
+            spawnedPizzas.Add(pizza);
 
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.5f);
 
-            timeElapsed += 0.4f;
+            timeElapsed += 0.5f;
         }
 
         EventCanvas.SetActive(false);
