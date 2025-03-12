@@ -111,8 +111,8 @@ public class GameManager : MonoBehaviour
             System.Random random = new System.Random();
             int newEvent = random.Next(1, 1);
 
-            //need to find the time before the next event, should happen every 2/3 minutes
-            int waitTime = random.Next(100, 120);
+            //need to find the time before the next event, should happen around every 2 minutes
+            int waitTime = random.Next(100, 140);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
@@ -122,9 +122,6 @@ public class GameManager : MonoBehaviour
                 yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
                 yield return StartCoroutine(PizzaTime());
             }
-
-
-            eventState = 0;
         }
     }
 
@@ -167,6 +164,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(pizza);
         }
+        eventState = 0;
     }
 
 
