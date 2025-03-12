@@ -11,13 +11,14 @@ struct Status
     public bool needsExtinguishing;
     public bool needsAmputation;
     public bool hasShrapnel;
+    public bool needsLeftHand;
     public int shrapnelCount;
     public int curSize;
 
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && !needsAmputation);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && !needsAmputation && !needsLeftHand);
     }
 
     public string getIllness()
@@ -46,6 +47,10 @@ struct Status
         else if (needsAmputation)
         {
             response += "My arm is ruined! \n";
+        }
+        else if (needsLeftHand)
+        {
+            response += "I have no hand! \n";
         }
 
         return response;
@@ -315,22 +320,20 @@ public class AlienBehaviour : MonoBehaviour
 
             //Update status
             status.needsAmputation = false;
+            status.needsLeftHand = true;
 
-            if (status.isHealthy())
+
+            if (Time.time - lastVoiceTime >= voiceCooldownTime)
             {
-                Cure();
+                alienVoice.SayLine("Thanks for cutting it off!");
+                lastVoiceTime = Time.time; // Update the time the voice line was last played
             }
-            else
-            {
-                if (Time.time - lastVoiceTime >= voiceCooldownTime)
-                {
-                    alienVoice.SayLine("Thanks for cutting it off!");
-                    lastVoiceTime = Time.time; // Update the time the voice line was last played
-                }
-            }
+ 
 
             //Despawn hand in 10s. Could be changed so that players have to bin the arm.
             Destroy(leftHandTransform.gameObject, 10f);
+            //Now needs a new hand
+            initiateAttachHand();
         }
         else
         {
@@ -339,8 +342,69 @@ public class AlienBehaviour : MonoBehaviour
 
     }
 
+    private void initiateAttachHand()
+    {
+        //Remove amputation script
+        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
+        if (amputationDetectorTransform != null)
+        {
+            // Get the AmputationBehaviour component from the child object
+            AmputationBehaviour amputationBehaviour = amputationDetectorTransform.GetComponent<AmputationBehaviour>();
+            if (amputationBehaviour != null)
+            {
+                // Remove the component (script) from the object
+                Destroy(amputationBehaviour);
+            }
+            else
+            {
+                Debug.LogWarning("AmputationBehaviour component not found on AmputationDetector.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Child object 'AmputationDetector' not found.");
+        }
 
-        private void initiateShrapnel()
+        //Add attachment script. Conserve collider
+        amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
+
+    }
+
+    public void attachHand(GameObject hand)
+    {
+        Transform amputationDetector = transform.Find("AmputationDetector");
+        if (amputationDetector != null)
+        {
+            // Delete the child object.
+            Destroy(amputationDetector.gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Child object 'AmputationDetector' not found.");
+        }
+        Destroy(hand.transform.Find("ISDK_DistanceHandGrabInteraction")); //Prevent hand staying grabbable
+        Destroy(hand.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
+        hand.transform.SetParent(transform);
+
+        // Set the local position and rotation to the specified values.
+        hand.transform.localPosition = new Vector3(-0.0303f, 0.0333f, 0.0004f);
+        hand.transform.localRotation = Quaternion.Euler(154.596f, -28.75101f, -4.377991f);
+
+        status.needsLeftHand = false;
+        if (status.isHealthy())
+        {
+            Cure();
+        }
+        else
+        {
+            sweatParticles.Stop();
+            alienVoice.SayLine("Thanks for the new hand!");
+        }
+
+
+    }
+
+    private void initiateShrapnel()
     {
         int count = 0;
         while (count < 4)
