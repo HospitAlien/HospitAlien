@@ -2842,14 +2842,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7010216410745176669, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
+    - {fileID: 5222331238931064306, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
     m_RemovedGameObjects:
     - {fileID: 4468532823859033905, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6360351694404387713, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1883120625}
-    m_AddedComponents: []
+    - targetCorrespondingSourceObject: {fileID: 6360351694404387713, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2092720112}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 194406184433735047, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 699798651}
   m_SourcePrefab: {fileID: 100100000, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
+--- !u!1 &699798650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 194406184433735047, guid: aad1ac4f901e9da48a66ded466f4efa0, type: 3}
+  m_PrefabInstance: {fileID: 699798649}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &699798651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699798650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb0a0c265d26d940989d828aa837ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &727371738
 GameObject:
   m_ObjectHideFlags: 0
@@ -10620,6 +10644,82 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2092720111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2092720112}
+  - component: {fileID: 2092720114}
+  - component: {fileID: 2092720113}
+  m_Layer: 4
+  m_Name: GrabAndUseProvider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2092720112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092720111}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.27710855, y: 0.018762538, z: 0.14288405}
+  m_LocalScale: {x: 0.08659641, y: 0.08659641, z: 0.08659641}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 302535748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2092720113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092720111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6ecba06b668d944b0a9b93e5f2324f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _primaryInteractable: {fileID: 1883120629}
+  _secondaryInteractable: {fileID: 2092720114}
+  _selectRequired: 1
+--- !u!114 &2092720114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092720111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35181eeb40ed13148b0721382f49aba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactorFilters:
+  - {fileID: 2092720113}
+  _maxInteractors: -1
+  _maxSelectingInteractors: -1
+  _data: {fileID: 0}
+  _handUseDelegate: {fileID: 699798651}
+  _useFingers:
+    _thumbRequirement: 0
+    _indexRequirement: 2
+    _middleRequirement: 0
+    _ringRequirement: 0
+    _pinkyRequirement: 0
+    _unselectMode: 0
+  _strengthDeadzone: 0.2
+  _relaxedHandGrabPoses: []
+  _tightHandGrabPoses: []
 --- !u!1001 &2126070784
 PrefabInstance:
   m_ObjectHideFlags: 0
