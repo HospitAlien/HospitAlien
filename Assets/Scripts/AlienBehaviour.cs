@@ -263,7 +263,10 @@ public class AlienBehaviour : MonoBehaviour
     }
 
     public void applyEyedrop(){
-        Debug.Log("Eye drop hit");
+        status.applyEyeDrop();
+        if(status.isHealthy()){
+            Cure();
+        }
     }
 
 
@@ -385,8 +388,6 @@ public class AlienBehaviour : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("Hit parernt");
     }
 
     void Syrined()
