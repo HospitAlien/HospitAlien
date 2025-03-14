@@ -25,23 +25,27 @@ struct Status
         string response = string.Empty;
         if (needsExtinguishing)
         {
-            response += "I'm burning.\n";
+            response += "I'm burning, grab the fire extinguisher and put me out.\n";
         }
         else if (needsInjection)
         {
-            response += "I need a jab.\n";
+            response += "I need an injection.\n";
         }
         else if(hasShrapnel)
         {
-            response += "There is shrapnel inside of me.\n";
+            response += "There is shrapnel inside of me, grab it and pull it out.\n";
         }
         else if(curSize == -1)
         {
-            response += "I am really small.\n";
+            response += "I am really small get a growth pill.\n";
         }
         else if(curSize == 1)
         {
-            response += "I am massive.\n";
+            response += "I am massive get me a shrink pill.\n";
+        }
+        else if(numberOfBadEyes != 0)
+        {
+            response += "I have a really itchy eye, get me an eyedrop.\n";
         }
 
         return response;
