@@ -145,10 +145,12 @@ public class AlienBehaviour : MonoBehaviour
             }
         }
 
-        if(true){
+        if(random.NextDouble() < 0.4){
             status.numberOfBadEyes = 1;
-            EyeScript eye1 = transform.Find("eye1").gameObject.GetComponent<EyeScript>();
-            eye1.activate(this);
+            int eyeNumber = random.Next(1,4);
+            Debug.Log(eyeNumber);
+            EyeScript eye = transform.Find("eye"+Convert.ToString(eyeNumber)).gameObject.GetComponent<EyeScript>();
+            eye.activate(this);
         }
 
 
