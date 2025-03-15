@@ -155,7 +155,7 @@ public class AlienBehaviour : MonoBehaviour
             status.numberOfBadEyes = 1;
             int eyeNumber = random.Next(1,4);
             Debug.Log(eyeNumber);
-            EyeScript eye = transform.Find("eye"+Convert.ToString(eyeNumber)).gameObject.GetComponent<EyeScript>();
+            EyeScript eye = transform.Find($"eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
             eye.activate(this);
         }
 

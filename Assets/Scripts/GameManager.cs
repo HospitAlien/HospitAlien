@@ -146,23 +146,19 @@ public class GameManager : MonoBehaviour
                 Random.Range(-10f, 10f)
             );
 
-                GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
+            GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
+            Rigidbody rb = pizza.GetComponent<Rigidbody>();
+            
+            if (rb != null)
+            {
+                Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+                float randomForceMagnitude = Random.Range(1f, 1.3f);
+                rb.AddForce(randomDirection * randomForceMagnitude, ForceMode.Impulse);
 
-                Rigidbody rb = pizza.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-                    float randomForceMagnitude = Random.Range(1f, 1.3f);
-                    rb.AddForce(randomDirection * randomForceMagnitude, ForceMode.Impulse);
-
-                    Vector3 randomTorque = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f));
-                    rb.AddTorque(randomTorque, ForceMode.Impulse); 
-                }
-
-
-                spawnedPizzas.Add(pizza);
+                Vector3 randomTorque = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f));
+                rb.AddTorque(randomTorque, ForceMode.Impulse); 
             }
-
+            spawnedPizzas.Add(pizza);
             yield return new WaitForSeconds(0.5f);
 
             timeElapsed += 0.5f;
