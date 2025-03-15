@@ -19,6 +19,9 @@ TagManager:
   - QDSUIToggleCheckboxRadio
   - Shrapnel
   - AlienTranslator
+  - Eyeball1
+  - Eyeball2
+  - Eyeball3
   layers:
   - Default
   - TransparentFX

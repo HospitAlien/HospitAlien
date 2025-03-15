@@ -10,11 +10,12 @@ struct Status
     public bool hasShrapnel;
     public int shrapnelCount;
     public int curSize;
+    public int numberOfBadEyes;
 
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && numberOfBadEyes == 0);
     }
 
     public string getIllness()
@@ -22,23 +23,27 @@ struct Status
         string response = string.Empty;
         if (needsExtinguishing)
         {
-            response += "I'm burning.\n";
+            response += "I'm burning, grab the fire extinguisher and put me out.\n";
         }
         else if (needsInjection)
         {
-            response += "I need a jab.\n";
+            response += "I need an injection.\n";
         }
         else if (hasShrapnel)
         {
-            response += "There is shrapnel inside of me.\n";
+            response += "There is shrapnel inside of me, grab it and pull it out.\n";
         }
         else if (curSize == -1)
         {
-            response += "I am really small.\n";
+            response += "I am really small get a growth pill.\n";
         }
         else if (curSize == 1)
         {
-            response += "I am massive.\n";
+            response += "I am massive get me a shrink pill.\n";
+        }
+        else if(numberOfBadEyes != 0)
+        {
+            response += "I have a really itchy eye, get me an eyedrop.\n";
         }
 
         return response;
@@ -57,6 +62,10 @@ struct Status
     {
         shrapnelCount = shrapnelCount + 1;
         hasShrapnel = true;
+    }
+
+    public void applyEyeDrop(){
+        numberOfBadEyes = numberOfBadEyes -1;
     }
 
 }
@@ -142,7 +151,13 @@ public class AlienBehaviour : MonoBehaviour
             }
         }
 
-
+        if(random.NextDouble() < 0.4){
+            status.numberOfBadEyes = 1;
+            int eyeNumber = random.Next(1,4);
+            Debug.Log(eyeNumber);
+            EyeScript eye = transform.Find($"eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
+            eye.activate(this);
+        }
 
 
     }
@@ -247,6 +262,13 @@ public class AlienBehaviour : MonoBehaviour
 
         gameManager.PatientDied(index);
         Destroy(gameObject);
+    }
+
+    public void applyEyedrop(){
+        status.applyEyeDrop();
+        if(status.isHealthy()){
+            Cure();
+        }
     }
 
 
