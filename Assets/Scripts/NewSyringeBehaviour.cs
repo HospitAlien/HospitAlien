@@ -4,31 +4,31 @@ using Oculus.Interaction.HandGrab;
 
 public class SyringeNewBehaviour : MonoBehaviour, IHandGrabUseDelegate
 {
-    private bool ready;
     private bool injecting; 
     private bool fullLiquid; 
-    private Animation animationComponent; 
+    private Animator animator; 
 
     void Start()
     {
         fullLiquid = true; 
-        ready = true;
         injecting = false; 
-        animationComponent = GetComponent<Animation>(); 
+        animator = GetComponent<Animator>(); 
 
-        if (animationComponent == null)
+        if (animator == null)
         {
-            Debug.LogError("No Animation component found on syringe!");
+            Debug.LogError("No animator component found on syringe!");
         }
     }
 
     // Called when the trigger is pressed
     public void BeginUse()
     {
+        Debug.Log("played animation");
+        animator.Play("SyringeAnimation", 0, 0f); 
         if (fullLiquid && !injecting)
         {
             injecting = true;
-            animationComponent.Play("Syringe Animation"); 
+            
 
             StartCoroutine(WaitForInjection());
         }
@@ -66,7 +66,6 @@ public class SyringeNewBehaviour : MonoBehaviour, IHandGrabUseDelegate
     public void EndUse()
     {
         Debug.Log("End use");
-       
     }
 
 }
