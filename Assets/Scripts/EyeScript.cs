@@ -6,6 +6,7 @@ public class EyeScript : MonoBehaviour
     private Material normalEyeMaterial;
     private AlienBehaviour alien;
     private bool active;
+    public AudioSource sizzleSFX;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +30,7 @@ public class EyeScript : MonoBehaviour
             Renderer renderer = GetComponent<Renderer>();
             renderer.material = normalEyeMaterial;
             alien.applyEyedrop();
+            sizzleSFX.Play();
             active = false;
         }
     }
