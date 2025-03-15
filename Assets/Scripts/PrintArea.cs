@@ -25,7 +25,7 @@ public class PrintArea : MonoBehaviour
         {
             if (obj != null)
             {
-                obj.transform.Translate(new Vector3(-3f, 1f, 0f), Space.World);
+                obj.transform.Translate(new Vector3(3f, 1f, 0f), Space.World);
             }
         }
     }
