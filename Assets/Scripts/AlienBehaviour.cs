@@ -382,9 +382,12 @@ public class AlienBehaviour : MonoBehaviour
         {
             Debug.LogWarning("Child object 'AmputationDetector' not found.");
         }
-        Destroy(hand.transform.Find("ISDK_DistanceHandGrabInteraction")); //Prevent hand staying grabbable
+        Destroy(hand.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
         Destroy(hand.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
+
         hand.transform.SetParent(transform);
+        hand.transform.localScale = Vector3.one; //Adjust scale
+
 
         // Set the local position and rotation to the specified values.
         hand.transform.localPosition = new Vector3(-0.0303f, 0.0333f, 0.0004f);
