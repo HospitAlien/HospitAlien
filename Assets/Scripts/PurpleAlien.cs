@@ -1,5 +1,5 @@
 using UnityEngine;
-public class AlienBehaviour : Alien
+public class PurpleAlien : Alien
 {
    
 
