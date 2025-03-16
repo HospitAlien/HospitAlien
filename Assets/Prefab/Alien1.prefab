@@ -1210,10 +1210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c9ba52060dad5b4afc0e2372fc2ce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   targetLocation: {x: 0, y: 0, z: 0}
-  sweatParticles: {fileID: 2604348844787910538}
-  fireParticles: {fileID: 454932969967861052}
+  sweatParticles: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
+  fireParticles: {fileID: 3743327890311001009, guid: aa4038d84d3c1ac4abf1164b94993379, type: 3}
   shrapnel: {fileID: 4177759664629391277, guid: b0ff8cc36a5f4234fbe29e045fd88b53, type: 3}
   bodyTransform: {fileID: 1096334803181794447}
   coinParticlePrefab: {fileID: 8789034786812375928, guid: e7e3fa7811d5a964f868c145a88fc11e, type: 3}
@@ -2393,11 +2392,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 623578049605735460, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
   m_PrefabInstance: {fileID: 1199904929792187471}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &2604348844787910538 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3783703550052834245, guid: 009dff34dd0881f4ea87d890c911efae, type: 3}
-  m_PrefabInstance: {fileID: 1199904929792187471}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3864871067017318029
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2475,11 +2469,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa4038d84d3c1ac4abf1164b94993379, type: 3}
---- !u!198 &454932969967861052 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3743327890311001009, guid: aa4038d84d3c1ac4abf1164b94993379, type: 3}
-  m_PrefabInstance: {fileID: 3864871067017318029}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6604158380765225901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7927576472576765216, guid: aa4038d84d3c1ac4abf1164b94993379, type: 3}
