@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 44ce41a9daf58314da9272448e503928
+guid: 491d69b45036b6948bc6440229be155e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: alien_skin
-    second: {fileID: 2100000, guid: a38d9ad0a0dc2d24e83b33b11f187976, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
