@@ -9,12 +9,12 @@ public class AlienVoice : MonoBehaviour
 
     public TTSSpeaker TTSScript;
     public AppVoiceExperience VoiceExperience;
-    private AlienBehaviour alienBehaviour;
+    private Alien alien;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        alienBehaviour = GetComponent<AlienBehaviour>();
+        alien = GetComponent<Alien>();
     }
 
     // Update is called once per frame
@@ -89,7 +89,7 @@ public class AlienVoice : MonoBehaviour
     public void SayIllness()
     {
         Debug.Log("SayIllness Called");
-        TTSScript.Speak(alienBehaviour.getVoiceLine());
+        TTSScript.Speak(alien.getVoiceLine());
     }
 
     private bool IntentMatches(WitResponseNode response, string Intent)
