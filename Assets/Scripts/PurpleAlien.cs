@@ -95,35 +95,4 @@ public class PurpleAlien : Alien
         }
     }
 
-    void FixedUpdate()
-    {
-
-        if (target != null)
-        {
-
-
-            // Check if the agent has reached the destination
-            if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
-            {
-                //Move the alien to bed and disable path-finding
-                agent.Warp(beds[target.position].Item1);
-                agent.enabled = false;
-                transform.rotation = beds[target.position].Item2;
-                target = null;
-                isReady = true;
-                //Reposition timer so it's not on the floor (it's rotated alongside the alien")
-                Transform timerText = transform.Find("TimerText");
-                if (timerText != null)
-                {
-                    timerText.localPosition = new Vector3(0f, 0.15f, 0.06f);
-                    timerText.localRotation = Quaternion.Euler(-90f, 180f, 0f);
-                }
-            }
-            else
-            {
-                agent.SetDestination(targetLocation);
-                isReady = false;
-            }
-        }
-    }
 }
