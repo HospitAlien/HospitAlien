@@ -10,6 +10,7 @@ public class AlienBehaviour : Alien
 
         if (random.NextDouble() < 0.4)
         {
+            Debug.Log("SWEATING");
             status.needsInjection = true;
             sweatParticles.Play();
             reward += 100;
@@ -17,6 +18,7 @@ public class AlienBehaviour : Alien
         if (random.NextDouble() < 0.4)
         {
             status.needsExtinguishing = true;
+            Debug.Log("ON FIRE");
             fireParticles.Play();
             reward += 50;
         }
@@ -90,46 +92,6 @@ public class AlienBehaviour : Alien
             newShrapnel.transform.SetParent(transform); // Set the shrapnel as a child of the player
 
             count++;
-        }
-    }
-
-    // Detect collision with the player's controller
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("AlienTranslator")) // Cure the alien if it collides with the controller
-        {
-            //Voice chat function
-            alienVoice.ActivateListening();
-        }
-
-    }
-
-
-    //Detect collision with fire extinguisher foam
-    void OnParticleCollision(GameObject particle)
-    {
-
-        // Check if the particle colliding with the alien is from the fire extinguisher
-        // if (particle.CompareTag("Fire-Extinguisher"))
-        // {
-        //     Debug.Log("FIRE Particle hit the alien!");
-
-        // }
-        if (isReady)
-        {
-            if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)
-            {
-                status.needsExtinguishing = false;
-                fireParticles.Stop();
-                if (status.isHealthy())
-                {
-                    Cure();
-                }
-                else
-                {
-                    alienVoice.SayLine("the fire was put out");
-                }
-            }
         }
     }
 }
