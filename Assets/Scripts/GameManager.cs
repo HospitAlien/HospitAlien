@@ -76,8 +76,8 @@ public class GameManager : MonoBehaviour
         EventCanvas.SetActive(false);
 
         // Start the game manually for debug, comment this line in production
-         StartCoroutine(SpawnPatients());
-         StartCoroutine(eventRoutine());
+        // StartCoroutine(SpawnPatients());
+        // StartCoroutine(eventRoutine());
     }
 
 
