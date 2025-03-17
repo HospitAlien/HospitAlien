@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
-    public GameObject patientPrefab;
+    public GameObject purpleAlienPrefab;
+    public GameObject greenAlienPrefab;
+
     public GameObject pizzaPrefab;
     public GameObject EventCanvas;
     public GameObject Portal;
@@ -231,9 +233,19 @@ public class GameManager : MonoBehaviour
 
         // Select a random spawn location from the spawnLocations array
         Transform spawnPoint = spawnLocations[newSpot];
-        GameObject patient = Instantiate(patientPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        GameObject patient;
+        int alienType = Random.Range(1, 3);
+        if(alienType == 1)
+        {
+            patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        }
+
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
-        AlienBehaviour patientBehaviour = patient.GetComponent<AlienBehaviour>();
+        Alien patientBehaviour = patient.GetComponent<Alien>();
 
         if (patientBehaviour != null)
         {
@@ -292,8 +304,8 @@ public class GameManager : MonoBehaviour
     public int GetTotalInjuries()
     {
         int total = 0;
-        var aliens = FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
-        foreach (AlienBehaviour alien in aliens)
+        var aliens = FindObjectsByType<Alien>(FindObjectsSortMode.None);
+        foreach (Alien alien in aliens)
         {
             total += alien.GetInjuryCount();
         }
@@ -304,8 +316,8 @@ public class GameManager : MonoBehaviour
     public float GetTotalTimeLeft()
     {
         float total = 0f;
-        var aliens = FindObjectsByType<AlienBehaviour>(FindObjectsSortMode.None);
-        foreach (AlienBehaviour alien in aliens)
+        var aliens = FindObjectsByType<Alien>(FindObjectsSortMode.None);
+        foreach (Alien alien in aliens)
         {
             total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
         }

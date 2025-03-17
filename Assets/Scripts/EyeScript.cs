@@ -4,7 +4,7 @@ public class EyeScript : MonoBehaviour
 {
     public Material bloodShotMaterial;
     private Material normalEyeMaterial;
-    private AlienBehaviour alien;
+    private PurpleAlien alien;
     private bool active;
     public AudioSource sizzleSFX;
 
@@ -13,7 +13,7 @@ public class EyeScript : MonoBehaviour
     {
     }
 
-    public void activate(AlienBehaviour theAlien){
+    public void activate(PurpleAlien theAlien){
         Renderer renderer = GetComponent<Renderer>();
         normalEyeMaterial = renderer.material;
         renderer.material = bloodShotMaterial;
