@@ -305,15 +305,24 @@ public class AlienBehaviour : MonoBehaviour
     //Add a child to hold colliders to detect axe hits
     private void initiateAmputation()
     {
+        bool limbSet = false;
 
         System.Random random = new System.Random();
-        for (int i = 1; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            if (random.NextDouble() < 0.4)
+            if (random.NextDouble() < 0.3)
             {
                 amputations.limbs[i] = true;
+                limbSet = true;
             }
         }
+
+        if (limbSet == false)
+        {
+            amputations.limbs[random.Next(0, 4)] = true;
+        }
+
+
               
 
         // Create a new GameObject to detect axe hits
