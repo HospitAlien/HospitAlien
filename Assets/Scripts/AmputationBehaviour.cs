@@ -15,6 +15,7 @@ public class AmputationBehaviour : MonoBehaviour
     void Start()
     {
         alienBehaviour = GetComponentInParent<AlienBehaviour>();
+
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
         CreateCollider();
@@ -32,6 +33,8 @@ public class AmputationBehaviour : MonoBehaviour
     {
         
     }
+    
+        
 
     // Counts up hits.
     void OnCollisionEnter(Collision collision)

@@ -56,6 +56,7 @@ struct Status
         return response;
     }
 
+
     public void shrapnelRemoved()
     {
         shrapnelCount = shrapnelCount - 1;
@@ -71,6 +72,12 @@ struct Status
         hasShrapnel = true;
     }
 
+}
+
+public struct Amputations
+{
+    public bool[] limbs;
+    
 }
 
 public class AlienBehaviour : MonoBehaviour
@@ -102,11 +109,13 @@ public class AlienBehaviour : MonoBehaviour
     private float voiceCooldownTime = 3f;
 
     private Status status;
+    public Amputations amputations;
     private AlienVoice alienVoice;
     private int reward = 0;
 
     private Dictionary<Vector3, (Vector3, Quaternion)> beds
         = new Dictionary<Vector3, (Vector3, Quaternion)>();
+
 
     public string getVoiceLine()
     {
@@ -142,6 +151,7 @@ public class AlienBehaviour : MonoBehaviour
         if (random.NextDouble() < 1)
         {
             status.needsAmputation = true;
+            amputations.limbs = new bool[] { true, false, false, false };
             initiateAmputation();
         }
         if(random.NextDouble() < 0.4){
@@ -269,39 +279,72 @@ public class AlienBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void ChangeLeftHandMaterial()
+    void ChangeLimbMaterial(Transform limbTransform)
     {
         // Finds the "left_hand" transform
-        Transform leftHandTransform = transform.Find("hands/left_hand");
-        if (leftHandTransform != null)
+        if (limbTransform != null)
         {
-            Renderer leftHandRenderer = leftHandTransform.GetComponent<Renderer>();
-            if (leftHandRenderer != null)
+            Renderer limbRenderer = limbTransform.GetComponent<Renderer>();
+            if (limbRenderer != null)
             {
                 // Change the material
-                leftHandRenderer.material = Resources.Load<Material>("Amputate"); ;
+                limbRenderer.material = Resources.Load<Material>("Amputate"); ;
             }
             else
             {
-                Debug.LogError("Renderer component not found on left_hand");
+                Debug.LogError("Renderer component not found on limb");
             }
         }
         else
         {
-            Debug.LogError("left_hand not found under hands");
+            Debug.LogError("limb not found");
         }
     }
+
 
     //Add a child to hold colliders to detect axe hits
     private void initiateAmputation()
     {
+
+        System.Random random = new System.Random();
+        for (int i = 1; i < 4; i++)
+        {
+            if (random.NextDouble() < 0.4)
+            {
+                amputations.limbs[i] = true;
+            }
+        }
+              
+
         // Create a new GameObject to detect axe hits
         GameObject amputationDetector = new GameObject("AmputationDetector");
         amputationDetector.transform.SetParent(transform);
         amputationDetector.transform.localPosition = Vector3.zero;
         amputationDetector.transform.localRotation = Quaternion.identity;
         amputationDetector.AddComponent<AmputationBehaviour>();
-        ChangeLeftHandMaterial();
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (amputations.limbs[i])
+            {
+                switch (i)
+                {
+                    case 0:
+                        ChangeLimbMaterial(transform.Find("hands/left_hand"));
+                        break;
+                    case 1:
+                        ChangeLimbMaterial(transform.Find("hands/right_hand"));
+                        break;
+                    case 2:
+                        ChangeLimbMaterial(transform.Find("feet/foot_left"));
+                        break;
+                    case 3:
+                        ChangeLimbMaterial(transform.Find("feet/foot_right"));
+                        break;
+
+                }
+            }
+        }
     }
 
     //Called when enough axe hits are delivered, amputates the arm and updates status
