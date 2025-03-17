@@ -1,28 +1,40 @@
 using UnityEngine;
-using System.Collections;
 using Oculus.Interaction.HandGrab;
 
-public class SyringeNewBehaviour : MonoBehaviour, IHandGrabUseDelegate
+public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
 {
-    private bool injecting; 
     private bool fullLiquid; 
-    private Animator animator; 
-    private bool tipInContactWithAlienBlood; // To track if the syringe tip is in contact with AlienBlood
-    private bool tipInContactWithAlien;     // To track if the syringe tip is in contact with Alien
+    private Animator animator;
+    private bool tipInContactWithAlienBlood;
+    private bool tipInContactWithAlien;
+    AlienBehaviour alien;
 
     void Start()
     {
-        fullLiquid = true; 
-        injecting = false; 
-        animator = GetComponent<Animator>(); 
+        fullLiquid = true;
+        animator = GetComponent<Animator>();
 
         if (animator == null)
         {
             Debug.LogError("No animator component found on syringe!");
         }
 
-        tipInContactWithAlienBlood = false; 
-        tipInContactWithAlien = false; 
+        tipInContactWithAlienBlood = false;
+        tipInContactWithAlien = false;
+    }
+
+    public void SetTipInContactWithAlienBlood(bool value)
+    {
+        tipInContactWithAlienBlood = value;
+        Debug.Log("Received SetTipInContactWithAlienBlood: " + value);
+    }
+
+    public void SetTipInContactWithAlien(bool value, AlienBehaviour newAlien)
+    {
+        alien = newAlien;
+        tipInContactWithAlien = value;
+        Debug.Log("Received SetTipInContactWithAlien: " + value);
+        Debug.Log(newAlien);
     }
 
     // Called when the trigger is pressed
@@ -37,7 +49,7 @@ public class SyringeNewBehaviour : MonoBehaviour, IHandGrabUseDelegate
             // If the syringe tip is in contact with an Alien, send the "Syrined" message
             if (tipInContactWithAlien)
             {
-                gameObject.SendMessage("Syrined");
+                alien.SendMessage("Syrined");
                 Debug.Log("Syringe injected Alien, message 'Syrined' sent.");
             }
         }
@@ -59,55 +71,14 @@ public class SyringeNewBehaviour : MonoBehaviour, IHandGrabUseDelegate
                 Debug.Log("Syringe is empty, fullLiquid = false");
             }
         }
-
-        // Reset the injection flag after the use
-        injecting = false;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        // Check if the collider is the SyringeTip
-        if (other.CompareTag("SyringeTip"))
-        {
-            if (other.CompareTag("AlienBlood"))
-            {
-                tipInContactWithAlienBlood = true; // Set flag if in contact with AlienBlood
-                Debug.Log("SyringeTip entered trigger with AlienBlood");
-            }
-            else if (other.CompareTag("Alien"))
-            {
-                tipInContactWithAlien = true; // Set flag if in contact with Alien
-                Debug.Log("SyringeTip entered trigger with Alien");
-            }
-        }
-    }
-
-    // This checks when the trigger exit occurs, to reset the flags
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("SyringeTip"))
-        {
-            if (other.CompareTag("AlienBlood"))
-            {
-                tipInContactWithAlienBlood = false; // Reset the flag when no longer in contact
-                Debug.Log("SyringeTip exited trigger with AlienBlood");
-            }
-            else if (other.CompareTag("Alien"))
-            {
-                tipInContactWithAlien = false; // Reset the flag when no longer in contact
-                Debug.Log("SyringeTip exited trigger with Alien");
-            }
-        }
-    }
-
-    public float ComputeUseStrength(float strength)
-    {
-        // Debug.Log("Compute use strength, strength: " + strength);
-        return strength;
     }
 
     public void EndUse()
     {
-        Debug.Log("End use");
+    }
+
+    public float ComputeUseStrength(float strength)
+    {
+         return strength;
     }
 }
