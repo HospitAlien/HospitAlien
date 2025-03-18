@@ -11,9 +11,9 @@ public class ScoreBoardManager : MonoBehaviour
 
     private int[] targetScores;
     private string[] targetRanks;
+
     private int currentThreshhold;
-    
-    public int currentScore = 0;
+    private int currentScore = 0;
     
     void Start()
     {
@@ -44,8 +44,11 @@ public class ScoreBoardManager : MonoBehaviour
         }
         scoreText.text = $"Score: {currentScore}";
     }
+    
 
-    void Update(){
+    public void setScore(int newScore)
+    {
+        currentScore = newScore;
         if(currentThreshhold<targetScores.Length-1)
         {   
             if(targetScores[currentThreshhold+1] <= currentScore){ //if we have reached the next level
@@ -54,20 +57,10 @@ public class ScoreBoardManager : MonoBehaviour
             }
         }
         if(currentThreshhold != 0){
-            if(targetScores[currentThreshhold] > currentScore){ //if we have reached the next level
+            if(targetScores[currentThreshhold] > currentScore){ //if we have fallen below current level
                 currentThreshhold--;
                 currentRank.text = targetRanks[currentThreshhold];
             }
-        }
-        UpdateScrollbarAndText();
-    }
-
-
-    public void IncrementScore(int incrementAmount)
-    {
-        currentScore += incrementAmount;
-        if(targetScores[currentThreshhold+1] < currentScore){ //if we have reached the next level
-            currentThreshhold++;
         }
         UpdateScrollbarAndText();
     }
