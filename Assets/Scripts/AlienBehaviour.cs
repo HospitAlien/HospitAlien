@@ -50,7 +50,7 @@ struct Status
         }
         else if (needsLeftHand)
         {
-            response += "I have no hand! \n";
+            response += "I need body parts! \n";
         }
 
         return response;
