@@ -11,39 +11,31 @@ public class SyringeTipBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Get the parent of the collider object
         Transform parentTransform = other.transform.parent;
-
-        // If there is a parent, check the tag of the parent object
         if (parentTransform != null)
         {
-            // Debugging: Check which tag we are comparing
-            Debug.Log("Other tag: " + other.tag);
-            Debug.Log("Parent tag: " + parentTransform.tag);
 
             if (parentTransform.CompareTag("GreenAlienBlood"))
             {
                 syringe.SetTipInContactWithAlienBlood(true);
-                syringe.SetFullBloodType(NewSyringeBehaviour.BloodType.Green); // Set blood type to Green
-                Debug.Log("SyringeTip entered trigger with GreenAlienBlood");
+                syringe.SetFullBloodType("Green"); // Set blood type to Green
             }
             else if (parentTransform.CompareTag("RedAlienBlood"))
             {
                 syringe.SetTipInContactWithAlienBlood(true);
-                syringe.SetFullBloodType(NewSyringeBehaviour.BloodType.Red); // Set blood type to Red
-                Debug.Log("SyringeTip entered trigger with RedAlienBlood");
+                syringe.SetFullBloodType("Red"); // Set blood type to Red
             }
             else if (parentTransform.CompareTag("BlueAlienBlood"))
             {
                 syringe.SetTipInContactWithAlienBlood(true);
-                syringe.SetFullBloodType(NewSyringeBehaviour.BloodType.Blue); // Set blood type to Blue
-                Debug.Log("SyringeTip entered trigger with BlueAlienBlood");
+                syringe.SetFullBloodType("Blue"); // Set blood type to Blue
             }
-            else if (parentTransform.CompareTag("Alien"))
+        }
+
+        Alien alien = other.GetComponentInParent<Alien>();
+        if (alien != null)
             {
-                syringe.SetTipInContactWithAlien(true, other.GetComponentInParent<AlienBehaviour>());
-                Debug.Log("SyringeTip entered trigger with Alien");
-            }
+                syringe.TipEnteredAlien(alien);
         }
     }
 
@@ -60,11 +52,13 @@ public class SyringeTipBehaviour : MonoBehaviour
                 syringe.SetTipInContactWithAlienBlood(false);
                 Debug.Log("SyringeTip exited trigger with AlienBlood");
             }
-            else if (parentTransform.CompareTag("Alien"))
-            {
-                syringe.SetTipInContactWithAlien(false, null);
-                Debug.Log("SyringeTip exited trigger with Alien");
-            }
+        }
+
+        Alien alien = other.GetComponentInParent<Alien>();
+        if (alien != null)
+        {
+            syringe.TipExitedAlien();
+            Debug.Log("SyringeTip exited trigger with Alien");
         }
     }
 }

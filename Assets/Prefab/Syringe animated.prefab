@@ -228,6 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb0a0c265d26d940989d828aa837ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  liquidRenderer: {fileID: 4924761249622367995}
+  greenBloodMaterial: {fileID: 2100000, guid: 913d2a84832a17f43879b0cd24f63340, type: 2}
+  redBloodMaterial: {fileID: 2100000, guid: 4335d8e08ef7a4344868b5e8a72a816e, type: 2}
+  blueBloodMaterial: {fileID: 2100000, guid: 88cb35719a5a5004eb2004bd46e16c32, type: 2}
 --- !u!1 &2235017332450487807
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,8 +292,8 @@ Transform:
   m_GameObject: {fileID: 2637057194985410802}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6436321, y: 0.28839022, z: 0.28883094, w: 0.6474145}
-  m_LocalPosition: {x: 0, y: -0, z: -0.0548}
-  m_LocalScale: {x: 0.01759611, y: 0.023078745, z: 0.0175961}
+  m_LocalPosition: {x: -0.0001, y: 0.0001, z: -0.0303}
+  m_LocalScale: {x: 0.01759611, y: 0.00023454928, z: 0.0175961}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2454834192261351073}

@@ -4,30 +4,23 @@ using Oculus.Interaction.HandGrab;
 public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
 {
     private bool fullLiquid;
-    private BloodType currentBloodType; // Blood type enum
+    private string currentBloodType; 
     private Animator animator;
     private bool tipInContactWithAlienBlood;
-    private bool tipInContactWithAlien;
+    private int tipInContactWithAlien;
     public Renderer liquidRenderer; // Public reference to be assigned in the Inspector
-    AlienBehaviour alien;
+    Alien alien;
 
     // Materials for each blood type
     public Material greenBloodMaterial;
     public Material redBloodMaterial;
     public Material blueBloodMaterial;
 
-    // Enum for blood type
-    public enum BloodType
-    {
-        None,
-        Red,
-        Green,
-        Blue
-    }
+
 
     void Start()
     {
-        fullLiquid = true;
+
         animator = GetComponent<Animator>();
 
         if (animator == null)
@@ -40,9 +33,10 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
             Debug.LogError("No Renderer assigned to the liquidRenderer field!");
         }
 
+        fullLiquid = false;
+        currentBloodType = "";
         tipInContactWithAlienBlood = false;
-        tipInContactWithAlien = false;
-        currentBloodType = BloodType.None; // Default to None
+        tipInContactWithAlien = 0;
     }
 
     public void SetTipInContactWithAlienBlood(bool value)
@@ -51,12 +45,20 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
         Debug.Log("Received SetTipInContactWithAlienBlood: " + value);
     }
 
-    public void SetTipInContactWithAlien(bool value, AlienBehaviour newAlien)
+    public void TipEnteredAlien(Alien newAlien)
     {
         alien = newAlien;
-        tipInContactWithAlien = value;
-        Debug.Log("Received SetTipInContactWithAlien: " + value);
-        Debug.Log(newAlien);
+        tipInContactWithAlien += 1;
+        Debug.Log($"LEVELS DEEP {tipInContactWithAlien}");
+    }
+
+    public void TipExitedAlien()
+    {
+        tipInContactWithAlien -= 1;
+        if(tipInContactWithAlien == 0){
+            alien = null;
+        }
+        Debug.Log($"LEVELS DEEP {tipInContactWithAlien}");
     }
 
     // Called when the trigger is pressed
@@ -66,14 +68,15 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
         {
             // If syringe is full, play SyringeAnimation and set fullLiquid to false
             animator.Play("SyringeAnimation", 0, 0f);
-            fullLiquid = false;
-
             // If the syringe tip is in contact with an Alien, send the "Syrined" message
-            if (tipInContactWithAlien)
+            if (tipInContactWithAlien > 0)
             {
-                alien.SendMessage("Syrined");
-                Debug.Log("Syringe injected Alien, message 'Syrined' sent.");
+                alien.Syrined(currentBloodType);
+                tipInContactWithAlien = 0;
             }
+
+            fullLiquid = false;
+            currentBloodType = "";
         }
         else
         {
@@ -86,20 +89,12 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
                 // Change the material based on the current blood type
                 if (liquidRenderer != null)
                 {
-                    switch (currentBloodType)
-                    {
-                        case BloodType.Red:
-                            liquidRenderer.material = redBloodMaterial;  // Directly assign the material
-                            break;
-                        case BloodType.Green:
-                            liquidRenderer.material = greenBloodMaterial;
-                            break;
-                        case BloodType.Blue:
-                            liquidRenderer.material = blueBloodMaterial;
-                            break;
-                        default:
-                            Debug.LogWarning("Unknown blood type!");
-                            break;
+                    if(currentBloodType == "Red"){
+                        liquidRenderer.material = redBloodMaterial;  // Directly assign the material
+                    }else if(currentBloodType == "Blue"){
+                        liquidRenderer.material = blueBloodMaterial;
+                    }else{
+                        liquidRenderer.material = greenBloodMaterial;
                     }
                 }
                 else
@@ -108,14 +103,12 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
                 }
 
                 fullLiquid = true;
-                Debug.Log("Syringe filled with AlienBlood, fullLiquid = true");
             }
             else
             {
                 // If the tip is not in contact with AlienBlood, play EmptySyringeAnimation
                 animator.Play("EmptySyringeAnimation", 0, 0f);
                 fullLiquid = false;
-                Debug.Log("Syringe is empty, fullLiquid = false");
             }
         }
     }
@@ -130,7 +123,7 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
     }
 
     // Set the blood type (this is called from SyringeTipBehaviour)
-    public void SetFullBloodType(BloodType bloodType)
+    public void SetFullBloodType(string bloodType)
     {
         currentBloodType = bloodType;
     }
