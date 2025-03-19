@@ -15,9 +15,14 @@ public class ShrapnelBehaviour : MonoBehaviour
     private Rigidbody rb;
     private Collider _collider;
 
+    public Outline outline;
+    private bool outlineVisible;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        outlineVisible = false;
+        outline.OutlineWidth = 0;
         insideAlien = true;
         beingHeld = false;
 
@@ -37,7 +42,26 @@ public class ShrapnelBehaviour : MonoBehaviour
         {
             rb.isKinematic = false;
         }
+
+        Camera mainCamera = Camera.main;
+        float distance = Vector3.Distance(mainCamera.transform.position, transform.position);
+
+        if(distance > 2){
+            if(outlineVisible){
+                outlineVisible = false;
+                outline.OutlineWidth = 0;
+            }
+
+        }
+        else if (distance <= 2){
+            if(!outlineVisible){
+                outlineVisible = true;
+                outline.OutlineWidth = 3;
+            }
+        }
+
     }
+
 
     private void ObjectHeld(GrabInteractor interactor)
     {
