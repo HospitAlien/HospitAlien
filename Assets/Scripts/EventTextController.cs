@@ -62,7 +62,7 @@ public class EventTextController : MonoBehaviour
         SetTextWidth(textWidth);
         SetEventText(eventText);
         SetEventColor(eventTextColor);
-        ResetTextPosition();
+        ResetAllTextPosition();
     }
 
     void Update()
@@ -93,7 +93,7 @@ public class EventTextController : MonoBehaviour
         textPositionNS %= totalLengthOfMove;
     }
 
-    public void ResetTextPosition()
+    public void ResetAllTextPosition()
     {
         float difference = canvasNorthWidth - canvasEastWidth;
         if (difference > 0)
@@ -154,7 +154,7 @@ public class EventTextController : MonoBehaviour
         {
             TMPCollection[i].text = eventText;
         }
-        if (resetPosition) ResetTextPosition();
+        if (resetPosition) ResetAllTextPosition();
     }
 
     public void SetEventColor(Color color, bool resetPosition = false)
@@ -170,6 +170,6 @@ public class EventTextController : MonoBehaviour
         {
             ImageCollection[i].color = eventTextColor;
         }
-        if (resetPosition) ResetTextPosition();
+        if (resetPosition) ResetAllTextPosition();
     }
 }
