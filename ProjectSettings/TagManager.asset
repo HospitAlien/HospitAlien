@@ -19,8 +19,10 @@ TagManager:
   - QDSUIToggleCheckboxRadio
   - Shrapnel
   - AlienTranslator
-  - AlienBlood
   - SyringeTip
+  - GreenAlienBlood
+  - RedAlienBlood
+  - BlueAlienBlood
   layers:
   - Default
   - TransparentFX
