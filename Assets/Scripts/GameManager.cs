@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour
     public GameObject EventCanvas;
     public GameObject Portal;
     private EventTextController eventTextController;
-    public TextMeshPro scoreText;
     // private bool _gamePlaying = false;
 
+    public ScoreBoardManager scoreBoard;
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
@@ -26,15 +26,13 @@ public class GameManager : MonoBehaviour
     private Transform[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
-    private string scoreString = "Money: £%0";
-
     //I want to have
 
 
 
     void UpdateScoreText()
     {
-        scoreText.text = scoreString.Replace("%0", score.ToString());
+        scoreBoard.setScore(score);
     }
 
 
