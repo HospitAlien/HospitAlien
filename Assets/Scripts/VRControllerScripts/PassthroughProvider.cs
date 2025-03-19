@@ -10,9 +10,10 @@ public class PassthroughProvider : MonoBehaviour
     private Camera _camera;
     private bool _isPassThroughOn = false;
 
-    private void Start()
+    private void Awake()
     {
         _camera = OVRManager.FindMainCamera();
+        Debug.Log("Camera: " + _camera);
 
         if (OVRManager.HasInsightPassthroughInitFailed())
         {
@@ -37,6 +38,7 @@ public class PassthroughProvider : MonoBehaviour
     {
         _isPassThroughOn = true;
         layer.textureOpacity = 1;
+        layer.enabled = true;
         _camera.clearFlags = CameraClearFlags.SolidColor;
         foreach (GameObject obj in _objects)
         {
@@ -48,6 +50,7 @@ public class PassthroughProvider : MonoBehaviour
     {
         _isPassThroughOn = false;
         layer.textureOpacity = 0;
+        layer.enabled = false;
         _camera.clearFlags = CameraClearFlags.Skybox;
         foreach (GameObject obj in _objects)
         {

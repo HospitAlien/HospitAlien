@@ -23,6 +23,9 @@ TagManager:
   - GreenAlienBlood
   - RedAlienBlood
   - BlueAlienBlood
+  - Eyeball1
+  - Eyeball2
+  - Eyeball3
   layers:
   - Default
   - TransparentFX
