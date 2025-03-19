@@ -11,7 +11,7 @@ struct Status
     public bool needsExtinguishing;
     public bool needsAmputation;
     public bool hasShrapnel;
-    public bool needsLeftHand;
+    public bool needsLimbs;
     public int shrapnelCount;
     public int curSize;
 
@@ -48,7 +48,7 @@ struct Status
         {
             response += "My arm is ruined! \n";
         }
-        else if (needsLeftHand)
+        else if (needsLimbs)
         {
             response += "I need body parts! \n";
         }
@@ -110,6 +110,7 @@ public class AlienBehaviour : MonoBehaviour
 
     private Status status;
     public Amputations amputations;
+    public Amputations repaired;
     private AlienVoice alienVoice;
     private int reward = 0;
 
@@ -151,7 +152,7 @@ public class AlienBehaviour : MonoBehaviour
         if (random.NextDouble() < 1)
         {
             status.needsAmputation = true;
-            amputations.limbs = new bool[] { true, false, false, false };
+            amputations.limbs = new bool[] { false, false, false, false };
             initiateAmputation();
         }
         if(random.NextDouble() < 0.4){
@@ -322,6 +323,8 @@ public class AlienBehaviour : MonoBehaviour
             amputations.limbs[random.Next(0, 4)] = true;
         }
 
+        repaired.limbs = (bool[])amputations.limbs.Clone();
+
 
               
 
@@ -402,7 +405,7 @@ public class AlienBehaviour : MonoBehaviour
             if (healed)
             {
                 status.needsAmputation = false;
-                status.needsLeftHand = true;
+                status.needsLimbs = true;
             }
 
 
@@ -427,56 +430,60 @@ public class AlienBehaviour : MonoBehaviour
 
     private void initiateAttachHand()
     {
-        //Remove amputation script
+     
         Transform amputationDetectorTransform = transform.Find("AmputationDetector");
-        if (amputationDetectorTransform != null)
-        {
-            // Get the AmputationBehaviour component from the child object
-            AmputationBehaviour amputationBehaviour = amputationDetectorTransform.GetComponent<AmputationBehaviour>();
-            if (amputationBehaviour != null)
-            {
-                // Remove the component (script) from the object
-                Destroy(amputationBehaviour);
-            }
-            else
-            {
-                Debug.LogWarning("AmputationBehaviour component not found on AmputationDetector.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Child object 'AmputationDetector' not found.");
-        }
-
-        //Add attachment script. Conserve collider
+        
+        //Add attachment script.
         amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
 
     }
 
-    public void attachHand(GameObject hand)
+    public void attachLimb(GameObject bodyPart, int limb)
     {
         Transform amputationDetector = transform.Find("AmputationDetector");
-        if (amputationDetector != null)
+        
+        Destroy(bodyPart.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
+        Destroy(bodyPart.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
+
+        bodyPart.transform.SetParent(transform);
+        bodyPart.transform.localScale = Vector3.one; //Adjust scale
+
+
+        switch (limb)
         {
-            // Delete the child object.
-            Destroy(amputationDetector.gameObject);
+            case 0:
+                bodyPart.transform.localPosition = new Vector3(-0.0303f, 0.0333f, 0.0004f);
+                bodyPart.transform.localRotation = Quaternion.Euler(154.596f, -28.75101f, -4.377991f);
+                break;
+            case 1:
+                bodyPart.transform.localPosition = new Vector3(0.0303f, 0.0333f, -0.00138f);
+                bodyPart.transform.localRotation = Quaternion.Euler(4.75f, -49.917f, -161.683f);
+                break;
+
+            case 2:
+                bodyPart.transform.localPosition = new Vector3(0.0017f, -0.00646f, -0.00535f);
+                bodyPart.transform.localRotation = Quaternion.Euler(0f, -26.115f, 0f);
+                break;
+            case 3:
+                bodyPart.transform.localPosition = new Vector3(-0.0235f, -0.0066f, -0.00668f);
+                bodyPart.transform.localRotation = Quaternion.Euler(0f, 22.113f, 0f);
+                break;
+
         }
-        else
+
+        bool healed = true;
+        for (int i = 0; i < 3; i++)
         {
-            Debug.LogWarning("Child object 'AmputationDetector' not found.");
+            if (amputations.limbs[i])
+            {
+                healed = false;
+            }
         }
-        Destroy(hand.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
-        Destroy(hand.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
 
-        hand.transform.SetParent(transform);
-        hand.transform.localScale = Vector3.one; //Adjust scale
-
-
-        // Set the local position and rotation to the specified values.
-        hand.transform.localPosition = new Vector3(-0.0303f, 0.0333f, 0.0004f);
-        hand.transform.localRotation = Quaternion.Euler(154.596f, -28.75101f, -4.377991f);
-
-        status.needsLeftHand = false;
+        if (healed)
+        {
+            status.needsLimbs = false;
+        }
         if (status.isHealthy())
         {
             Cure();

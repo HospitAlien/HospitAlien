@@ -77,7 +77,23 @@ public class AmputationBehaviour : MonoBehaviour
 
         if (hitCount >= 5)
         {
+            switch (limb)
+            {
+                case 0:
+                    transform.Find("LeftHand").gameObject.name = "LeftHandNeeded";
+                    break;
+                case 1:
+                    transform.Find("RightHand").gameObject.name = "RightHandNeeded";
+                    break;
+                case 2:
+                    transform.Find("LeftLeg").gameObject.name = "LeftLegNeeded";
+                    break;
+                case 3:
+                    transform.Find("RightLeg").gameObject.name = "RightLegNeeded";
+                    break;
+            }
             alienBehaviour.Amputate(limb);
+
         }
     }
 
