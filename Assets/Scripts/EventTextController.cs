@@ -29,6 +29,9 @@ public class EventTextController : MonoBehaviour
     private RectTransform textWest1;
     private RectTransform textWest2;
 
+    public TextMeshProUGUI[] TMPCollection;
+    public Image[] ImageCollection;
+
     private float textPositionNS;
     private float textPositionEW;
     private float totalLengthOfMove;
@@ -45,14 +48,14 @@ public class EventTextController : MonoBehaviour
         canvasSouthWidth = canvasSouth.rect.width;
         canvasWestWidth = canvasWest.rect.width;
 
-        textNorth1 = canvasNorth.transform.Find("Text1").GetComponent<RectTransform>();
-        textNorth2 = canvasNorth.transform.Find("Text2").GetComponent<RectTransform>();
-        textEast1 = canvasEast.transform.Find("Text1").GetComponent<RectTransform>();
-        textEast2 = canvasEast.transform.Find("Text2").GetComponent<RectTransform>();
-        textSouth1 = canvasSouth.transform.Find("Text1").GetComponent<RectTransform>();
-        textSouth2 = canvasSouth.transform.Find("Text2").GetComponent<RectTransform>();
-        textWest1 = canvasWest.transform.Find("Text1").GetComponent<RectTransform>();
-        textWest2 = canvasWest.transform.Find("Text2").GetComponent<RectTransform>();
+        textNorth1 = canvasNorth.transform.Find("TextN1").GetComponent<RectTransform>();
+        textNorth2 = canvasNorth.transform.Find("TextN2").GetComponent<RectTransform>();
+        textEast1 = canvasEast.transform.Find("TextE1").GetComponent<RectTransform>();
+        textEast2 = canvasEast.transform.Find("TextE2").GetComponent<RectTransform>();
+        textSouth1 = canvasSouth.transform.Find("TextS1").GetComponent<RectTransform>();
+        textSouth2 = canvasSouth.transform.Find("TextS2").GetComponent<RectTransform>();
+        textWest1 = canvasWest.transform.Find("TextW1").GetComponent<RectTransform>();
+        textWest2 = canvasWest.transform.Find("TextW2").GetComponent<RectTransform>();
 
         totalLengthOfMove = canvasNorthWidth + canvasEastWidth;
 
@@ -145,36 +148,28 @@ public class EventTextController : MonoBehaviour
 
     public void SetEventText(string text, bool resetPosition = false)
     {
-        Debug.Log("Setting event text to: " + text);
         eventText = text;
-        textNorth1.GetComponent<TextMeshProUGUI>().text = eventText;
-        textNorth2.GetComponent<TextMeshProUGUI>().text = eventText;
-        Debug.Log("Random check 2");
-        textEast1.GetComponent<TextMeshProUGUI>().text = eventText;
-        textEast2.GetComponent<TextMeshProUGUI>().text = eventText;
-        textSouth1.GetComponent<TextMeshProUGUI>().text = eventText;
-        textSouth2.GetComponent<TextMeshProUGUI>().text = eventText;
-        textWest1.GetComponent<TextMeshProUGUI>().text = eventText;
-        Debug.Log("Random check 7");
-        textWest2.GetComponent<TextMeshProUGUI>().text = eventText;
+        // Set the text of all TMP
+        for (int i = 0; i < TMPCollection.Length; i++)
+        {
+            TMPCollection[i].text = eventText;
+        }
         if (resetPosition) ResetTextPosition();
     }
 
     public void SetEventColor(Color color, bool resetPosition = false)
     {
         eventTextColor = color;
-        textNorth1.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textNorth2.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textEast1.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textEast2.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textSouth1.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textSouth2.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textWest1.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        textWest2.GetComponent<TextMeshProUGUI>().color = eventTextColor;
-        transform.Find("Canvas_North").GetComponent<Image>().color = eventTextColor;
-        transform.Find("Canvas_East").GetComponent<Image>().color = eventTextColor;
-        transform.Find("Canvas_South").GetComponent<Image>().color = eventTextColor;
-        transform.Find("Canvas_West").GetComponent<Image>().color = eventTextColor;
+        // Set the color of all text
+        for (int i = 0; i < TMPCollection.Length; i++)
+        {
+            TMPCollection[i].color = eventTextColor;
+        }
+        // Set the color of all background image in canvas
+        for (int i = 0; i < ImageCollection.Length; i++)
+        {
+            ImageCollection[i].color = eventTextColor;
+        }
         if (resetPosition) ResetTextPosition();
     }
 }
