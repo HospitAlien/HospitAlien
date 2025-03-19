@@ -3,7 +3,11 @@ using UnityEngine;
 public class AmputationBehaviour : MonoBehaviour
 {
     private AlienBehaviour alienBehaviour;
-    private int hitCount = 0;
+    private int leftHandCount = 0;
+    private int rightHandCount = 0;
+    private int leftLegCount = 0;
+    private int rightLegCount = 0;
+
     GameObject bloodPrefab;
     ParticleSystem bloodParticles;
     AudioSource audioSource;
@@ -41,15 +45,39 @@ public class AmputationBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Axe"))
         {
-            hitCount++;
-            audioSource.PlayOneShot(hitSound);
-            bloodParticles.Play();
-            Debug.Log("Hit by axe: " + hitCount);
+            Collider hitCollider = collision.contacts[0].thisCollider;
+            string colliderName = hitCollider.gameObject.name;
 
-            if (hitCount >= 5)
+            switch (colliderName)
             {
-                alienBehaviour.Amputate();
+                case "LeftHand":
+                    Hit(leftHandCount, 0);
+                    break;
+                case "RightHand":
+                    Hit(rightHandCount, 1);
+                    break;
+                case "LeftLeg":
+                    Hit(leftLegCount, 2);
+                    break;
+                case "RightLeg":
+                    Hit(rightLegCount, 3);
+                    break;
+
+
             }
+        }
+    }
+
+    private void Hit(int hitCount, int limb)
+    {
+        hitCount++;
+        audioSource.PlayOneShot(hitSound);
+        bloodParticles.Play();
+        Debug.Log("Hit by axe: " + hitCount);
+
+        if (hitCount >= 5)
+        {
+            alienBehaviour.Amputate(limb);
         }
     }
 

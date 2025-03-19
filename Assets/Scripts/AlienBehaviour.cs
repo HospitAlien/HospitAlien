@@ -357,22 +357,53 @@ public class AlienBehaviour : MonoBehaviour
     }
 
     //Called when enough axe hits are delivered, amputates the arm and updates status
-    public void Amputate()
+    public void Amputate(int limb)
     {
-        Transform leftHandTransform = transform.Find("hands/left_hand");
-        if (leftHandTransform != null)
+        amputations.limbs[limb] = false;
+        Transform limbTransform = null;
+        switch (limb)
+        {
+            case 0:
+                limbTransform = transform.Find("hands/left_hand");
+                break;
+            case 1:
+                limbTransform = transform.Find("hands/right_hand");
+                break;
+            case 2:
+                limbTransform = transform.Find("feet/foot_left");
+                break;
+            case 3:
+                limbTransform = transform.Find("feet/foot_right");
+                break;
+
+        }
+       
+        if (limbTransform != null)
         {
             //Give arm gravity
-            Rigidbody rb = leftHandTransform.gameObject.AddComponent<Rigidbody>();
+
+            Rigidbody rb = limbTransform.gameObject.AddComponent<Rigidbody>();
             rb.useGravity = true;
             rb.isKinematic = false;
 
             //Detach
-            leftHandTransform.parent = null;
+            limbTransform.parent = null;
+
+            bool healed = true;
+            for(int i = 0; i < 3; i++)
+            {
+                if (amputations.limbs[i])
+                {
+                    healed = false;
+                }
+            }
 
             //Update status
-            status.needsAmputation = false;
-            status.needsLeftHand = true;
+            if (healed)
+            {
+                status.needsAmputation = false;
+                status.needsLeftHand = true;
+            }
 
 
             if (Time.time - lastVoiceTime >= voiceCooldownTime)
@@ -383,7 +414,7 @@ public class AlienBehaviour : MonoBehaviour
  
 
             //Despawn hand in 10s. Could be changed so that players have to bin the arm.
-            Destroy(leftHandTransform.gameObject, 10f);
+            Destroy(limbTransform.gameObject, 10f);
             //Now needs a new hand
             initiateAttachHand();
         }
