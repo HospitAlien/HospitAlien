@@ -1,4 +1,3 @@
-using System;
 using Oculus.Interaction;
 using UnityEngine;
 using System.Collections;
@@ -10,6 +9,7 @@ public class ShrapnelBehaviour : MonoBehaviour
 
 
     public GrabInteractable GrabInteractable;
+    public GameObject GrabableTip;
     private Coroutine destroyCoroutine;
 
     private Rigidbody rb;
@@ -48,9 +48,12 @@ public class ShrapnelBehaviour : MonoBehaviour
         Camera mainCamera = Camera.main;
         float distance = Vector3.Distance(mainCamera.transform.position, transform.position);
 
-        if(distance > 2){
-            if(outlineVisible){
-                if(myCoroutine != null){
+        if (distance > 2)
+        {
+            if (outlineVisible)
+            {
+                if (myCoroutine != null)
+                {
                     StopCoroutine(myCoroutine);
                 }
                 outline.OutlineWidth = 0;
@@ -58,8 +61,10 @@ public class ShrapnelBehaviour : MonoBehaviour
             }
 
         }
-        else if (distance <= 2){
-            if(!outlineVisible){
+        else if (distance <= 2)
+        {
+            if (!outlineVisible)
+            {
                 myCoroutine = StartCoroutine(Pulse());
                 outlineVisible = true;
             }
@@ -132,7 +137,6 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-
         if (!collider.CompareTag("Shrapnel") && beingHeld && insideAlien)
         {
             Alien alien = collider.GetComponentInParent<Alien>();
@@ -141,6 +145,10 @@ public class ShrapnelBehaviour : MonoBehaviour
                 alien.shrapnelRemoved();
                 insideAlien = false;
             }
+        }
+        if (collider.CompareTag("Controller"))
+        {
+            GrabableTip.SetActive(false);
         }
     }
 
@@ -165,7 +173,10 @@ public class ShrapnelBehaviour : MonoBehaviour
                 }
 
             }
-
+        }
+        if (collider.CompareTag("Controller"))
+        {
+            GrabableTip.SetActive(true);
         }
     }
 }
