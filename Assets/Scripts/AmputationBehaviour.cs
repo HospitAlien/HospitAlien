@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AmputationBehaviour : MonoBehaviour
 {
-    private AlienBehaviour alienBehaviour;
+    private Alien alienBehaviour;
     private int leftHandCount = 0;
     private int rightHandCount = 0;
     private int leftLegCount = 0;
@@ -18,7 +18,7 @@ public class AmputationBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        alienBehaviour = GetComponentInParent<AlienBehaviour>();
+        alienBehaviour = GetComponentInParent<Alien>();
 
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;

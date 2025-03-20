@@ -160,7 +160,7 @@ public class Alien : MonoBehaviour
         return status.getIllness();
     }
 
-    void ChangeLimbMaterial(Transform limbTransform)
+    protected void ChangeLimbMaterial(Transform limbTransform)
     {
         // Finds the "left_hand" transform
         if (limbTransform != null)
@@ -184,7 +184,7 @@ public class Alien : MonoBehaviour
 
 
     //Add a child to hold colliders to detect axe hits
-    private virtual void initiateAmputation()
+    protected virtual void initiateAmputation()
     {
         Debug.Log("InitiateAmputation not overridden");
     }
@@ -257,9 +257,9 @@ public class Alien : MonoBehaviour
 
     }
 
-    private virtual void initiateAttachHand()
+    protected virtual void initiateAttachHand()
     {
-        Debug.Log("InitiateAttachHand not overridden.")
+        Debug.Log("InitiateAttachHand not overridden.");
     }
 
     public virtual void attachLimb(GameObject bodyPart, int limb){

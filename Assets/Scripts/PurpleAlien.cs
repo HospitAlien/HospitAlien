@@ -1,3 +1,4 @@
+using Oculus.Interaction;
 using UnityEngine;
 public class PurpleAlien : Alien
 {
@@ -74,7 +75,7 @@ public class PurpleAlien : Alien
     }
 
     //Add a child to hold colliders to detect axe hits
-    private override void initiateAmputation()
+    protected override void initiateAmputation()
     {
         bool limbSet = false;
 
@@ -129,7 +130,7 @@ public class PurpleAlien : Alien
         }
     }
 
-    private override void initiateAttachHand()
+    protected override void initiateAttachHand()
     {
      
         Transform amputationDetectorTransform = transform.Find("AmputationDetector");

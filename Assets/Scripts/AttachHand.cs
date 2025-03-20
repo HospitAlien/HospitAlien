@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class AttachHand : MonoBehaviour
 {
-    private AlienBehaviour alienBehaviour;
+    private Alien alienBehaviour;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        alienBehaviour = GetComponentInParent<AlienBehaviour>();
+        alienBehaviour = GetComponentInParent<Alien>();
     }
 
     // Update is called once per frame
