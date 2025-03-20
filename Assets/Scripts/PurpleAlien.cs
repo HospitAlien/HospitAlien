@@ -33,6 +33,13 @@ public class PurpleAlien : Alien
 
         if (random.NextDouble() < 0.4)
         {
+            status.needsAmputation = true;
+            amputations.limbs = new bool[] { false, false, false, false };
+            initiateAmputation();
+        }
+
+        if (random.NextDouble() < 0.4)
+        {
             reward += 100;
             if (random.NextDouble() < 0.5)
             { //shrink
@@ -64,6 +71,136 @@ public class PurpleAlien : Alien
         if(status.isHealthy()){
             Cure();
         }
+    }
+
+    //Add a child to hold colliders to detect axe hits
+    private override void initiateAmputation()
+    {
+        bool limbSet = false;
+
+        System.Random random = new System.Random();
+        for (int i = 0; i < 4; i++)
+        {
+            if (random.NextDouble() < 0.3)
+            {
+                amputations.limbs[i] = true;
+                limbSet = true;
+            }
+        }
+
+        if (limbSet == false)
+        {
+            amputations.limbs[random.Next(0, 4)] = true;
+        }
+
+        repaired.limbs = (bool[])amputations.limbs.Clone();
+
+
+              
+
+        // Create a new GameObject to detect axe hits
+        GameObject amputationDetector = new GameObject("AmputationDetector");
+        amputationDetector.transform.SetParent(transform);
+        amputationDetector.transform.localPosition = Vector3.zero;
+        amputationDetector.transform.localRotation = Quaternion.identity;
+        amputationDetector.AddComponent<AmputationBehaviour>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (amputations.limbs[i])
+            {
+                switch (i)
+                {
+                    case 0:
+                        ChangeLimbMaterial(transform.Find("hands/left_hand"));
+                        break;
+                    case 1:
+                        ChangeLimbMaterial(transform.Find("hands/right_hand"));
+                        break;
+                    case 2:
+                        ChangeLimbMaterial(transform.Find("feet/foot_left"));
+                        break;
+                    case 3:
+                        ChangeLimbMaterial(transform.Find("feet/foot_right"));
+                        break;
+
+                }
+            }
+        }
+    }
+
+    private override void initiateAttachHand()
+    {
+     
+        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
+
+        //Add attachment script.
+        if (amputationDetectorTransform.gameObject.GetComponent<AttachHand>() == null)
+        {
+            amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
+        }
+
+    }
+
+    public override void attachLimb(GameObject bodyPart, int limb)
+    {
+        Transform amputationDetector = transform.Find("AmputationDetector");
+        
+        Destroy(bodyPart.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
+        Destroy(bodyPart.GetComponent<RigidbodyKinematicLocker>());
+        Destroy(bodyPart.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
+
+        bodyPart.transform.SetParent(transform);
+        bodyPart.transform.localScale = Vector3.one; //Adjust scale
+
+
+        switch (limb)
+        {
+            case 0:
+                bodyPart.transform.localPosition = new Vector3(-0.0303f, 0.0333f, 0.0004f);
+                bodyPart.transform.localRotation = Quaternion.Euler(154.596f, -28.75101f, -4.377991f);
+                break;
+            case 1:
+                bodyPart.transform.localPosition = new Vector3(0.0303f, 0.0333f, -0.00138f);
+                bodyPart.transform.localRotation = Quaternion.Euler(4.75f, -49.917f, -161.683f);
+                break;
+
+            case 2:
+                bodyPart.transform.localPosition = new Vector3(-0.01078f, 0.0004735f, -0.00428f);
+                bodyPart.transform.localRotation = Quaternion.Euler(0f, -26.115f, 0f);
+                break;
+            case 3:
+                bodyPart.transform.localPosition = new Vector3(0.01098f, 0.000305f, -0.00560f);
+                bodyPart.transform.localRotation = Quaternion.Euler(0f, 22.113f, 0f);
+                break;
+
+        }
+
+        repaired.limbs[limb] = false;
+
+        bool healed = true;
+        for (int i = 0; i < 4; i++)
+        {
+            if (repaired.limbs[i])
+            {
+                healed = false;
+            }
+        }
+
+        if (healed)
+        {
+            status.needsLimbs = false;
+        }
+        if (status.isHealthy())
+        {
+            Cure();
+        }
+        else
+        {
+            alienVoice.SayLine("Thanks for the new hand!");
+        }
+
+
     }
 
 

@@ -6,11 +6,15 @@ public class Status
     public int shrapnelCount;
     public int curSize;
     public int numberOfBadEyes;
+    public bool needsAmputation;
+    public bool needsLimbs;
+
+
 
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && numberOfBadEyes == 0);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0  && !needsAmputation && !needsLimbs && numberOfBadEyes == 0);
     }
 
     public string getIllness()
@@ -35,6 +39,14 @@ public class Status
         else if (curSize == 1)
         {
             response += "I am massive get me a shrink pill.\n";
+        }
+        else if (needsAmputation)
+        {
+            response += "My arm is ruined! \n";
+        }
+        else if (needsLimbs)
+        {
+            response += "I need body parts! \n";
         }
         else if(numberOfBadEyes != 0)
         {
