@@ -145,17 +145,14 @@ public class EventTextController : MonoBehaviour
 
     public void SetEventText(string text, bool resetPosition = false)
     {
-        Debug.Log("Setting event text to: " + text);
         eventText = text;
         textNorth1.GetComponent<TextMeshProUGUI>().text = eventText;
         textNorth2.GetComponent<TextMeshProUGUI>().text = eventText;
-        Debug.Log("Random check 2");
         textEast1.GetComponent<TextMeshProUGUI>().text = eventText;
         textEast2.GetComponent<TextMeshProUGUI>().text = eventText;
         textSouth1.GetComponent<TextMeshProUGUI>().text = eventText;
         textSouth2.GetComponent<TextMeshProUGUI>().text = eventText;
         textWest1.GetComponent<TextMeshProUGUI>().text = eventText;
-        Debug.Log("Random check 7");
         textWest2.GetComponent<TextMeshProUGUI>().text = eventText;
         if (resetPosition) ResetTextPosition();
     }

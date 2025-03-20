@@ -6,9 +6,11 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     private GlobalVariableManager gvm;
+
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
+
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
 
@@ -111,7 +113,7 @@ public class GameManager : MonoBehaviour
             int newEvent = random.Next(1, 1);
 
             //need to find the time before the next event, should happen around every 2 minutes
-            int waitTime = random.Next(100, 140);
+            int waitTime = random.Next(100, 120);
             yield return new WaitForSeconds(waitTime);
 
             eventState = newEvent;
@@ -119,14 +121,15 @@ public class GameManager : MonoBehaviour
             if (newEvent == 1)
             {
                 yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-                StartCoroutine(PizzaTime());
-                yield return new WaitUntil(() => eventState == 0); //wait till the event is over
+                yield return StartCoroutine(PizzaTime());
+                Debug.Log("Piza time finished");
             }
         }
     }
 
     IEnumerator PizzaTime()
     {
+        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount }");
         List<GameObject> spawnedPizzas = new List<GameObject>();
 
         EventCanvas.SetActive(true);
@@ -260,7 +263,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void PatientCured(int patientIndex, int reward = 100)
+    public void PatientCured(int patientIndex, int reward)
     {
         Debug.Log("Alien with index " + patientIndex + " has been cured.");
         spotOccupied[patientIndex] = false;
