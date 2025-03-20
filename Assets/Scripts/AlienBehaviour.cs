@@ -432,9 +432,12 @@ public class AlienBehaviour : MonoBehaviour
     {
      
         Transform amputationDetectorTransform = transform.Find("AmputationDetector");
-        
+
         //Add attachment script.
-        amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
+        if (amputationDetectorTransform.gameObject.GetComponent<AttachHand>() == null)
+        {
+            amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
+        }
 
     }
 
@@ -471,12 +474,12 @@ public class AlienBehaviour : MonoBehaviour
 
         }
 
-
+        repaired.limbs[limb] = false;
 
         bool healed = true;
         for (int i = 0; i < 4; i++)
         {
-            if (amputations.limbs[i])
+            if (repaired.limbs[i])
             {
                 healed = false;
             }
