@@ -192,6 +192,9 @@ public class Alien : MonoBehaviour
     public void Amputate(int limb)
     {
         needsAmputation.limbs[limb] = false;
+        needsAttatchment.limbs[limb] = true; //now, if a limb has been removed it means that that limb needs to be attatched
+        status.needsLimbs = true; //this should always be true following an amputation, not conditional
+
         Transform limbTransform = null;
         switch (limb)
         {
@@ -234,7 +237,6 @@ public class Alien : MonoBehaviour
             if (healed)
             {
                 status.needsAmputation = false;
-                status.needsLimbs = true;
             }
 
 
