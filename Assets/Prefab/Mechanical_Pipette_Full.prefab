@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 6730270752641063156}
   - component: {fileID: 7320002188965887698}
   - component: {fileID: 4011613184566160542}
+  - component: {fileID: 4311282061086078376}
   m_Layer: 0
   m_Name: Mechanical_Pipette_Full
   m_TagString: Eye-Dropper
@@ -5044,6 +5045,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.01667941, y: 0.0049946066, z: 0.023658695}
   m_Center: {x: 0.0034180572, y: -0.00000963104, z: -0.007887001}
+--- !u!114 &4311282061086078376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3391241854394971845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb09e4f18fd0954796cd0b766d28fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _yThresholdForRespawn: 0
+  _whenRespawned:
+    m_PersistentCalls:
+      m_Calls: []
+  _sleepFrames: 0
 --- !u!1 &3745675064186301792
 GameObject:
   m_ObjectHideFlags: 0
