@@ -58,7 +58,6 @@ public class PurpleAlien : Alien
             reward += 75;
             status.numberOfBadEyes = 1;
             int eyeNumber = random.Next(1,4);
-            Debug.Log(eyeNumber);
             EyeScript eye = transform.Find($"eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
             eye.activate(this);
         }

@@ -18,7 +18,7 @@ public class Alien : MonoBehaviour
     protected int index;
     public Vector3 targetLocation;
 
-    protected float timer = 120;
+    protected float timer = 80;
     protected TextMesh timerText;
 
     protected static GameManager gameManager;
@@ -41,7 +41,7 @@ public class Alien : MonoBehaviour
     public Amputations amputations;
     public Amputations repaired;
     protected AlienVoice alienVoice;
-    protected int reward = 0;
+    protected int reward = 200;
 
     protected Dictionary<Vector3, (Vector3, Quaternion)> beds
         = new Dictionary<Vector3, (Vector3, Quaternion)>();
