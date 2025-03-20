@@ -51,15 +51,19 @@ public class AmputationBehaviour : MonoBehaviour
             switch (colliderName)
             {
                 case "LeftHand":
+                    leftHandCount++;
                     Hit(leftHandCount, 0);
                     break;
                 case "RightHand":
+                    rightHandCount++;
                     Hit(rightHandCount, 1);
                     break;
                 case "LeftLeg":
+                    leftLegCount++;
                     Hit(leftLegCount, 2);
                     break;
                 case "RightLeg":
+                    rightLegCount++;
                     Hit(rightLegCount, 3);
                     break;
 
@@ -70,7 +74,6 @@ public class AmputationBehaviour : MonoBehaviour
 
     private void Hit(int hitCount, int limb)
     {
-        hitCount++;
         audioSource.PlayOneShot(hitSound);
         bloodParticles.Play();
         Debug.Log("Hit by axe: " + hitCount);

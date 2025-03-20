@@ -27,7 +27,7 @@ public class AttachHand : MonoBehaviour
                 case "LeftHandNeeded":
                     Debug.Log("Left hand triggered");
 
-                    if (collision.gameObject.CompareTag("LeftHand"))
+                    if (collision.gameObject.CompareTag("Hand"))
                     {
                         Destroy(transform.Find("LeftHandNeeded").gameObject);
                         alienBehaviour.attachLimb(collision.gameObject, 0);
@@ -36,7 +36,7 @@ public class AttachHand : MonoBehaviour
                 case "RightHandNeeded":
                     Debug.Log("Right hand triggered");
 
-                    if (collision.gameObject.CompareTag("LeftHand"))
+                    if (collision.gameObject.CompareTag("Hand"))
                     {
                         Destroy(transform.Find("RightHandNeeded").gameObject);
                         alienBehaviour.attachLimb(collision.gameObject, 1);

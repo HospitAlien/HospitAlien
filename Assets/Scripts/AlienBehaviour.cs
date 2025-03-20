@@ -18,7 +18,7 @@ struct Status
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && !needsAmputation && !needsLeftHand);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && !needsAmputation && !needsLimbs);
     }
 
     public string getIllness()
@@ -393,7 +393,7 @@ public class AlienBehaviour : MonoBehaviour
             limbTransform.parent = null;
 
             bool healed = true;
-            for(int i = 0; i < 3; i++)
+            for(int i = 0; i < 4; i++)
             {
                 if (amputations.limbs[i])
                 {
@@ -471,8 +471,10 @@ public class AlienBehaviour : MonoBehaviour
 
         }
 
+
+
         bool healed = true;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (amputations.limbs[i])
             {
