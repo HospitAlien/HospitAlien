@@ -129,20 +129,20 @@ public class AlienBehaviour : MonoBehaviour
     {
         System.Random random = new System.Random();
 
-        if (random.NextDouble() < 1)
+        if (random.NextDouble() < 0.4)
         {
             status.needsInjection = true;
             sweatParticles.Play();
             reward += 100;
         }
-        if (random.NextDouble() < 0)
+        if (random.NextDouble() < 0.4)
         {
             status.needsExtinguishing = true;
             fireParticles.Play();
             reward += 100;
         }
 
-        if (random.NextDouble() < 0)
+        if (random.NextDouble() < 0.4)
         {
             status.shrapnelCount = 4;
             reward += 100;
@@ -150,13 +150,13 @@ public class AlienBehaviour : MonoBehaviour
             initiateShrapnel();
         }
 
-        if (random.NextDouble() < 1)
+        if (random.NextDouble() < 0.4)
         {
             status.needsAmputation = true;
             amputations.limbs = new bool[] { false, false, false, false };
             initiateAmputation();
         }
-        if(random.NextDouble() < 0){
+        if(random.NextDouble() < 0.4){
 
             if(random.NextDouble() < 0.5){ //shrink
                 status.curSize = -1;
