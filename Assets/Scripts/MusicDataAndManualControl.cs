@@ -5,22 +5,17 @@ using System.IO;
 public class MusicDataAndManualControl : MonoBehaviour
 {
     [Header("Game Manager Reference")]
-    public GameManager gameManager;  // Make sure this is assigned in the Inspector
+    public GameManager gameManager;  // Reference to your GameManager
 
-    [Header("UI Elements for Manual Control")]
-    public Dropdown trackDropdown;   // Dropdown with options: 0 = Calm, 1 = Medium, 2 = Intense
-    public Slider tuneVolumeSlider;  // Slider for tune volume (range 0 to 1)
-    public Slider drumsVolumeSlider; // Slider for drums volume (range 0 to 1)
-    public Slider tempoSlider;       // Slider for tempo (e.g., 60 to 200 BPM)
-    public Button saveDataButton;    // Button to trigger saving data
+    [Header("UI Elements for Music Control")]
+    public Slider trackSelectionSlider;   // Slider for selecting track (0 or 1)
+    public Slider volumeSlider;             // Slider for volume (range 0 to 1)
+    public Slider tempoSlider;              // Slider for tempo (e.g., 60 to 200 BPM)
+    public Button saveDataButton;           // Button to trigger saving data
 
     [Header("Audio Sources for Each Track")]
-    public AudioSource calmTune;
-    public AudioSource calmDrums;
-    public AudioSource mediumTune;
-    public AudioSource mediumDrums;
-    public AudioSource intenseTune;
-    public AudioSource intenseDrums;
+    public AudioSource track0;       // AudioSource for the first track
+    public AudioSource track1;       // AudioSource for the second track
 
     // CSV file path
     private string csvFilePath;
@@ -30,117 +25,90 @@ public class MusicDataAndManualControl : MonoBehaviour
 
     void Start()
     {
-        // Set up CSV file path in persistent data folder.
+        // Define the CSV file path in the persistent data directory.
         csvFilePath = Path.Combine(Application.persistentDataPath, "music_dataset.csv");
         if (!File.Exists(csvFilePath))
         {
-            string header = "numPatients,totalInjuries,totalTimeLeft,track,tuneVolume,drumsVolume,tempo";
+            string header = "numPatients,totalInjuries,totalTimeLeft,track,volume,tempo";
             File.WriteAllText(csvFilePath, header + "\n");
         }
         
-        // Set initial slider values if desired
-        tuneVolumeSlider.value = 0.5f;
-        drumsVolumeSlider.value = 0.5f;
+        // Configure the track selection slider to use whole numbers (only 0 and 1).
+        trackSelectionSlider.wholeNumbers = true;
+        trackSelectionSlider.minValue = 0;
+        trackSelectionSlider.maxValue = 1;
+        trackSelectionSlider.value = 0;  // Start with track0 selected.
+
+        // Set initial values for the volume and tempo sliders.
+        volumeSlider.value = 0.5f;
         tempoSlider.value = 120f;
 
-        // Make sure the dropdown’s onValueChanged event calls UpdateTrack
-        trackDropdown.onValueChanged.AddListener(delegate { UpdateTrack(); });
-        
-        // Add listener for the Save Data button
+        // Set up listeners for UI events.
+        trackSelectionSlider.onValueChanged.AddListener(delegate { UpdateTrack(); });
         saveDataButton.onClick.AddListener(SaveData);
 
-        // Start by updating the active track based on the dropdown
+        // Initialize the active track.
         UpdateTrack();
     }
 
     void Update()
     {
-        // Update the currently active track's properties every frame so you hear real-time changes.
+        // Update the active track's volume and pitch in real time.
         UpdateAudioProperties();
     }
 
-    // Switch tracks based on the dropdown selection.
+    // Update which track is playing based on the slider value.
     private void UpdateTrack()
     {
-        // Stop all tracks first.
-        calmTune.Stop();
-        calmDrums.Stop();
-        mediumTune.Stop();
-        mediumDrums.Stop();
-        intenseTune.Stop();
-        intenseDrums.Stop();
+        // Stop both tracks before starting the selected one.
+        track0.Stop();
+        track1.Stop();
 
-        // Play the selected track.
-        int selected = trackDropdown.value;
-        switch (selected)
+        // Get the selected track from the slider (0 or 1).
+        int selected = Mathf.RoundToInt(trackSelectionSlider.value);
+        if (selected == 0)
         {
-            case 0: // Calm track
-                calmTune.Play();
-                calmDrums.Play();
-                break;
-            case 1: // Medium track
-                mediumTune.Play();
-                mediumDrums.Play();
-                break;
-            case 2: // Intense track
-                intenseTune.Play();
-                intenseDrums.Play();
-                break;
+            track0.Play();
+        }
+        else
+        {
+            track1.Play();
         }
     }
 
-    // Update pitch and volume based on slider values.
+    // Adjust volume and pitch (tempo) of the currently active track.
     private void UpdateAudioProperties()
     {
-        // Calculate the pitch based on the tempo slider.
+        // Calculate pitch based on the tempo slider (tempo divided by baseBPM).
         float pitch = tempoSlider.value / baseBPM;
         
-        // Get references to the active track's audio sources.
-        int selected = trackDropdown.value;
-        AudioSource activeTune = null;
-        AudioSource activeDrums = null;
-        switch (selected)
+        // Determine the active track based on the slider value.
+        int selected = Mathf.RoundToInt(trackSelectionSlider.value);
+        AudioSource activeTrack = (selected == 0) ? track0 : track1;
+        if (activeTrack != null)
         {
-            case 0:
-                activeTune = calmTune;
-                activeDrums = calmDrums;
-                break;
-            case 1:
-                activeTune = mediumTune;
-                activeDrums = mediumDrums;
-                break;
-            case 2:
-                activeTune = intenseTune;
-                activeDrums = intenseDrums;
-                break;
-        }
-        
-        if (activeTune != null && activeDrums != null)
-        {
-            activeTune.pitch = pitch;
-            activeDrums.pitch = pitch;
-            activeTune.volume = tuneVolumeSlider.value;
-            activeDrums.volume = drumsVolumeSlider.value;
+            activeTrack.pitch = pitch;
+            activeTrack.volume = volumeSlider.value;
         }
     }
 
-    // This method grabs the current game state and manual music parameters, and then saves them as a CSV row.
+    // Save the current game and music parameters to the CSV file.
     public void SaveData()
     {
-        // Gather game parameters.
+        // Retrieve game parameters from the GameManager.
         int numPatients = gameManager.GetNumberOfPatients();
         int totalInjuries = gameManager.GetTotalInjuries();
         float totalTimeLeft = gameManager.GetTotalTimeLeft();
 
-        // Gather current music settings from the UI.
-        int track = trackDropdown.value;
-        float tuneVolume = tuneVolumeSlider.value;
-        float drumsVolume = drumsVolumeSlider.value;
+        // Retrieve current music settings from the UI.
+        int track = Mathf.RoundToInt(trackSelectionSlider.value);
+        float volume = volumeSlider.value;
         float tempo = tempoSlider.value;
 
-        // Create the CSV row.
-        string row = $"{numPatients},{totalInjuries},{totalTimeLeft},{track},{tuneVolume},{drumsVolume},{tempo}";
+        // Build a CSV row.
+        string row = $"{numPatients},{totalInjuries},{totalTimeLeft},{track},{volume},{tempo}";
         File.AppendAllText(csvFilePath, row + "\n");
+
         Debug.Log("Data saved to " + csvFilePath);
     }
 }

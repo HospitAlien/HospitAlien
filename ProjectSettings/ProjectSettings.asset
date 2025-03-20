@@ -169,7 +169,7 @@ PlayerSettings:
   androidMinAspectRatio: 1
   applicationIdentifier:
     Android: com.Ubifox.HospitAlien
-    Standalone: com.Unity-Technologies.VR-Template
+    Standalone: com.Ubifox.HospitAlien
   buildNumber:
     Standalone: 0
     VisionOS: 0
