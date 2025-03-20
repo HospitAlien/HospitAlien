@@ -92,7 +92,7 @@ public class PurpleAlien : Alien
         {
             needsAmputation.limbs[random.Next(0, 4)] = true;
         }
-        needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+        needsAttatchment.limbs = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
 
 
         // Create a new GameObject to detect axe hits
