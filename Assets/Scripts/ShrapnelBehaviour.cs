@@ -18,6 +18,8 @@ public class ShrapnelBehaviour : MonoBehaviour
     public Outline outline;
     private bool outlineVisible;
 
+    private Coroutine myCoroutine;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -48,18 +50,42 @@ public class ShrapnelBehaviour : MonoBehaviour
 
         if(distance > 2){
             if(outlineVisible){
-                outlineVisible = false;
+                StopCoroutine(myCoroutine);
                 outline.OutlineWidth = 0;
             }
 
         }
         else if (distance <= 2){
             if(!outlineVisible){
-                outlineVisible = true;
-                outline.OutlineWidth = 3;
+                myCoroutine = StartCoroutine(Pulse());
             }
         }
 
+    }
+
+    IEnumerator Pulse()
+    {
+        float transitionTime = 1f;
+        float targetValue = 4f;
+        float startValue = outline.OutlineWidth;
+        float elapsedTime = 0f;
+
+        while (true)
+        {
+            while (elapsedTime < transitionTime)
+            {
+                outline.OutlineWidth = Mathf.Lerp(startValue, targetValue, elapsedTime / transitionTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            outline.OutlineWidth = targetValue;
+
+            targetValue = startValue;
+            startValue = outline.OutlineWidth;
+
+
+            elapsedTime = 0f;
+        }
     }
 
 
