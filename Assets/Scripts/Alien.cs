@@ -38,8 +38,8 @@ public class Alien : MonoBehaviour
     protected float voiceCooldownTime = 3f;
 
     protected Status status;
-    public Amputations amputations;
-    public Amputations repaired;
+    public Amputations needsAmputation;
+    public Amputations needsAttatchment;
     protected AlienVoice alienVoice;
     protected int reward = 200;
 
@@ -191,7 +191,7 @@ public class Alien : MonoBehaviour
 
     public void Amputate(int limb)
     {
-        amputations.limbs[limb] = false;
+        needsAmputation.limbs[limb] = false;
         Transform limbTransform = null;
         switch (limb)
         {
@@ -224,7 +224,7 @@ public class Alien : MonoBehaviour
             bool healed = true;
             for(int i = 0; i < 4; i++)
             {
-                if (amputations.limbs[i])
+                if (needsAmputation.limbs[i])
                 {
                     healed = false;
                 }

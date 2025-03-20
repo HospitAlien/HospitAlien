@@ -35,7 +35,7 @@ public class PurpleAlien : Alien
         if (random.NextDouble() < 0.4)
         {
             status.needsAmputation = true;
-            amputations.limbs = new bool[] { false, false, false, false };
+            needsAmputation.limbs = new bool[] { false, false, false, false };
             initiateAmputation();
         }
 
@@ -76,27 +76,23 @@ public class PurpleAlien : Alien
     //Add a child to hold colliders to detect axe hits
     protected override void initiateAmputation()
     {
-        bool limbSet = false;
 
+        bool limbSet = false;
         System.Random random = new System.Random();
         for (int i = 0; i < 4; i++)
         {
             if (random.NextDouble() < 0.3)
             {
-                amputations.limbs[i] = true;
+                needsAmputation.limbs[i] = true;
                 limbSet = true;
             }
         }
 
-        if (limbSet == false)
+        if (!limbSet)
         {
-            amputations.limbs[random.Next(0, 4)] = true;
+            needsAmputation.limbs[random.Next(0, 4)] = true;
         }
 
-        repaired.limbs = (bool[])amputations.limbs.Clone();
-
-
-              
 
         // Create a new GameObject to detect axe hits
         GameObject amputationDetector = new GameObject("AmputationDetector");
@@ -107,7 +103,7 @@ public class PurpleAlien : Alien
 
         for (int i = 0; i < 4; i++)
         {
-            if (amputations.limbs[i])
+            if (needsAmputation.limbs[i])
             {
                 switch (i)
                 {
@@ -176,12 +172,12 @@ public class PurpleAlien : Alien
 
         }
 
-        repaired.limbs[limb] = false;
+        needsAttatchment.limbs[limb] = false;
 
         bool healed = true;
         for (int i = 0; i < 4; i++)
         {
-            if (repaired.limbs[i])
+            if (needsAttatchment.limbs[i])
             {
                 healed = false;
             }
