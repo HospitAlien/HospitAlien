@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Oculus.Interaction;
 
 struct Status
 {
@@ -128,20 +129,20 @@ public class AlienBehaviour : MonoBehaviour
     {
         System.Random random = new System.Random();
 
-        if (random.NextDouble() < 0.4)
+        if (random.NextDouble() < 1)
         {
             status.needsInjection = true;
             sweatParticles.Play();
             reward += 100;
         }
-        if (random.NextDouble() < 0.4)
+        if (random.NextDouble() < 0)
         {
             status.needsExtinguishing = true;
             fireParticles.Play();
             reward += 100;
         }
 
-        if (random.NextDouble() < 0.4)
+        if (random.NextDouble() < 0)
         {
             status.shrapnelCount = 4;
             reward += 100;
@@ -155,7 +156,7 @@ public class AlienBehaviour : MonoBehaviour
             amputations.limbs = new bool[] { false, false, false, false };
             initiateAmputation();
         }
-        if(random.NextDouble() < 0.4){
+        if(random.NextDouble() < 0){
 
             if(random.NextDouble() < 0.5){ //shrink
                 status.curSize = -1;
@@ -446,6 +447,7 @@ public class AlienBehaviour : MonoBehaviour
         Transform amputationDetector = transform.Find("AmputationDetector");
         
         Destroy(bodyPart.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
+        Destroy(bodyPart.GetComponent<RigidbodyKinematicLocker>());
         Destroy(bodyPart.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
 
         bodyPart.transform.SetParent(transform);
@@ -464,11 +466,11 @@ public class AlienBehaviour : MonoBehaviour
                 break;
 
             case 2:
-                bodyPart.transform.localPosition = new Vector3(0.0017f, -0.00646f, -0.00535f);
+                bodyPart.transform.localPosition = new Vector3(-0.01078f, 0.0004735f, -0.00428f);
                 bodyPart.transform.localRotation = Quaternion.Euler(0f, -26.115f, 0f);
                 break;
             case 3:
-                bodyPart.transform.localPosition = new Vector3(-0.0235f, -0.0066f, -0.00668f);
+                bodyPart.transform.localPosition = new Vector3(0.01098f, 0.000305f, -0.00560f);
                 bodyPart.transform.localRotation = Quaternion.Euler(0f, 22.113f, 0f);
                 break;
 
