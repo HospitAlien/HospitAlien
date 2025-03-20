@@ -497,7 +497,6 @@ public class AlienBehaviour : MonoBehaviour
         }
         else
         {
-            sweatParticles.Stop();
             alienVoice.SayLine("Thanks for the new hand!");
         }
 
