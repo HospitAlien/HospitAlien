@@ -50,14 +50,18 @@ public class ShrapnelBehaviour : MonoBehaviour
 
         if(distance > 2){
             if(outlineVisible){
-                StopCoroutine(myCoroutine);
+                if(myCoroutine != null){
+                    StopCoroutine(myCoroutine);
+                }
                 outline.OutlineWidth = 0;
+                outlineVisible = false;
             }
 
         }
         else if (distance <= 2){
             if(!outlineVisible){
                 myCoroutine = StartCoroutine(Pulse());
+                outlineVisible = true;
             }
         }
 
@@ -105,7 +109,6 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     private void ObjectReleased(GrabInteractor interactor)
     {
-        Debug.Log("Object released");
         beingHeld = false;
 
         _collider.isTrigger = false;
@@ -114,12 +117,10 @@ public class ShrapnelBehaviour : MonoBehaviour
         {
             destroyCoroutine = StartCoroutine(DestroyObjectAfterTime(5f));
             rb.isKinematic = false;
-            Debug.Log("Kinematic false");
         }
         else
         {
             rb.isKinematic = true;
-            Debug.Log("Kinematic true");
         }
     }
 
@@ -137,7 +138,6 @@ public class ShrapnelBehaviour : MonoBehaviour
             Alien alien = collider.GetComponentInParent<Alien>();
             if (alien != null)
             {
-                Debug.Log("Trigger exit " + collider.name);
                 alien.shrapnelRemoved();
                 insideAlien = false;
             }
@@ -162,7 +162,6 @@ public class ShrapnelBehaviour : MonoBehaviour
                     // Stop the coroutine if it's running
                     StopCoroutine(destroyCoroutine);
                     destroyCoroutine = null;
-                    Debug.Log("Destroy coroutine stopped.");
                 }
 
             }
