@@ -103,7 +103,7 @@ public class AmputationBehaviour : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (alienBehaviour.needsAmputation.limbs[i])
+            if (alienBehaviour.status.needsAmputation[i])
             {
                 GameObject colliderObject = null;
                 Vector3 offset = Vector3.zero;

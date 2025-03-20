@@ -34,8 +34,9 @@ public class PurpleAlien : Alien
 
         if (random.NextDouble() < 0.4)
         {
-            status.needsAmputation = true;
-            needsAmputation.limbs = new bool[] { false, false, false, false };
+            status.needsAnAmputation = true;
+            status.needsAmputation = new bool[] { false, false, false, false };
+            status.needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
             initiateAmputation();
         }
 
@@ -79,20 +80,19 @@ public class PurpleAlien : Alien
 
         bool limbSet = false;
         System.Random random = new System.Random();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < status.needsAttatchment.Length; i++)
         {
             if (random.NextDouble() < 0.3)
             {
-                needsAmputation.limbs[i] = true;
+                status.needsAmputation[i] = true;
                 limbSet = true;
             }
         }
 
         if (!limbSet)
         {
-            needsAmputation.limbs[random.Next(0, 4)] = true;
+            status.needsAmputation[random.Next(0, 4)] = true;
         }
-        needsAttatchment.limbs = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
 
 
         // Create a new GameObject to detect axe hits
@@ -102,9 +102,9 @@ public class PurpleAlien : Alien
         amputationDetector.transform.localRotation = Quaternion.identity;
         amputationDetector.AddComponent<AmputationBehaviour>();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < status.needsAmputation.Length; i++)
         {
-            if (needsAmputation.limbs[i])
+            if (status.needsAmputation[i])
             {
                 switch (i)
                 {
@@ -173,21 +173,10 @@ public class PurpleAlien : Alien
 
         }
 
-        needsAttatchment.limbs[limb] = false;
+        status.attachLimb(limb);
 
-        bool healed = true;
-        for (int i = 0; i < 4; i++)
-        {
-            if (needsAttatchment.limbs[i])
-            {
-                healed = false;
-            }
-        }
+        status.needsAttatchment[limb] = false;
 
-        if (healed)
-        {
-            status.needsLimbs = false;
-        }
         if (status.isHealthy())
         {
             Cure();

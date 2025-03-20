@@ -6,12 +6,6 @@ using System;
 using System.Linq;
 using Oculus.Interaction;
 
-public struct Amputations
-{
-    public bool[] limbs;
-    
-}
-
 public class Alien : MonoBehaviour
 {
     protected Transform target;
@@ -37,9 +31,7 @@ public class Alien : MonoBehaviour
     protected float lastVoiceTime = -Mathf.Infinity;
     protected float voiceCooldownTime = 3f;
 
-    protected Status status;
-    public Amputations needsAmputation;
-    public Amputations needsAttatchment;
+    public Status status;
     protected AlienVoice alienVoice;
     protected int reward = 200;
 
@@ -191,9 +183,7 @@ public class Alien : MonoBehaviour
 
     public void Amputate(int limb)
     {
-        needsAmputation.limbs[limb] = false;
-        needsAttatchment.limbs[limb] = true; //now, if a limb has been removed it means that that limb needs to be attatched
-        status.needsLimbs = true; //this should always be true following an amputation, not conditional
+        status.amputate(limb);
 
         Transform limbTransform = null;
         switch (limb)
@@ -223,21 +213,6 @@ public class Alien : MonoBehaviour
 
             //Detach
             limbTransform.parent = null;
-
-            bool healed = true;
-            for(int i = 0; i < 4; i++)
-            {
-                if (needsAmputation.limbs[i])
-                {
-                    healed = false;
-                }
-            }
-
-            //Update status
-            if (healed)
-            {
-                status.needsAmputation = false;
-            }
 
 
             if (Time.time - lastVoiceTime >= voiceCooldownTime)

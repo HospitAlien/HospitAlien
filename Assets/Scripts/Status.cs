@@ -1,12 +1,18 @@
+using System;
+using System.Linq;
+
 public class Status
 {
+    public bool[] needsAmputation;
+    public bool[] needsAttatchment;
+
     public bool needsInjection;
     public bool needsExtinguishing;
     public bool hasShrapnel;
     public int shrapnelCount;
     public int curSize;
     public int numberOfBadEyes;
-    public bool needsAmputation;
+    public bool needsAnAmputation;
     public bool needsLimbs;
 
 
@@ -14,7 +20,7 @@ public class Status
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0  && !needsAmputation && !needsLimbs && numberOfBadEyes == 0);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0  && !needsAnAmputation && !needsLimbs && numberOfBadEyes == 0);
     }
 
     public string getIllness()
@@ -40,7 +46,7 @@ public class Status
         {
             response += "I am massive get me a shrink pill.\n";
         }
-        else if (needsAmputation)
+        else if (needsAnAmputation)
         {
             response += "My arm is ruined! \n";
         }
@@ -73,6 +79,25 @@ public class Status
 
     public void applyEyeDrop(){
         numberOfBadEyes = numberOfBadEyes -1;
+    }
+
+    public void amputate(int limb){
+        needsAmputation[limb] = false;
+        needsAttatchment[limb] = true;
+        needsLimbs = true;
+
+        if(needsAmputation.All(value => value == false)){
+            needsAnAmputation = false;
+        }
+
+    }
+
+    public void attachLimb(int limb){
+        needsAttatchment[limb] = false;
+
+        if(needsAttatchment.All(value => value == false)){
+            needsLimbs = false;
+        }
     }
 
 }
