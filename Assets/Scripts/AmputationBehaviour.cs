@@ -9,7 +9,7 @@ public class AmputationBehaviour : MonoBehaviour
     private int rightLegCount = 0;
 
     GameObject bloodPrefab;
-    ParticleSystem bloodParticles;
+    private ParticleSystem[] bloodParticlesArray = new ParticleSystem[4];
     AudioSource audioSource;
     AudioClip hitSound;
 
@@ -22,9 +22,8 @@ public class AmputationBehaviour : MonoBehaviour
 
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.isKinematic = true;
-        CreateCollider();
         bloodPrefab = Resources.Load<GameObject>("BloodSpurtParticles");
-        CreateBloodParticles();
+        CreateCollider();
 
         audioSource = gameObject.AddComponent<AudioSource>();
        
@@ -75,7 +74,7 @@ public class AmputationBehaviour : MonoBehaviour
     private void Hit(int hitCount, int limb)
     {
         audioSource.PlayOneShot(hitSound);
-        bloodParticles.Play();
+        bloodParticlesArray[limb].Play();
         Debug.Log("Hit by axe: " + hitCount);
 
         if (hitCount >= 5)
@@ -146,16 +145,15 @@ public class AmputationBehaviour : MonoBehaviour
                     BoxCollider boxCollider = colliderObject.AddComponent<BoxCollider>();
                     boxCollider.center = Vector3.zero;
                     boxCollider.size = size;
+
+                    // Instantiate the blood particle effect for this limb
+                    GameObject bloodObject = Instantiate(bloodPrefab, colliderObject.transform);
+                    // Place the blood particle object at the collider's position (local position zero)
+                    bloodObject.transform.localPosition = Vector3.zero;
+                    // Save the ParticleSystem into the bloodParticlesArray
+                    bloodParticlesArray[i] = bloodObject.GetComponent<ParticleSystem>();
                 }
             }
         }
     }
-
-    public void CreateBloodParticles()
-    {
-        GameObject bloodObject= Instantiate(bloodPrefab, transform);
-        bloodObject.transform.localPosition = new Vector3(-0.62f, 0.81f, -0.04f);
-        bloodParticles = bloodObject.GetComponent<ParticleSystem>();
-    }
-
 }
