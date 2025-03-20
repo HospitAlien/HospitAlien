@@ -201,8 +201,8 @@ GameObject:
   - component: {fileID: 8609123494972491540}
   - component: {fileID: 6068763772882861036}
   m_Layer: 0
-  m_Name: left_hand
-  m_TagString: LeftHand
+  m_Name: hand
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
