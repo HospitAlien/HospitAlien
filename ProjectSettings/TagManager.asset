@@ -20,6 +20,9 @@ TagManager:
   - Shrapnel
   - AlienTranslator
   - Axe
+  - Eyeball1
+  - Eyeball2
+  - Eyeball3
   layers:
   - Default
   - TransparentFX
