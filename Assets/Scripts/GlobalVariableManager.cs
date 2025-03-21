@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System;
+using Unity.Barracuda;
 
 // This script is used to manage global variables that need to be shared between objects and scene.
 // It also manages the saving and loading for variable that need to be stored.
@@ -12,7 +13,8 @@ public class GlobalVariableManager : MonoBehaviour
     [Tooltip("The default settings for the game")]
     public GameSettingsIO gameSettings;
     [Tooltip("The default leader board for the game")]
-    public LeaderBoardIO defaultLeaderBoard;
+    public LeaderBoardIO leaderBoard;
+    public bool UseDefalutInEditor = true;
 
     private bool _gamePlaying;
     public event Action<bool> OnGamePlayingChangedEvent;
@@ -33,7 +35,6 @@ public class GlobalVariableManager : MonoBehaviour
     // Place to save the file
     private string settingFilePath;
     private string leaderBoardFilePath;
-    private LeaderBoardIO leaderBoard = default;
     private static GlobalVariableManager instance;
 
     private void Awake()
@@ -54,23 +55,22 @@ public class GlobalVariableManager : MonoBehaviour
         settingFilePath = Path.Combine(Application.persistentDataPath, "settings.json");
         leaderBoardFilePath = Path.Combine(Application.persistentDataPath, "LeaderBoard.json");
         // Load the settings from the file
-        LoadSettings();
-        LoadLeaderBoard();
+        if (!Application.isEditor || !UseDefalutInEditor)
+        {
+            LoadSettings();
+            LoadLeaderBoard();
+        }
     }
 
     // Load the settings if the file exists
     public void LoadSettings()
     {
+        gameSettings = Instantiate(gameSettings);
+        DontDestroyOnLoad(gameSettings);
         if (File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(settingFilePath);
             JsonUtility.FromJsonOverwrite(json, gameSettings);
-        }
-        else
-        {
-            Debug.Log("Using default settings.");
-            // copy the default settings to avoid change the default
-            gameSettings = Instantiate(gameSettings);
         }
     }
 
@@ -86,35 +86,21 @@ public class GlobalVariableManager : MonoBehaviour
     // Load the leaderboard if the file exists
     public void LoadLeaderBoard()
     {
-        leaderBoard = Instantiate(defaultLeaderBoard);
+        leaderBoard = Instantiate(leaderBoard);
+        DontDestroyOnLoad(leaderBoard);
         if (File.Exists(settingFilePath))
         {
             string json = File.ReadAllText(leaderBoardFilePath);
             JsonUtility.FromJsonOverwrite(json, leaderBoard);
-        }
-        else
-        {
-            // copy the default leader board tto avoid change the default
-            Debug.Log("Using default leader board.");
         }
     }
 
     // Save the leaderboard to a file
     public void SaveLeaderBoard()
     {
-        string json = JsonUtility.ToJson(defaultLeaderBoard, prettyPrint: true);
+        string json = JsonUtility.ToJson(leaderBoard, prettyPrint: true);
         File.WriteAllText(leaderBoardFilePath, json);
         Debug.Log("LeaderBoard saved to:" + leaderBoardFilePath);
-    }
-
-    public LeaderBoardIO LeaderBoard
-    {
-        get { return leaderBoard; }
-    }
-
-    public void ClearLeaderBoard()
-    {
-        leaderBoard = Instantiate(defaultLeaderBoard);
     }
 
     private void OnApplicationQuit()
