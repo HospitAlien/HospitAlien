@@ -14,7 +14,6 @@ public class MoveManager : MonoBehaviour
     public float rotationSpeed = 90.0f;
 
     private GameSettingsIO.moveMode _movementMode;
-    private GameSettingsIO.turnMode _turnMode;
     private bool _snapTurned = false;
     public AnimationCurve smoothRotationCurve;
     private bool takeLeftInput = false;
@@ -94,29 +93,9 @@ public class MoveManager : MonoBehaviour
 
     private void RotateCameraRigWithThumbStick(float thumbStickX)
     {
-        if (_turnMode == GameSettingsIO.turnMode.Snap)
-        {
-            if (thumbStickX > 0.5f && !_snapTurned)
-            {
-                RotateCameraRig(45);
-                _snapTurned = true;
-            }
-            else if (thumbStickX < -0.5f && !_snapTurned)
-            {
-                RotateCameraRig(-45);
-                _snapTurned = true;
-            }
-            else if (thumbStickX < 0.5f && thumbStickX > -0.5f)
-            {
-                _snapTurned = false;
-            }
-        }
-        else if (_turnMode == GameSettingsIO.turnMode.Smooth)
-        {
-            float smoothInput = smoothRotationCurve.Evaluate(Mathf.Abs(thumbStickX)) * Mathf.Sign(thumbStickX);
-            float targetRotationAngle = smoothInput * rotationSpeed * Time.deltaTime;
-            RotateCameraRig(targetRotationAngle);
-        }
+        float smoothInput = smoothRotationCurve.Evaluate(Mathf.Abs(thumbStickX)) * Mathf.Sign(thumbStickX);
+        float targetRotationAngle = smoothInput * rotationSpeed * Time.deltaTime;
+        RotateCameraRig(targetRotationAngle);
     }
 
     private void RotateCameraRig(float rotationAngle)
@@ -185,7 +164,6 @@ public class MoveManager : MonoBehaviour
             rightLocomotionControllerInteractorGroup.SetActive(true);
         }
         _movementMode = settings.MoveModeOption;
-        _turnMode = settings.TurnModeOption;
     }
 
     void OnDestroy()

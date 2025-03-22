@@ -19,14 +19,6 @@ public class GameSettingsIO : ScriptableObject
     [Tooltip("Range 0.0 - 50.0")]
     [SerializeField] private float vignetteStrength = 50.0f;
 
-    public enum turnMode
-    {
-        Smooth,
-        Snap
-    }
-    [Header("Turn mode")]
-    [SerializeField] private turnMode turnModeOption = turnMode.Smooth;
-
     public enum moveMode
     {
         teleport,
@@ -58,16 +50,6 @@ public class GameSettingsIO : ScriptableObject
         {
             vignetteStrength = value;
             OnComfortSettingChanged?.Invoke(this);
-        }
-    }
-
-    public turnMode TurnModeOption
-    {
-        get => turnModeOption;
-        set
-        {
-            turnModeOption = value;
-            OnSettingChanged?.Invoke(this);
         }
     }
 
