@@ -5,6 +5,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject InitText;
     private Camera mainCamera;
     private GlobalVariableManager gvm;
+    public MoveManager moveManager;
     private bool isInitd = false;
 
     void Start()
@@ -12,6 +13,7 @@ public class TutorialManager : MonoBehaviour
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         mainCamera = Camera.main;
         mainCamera.cullingMask = LayerMask.GetMask("InitUI");
+        moveManager.DisableMovement();
     }
 
     void Update()

@@ -21,6 +21,8 @@ public class MoveManager : MonoBehaviour
     private bool holdingLeftTrigger = false;
     private bool holdingRightTrigger = false;
 
+    private bool moveDisabled = false;
+
     void Start()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
@@ -31,6 +33,7 @@ public class MoveManager : MonoBehaviour
 
     void Update()
     {
+        if (moveDisabled) return;
         // Teleport is managed by META SDK
         if (_movementMode == GameSettingsIO.moveMode.teleport) return;
 
@@ -151,7 +154,7 @@ public class MoveManager : MonoBehaviour
         return false;
     }
 
-    public void ChangeMovementStatus(GameSettingsIO settings)
+    private void ChangeMovementStatus(GameSettingsIO settings)
     {
         if (settings.MoveModeOption == GameSettingsIO.moveMode.walk)
         {
@@ -164,6 +167,19 @@ public class MoveManager : MonoBehaviour
             rightLocomotionControllerInteractorGroup.SetActive(true);
         }
         _movementMode = settings.MoveModeOption;
+    }
+
+    public void DisableMovement()
+    {
+        moveDisabled = true;
+        leftLocomotionControllerInteractorGroup.SetActive(false);
+        rightLocomotionControllerInteractorGroup.SetActive(false);
+    }
+
+    public void EnableMovement()
+    {
+        moveDisabled = false;
+        ChangeMovementStatus(gvm.gameSettings);
     }
 
     void OnDestroy()
