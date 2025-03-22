@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(SpawnPatients());
         StartCoroutine(eventRoutine());
+        StartCoroutine(timeRemaining());
     }
 
 
@@ -131,7 +132,7 @@ public class GameManager : MonoBehaviour
 
     public void DeleteObjectsWithScript<T>() where T : MonoBehaviour
     {
-        T[] objectsWithScript = FindObjectsOfType<T>();
+        T[] objectsWithScript = FindObjectsByType<T>(FindObjectsSortMode.None);
         foreach (T obj in objectsWithScript)
         {
             Destroy(obj.gameObject);
@@ -145,9 +146,9 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
         }
+        gvm.IsGamePlaying = false;
 
-        //once time runs out, end the game
-        GameStatusController(false);
+        //need to change the buton idk how to do that
     }
 
 
