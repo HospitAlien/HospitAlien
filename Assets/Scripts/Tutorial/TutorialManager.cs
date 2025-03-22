@@ -25,6 +25,7 @@ public class TutorialManager : MonoBehaviour
 
     private void InitCamera()
     {
+        FindFirstObjectByType<CameraHeightManager>().ResetCameraHeight();
         mainCamera.cullingMask = -1;
         isInitd = true;
         InitText.SetActive(false);
@@ -36,6 +37,7 @@ public class TutorialManager : MonoBehaviour
         Vector3 targetPosition = mainCamera.transform.position + mainCamera.transform.forward * 1f;
         targetPosition += offset;
         obj.transform.position = targetPosition;
-        obj.transform.LookAt(mainCamera.transform.position);
+        Vector3 directionToCamera = mainCamera.transform.position - obj.transform.position;
+        obj.transform.rotation = Quaternion.LookRotation(-directionToCamera);
     }
 }

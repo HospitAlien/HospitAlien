@@ -7509,7 +7509,7 @@ GameObject:
   - component: {fileID: 6409237665380995515}
   - component: {fileID: 613907507012835649}
   m_Layer: 0
-  m_Name: Button_Start
+  m_Name: Button_ResetCameraHeight
   m_TagString: QDSUIPrimaryButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
