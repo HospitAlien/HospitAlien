@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public int maxPatients = 6;
     public int currentPatientCount = 0;
 
+    public float gameLength = 480f; // this is 8 minutes can change
+
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
 
@@ -24,12 +26,11 @@ public class GameManager : MonoBehaviour
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
-
+    private List<GameObject> spawnedAliens = new List<GameObject>();
     private Transform[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
     //I want to have
-
 
 
     void UpdateScoreText()
@@ -92,16 +93,63 @@ public class GameManager : MonoBehaviour
     {
         if (gamePlaying)
         {
-            // _gamePlaying = true;
-            StartCoroutine(SpawnPatients());
-            StartCoroutine(eventRoutine());
+            StartGame();
         }
         else
         {
-            // _gamePlaying = false;
-            StopAllCoroutines();
+            EndGame();
         }
     }
+
+    private void StartGame()
+    {
+        score = 0;
+        UpdateScoreText();
+        currentPatientCount = 0;
+        eventState = 0;
+        spotOccupied = new bool[maxPatients];
+        EventCanvas.SetActive(false);
+
+        StartCoroutine(SpawnPatients());
+        StartCoroutine(eventRoutine());
+    }
+
+
+    private void EndGame()
+    {
+        currentPatientCount = 0;
+        eventState = 0;
+        spotOccupied = new bool[maxPatients];
+        EventCanvas.SetActive(false);
+
+        DeleteObjectsWithScript<Alien>();
+        DeleteObjectsWithScript<PizzaScript>();
+
+        StopAllCoroutines();
+    }
+
+
+    public void DeleteObjectsWithScript<T>() where T : MonoBehaviour
+    {
+        T[] objectsWithScript = FindObjectsOfType<T>();
+        foreach (T obj in objectsWithScript)
+        {
+            Destroy(obj.gameObject);
+        }
+    }
+
+    IEnumerator timeRemaining()
+    {
+        float gameStartTime = Time.time;
+        while(Time.time - gameStartTime < gameLength)
+        {
+            yield return new WaitForSeconds(1f);
+        }
+
+        //once time runs out, end the game
+        GameStatusController(false);
+    }
+
 
     IEnumerator eventRoutine()
     {
@@ -138,9 +186,9 @@ public class GameManager : MonoBehaviour
 
         //the pizza event is on for 30s It spawns pizza throughout the room this can be eaten by the doctor to earn coins
         float pizzaEventDuration = 30f;
-        float timeElapsed = 0f;
+        float pizzaTimeElapsed = 0f;
 
-        while (timeElapsed < pizzaEventDuration)
+        while (pizzaTimeElapsed < pizzaEventDuration)
         {
 
             Vector3 randomPosition = new Vector3(
@@ -164,7 +212,7 @@ public class GameManager : MonoBehaviour
             spawnedPizzas.Add(pizza);
             yield return new WaitForSeconds(0.5f);
 
-            timeElapsed += 0.5f;
+            pizzaTimeElapsed += 0.5f;
         }
 
         EventCanvas.SetActive(false);
@@ -254,6 +302,8 @@ public class GameManager : MonoBehaviour
             patientBehaviour.SetTarget(spawnPoint);
             patientBehaviour.SetIndex(newSpot);
         }
+
+        spawnedAliens.Add(patient);
 
 
         // Increment the patient count
