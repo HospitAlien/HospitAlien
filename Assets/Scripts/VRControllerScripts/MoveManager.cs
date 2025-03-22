@@ -14,7 +14,7 @@ public class MoveManager : MonoBehaviour
     public float rotationSpeed = 90.0f;
 
     private GameSettingsIO.moveMode _movementMode;
-    private bool _snapTurned = false;
+
     public AnimationCurve smoothRotationCurve;
     private bool takeLeftInput = false;
     private bool takeRightInput = false;
@@ -156,6 +156,7 @@ public class MoveManager : MonoBehaviour
 
     private void ChangeMovementStatus(GameSettingsIO settings)
     {
+        if (moveDisabled) return;
         if (settings.MoveModeOption == GameSettingsIO.moveMode.walk)
         {
             leftLocomotionControllerInteractorGroup.SetActive(false);

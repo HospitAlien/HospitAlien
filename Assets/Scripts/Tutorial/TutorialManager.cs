@@ -6,6 +6,7 @@ public class TutorialManager : MonoBehaviour
     private Camera mainCamera;
     private GlobalVariableManager gvm;
     public MoveManager moveManager;
+    public MenuManager menuManager;
     private bool isInitd = false;
 
     void Start()
@@ -20,9 +21,10 @@ public class TutorialManager : MonoBehaviour
     {
         if (!isInitd)
         {
-            MoveToPlayer(InitText);
+            MoveToPlayer(InitText); // Always show the tips in front of the player
+            menuManager.CloseMenu(); // Make sure the menu is closed
+            if (OVRInput.GetDown(OVRInput.Button.Two)) InitCamera();
         }
-        if (OVRInput.GetDown(OVRInput.Button.Two)) InitCamera();
     }
 
     private void InitCamera()
