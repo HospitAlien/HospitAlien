@@ -242,15 +242,9 @@ public class Alien : MonoBehaviour
 
     }
 
-    protected void initiateAttachHand()
+    protected virtual void initiateAttachHand()
     {
-        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
-
-        //Add attachment script.
-        if (amputationDetectorTransform.gameObject.GetComponent<AttachHand>() == null)
-        {
-            amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
-        }
+        Debug.Log("initiateAttachHand must be overridden");
     }
 
     public virtual void attachLimb(GameObject bodyPart, int limb){

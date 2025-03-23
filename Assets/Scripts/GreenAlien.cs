@@ -34,6 +34,14 @@ public class GreenAlien : Alien
 
         if (random.NextDouble() < 0.4)
         {
+            status.needsAnAmputation = true;
+            status.needsAmputation = new bool[] { false, false, false, false };
+            status.needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+            initiateAmputation();
+        }
+
+        if (random.NextDouble() < 0.4)
+        {
             reward += 100;
             if (random.NextDouble() < 0.5)
             { //shrink

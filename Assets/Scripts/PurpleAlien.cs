@@ -132,6 +132,17 @@ public class PurpleAlien : Alien
         }
     }
 
+    protected override void initiateAttachHand()
+    {
+        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
+
+        //Add attachment script.
+        if (amputationDetectorTransform.gameObject.GetComponent<AttachHandPurple>() == null)
+        {
+            amputationDetectorTransform.gameObject.AddComponent<AttachHandPurple>();
+        }
+    }
+
     public override void attachLimb(GameObject bodyPart, int limb)
     {
         Transform amputationDetector = transform.Find("AmputationDetector");
@@ -181,6 +192,8 @@ public class PurpleAlien : Alien
 
 
     }
+
+   
 
 
     private void initiateShrapnel()

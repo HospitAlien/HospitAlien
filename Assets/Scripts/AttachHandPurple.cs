@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AttachHand : MonoBehaviour
+public class AttachHandPurple : MonoBehaviour
 {
     private Alien alienBehaviour;
 
@@ -27,7 +27,7 @@ public class AttachHand : MonoBehaviour
                 case "LeftHandNeeded":
                     Debug.Log("Left hand triggered");
 
-                    if (collision.gameObject.CompareTag("Hand"))
+                    if (collision.gameObject.CompareTag("PurpleHand"))
                     {
                         Destroy(transform.Find("LeftHandNeeded").gameObject);
                         alienBehaviour.attachLimb(collision.gameObject, 0);
@@ -36,7 +36,7 @@ public class AttachHand : MonoBehaviour
                 case "RightHandNeeded":
                     Debug.Log("Right hand triggered");
 
-                    if (collision.gameObject.CompareTag("Hand"))
+                    if (collision.gameObject.CompareTag("PurpleHand"))
                     {
                         Destroy(transform.Find("RightHandNeeded").gameObject);
                         alienBehaviour.attachLimb(collision.gameObject, 1);
@@ -45,7 +45,7 @@ public class AttachHand : MonoBehaviour
                 case "LeftLegNeeded":
                     Debug.Log("Left leg triggered");
 
-                    if (collision.gameObject.CompareTag("Leg"))
+                    if (collision.gameObject.CompareTag("PurpleLeg"))
                     {
                         Destroy(transform.Find("LeftLegNeeded").gameObject);
                         alienBehaviour.attachLimb(collision.gameObject, 2);
@@ -53,7 +53,7 @@ public class AttachHand : MonoBehaviour
                     break;
                 case "RightLegNeeded":
                     Debug.Log("Right leg triggered");
-                    if (collision.gameObject.CompareTag("Leg"))
+                    if (collision.gameObject.CompareTag("PurpleLeg"))
                     {
                         Destroy(transform.Find("RightLegNeeded").gameObject);
                         alienBehaviour.attachLimb(collision.gameObject, 3);
