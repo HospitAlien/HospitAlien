@@ -100,7 +100,7 @@ public class PurpleAlien : Alien
         amputationDetector.transform.SetParent(transform);
         amputationDetector.transform.localPosition = Vector3.zero;
         amputationDetector.transform.localRotation = Quaternion.identity;
-        amputationDetector.AddComponent<AmputationBehaviour>();
+        amputationDetector.AddComponent<AmputationBehaviourPurple>();
 
         for (int i = 0; i < status.needsAmputation.Length; i++)
         {
@@ -124,19 +124,6 @@ public class PurpleAlien : Alien
                 }
             }
         }
-    }
-
-    protected override void initiateAttachHand()
-    {
-     
-        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
-
-        //Add attachment script.
-        if (amputationDetectorTransform.gameObject.GetComponent<AttachHand>() == null)
-        {
-            amputationDetectorTransform.gameObject.AddComponent<AttachHand>();
-        }
-
     }
 
     public override void attachLimb(GameObject bodyPart, int limb)
