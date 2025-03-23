@@ -8,7 +8,7 @@ public class ScoreBoardManager : MonoBehaviour
     public Scrollbar scoreScrollbar;  
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI currentRank;
-
+    public TextMeshProUGUI currentTime;
     private int[] targetScores;
     private string[] targetRanks;
 
@@ -43,6 +43,12 @@ public class ScoreBoardManager : MonoBehaviour
             scoreScrollbar.size = 1;
         }
         scoreText.text = $"Score: {currentScore}";
+    }
+
+    public void setTime(float newTime){
+        int minutes = (int)(newTime / 60);
+        int seconds = (int)(newTime % 60);
+        currentTime.text =  $"{minutes:D2}:{seconds:D2}";
     }
     
 

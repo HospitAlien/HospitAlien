@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
         float gameStartTime = Time.time;
         while(Time.time - gameStartTime < gameLength)
         {
+            scoreBoard.setTime(gameLength -(Time.time - gameStartTime));
             yield return new WaitForSeconds(1f);
         }
         gvm.IsGamePlaying = false;
