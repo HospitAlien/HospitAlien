@@ -32,7 +32,7 @@ public class GreenAlien : Alien
             initiateShrapnel();
         }
 
-        if (random.NextDouble() < 0.4)
+        if (random.NextDouble() < 1)
         {
             status.needsAnAmputation = true;
             status.needsAmputation = new bool[] { false, false, false, false };
@@ -110,6 +110,17 @@ public class GreenAlien : Alien
 
                 }
             }
+        }
+    }
+
+    protected override void initiateAttachHand()
+    {
+        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
+
+        //Add attachment script.
+        if (amputationDetectorTransform.gameObject.GetComponent<AttachHandGreen>() == null)
+        {
+            amputationDetectorTransform.gameObject.AddComponent<AttachHandGreen>();
         }
     }
 
