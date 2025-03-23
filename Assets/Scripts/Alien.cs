@@ -116,7 +116,6 @@ public class Alien : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if (target != null)
         {
 
@@ -177,11 +176,11 @@ public class Alien : MonoBehaviour
         status.shrapnelInserted();
     }
 
-    protected void Syrined()
+    public void Syrined(string syringeBloodType)
     {
         if (isReady)
         {
-            if (status.needsInjection)
+            if (status.needsInjection && (syringeBloodType == status.bloodType) && syringeBloodType != "")
             {
                 status.needsInjection = false;
                 if (status.isHealthy())

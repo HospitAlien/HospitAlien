@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-
+using UnityEngine;
 public class Status
 {
     public bool needsInjection;
@@ -11,7 +10,23 @@ public class Status
     public int shrapnelCount;
     public int curSize;
     public int numberOfBadEyes;
+    public string bloodType;
 
+    public Status(){
+        System.Random random = new System.Random();
+        double result = random.NextDouble();
+        if (result < (1.0/3.0))
+        {
+            bloodType = "Green";
+        }else if((1.0/3.0) <= result && result < (2.0/3.0)){
+            bloodType = "Blue";
+        }else{
+            bloodType = "Red";
+        }
+
+        Debug.Log(result);
+        Debug.Log(bloodType);
+    }
 
     public bool isHealthy()
     {
@@ -27,7 +42,7 @@ public class Status
         }
         else if (needsInjection)
         {
-            response += "I need an injection.\n";
+            response += "I need blood, inject me with the correct type please.\n";
         }
         else if (hasShrapnel)
         {
