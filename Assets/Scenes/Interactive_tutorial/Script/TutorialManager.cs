@@ -9,6 +9,7 @@ public class TutorialManager : MonoBehaviour
     public MenuManager menuManager;
     private bool isInitd = false;
     public GameObject SelectTutorial;
+    public GameObject SetComfort;
 
     void Start()
     {
@@ -17,6 +18,10 @@ public class TutorialManager : MonoBehaviour
         mainCamera.cullingMask = LayerMask.GetMask("InitUI");
         moveManager.DisableMovement();
         SelectTutorial.SetActive(false);
+        SetComfort.SetActive(false);
+        gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.Vignette;
+        gvm.gameSettings.VignetteStrength = 50.0f;
+        gvm.gameSettings.MoveModeOption = GameSettingsIO.moveMode.both;
     }
 
     void Update()
@@ -50,5 +55,11 @@ public class TutorialManager : MonoBehaviour
     public void FinishSelectTutorial()
     {
         SelectTutorial.SetActive(false);
+        SetComfort.SetActive(true);
+    }
+
+    public void FinishSetComfort()
+    {
+        SetComfort.SetActive(false);
     }
 }
