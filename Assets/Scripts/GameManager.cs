@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     private GlobalVariableManager gvm;
 
+    public int currentGameStage;
+
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
@@ -104,6 +106,7 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         score = 0;
+        currentGameStage = 0;
         UpdateScoreText();
         currentPatientCount = 0;
         eventState = 0;
@@ -155,24 +158,23 @@ public class GameManager : MonoBehaviour
     IEnumerator eventRoutine()
     {
 
-        while (true)
+        while (currentGameStage < 2)
         {
-            //we first want to find out what event is going to happen 
-            System.Random random = new System.Random();
-            int newEvent = random.Next(1, 1);
-
-            //need to find the time before the next event, should happen around every 2 minutes
-            int waitTime = random.Next(100, 120);
+            int waitTime;
+            if(currentGameStage == 0) {
+                waitTime = 90;
+            }else{
+                waitTime = 120;
+            }
             yield return new WaitForSeconds(waitTime);
 
-            eventState = newEvent;
+            eventState = 1; //pizza time
             Debug.Log("waiting for patients to despawn");
-            if (newEvent == 1)
-            {
-                yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-                yield return StartCoroutine(PizzaTime());
-                Debug.Log("Piza time finished");
-            }
+            yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
+            Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
+            yield return StartCoroutine(PizzaTime());
+            Debug.Log("Piza time finished");
+            currentGameStage++;
         }
     }
 

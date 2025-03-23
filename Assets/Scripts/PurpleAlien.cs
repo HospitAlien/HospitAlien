@@ -1,60 +1,13 @@
 using UnityEngine;
+
 public class PurpleAlien : Alien
 {
    
 
     //TODO: I think its better to roll a random number to decide how many troubles the alien has then select from a list with weighted probabilities
     protected override void InitiateStatus()
-    {
-        System.Random random = new System.Random();
-
-        if (random.NextDouble() < 0.4)
-        {
-            Debug.Log("SWEATING");
-            status.needsInjection = true;
-            sweatParticles.Play();
-            reward += 100;
-        }
-        if (random.NextDouble() < 0.4)
-        {
-            status.needsExtinguishing = true;
-            Debug.Log("ON FIRE");
-            fireParticles.Play();
-            reward += 50;
-        }
-
-        if (random.NextDouble() < 0.4)
-        {
-            status.shrapnelCount = 4;
-            reward += 150;
-            status.hasShrapnel = true;
-            initiateShrapnel();
-        }
-
-        if (random.NextDouble() < 0.4)
-        {
-            reward += 100;
-            if (random.NextDouble() < 0.5)
-            { //shrink
-                status.curSize = -1;
-                transform.localScale /= 2f;
-            }
-            else
-            { //enlargement
-                status.curSize = 1;
-                transform.localScale *= 1.4f;
-            }
-        }
-
-        if(random.NextDouble() < 0.4){
-            reward += 75;
-            status.numberOfBadEyes = 1;
-            int eyeNumber = random.Next(1,4);
-            EyeScript eye = transform.Find($"eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
-            eye.activate(this);
-        }
-
-
+    { 
+        status.initiateStatus(this, gameManager.currentGameStage);
     }
 
 
@@ -66,7 +19,7 @@ public class PurpleAlien : Alien
     }
 
 
-    private void initiateShrapnel()
+    public void initiateShrapnel()
     {
         int count = 0;
         while (count < 4)

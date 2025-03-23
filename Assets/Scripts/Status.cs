@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
 public class Status
 {
     public bool needsInjection;
@@ -61,6 +66,118 @@ public class Status
 
     public void applyEyeDrop(){
         numberOfBadEyes = numberOfBadEyes -1;
+    }
+
+
+    public void initiateStatus(PurpleAlien alien, int gameStage){
+        System.Random random = new System.Random();
+
+        int numberOfIllnesses;
+        if(gameStage == 0){ //first stage
+            numberOfIllnesses = random.Next(1, 3);
+        }else if(gameStage == 1){
+            numberOfIllnesses = random.Next(2,5);
+        }else{
+            numberOfIllnesses = random.Next(3,6);
+        }
+
+
+        List<Action> illnesses = new List<Action>();
+        illnesses.Add(() => {
+            needsInjection = true;
+            alien.sweatParticles.Play();
+            alien.reward += 100;
+        });
+
+        illnesses.Add(() => {
+            needsExtinguishing = true;
+            alien.fireParticles.Play();
+            alien.reward += 50;
+        });
+
+        illnesses.Add(() => {
+            shrapnelCount = 4;
+            alien.reward += 150;
+            hasShrapnel = true;
+            alien.initiateShrapnel();
+        });
+
+        illnesses.Add(() => {
+            alien.reward += 100;
+            if (random.NextDouble() < 0.5) { // shrink
+                curSize = -1;
+                alien.transform.localScale /= 2f;
+            }
+            else { // enlargement
+                curSize = 1;
+                alien.transform.localScale *= 1.4f;
+            }
+        });
+
+        illnesses.Add(() => {
+            alien.reward += 75;
+            numberOfBadEyes = 1;
+            int eyeNumber = random.Next(1, 4);
+            EyeScript eye = alien.transform.Find($"eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
+            eye.activate(alien);
+        });
+
+        List<Action> shuffledIllnesses = illnesses.OrderBy(x => random.Next()).ToList();
+        for (int i = 0; i < numberOfIllnesses; i++) {
+            shuffledIllnesses[i]();
+        }
+    }
+
+
+    public void initiateStatus(GreenAlien alien, int gameStage){
+        System.Random random = new System.Random();
+
+        int numberOfIllnesses;
+        if(gameStage == 0){ //first stage
+            numberOfIllnesses = random.Next(1, 3);
+        }else if(gameStage == 1){
+            numberOfIllnesses = random.Next(2,5);
+        }else{
+            numberOfIllnesses = random.Next(3,5);
+        }
+
+
+        List<Action> illnesses = new List<Action>();
+        illnesses.Add(() => {
+            needsInjection = true;
+            alien.sweatParticles.Play();
+            alien.reward += 100;
+        });
+
+        illnesses.Add(() => {
+            needsExtinguishing = true;
+            alien.fireParticles.Play();
+            alien.reward += 50;
+        });
+
+        illnesses.Add(() => {
+            shrapnelCount = 4;
+            alien.reward += 150;
+            hasShrapnel = true;
+            alien.initiateShrapnel();
+        });
+
+        illnesses.Add(() => {
+            alien.reward += 100;
+            if (random.NextDouble() < 0.5) { // shrink
+                curSize = -1;
+                alien.transform.localScale /= 2f;
+            }
+            else { // enlargement
+                curSize = 1;
+                alien.transform.localScale *= 1.4f;
+            }
+        });
+
+        List<Action> shuffledIllnesses = illnesses.OrderBy(x => random.Next()).ToList();
+        for (int i = 0; i < numberOfIllnesses; i++) {
+            shuffledIllnesses[i]();
+        }
     }
 
 }

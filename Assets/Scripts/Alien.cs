@@ -31,7 +31,7 @@ public class Alien : MonoBehaviour
 
     protected Status status;
     protected AlienVoice alienVoice;
-    protected int reward = 200;
+    public int reward = 200;
 
     protected Dictionary<Vector3, (Vector3, Quaternion)> beds
         = new Dictionary<Vector3, (Vector3, Quaternion)>();
