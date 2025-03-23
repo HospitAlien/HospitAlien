@@ -48,6 +48,12 @@ public class GreenAlien : Alien
         }
     }
 
+    protected override Material LoadLimbMaterial()
+    {
+        amputateMaterial = Resources.Load<Material>("AmputatePurple");
+        return amputateMaterial;
+    }
+
     protected override void initiateAmputation()
     {
 

@@ -74,6 +74,12 @@ public class PurpleAlien : Alien
         }
     }
 
+    protected override Material LoadLimbMaterial()
+    {
+        amputateMaterial = Resources.Load<Material>("AmputateGreen");
+        return amputateMaterial;
+    }
+
     //Add a child to hold colliders to detect axe hits
     protected override void initiateAmputation()
     {
