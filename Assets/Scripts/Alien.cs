@@ -27,6 +27,7 @@ public class Alien : MonoBehaviour
     public GameObject coinParticlePrefab;
     public AudioSource growthSFX;
     public AudioSource shrinkSFX;
+    protected Material amputateMaterial;
 
     protected float lastVoiceTime = -Mathf.Infinity;
     protected float voiceCooldownTime = 3f;
@@ -152,6 +153,13 @@ public class Alien : MonoBehaviour
         return status.getIllness();
     }
 
+    protected virtual Material LoadLimbMaterial()
+    {
+        Debug.Log("LoadLimbMaterial must be overridden");
+        amputateMaterial = Resources.Load<Material>("Amputate");
+        return amputateMaterial;
+    }
+
     protected void ChangeLimbMaterial(Transform limbTransform)
     {
         // Finds the "left_hand" transform
@@ -161,7 +169,7 @@ public class Alien : MonoBehaviour
             if (limbRenderer != null)
             {
                 // Change the material
-                limbRenderer.material = Resources.Load<Material>("Amputate"); ;
+                limbRenderer.material = LoadLimbMaterial();
             }
             else
             {
