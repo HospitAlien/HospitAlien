@@ -236,7 +236,9 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
         GameObject patient;
         int alienType = Random.Range(1, 3);
-        if(alienType == 1)
+        alienType = 2;
+
+        if (alienType == 1)
         {
             patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         }
