@@ -8,6 +8,8 @@ public class TutorialUseItem : MonoBehaviour, IHandGrabUseDelegate
     private bool playSound = false;
     private bool showParticles = false;
     public TutorialManager tutorialManager;
+    private float usedTime = 0.0f;
+    private float lastUseTime = 0.0f;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class TutorialUseItem : MonoBehaviour, IHandGrabUseDelegate
     {
         if (showParticles) foam.Play();
         if (playSound) sound.Play();
+        lastUseTime = Time.time;
     }
 
     public float ComputeUseStrength(float strength)
@@ -40,6 +43,7 @@ public class TutorialUseItem : MonoBehaviour, IHandGrabUseDelegate
     {
         if (showParticles) foam.Stop();
         if (playSound) sound.Stop();
-        tutorialManager.FinishDistanceGrabUseTutorial();
+        usedTime += Time.time - lastUseTime;
+        if (usedTime > 2.0f) tutorialManager.FinishDistanceGrabUseTutorial();
     }
 }
