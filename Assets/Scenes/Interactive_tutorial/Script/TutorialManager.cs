@@ -44,7 +44,7 @@ public class TutorialManager : MonoBehaviour
         }
         if (isFinished)
         {
-            MoveToPlayer(FinishTips, new Vector3(-1f, 0f, 0f));
+            MoveToPlayer(FinishTips, new Vector3(-0.5f, 0f, 0f));
         }
     }
 
@@ -94,7 +94,8 @@ public class TutorialManager : MonoBehaviour
 
     public void Finish()
     {
-        FinishTutorial.SetActive(false);
+        TouchTutorial.SetActive(false);
+        FinishTutorial.SetActive(true);
         FinishTips.SetActive(true);
         isFinished = true;
     }
