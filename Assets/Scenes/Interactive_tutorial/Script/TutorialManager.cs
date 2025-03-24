@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject FinishTutorial;
     public GameObject FinishTips;
     public GameObject TouchTutorial;
+    public GameObject DistanceGrabUseTutorial;
     private bool isFinished = false;
 
     void Start()
@@ -27,6 +28,7 @@ public class TutorialManager : MonoBehaviour
         SetMoveMode.SetActive(false);
         FinishTutorial.SetActive(false);
         TouchTutorial.SetActive(false);
+        DistanceGrabUseTutorial.SetActive(false);
         gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.Vignette;
         gvm.gameSettings.VignetteStrength = 50.0f;
         gvm.gameSettings.MoveModeOption = GameSettingsIO.moveMode.both;
@@ -69,24 +71,30 @@ public class TutorialManager : MonoBehaviour
     {
         SelectTutorial.SetActive(false);
         SetComfort.SetActive(true);
-        moveManager.EnableMovement();
     }
 
     public void FinishSetComfort()
     {
         SetComfort.SetActive(false);
         SetMoveMode.SetActive(true);
+        moveManager.EnableMovement();
     }
 
     public void FinishSetMoveMode()
     {
         SetMoveMode.SetActive(false);
+        DistanceGrabUseTutorial.SetActive(true);
+    }
+
+    public void FinishDistanceGrabUseTutorial()
+    {
+        DistanceGrabUseTutorial.SetActive(false);
         TouchTutorial.SetActive(true);
     }
 
     public void Finish()
     {
-        FinishTutorial.SetActive(true);
+        FinishTutorial.SetActive(false);
         FinishTips.SetActive(true);
         isFinished = true;
     }
