@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour
 {
-    public float speed = 0.1f;
+    public float speed = 2f;
 
     void Start() 
     {

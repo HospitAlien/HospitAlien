@@ -11,12 +11,12 @@ public class GhostEvent : MonoBehaviour
 
     IEnumerator SpawnGhosts()
     {
-        int timeToSpawn = Random.Range(0,6);
 
         while (true)
         {
             SpawnGhost();
-            timeToSpawn = Random.Range(0,6);
+            int timeToSpawn = Random.Range(0,6);
+            yield return new WaitForSeconds(timeToSpawn);
         }
     }
 
@@ -26,6 +26,6 @@ public class GhostEvent : MonoBehaviour
     {
         Vector3 spawnPosition = Random.onUnitSphere*10;
         spawnPosition += Camera.main.transform.position;
-        Instantiate(ghost);
+        Instantiate(ghost, spawnPosition, Quaternion.identity);
     }
 }
