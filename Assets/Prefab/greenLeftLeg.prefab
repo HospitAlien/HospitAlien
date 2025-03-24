@@ -57,7 +57,7 @@ MonoBehaviour:
   _targetTransform: {fileID: 3999786481355180127}
   _maxGrabPoints: 1
   _rigidbody: {fileID: 715258937895161031}
-  _kinematicWhileSelected: 1
+  _kinematicWhileSelected: 0
   _throwWhenUnselected: 1
 --- !u!114 &3165061617791917795
 MonoBehaviour:
@@ -254,6 +254,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 119bb255fa4fcb249aae505055396103, type: 3}
       propertyPath: m_Name
       value: greenLeftLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 119bb255fa4fcb249aae505055396103, type: 3}
+      propertyPath: m_TagString
+      value: GreenLeg
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

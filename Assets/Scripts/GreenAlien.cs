@@ -139,21 +139,27 @@ public class GreenAlien : Alien
         switch (limb)
         {
             case 0:
-                bodyPart.transform.localPosition = new Vector3(1.686128f, -0.9940824f, 0.7895237f);
+                bodyPart.transform.localPosition = new Vector3(-0.0325f, 0.0751f, 0f);
                 bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
                 break;
             case 1:
-                bodyPart.transform.localPosition = new Vector3(0.8970075f, -0.9940824f, 0.7895237f);
+                bodyPart.transform.localPosition = new Vector3(0.02989f, 0.07489f, 0.00053f);
                 bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                Vector3 scaleArm = bodyPart.transform.localScale;
+                scaleArm.x *= -1;
+                bodyPart.transform.localScale = scaleArm;
                 break;
 
             case 2:
-                bodyPart.transform.localPosition = new Vector3(0.0003096164f, 0.01475262f, 0f);
+                bodyPart.transform.localPosition = new Vector3(-0.00642f, 0.02827f, -0.00458f);
                 bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
                 break;
             case 3:
-                bodyPart.transform.localPosition = new Vector3(-0.0002702117f, 0.01395124f, 0f);
+                bodyPart.transform.localPosition = new Vector3(0.0047f, 0.0275f, -0.0046f);
                 bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                Vector3 scaleLeg = bodyPart.transform.localScale;
+                scaleLeg.x *= -1;
+                bodyPart.transform.localScale = scaleLeg;
                 break;
 
         }
