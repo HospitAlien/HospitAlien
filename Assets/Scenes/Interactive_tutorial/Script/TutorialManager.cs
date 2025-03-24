@@ -10,6 +10,11 @@ public class TutorialManager : MonoBehaviour
     private bool isInitd = false;
     public GameObject SelectTutorial;
     public GameObject SetComfort;
+    public GameObject SetMoveMode;
+    public GameObject FinishTutorial;
+    public GameObject FinishTips;
+    public GameObject TouchTutorial;
+    private bool isFinished = false;
 
     void Start()
     {
@@ -19,6 +24,9 @@ public class TutorialManager : MonoBehaviour
         moveManager.DisableMovement();
         SelectTutorial.SetActive(false);
         SetComfort.SetActive(false);
+        SetMoveMode.SetActive(false);
+        FinishTutorial.SetActive(false);
+        TouchTutorial.SetActive(false);
         gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.Vignette;
         gvm.gameSettings.VignetteStrength = 50.0f;
         gvm.gameSettings.MoveModeOption = GameSettingsIO.moveMode.both;
@@ -32,12 +40,17 @@ public class TutorialManager : MonoBehaviour
             menuManager.CloseMenu(); // Make sure the menu is closed
             if (OVRInput.GetDown(OVRInput.Button.Two)) InitCamera();
         }
+        if (isFinished)
+        {
+            MoveToPlayer(FinishTips, new Vector3(-1f, 0f, 0f));
+        }
     }
 
     private void MoveToPlayer(GameObject obj, Vector3 offset = default)
     {
         Vector3 targetPosition = mainCamera.transform.position + mainCamera.transform.forward * 1f;
-        targetPosition += offset;
+        Vector3 playerRelativeOffset = mainCamera.transform.right * offset.x + mainCamera.transform.up * offset.y + mainCamera.transform.forward * offset.z;
+        targetPosition += playerRelativeOffset;
         obj.transform.position = targetPosition;
         Vector3 directionToCamera = mainCamera.transform.position - obj.transform.position;
         obj.transform.rotation = Quaternion.LookRotation(-directionToCamera);
@@ -56,10 +69,25 @@ public class TutorialManager : MonoBehaviour
     {
         SelectTutorial.SetActive(false);
         SetComfort.SetActive(true);
+        moveManager.EnableMovement();
     }
 
     public void FinishSetComfort()
     {
         SetComfort.SetActive(false);
+        SetMoveMode.SetActive(true);
+    }
+
+    public void FinishSetMoveMode()
+    {
+        SetMoveMode.SetActive(false);
+        TouchTutorial.SetActive(true);
+    }
+
+    public void Finish()
+    {
+        FinishTutorial.SetActive(true);
+        FinishTips.SetActive(true);
+        isFinished = true;
     }
 }
