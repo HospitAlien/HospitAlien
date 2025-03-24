@@ -84,6 +84,8 @@ public class TutorialManager : MonoBehaviour
     {
         SetMoveMode.SetActive(false);
         DistanceGrabUseTutorial.SetActive(true);
+        menuManager.ToggleMenu(true);
+        menuManager.RefreshMenu();
     }
 
     public void FinishDistanceGrabUseTutorial()

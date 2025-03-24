@@ -36,14 +36,20 @@ public class MenuManager : MonoBehaviour
     private void OnSettingChanged(GameSettingsIO settings)
     {
         SetCameraHeightText(gvm.gameSettings.CameraHeight * 100);
+        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true;
     }
 
     private void OnComfortSettingChanged(GameSettingsIO settings)
     {
         if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength);
         SetVignetteStrengthText(gvm.gameSettings.VignetteStrength);
-        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true;
         if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true;
+    }
+
+    public void RefreshMenu()
+    {
+        OnSettingChanged(gvm.gameSettings);
+        OnComfortSettingChanged(gvm.gameSettings);
     }
 
     private void CheckMenuIsVisible()

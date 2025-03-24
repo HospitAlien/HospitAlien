@@ -208,7 +208,7 @@ MonoBehaviour:
   rightLocomotionControllerInteractorGroup: {fileID: 3126570866598626429}
   CameraRig: {fileID: 7993289326056261801}
   CenterEyeAnchor: {fileID: 7993289326056261807}
-  moveSpeed: 3.5
+  moveSpeed: 3.25
   rotationSpeed: 90
   smoothRotationCurve:
     serializedVersion: 2
