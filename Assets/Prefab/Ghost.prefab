@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   attackVoiceLine: {fileID: 1728838483006843292}
+  killedVoiceLine: {fileID: 1728838483006843292}
 --- !u!82 &1728838483006843292
 AudioSource:
   m_ObjectHideFlags: 0
