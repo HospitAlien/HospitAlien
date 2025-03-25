@@ -59,7 +59,7 @@ public class ScoreBoardManager : MonoBehaviour
     {
         int minutes = (int)(newTime / 60);
         int seconds = (int)(newTime % 60);
-        currentTime.text = $"Game start in: {minutes:D2}:{seconds:D2}";
+        currentTime.text = $"Start in: {minutes:D2}:{seconds:D2}";
     }
 
     public void HideTime()

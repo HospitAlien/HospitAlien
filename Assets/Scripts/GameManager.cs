@@ -95,11 +95,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartGameCountdown(float countdownTime)
     {
-        while (countdownTime > 0)
+        float startTime = Time.time;
+        while (Time.time - startTime < countdownTime)
         {
-            scoreBoard.SetTimeBeforeStart(countdownTime);
+            scoreBoard.SetTimeBeforeStart(countdownTime - (Time.time - startTime));
             yield return new WaitForSeconds(0.5f);
-            countdownTime--;
         }
         gvm.IsGamePlaying = true;
         foreach (GameObject obj in endGameObjects)
@@ -156,11 +156,9 @@ public class GameManager : MonoBehaviour
         while (Time.time - gameStartTime < gameLength)
         {
             scoreBoard.setTime(gameLength - (Time.time - gameStartTime));
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
         gvm.IsGamePlaying = false;
-
-        //need to change the buton idk how to do that
     }
 
 
