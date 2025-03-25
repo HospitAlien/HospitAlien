@@ -78,18 +78,13 @@ public class GameManager : MonoBehaviour
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
 
-        // Start the game manually for debug, comment this line in production
-        // StartCoroutine(SpawnPatients());
-        // StartCoroutine(eventRoutine());
+        gvm.IsGamePlaying = true;
     }
 
-
-
-    // Update is called once per frame
-    // void Update()
-    // {
-
-    // }
+    void LateStart()
+    {
+        scoreBoard.setTime(gameLength);
+    }
 
     public void GameStatusController(bool gamePlaying)
     {
@@ -125,11 +120,9 @@ public class GameManager : MonoBehaviour
         eventState = 0;
         spotOccupied = new bool[maxPatients];
         EventCanvas.SetActive(false);
-
+        StopAllCoroutines(); // Stop all coroutines first
         DeleteObjectsWithScript<Alien>();
         DeleteObjectsWithScript<PizzaScript>();
-
-        StopAllCoroutines();
     }
 
 
@@ -145,9 +138,9 @@ public class GameManager : MonoBehaviour
     IEnumerator timeRemaining()
     {
         float gameStartTime = Time.time;
-        while(Time.time - gameStartTime < gameLength)
+        while (Time.time - gameStartTime < gameLength)
         {
-            scoreBoard.setTime(gameLength -(Time.time - gameStartTime));
+            scoreBoard.setTime(gameLength - (Time.time - gameStartTime));
             yield return new WaitForSeconds(1f);
         }
         gvm.IsGamePlaying = false;
@@ -162,9 +155,12 @@ public class GameManager : MonoBehaviour
         while (currentGameStage < 2)
         {
             int waitTime;
-            if(currentGameStage == 0) {
+            if (currentGameStage == 0)
+            {
                 waitTime = 90;
-            }else{
+            }
+            else
+            {
                 waitTime = 120;
             }
             yield return new WaitForSeconds(waitTime);
@@ -181,7 +177,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator PizzaTime()
     {
-        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount }");
+        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount}");
         List<GameObject> spawnedPizzas = new List<GameObject>();
 
         EventCanvas.SetActive(true);
@@ -203,7 +199,7 @@ public class GameManager : MonoBehaviour
 
             GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
             Rigidbody rb = pizza.GetComponent<Rigidbody>();
-            
+
             if (rb != null)
             {
                 Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -211,7 +207,7 @@ public class GameManager : MonoBehaviour
                 rb.AddForce(randomDirection * randomForceMagnitude, ForceMode.Impulse);
 
                 Vector3 randomTorque = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f));
-                rb.AddTorque(randomTorque, ForceMode.Impulse); 
+                rb.AddTorque(randomTorque, ForceMode.Impulse);
             }
             spawnedPizzas.Add(pizza);
             yield return new WaitForSeconds(0.5f);
@@ -288,7 +284,7 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
         GameObject patient;
         int alienType = Random.Range(1, 3);
-        if(alienType == 1)
+        if (alienType == 1)
         {
             patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         }
