@@ -143,58 +143,6 @@ public class PurpleAlien : Alien
         }
     }
 
-    public override void attachLimb(GameObject bodyPart, int limb)
-    {
-        Transform amputationDetector = transform.Find("AmputationDetector");
-        
-        Destroy(bodyPart.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
-        Destroy(bodyPart.GetComponent<RigidbodyKinematicLocker>());
-        Destroy(bodyPart.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
-
-        bodyPart.transform.SetParent(transform);
-        bodyPart.transform.localScale = Vector3.one; //Adjust scale
-
-
-        switch (limb)
-        {
-            case 0:
-                bodyPart.transform.localPosition = new Vector3(-0.0303f, 0.0333f, 0.0004f);
-                bodyPart.transform.localRotation = Quaternion.Euler(154.596f, -28.75101f, -4.377991f);
-                break;
-            case 1:
-                bodyPart.transform.localPosition = new Vector3(0.0303f, 0.0333f, -0.00138f);
-                bodyPart.transform.localRotation = Quaternion.Euler(4.75f, -49.917f, -161.683f);
-                break;
-
-            case 2:
-                bodyPart.transform.localPosition = new Vector3(-0.01078f, 0.0004735f, -0.00428f);
-                bodyPart.transform.localRotation = Quaternion.Euler(0f, -26.115f, 0f);
-                break;
-            case 3:
-                bodyPart.transform.localPosition = new Vector3(0.01098f, 0.000305f, -0.00560f);
-                bodyPart.transform.localRotation = Quaternion.Euler(0f, 22.113f, 0f);
-                break;
-
-        }
-
-        status.attachLimb(limb);
-
-        status.needsAttatchment[limb] = false;
-
-        if (status.isHealthy())
-        {
-            Cure();
-        }
-        else
-        {
-            alienVoice.SayLine("Thanks for the new hand!");
-        }
-
-
-    }
-
-   
-
 
     private void initiateShrapnel()
     {

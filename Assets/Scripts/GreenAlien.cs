@@ -124,60 +124,6 @@ public class GreenAlien : Alien
         }
     }
 
-    public override void attachLimb(GameObject bodyPart, int limb)
-    {
-
-        Destroy(bodyPart); //Destroy the donor arm
-
-        //Find and restore limb
-        Transform originalLimb = null;
-        switch (limb)
-        {
-            case 0:
-                originalLimb = transform.Find("hands/left_hand");
-                break;
-            case 1:
-                originalLimb = transform.Find("hands/right_hand");
-                break;
-            case 2:
-                originalLimb = transform.Find("feet/foot_left");
-                break;
-            case 3:
-                originalLimb = transform.Find("feet/foot_right");
-                break;
-        }
-
-        if (originalLimb != null)
-        {
-            originalLimb.gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Original limb not found for reattachment");
-        }
-
-
-
-
-
-
-        status.attachLimb(limb);
-
-        status.needsAttatchment[limb] = false;
-
-        if (status.isHealthy())
-        {
-            Cure();
-        }
-        else
-        {
-            alienVoice.SayLine("Thanks for the new hand!");
-        }
-
-
-    }
-
-
     private void initiateShrapnel()
     {
         int count = 0;
