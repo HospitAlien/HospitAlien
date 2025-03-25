@@ -97,11 +97,20 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ToggleMenu(bool forceOpen = false)
+    public void ToggleMenu()
     {
-        if (forceOpen && _isMenuOpen) CloseMenu();
         if (_isMenuOpen) CloseMenu();
         else OpenMenu();
+    }
+
+    public void OpenMenuInFixPosition(Vector3 position, Vector3 rotation)
+    {
+        if (_isMenuOpen) CloseMenu();
+        menu.SetActive(true);
+        RestartRayInteractables();
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(rotation);
+        _isMenuOpen = true;
     }
 
     public void MoveMenuToPlayer(Vector3 offset = default)

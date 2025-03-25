@@ -82,7 +82,7 @@ public class TutorialManager : MonoBehaviour
     {
         SetMoveMode.SetActive(false);
         DistanceGrabUseTutorial.SetActive(true);
-        menuManager.ToggleMenu(true);
+        menuManager.OpenMenuInFixPosition(new Vector3(0.699f, 1.785f, 0.327f), new Vector3(0, 120.376f, 0));
         menuManager.RefreshMenu();
     }
 
