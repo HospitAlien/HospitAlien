@@ -23,6 +23,5 @@ public class DetectExtinguisherGrab : MonoBehaviour
             Tip1.SetActive(true);
             Tip2.SetActive(false);
         }
-        Debug.Log(collider.name);
     }
 }
