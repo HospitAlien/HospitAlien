@@ -42,10 +42,6 @@ public class TutorialManager : MonoBehaviour
             menuManager.CloseMenu(); // Make sure the menu is closed
             if (OVRInput.GetDown(OVRInput.Button.Two)) InitCamera();
         }
-        if (isFinished)
-        {
-            MoveToPlayer(FinishTips, new Vector3(-0.5f, 0f, 0f));
-        }
     }
 
     private void MoveToPlayer(GameObject obj, Vector3 offset = default)

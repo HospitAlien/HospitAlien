@@ -44,6 +44,6 @@ public class TutorialUseItem : MonoBehaviour, IHandGrabUseDelegate
         if (showParticles) foam.Stop();
         if (playSound) sound.Stop();
         usedTime += Time.time - lastUseTime;
-        if (usedTime > 2.0f) tutorialManager.FinishDistanceGrabUseTutorial();
+        if (usedTime > 1.0f) tutorialManager.FinishDistanceGrabUseTutorial();
     }
 }
