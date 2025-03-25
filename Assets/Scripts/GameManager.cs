@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
 
+    public GhostEvent ghostEvent;
     public GameObject pizzaPrefab;
     public GameObject EventCanvas;
     public GameObject Portal;
@@ -169,11 +170,21 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(waitTime);
 
-            eventState = 1; //pizza time
+            eventState = 1; //event on going, stops aliens spawning
             Debug.Log("waiting for patients to despawn");
             yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
             Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
-            yield return StartCoroutine(PizzaTime());
+
+            if(currentGameStage == 0)
+            {
+                yield return StartCoroutine(PizzaTime());
+            }
+            if(currentGameStage == 1)
+            {
+                yield return StartCoroutine(ghostEvent.StartEvent());
+            }
+
+
             Debug.Log("Piza time finished");
             currentGameStage++;
         }

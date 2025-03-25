@@ -3,11 +3,7 @@ using System.Collections;
 public class GhostEvent : MonoBehaviour
 {
     public GameObject ghost;
-o
-    void Start()
-    {
 
-    }
 
     public IEnumerator StartEvent()   //when the game starts we want t give the user Guns and start ghosts spawning
     {
