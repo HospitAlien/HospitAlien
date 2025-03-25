@@ -287,6 +287,13 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
     }
 
+    public void AttackedByGhost()
+    {
+        Debug.Log("Ghost attack!");
+        score -= 50;
+        score = System.Math.Min(score,0);
+    }
+
 
 
 

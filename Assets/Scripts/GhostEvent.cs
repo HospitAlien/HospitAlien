@@ -3,16 +3,22 @@ using System.Collections;
 public class GhostEvent : MonoBehaviour
 {
     public GameObject ghost;
-
-    void Start() //when the game starts we want to give the user Guns
+o
+    void Start()
     {
-        StartCoroutine(SpawnGhosts());
+
+    }
+
+    public IEnumerator StartEvent()   //when the game starts we want t give the user Guns and start ghosts spawning
+    {
+        yield return StartCoroutine(SpawnGhosts());
     }
 
     IEnumerator SpawnGhosts()
     {
+        float startTime = Time.time;
 
-        while (true)
+        while (Time.time - startTime < 30f)
         {
             SpawnGhost();
             int timeToSpawn = Random.Range(0,6);
