@@ -77,7 +77,10 @@ public class GameManager : MonoBehaviour
 
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
-
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(false);
+        }
         StartCoroutine(StartGameCountdown(10.0f));
     }
 
@@ -129,7 +132,6 @@ public class GameManager : MonoBehaviour
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];
-        EventCanvas.SetActive(false);
         StopAllCoroutines(); // Stop all coroutines first
         DeleteObjectsWithScript<Alien>();
         DeleteObjectsWithScript<PizzaScript>();
@@ -138,6 +140,8 @@ public class GameManager : MonoBehaviour
         {
             obj.SetActive(false);
         }
+        EventCanvas.SetActive(true);
+        eventTextController.StartCongratulations();
     }
 
 
