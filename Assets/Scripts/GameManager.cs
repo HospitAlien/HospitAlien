@@ -359,6 +359,12 @@ public class GameManager : MonoBehaviour
         score = System.Math.Min(score,0);
     }
 
+    public void KilledGhost()
+    {
+        Debug.Log("Ghost killed!");
+        score += 25;
+    }
+
 
 
 

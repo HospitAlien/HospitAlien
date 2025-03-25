@@ -4,6 +4,7 @@ public class Ghost : MonoBehaviour
 {
     public float speed = 2f;
     public AudioSource attackVoiceLine;
+    public AudioSource killedVoiceLine;
 
     private GameManager gameManager;
 
@@ -30,6 +31,13 @@ public class Ghost : MonoBehaviour
     {
         attackVoiceLine.Play();
         gameManager.AttackedByGhost();
+        Destroy(gameObject);
+    }
+
+    void GhostKilled() //if the ghost is killed we want to reward points to the player
+    {
+        killedVoiceLine.Play();
+        gameManager.KilledGhost();
         Destroy(gameObject);
     }
     
