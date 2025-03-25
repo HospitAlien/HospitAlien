@@ -212,14 +212,19 @@ public class Alien : MonoBehaviour
        
         if (limbTransform != null)
         {
-            //Give arm gravity
-
-            Rigidbody rb = limbTransform.gameObject.AddComponent<Rigidbody>();
+            //Clone limb then add gravity
+            GameObject limbClone = Instantiate(limbTransform.gameObject, limbTransform.position, limbTransform.rotation);
+            Rigidbody rb = limbClone.AddComponent<Rigidbody>();
             rb.useGravity = true;
             rb.isKinematic = false;
 
-            //Detach
-            limbTransform.parent = null;
+            // Deactivate the original limb
+            limbTransform.gameObject.SetActive(false);
+
+            //Detach clone
+            limbClone.transform.parent = null;
+
+
 
 
             if (Time.time - lastVoiceTime >= voiceCooldownTime)
@@ -229,8 +234,8 @@ public class Alien : MonoBehaviour
             }
  
 
-            //Despawn hand in 10s. Could be changed so that players have to bin the arm.
-            Destroy(limbTransform.gameObject, 10f);
+            //Despawn clone in 10s. Could be changed so that players have to bin the arm.
+            Destroy(limbClone.gameObject, 10f);
             //Now needs a new hand
             initiateAttachHand();
         }
