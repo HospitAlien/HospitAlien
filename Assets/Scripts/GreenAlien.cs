@@ -126,43 +126,40 @@ public class GreenAlien : Alien
 
     public override void attachLimb(GameObject bodyPart, int limb)
     {
-        Transform amputationDetector = transform.Find("AmputationDetector");
 
-        Destroy(bodyPart.transform.Find("ISDK_DistanceHandGrabInteraction").gameObject); //Prevent hand staying grabbable
-        Destroy(bodyPart.GetComponent<RigidbodyKinematicLocker>());
-        Destroy(bodyPart.GetComponent<Rigidbody>()); //Prevent gravity working on hand prior to attachment
+        Destroy(bodyPart); //Destroy the donor arm
 
-        bodyPart.transform.SetParent(transform);
-        bodyPart.transform.localScale = Vector3.one; //Adjust scale
-
-
+        //Find and restore limb
+        Transform originalLimb = null;
         switch (limb)
         {
             case 0:
-                bodyPart.transform.localPosition = new Vector3(-0.0325f, 0.0751f, 0f);
-                bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                originalLimb = transform.Find("hands/left_hand");
                 break;
             case 1:
-                bodyPart.transform.localPosition = new Vector3(0.02989f, 0.07489f, 0.00053f);
-                bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                Vector3 scaleArm = bodyPart.transform.localScale;
-                scaleArm.x *= -1;
-                bodyPart.transform.localScale = scaleArm;
+                originalLimb = transform.Find("hands/right_hand");
                 break;
-
             case 2:
-                bodyPart.transform.localPosition = new Vector3(-0.00642f, 0.02827f, -0.00458f);
-                bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+                originalLimb = transform.Find("feet/foot_left");
                 break;
             case 3:
-                bodyPart.transform.localPosition = new Vector3(0.0047f, 0.0275f, -0.0046f);
-                bodyPart.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                Vector3 scaleLeg = bodyPart.transform.localScale;
-                scaleLeg.x *= -1;
-                bodyPart.transform.localScale = scaleLeg;
+                originalLimb = transform.Find("feet/foot_right");
                 break;
-
         }
+
+        if (originalLimb != null)
+        {
+            originalLimb.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Original limb not found for reattachment");
+        }
+
+
+
+
+
 
         status.attachLimb(limb);
 
