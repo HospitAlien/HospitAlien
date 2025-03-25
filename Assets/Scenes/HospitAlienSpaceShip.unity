@@ -8357,9 +8357,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edef0116c4c53414484520460aca8bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGameStage: 0
   score: 0
   maxPatients: 6
   currentPatientCount: 0
+  gameLength: 480
   purpleAlienPrefab: {fileID: 5879373601513950369, guid: e6ac4d4b9aace1b4ab0a309b2ffd6396, type: 3}
   greenAlienPrefab: {fileID: 7116363738194296861, guid: e9a362a85f4e0214ba707adad440b8c3, type: 3}
   pizzaPrefab: {fileID: 3336058304413499452, guid: 2f027f81d5f396f4faa1a113b53eeb38, type: 3}
