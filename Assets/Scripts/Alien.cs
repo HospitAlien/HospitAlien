@@ -28,6 +28,8 @@ public class Alien : MonoBehaviour
     public AudioSource growthSFX;
     public AudioSource shrinkSFX;
     protected Material amputateMaterial;
+    protected Material originalLimbMaterial;
+
 
     protected float lastVoiceTime = -Mathf.Infinity;
     protected float voiceCooldownTime = 3f;
@@ -155,8 +157,7 @@ public class Alien : MonoBehaviour
     protected virtual Material LoadLimbMaterial()
     {
         Debug.Log("LoadLimbMaterial must be overridden");
-        amputateMaterial = Resources.Load<Material>("Amputate");
-        return amputateMaterial;
+        return null;
     }
 
     protected void ChangeLimbMaterial(Transform limbTransform)
@@ -167,7 +168,12 @@ public class Alien : MonoBehaviour
             Renderer limbRenderer = limbTransform.GetComponent<Renderer>();
             if (limbRenderer != null)
             {
-                // Change the material
+                // Save original limb material for restoration later
+                if (originalLimbMaterial == null)
+                {
+                    originalLimbMaterial = limbRenderer.material;
+                }
+                //Change limb material to indicate need for amputation
                 limbRenderer.material = LoadLimbMaterial();
             }
             else
@@ -251,7 +257,7 @@ public class Alien : MonoBehaviour
         Debug.Log("initiateAttachHand must be overridden");
     }
 
-    protected void attachLimb(GameObject bodyPart, int limb){
+    public void attachLimb(GameObject bodyPart, int limb){
         Destroy(bodyPart); //Destroy the donor arm
 
         //Find and restore limb
@@ -275,6 +281,18 @@ public class Alien : MonoBehaviour
         if (originalLimb != null)
         {
             originalLimb.gameObject.SetActive(true);
+
+            //Restore limb colour
+            Renderer renderer = originalLimb.GetComponent<Renderer>();
+
+            if (renderer != null && originalLimbMaterial != null)
+            {
+                renderer.material = originalLimbMaterial;
+            }
+            else
+            {
+                Debug.Log("Either renderer component not found or original limb material not saved");
+            }
         }
         else
         {
