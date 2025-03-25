@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +24,7 @@ public class GameManager : MonoBehaviour
     // private bool _gamePlaying = false;
 
     public ScoreBoardManager scoreBoard;
+    public GameObject[] endGameObjects;
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
@@ -78,12 +78,7 @@ public class GameManager : MonoBehaviour
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
 
-        gvm.IsGamePlaying = true;
-    }
-
-    void LateStart()
-    {
-        scoreBoard.setTime(gameLength);
+        StartCoroutine(StartGameCountdown(10.0f));
     }
 
     public void GameStatusController(bool gamePlaying)
@@ -95,6 +90,21 @@ public class GameManager : MonoBehaviour
         else
         {
             EndGame();
+        }
+    }
+
+    IEnumerator StartGameCountdown(float countdownTime)
+    {
+        while (countdownTime > 0)
+        {
+            scoreBoard.SetTimeBeforeStart(countdownTime);
+            yield return new WaitForSeconds(0.5f);
+            countdownTime--;
+        }
+        gvm.IsGamePlaying = true;
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(true);
         }
     }
 
@@ -123,6 +133,11 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines(); // Stop all coroutines first
         DeleteObjectsWithScript<Alien>();
         DeleteObjectsWithScript<PizzaScript>();
+        scoreBoard.HideTime();
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(false);
+        }
     }
 
 
