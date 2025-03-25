@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9063373549300233464}
   - component: {fileID: 2353864835072633269}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: oculus_controller_r_MeshX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7423827438371009308}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: b_button_b
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5307579585412956244}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: right_b_trigger_front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3574059199349417343}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: right_b_thumbstick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2316378904613689180}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: right_b_button_oculus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3389112268318632542}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: b_button_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8505737205649439065}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: right_b_trigger_grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3734730737048550943}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: right_oculus_controller_world
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1764896172043554256}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: right_laser_begin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2330104023934254436}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: MetaQuestTouchPlus_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
