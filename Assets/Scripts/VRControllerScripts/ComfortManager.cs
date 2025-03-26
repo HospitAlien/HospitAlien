@@ -53,17 +53,14 @@ public class ComfortManager : MonoBehaviour
         // do nothing if the comfort mode is none
         if (comfortMode == GameSettingsIO.comfortMode.None) return;
 
-        if (gvm.gameSettings.TurnModeOption == GameSettingsIO.turnMode.Smooth)
+        // get the rotation of the camera rig
+        Quaternion currentRotation = cameraRig.transform.rotation;
+        // if camera is rotating bigger than 5 degree per sec, turn on the vignette
+        if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 5)
         {
-            // get the rotation of the camera rig
-            Quaternion currentRotation = cameraRig.transform.rotation;
-            // if camera is rotating bigger than 5 degree per sec, turn on the vignette
-            if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 5)
-            {
-                ActiveComfortMode(0.05f);
-            }
-            lastRotation = currentRotation;
+            ActiveComfortMode(0.05f);
         }
+        lastRotation = currentRotation;
 
         if (gvm.gameSettings.MoveModeOption != GameSettingsIO.moveMode.teleport)
         {
@@ -71,7 +68,7 @@ public class ComfortManager : MonoBehaviour
             Vector3 currentPosition = cameraRig.transform.position;
             // if camera is smoothly moving, turn on the vignette
             float speed = Vector3.Distance(currentPosition, lastPosition) / Time.deltaTime;
-            if (speed > 0.1f && speed < 7)
+            if (speed > 0.1f && speed < 7f)
             {
                 ActiveComfortMode(0.05f);
             }
