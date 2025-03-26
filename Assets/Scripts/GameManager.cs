@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     //I want to have
 
 
-    void UpdateScoreText()
+    public void UpdateScoreText()
     {
         scoreBoard.setScore(score);
     }

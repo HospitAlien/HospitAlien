@@ -1000,6 +1000,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2339936475718691809, guid: dc4dcdadd3d0c3245bbbcda63e3e1491, type: 3}
   m_PrefabInstance: {fileID: 256002489}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &277281743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 277281744}
+  - component: {fileID: 277281745}
+  m_Layer: 0
+  m_Name: I'm cheatting!!!
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &277281744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277281743}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.503, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1316626414}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &277281745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277281743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3fba1e8491305c4d8bb1a75e8ab5eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 2109824435}
 --- !u!1 &291185775
 GameObject:
   m_ObjectHideFlags: 0
@@ -3718,6 +3763,7 @@ Transform:
   m_Children:
   - {fileID: 2109824434}
   - {fileID: 1866543646}
+  - {fileID: 277281744}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1364758044
@@ -8396,6 +8442,7 @@ MonoBehaviour:
   - {fileID: 144498798}
   - {fileID: 777508757}
   finishGameMenu: {fileID: 1392460103}
+  passthroughProvider: {fileID: 2004195714}
 --- !u!4 &30385979553072343
 Transform:
   m_ObjectHideFlags: 0
@@ -12400,6 +12447,7 @@ SceneRoots:
   - {fileID: 1316626414}
   - {fileID: 1858569306}
   - {fileID: 1552930498}
+  - {fileID: 2004195715}
   - {fileID: 5546580778638312061}
   - {fileID: 1186148886}
   - {fileID: 1424788320}
@@ -12413,7 +12461,6 @@ SceneRoots:
   - {fileID: 442002702}
   - {fileID: 2023610297}
   - {fileID: 1605188004}
-  - {fileID: 2004195715}
   - {fileID: 1187926384}
   - {fileID: 980498783}
   - {fileID: 902582746}
