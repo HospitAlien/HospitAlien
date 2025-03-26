@@ -280,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 480.09998
+      value: 537.21
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -348,9 +348,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: We will show you the effect when you select a comfort mode\nClick "Have
-        a try" to rotate yourself with comfort mode you select\n<color=orange>Beware
-        of motion sick and flash image!</color>
+      value: You will see the effect when you select a comfort mode\nClick "Have
+        a try" to rotate yourself with comfort mode you have selected\n<color=orange>Beware
+        of motion sickness and flashing image!</color>
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -374,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 460.1
+      value: 517.21
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -386,7 +386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 240.05
+      value: 268.605
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -914,8 +914,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to space ship, Doctor!\n\nBefore curing aliens. We want to show
-    you some important knowledge
+  m_text: Welcome to the space ship, Doctor!\n\nBefore curing aliens, we want to
+    share some important knowledge
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1550,11 +1550,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 374.63
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 93.08
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_LocalScale.x
@@ -1618,8 +1618,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: All setup!\nNow we can learn some operations in spaceship\nMove to next
-        tutorial in front\nYou can change settings anytime in menu
+      value: All setup!\nLets learn how to interact with objects.\nMove to the guide
+        in front\nYou can change the settings anytime in the menu.
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -1635,19 +1635,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 354.63
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 73.08
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1655,11 +1655,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 187.315
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46.54
       objectReference: {fileID: 0}
     - target: {fileID: 8160820378153884032, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_Name
@@ -2368,7 +2368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 337.59
+      value: 460.75
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2436,8 +2436,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: Good job! You learn so fast!\nSome item don't have magnet inside\nGrab
-        item on table and throw them to bucket
+      value: Good job! You're a quick learner!\nSome items you cannot grab from a
+        distance.\nGrab the items on the table and throw them to into the bucket.
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -2461,7 +2461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 317.59
+      value: 440.75
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2473,7 +2473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 168.795
+      value: 230.375
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3392,168 +3392,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 1
---- !u!1001 &189600965
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 690877931096916553}
-    m_Modifications:
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 273.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 37.879997
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.0016000008
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.0016000002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.0016000011
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.368
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.13116956
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.99135995
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.311
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.4579
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 195.074
-      objectReference: {fileID: 0}
-    - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_text
-      value: Use your controller to touch the box
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_fontSize
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_isRightToLeft
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 253.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 17.879997
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 136.515
-      objectReference: {fileID: 0}
-    - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -18.939999
-      objectReference: {fileID: 0}
-    - target: {fileID: 8160820378153884032, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_Name
-      value: Flowing Tips
-      objectReference: {fileID: 0}
-    - target: {fileID: 8160820378153884032, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
---- !u!224 &189600966 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
-  m_PrefabInstance: {fileID: 189600965}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &196477065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3719,7 +3557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: You have finish the tutorial!\nTouch the portal to start the game!
+      value: You have finished the tutorial!\nTouch the portal to start the game!
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -3735,7 +3573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3861,8 +3699,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add shadow on the side of your view when you walking or rotating with controller.
-    Significantly reduce motion sickness.\n<color=green>Recommanded</color>
+  m_text: "Add a vignette when you walk or rotate with the controllers. \nSignificantly
+    reduces motion sickness.\\n<color=green>Recommended</color>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3975,7 +3813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 261.49
+      value: 187.45
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4043,7 +3881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: Good job!\nNow you can move to next tutorial
+      value: Good job!\nNow activate the portal.
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -4067,7 +3905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 241.49
+      value: 167.45
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4079,7 +3917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 130.745
+      value: 93.725
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5179,7 +5017,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: To skip the tutorial(not recommanded), call menu and select skip
+  m_text: To skip the tutorial (not recommended), open the menu and select skip.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6214,11 +6052,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 426.14
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 111.47
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_LocalScale.x
@@ -6282,9 +6120,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: Some item have magnet inside!\nTo grab these item in distance\nTarget
-        to item and it will show a dot\nThen hold side trigger(middle finger)\nRelease
-        trigger to throw them away
+      value: Some items have magnets inside!\nYou can grab them from a distance\nPoint
+        to an item and it will be targeted\nThen hold the side trigger (middle finger)
+        to grab the item\nRelease the trigger to drop the item.
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -6300,19 +6138,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 406.14
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 91.47
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6320,11 +6158,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 213.07
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -55.735
       objectReference: {fileID: 0}
     - target: {fileID: 8160820378153884032, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_Name
@@ -7395,7 +7233,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Smoothly walk on floor. May cause motion sick in VR
+  m_text: 'Push the joystick to walk in any direciton.
+
+    <color=orange>May cause
+    motion sickness.</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7893,8 +7734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: To prevent dizziness while moving arround with aliens,please choose a comfortable
-    mode that suit you well
+  m_text: To prevent dizziness while moving around,\n choose a comfort mode.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10166,7 +10006,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 383.73
+      value: 392.66
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10234,8 +10074,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: This bucket is actutally  an alien\nAliens will use the item(e.g. pills)
-        you throw to them
+      value: This bucket is actutally an alien\nAliens will use the item (e.g. pills)
+        you throw at them.
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -10259,7 +10099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 363.73
+      value: 372.66
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10271,7 +10111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 191.865
+      value: 196.33
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -14540,7 +14380,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Set Move Mode
+  m_text: Set Movement Mode
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14707,7 +14547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1166538621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16766,8 +16606,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: push the joystick up to select the position, you will be teleport there
-    after release
+  m_text: Push and hold the joystick to select the teleport destination. Release
+    to teleport.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17282,8 +17122,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Instead of reduce your view, you can see the real world when walking or
-    rotating.\n<color=orange>contains flashing images</color>
+  m_text: 'You see the real world when you walk or rotate with the controllers.\n<color=orange>WARNING:
+    contains flashing images</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18043,8 +17883,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Normally use teleport to move. When you holding any trigger that hand will
-    switch to walk mode
+  m_text: Teleportation movement, however when a trigger is held, that controller
+    uses walk mode.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -19827,7 +19667,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Disable comfort mode. \n<color=orange>This option may cause motion sick!</color>
+  m_text: Disable comfort mode. \n<color=orange>This option may cause motion sickness!</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -21667,7 +21507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 337.59
+      value: 440.28
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -21715,7 +21555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.06
+      value: 0.016
       objectReference: {fileID: 0}
     - target: {fileID: 1448920754603292491, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -21735,8 +21575,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_text
-      value: For those item not in tutorial\nTry treat them as you would in your
-        daily life.\nIf you have any questions feel free to ask us.
+      value: For new items not seen in the tutorial.\nTreat them as you would in
+        your daily life.\nIf you have any questions feel free to ask us (or the aliens).
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_fontSize
@@ -21752,7 +21592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871246077390040522, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -21764,7 +21604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 317.59
+      value: 420.28
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -21776,7 +21616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 168.795
+      value: 220.14
       objectReference: {fileID: 0}
     - target: {fileID: 6668566688636393537, guid: 086aa4a2aee261e4f82473286c0d803c, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -25448,8 +25288,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Choose a convenient way to move around our spaceship. Would you like to
-    try our latest teleportation technology\nOr you prefer traditional ground-based
-    walking?
+    try our latest teleportation technology\nor would you prefer traditional walking?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -27148,7 +26987,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 95676500}
-  - {fileID: 189600966}
   - {fileID: 218957659647761909}
   - {fileID: 8845831271012528440}
   - {fileID: 6655021783789433832}
@@ -30186,8 +30024,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This image shows you how to move\nYou can try the move mode you select
-    now.\nPress "B" to go back here.
+  m_text: This diagram shows you how to move\nGive it a go!\nPress "B" to return
+    here.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -34381,7 +34219,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Touch to active portal
+  m_text: 'Touch to activate
+
+    the portal'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -55539,7 +55379,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5617316854791021001}
   m_LocalRotation: {x: -0, y: 0.9707393, z: -0.2401357, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.011}
+  m_LocalPosition: {x: 0, y: 0, z: 0.028}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -55547,7 +55387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 27.789, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.672}
+  m_AnchoredPosition: {x: 0, y: 1.64}
   m_SizeDelta: {x: 6.92, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8847940809669383634
