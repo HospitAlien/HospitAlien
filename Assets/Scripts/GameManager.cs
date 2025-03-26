@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
 
     public ScoreBoardManager scoreBoard;
     public GameObject[] endGameObjects;
+    public FinishGameMenuManager finishGameMenu;
+    private Coroutine restartCoroutine;
+    public PassthroughProvider passthroughProvider;
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
@@ -111,6 +114,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartRestartCountdown()
+    {
+        if (restartCoroutine != null)
+        {
+            StopCoroutine(restartCoroutine);
+        }
+        restartCoroutine = StartCoroutine(RestartGameCountdown(90.0f));
+    }
+
+    IEnumerator RestartGameCountdown(float countdownTime)
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < countdownTime)
+        {
+            finishGameMenu.SetRestartTime(countdownTime - (Time.time - startTime));
+            yield return new WaitForSeconds(0.5f);
+        }
+        Debug.Log("Restarting game");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Interactive_tutorial");
+    }
+
     private void StartGame()
     {
         score = 0;
@@ -142,6 +166,10 @@ public class GameManager : MonoBehaviour
         }
         EventCanvas.SetActive(true);
         eventTextController.StartCongratulations();
+        finishGameMenu.OpenMenu();
+        finishGameMenu.SetScoreText(score);
+        passthroughProvider.TogglePassThrough(true);
+        StartRestartCountdown();
     }
 
 
