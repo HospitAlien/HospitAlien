@@ -18,6 +18,6 @@ public class MainButtonEvents : MonoBehaviour
 
     public void GoToSpaceShipScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("HospitAlienSpaceShip");
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("HospitAlienSpaceShip");
     }
 }
