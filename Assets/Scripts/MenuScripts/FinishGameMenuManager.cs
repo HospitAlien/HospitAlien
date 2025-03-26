@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using Oculus.Interaction;
 
@@ -14,6 +13,7 @@ public class FinishGameMenuManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI restartTimeText;
+    private GameManager gameManager;
 
     public int[] targetScores = new int[] { 0, 2500, 5000, 7500, 10000, 12500, 17500, 999999 };
     public string[] targetRanks = new string[]
@@ -29,6 +29,11 @@ public class FinishGameMenuManager : MonoBehaviour
         };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        gameManager = FindFirstObjectByType<GameManager>();
+    }
+
     void Start()
     {
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
@@ -93,5 +98,10 @@ public class FinishGameMenuManager : MonoBehaviour
         int minutes = (int)(newTime / 60);
         int seconds = (int)(newTime % 60);
         restartTimeText.text = $"The game will restart in: {minutes:D2}:{seconds:D2}";
+    }
+
+    public void ResetRestartTime()
+    {
+        gameManager.StartRestartCountdown();
     }
 }
