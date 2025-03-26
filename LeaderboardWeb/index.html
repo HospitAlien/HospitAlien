@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaderboard</title>
+  </head>
+  <body>
+    <h1>Leaderboard</h1>
+    <ol id="leaderboardList"></ol>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script type="module">
+      import { firebaseConfig } from "./apikey.js";
+
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      function updateLeaderboard() {
+        db.collection("leaderboard")
+          .orderBy("score", "desc")
+          .limit(10)
+          .get()
+          .then((querySnapshot) => {
+            const leaderboardList = document.getElementById("leaderboardList");
+            leaderboardList.innerHTML = "";
+            let rankedData = [];
+            querySnapshot.forEach((doc) => {
+              rankedData.push({
+                name: doc.data().name,
+                score: doc.data().score,
+                time: doc.data().time,
+              });
+            });
+
+            // Sort the data by time if scores are equal
+            rankedData.sort((a, b) => {
+              if (a.score === b.score) {
+                return a.time.seconds - b.time.seconds;
+              }
+              return b.score - a.score;
+            });
+
+            var CurrentIndex = 1;
+            var LastScore = -1;
+            var LastTime = -1;
+            // if time and score are both equal, give them same rank
+            for (let i = 0; i < rankedData.length; i++) {
+              if (
+                rankedData[i].score != LastScore ||
+                rankedData[i].time.seconds != LastTime
+              ) {
+                LastScore = rankedData[i].score;
+                LastTime = rankedData[i].time.seconds;
+                var li = document.createElement("li");
+                li.appendChild(
+                  document.createTextNode(
+                    CurrentIndex +
+                      ". " +
+                      rankedData[i].name +
+                      " - " +
+                      rankedData[i].score
+                  )
+                );
+                leaderboardList.appendChild(li);
+                CurrentIndex++;
+              } else {
+                var li = document.createElement("li");
+                li.appendChild(
+                  document.createTextNode(
+                    CurrentIndex -
+                      1 +
+                      ". " +
+                      rankedData[i].name +
+                      " - " +
+                      rankedData[i].score
+                  )
+                );
+                leaderboardList.appendChild(li);
+              }
+            }
+          });
+      }
+      updateLeaderboard();
+      setInterval(updateLeaderboard, 30000);
+    </script>
+  </body>
+</html>

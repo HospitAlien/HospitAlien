@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Panel</title>
+  </head>
+  <body>
+    <h1>Add Leaderboard Entry</h1>
+
+    <label for="name">Name:</label><br />
+    <input type="text" id="name" name="name" /><br /><br />
+
+    <label for="score">Score:</label><br />
+    <input type="number" id="score" name="score" /><br /><br />
+
+    <button onclick="submitData()">Submit</button>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script type="module">
+      import { firebaseConfig } from "./apikey.js";
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      function submitData() {
+        const name = document.getElementById("name").value;
+        const score = parseInt(document.getElementById("score").value);
+
+        if (name && !isNaN(score)) {
+          db.collection("leaderboard")
+            .add({
+              name: name,
+              score: score,
+              time: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+            .then((docRef) => {
+              console.log("Document written with ID: ", docRef.id);
+              alert("Data submitted successfully!");
+              document.getElementById("name").value = "";
+              document.getElementById("score").value = "";
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+              alert("Error submitting data.");
+            });
+        } else {
+          alert("Please enter valid name and score.");
+        }
+      }
+    </script>
+  </body>
+</html>
