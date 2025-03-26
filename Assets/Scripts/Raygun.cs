@@ -18,14 +18,14 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
     {
         onCooldown = true;
         Debug.Log("SHOOTING");
-        yield return new WaitForSeconds(1/fireRate);
+        yield return new WaitForSeconds(1 / fireRate);
         onCooldown = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(shooting && !onCooldown)
+        if (shooting && !onCooldown)
         {
             StartCoroutine(Shoot());
         }

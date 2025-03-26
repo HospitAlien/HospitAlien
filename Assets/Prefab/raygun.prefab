@@ -412,6 +412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6ecba06b668d944b0a9b93e5f2324f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _primaryInteractable: {fileID: 3433569909187573991}
+  _primaryInteractable: {fileID: 7542000882974329285}
   _secondaryInteractable: {fileID: 6451355106258366419}
   _selectRequired: 1
