@@ -2,7 +2,7 @@ using UnityEngine;
 using Meta.WitAi.TTS.Utilities;
 using Oculus.Voice;
 using Meta.WitAi.Json;
-
+using System.Collections;
 
 public class AlienVoice : MonoBehaviour
 {
@@ -15,12 +15,29 @@ public class AlienVoice : MonoBehaviour
     void Start()
     {
         alien = GetComponent<Alien>();
+
+        // Warm up the voice connection
+        if (VoiceExperience != null)
+        {
+            // Activate the connection early
+            VoiceExperience.Activate();
+            Debug.Log("WARMING UP CONNECTION");
+            // Deactivate after a second delay
+            StartCoroutine(WarmUpRoutine());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    IEnumerator WarmUpRoutine()
+    {
+        // Wait just enough time for the connection to be established
+        yield return new WaitForSeconds(1f);
+        VoiceExperience.Deactivate();
     }
 
     void Awake()
