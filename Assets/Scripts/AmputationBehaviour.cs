@@ -26,6 +26,7 @@ public class AmputationBehaviour : MonoBehaviour
         CreateCollider();
 
         audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.volume = 0.2f;
        
         hitSound = Resources.Load<AudioClip>("AxeHitSound");
 
