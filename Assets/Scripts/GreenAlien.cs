@@ -1,3 +1,4 @@
+using Oculus.Interaction;
 using UnityEngine;
 public class GreenAlien : Alien
 {
@@ -31,6 +32,14 @@ public class GreenAlien : Alien
             initiateShrapnel();
         }
 
+        if (random.NextDouble() < 1)
+        {
+            status.needsAnAmputation = true;
+            status.needsAmputation = new bool[] { false, false, false, false };
+            status.needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+            initiateAmputation();
+        }
+
         if (random.NextDouble() < 0.4)
         {
             reward += 100;
@@ -47,6 +56,73 @@ public class GreenAlien : Alien
         }
     }
 
+    protected override Material LoadLimbMaterial()
+    {
+        amputateMaterial = Resources.Load<Material>("AmputatePurple");
+        return amputateMaterial;
+    }
+
+    protected override void initiateAmputation()
+    {
+
+        bool limbSet = false;
+        System.Random random = new System.Random();
+        for (int i = 0; i < status.needsAttatchment.Length; i++)
+        {
+            if (random.NextDouble() < 0.3)
+            {
+                status.needsAmputation[i] = true;
+                limbSet = true;
+            }
+        }
+
+        if (!limbSet)
+        {
+            status.needsAmputation[random.Next(0, 4)] = true;
+        }
+
+
+        // Create a new GameObject to detect axe hits
+        GameObject amputationDetector = new GameObject("AmputationDetector");
+        amputationDetector.transform.SetParent(transform);
+        amputationDetector.transform.localPosition = Vector3.zero;
+        amputationDetector.transform.localRotation = Quaternion.identity;
+        amputationDetector.AddComponent<AmputationBehaviourGreen>();
+
+        for (int i = 0; i < status.needsAmputation.Length; i++)
+        {
+            if (status.needsAmputation[i])
+            {
+                switch (i)
+                {
+                    case 0:
+                        ChangeLimbMaterial(transform.Find("hands/left_hand"));
+                        break;
+                    case 1:
+                        ChangeLimbMaterial(transform.Find("hands/right_hand"));
+                        break;
+                    case 2:
+                        ChangeLimbMaterial(transform.Find("feet/foot_left"));
+                        break;
+                    case 3:
+                        ChangeLimbMaterial(transform.Find("feet/foot_right"));
+                        break;
+
+                }
+            }
+        }
+    }
+
+    protected override void initiateAttachHand()
+    {
+        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
+
+        //Add attachment script.
+        if (amputationDetectorTransform.gameObject.GetComponent<AttachHandGreen>() == null)
+        {
+            amputationDetectorTransform.gameObject.AddComponent<AttachHandGreen>();
+        }
+    }
 
     private void initiateShrapnel()
     {

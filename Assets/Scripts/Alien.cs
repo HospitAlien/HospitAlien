@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
+using System.Linq;
+using Oculus.Interaction;
 
 public class Alien : MonoBehaviour
 {
@@ -25,17 +27,19 @@ public class Alien : MonoBehaviour
     public GameObject coinParticlePrefab;
     public AudioSource growthSFX;
     public AudioSource shrinkSFX;
+    protected Material amputateMaterial;
+    protected Material originalLimbMaterial;
+
 
     protected float lastVoiceTime = -Mathf.Infinity;
     protected float voiceCooldownTime = 3f;
 
-    protected Status status;
+    public Status status;
     protected AlienVoice alienVoice;
     protected int reward = 200;
 
     protected Dictionary<Vector3, (Vector3, Quaternion)> beds
         = new Dictionary<Vector3, (Vector3, Quaternion)>();
-
 
 
     void Start()
@@ -148,6 +152,167 @@ public class Alien : MonoBehaviour
     public string getVoiceLine()
     {
         return status.getIllness();
+    }
+
+    protected virtual Material LoadLimbMaterial()
+    {
+        Debug.Log("LoadLimbMaterial must be overridden");
+        return null;
+    }
+
+    protected void ChangeLimbMaterial(Transform limbTransform)
+    {
+        // Finds the "left_hand" transform
+        if (limbTransform != null)
+        {
+            Renderer limbRenderer = limbTransform.GetComponent<Renderer>();
+            if (limbRenderer != null)
+            {
+                // Save original limb material for restoration later
+                if (originalLimbMaterial == null)
+                {
+                    originalLimbMaterial = limbRenderer.material;
+                }
+                //Change limb material to indicate need for amputation
+                limbRenderer.material = LoadLimbMaterial();
+            }
+            else
+            {
+                Debug.LogError("Renderer component not found on limb");
+            }
+        }
+        else
+        {
+            Debug.LogError("limb not found");
+        }
+    }
+
+
+    //Add a child to hold colliders to detect axe hits
+    protected virtual void initiateAmputation()
+    {
+        Debug.Log("InitiateAmputation not overridden");
+    }
+
+    public void Amputate(int limb)
+    {
+        status.amputate(limb);
+
+        Transform limbTransform = null;
+        switch (limb)
+        {
+            case 0:
+                limbTransform = transform.Find("hands/left_hand");
+                break;
+            case 1:
+                limbTransform = transform.Find("hands/right_hand");
+                break;
+            case 2:
+                limbTransform = transform.Find("feet/foot_left");
+                break;
+            case 3:
+                limbTransform = transform.Find("feet/foot_right");
+                break;
+
+        }
+       
+        if (limbTransform != null)
+        {
+            //Clone limb then add gravity
+            GameObject limbClone = Instantiate(limbTransform.gameObject, limbTransform.position, limbTransform.rotation);
+            Rigidbody rb = limbClone.AddComponent<Rigidbody>();
+            rb.useGravity = true;
+            rb.isKinematic = false;
+
+            // Deactivate the original limb
+            limbTransform.gameObject.SetActive(false);
+
+            //Detach clone
+            limbClone.transform.parent = null;
+
+
+
+
+            if (Time.time - lastVoiceTime >= voiceCooldownTime)
+            {
+                alienVoice.SayLine("Thanks for cutting it off!");
+                lastVoiceTime = Time.time; // Update the time the voice line was last played
+            }
+ 
+
+            //Despawn clone in 10s. Could be changed so that players have to bin the arm.
+            Destroy(limbClone.gameObject, 10f);
+            //Now needs a new hand
+            initiateAttachHand();
+        }
+        else
+        {
+            Debug.LogError("left_hand not found under hands");
+        }
+
+    }
+
+    protected virtual void initiateAttachHand()
+    {
+        Debug.Log("initiateAttachHand must be overridden");
+    }
+
+    public void attachLimb(GameObject bodyPart, int limb){
+        Destroy(bodyPart); //Destroy the donor arm
+
+        //Find and restore limb
+        Transform originalLimb = null;
+        switch (limb)
+        {
+            case 0:
+                originalLimb = transform.Find("hands/left_hand");
+                break;
+            case 1:
+                originalLimb = transform.Find("hands/right_hand");
+                break;
+            case 2:
+                originalLimb = transform.Find("feet/foot_left");
+                break;
+            case 3:
+                originalLimb = transform.Find("feet/foot_right");
+                break;
+        }
+
+        if (originalLimb != null)
+        {
+            originalLimb.gameObject.SetActive(true);
+
+            //Restore limb colour
+            Renderer renderer = originalLimb.GetComponent<Renderer>();
+
+            if (renderer != null && originalLimbMaterial != null)
+            {
+                renderer.material = originalLimbMaterial;
+            }
+            else
+            {
+                Debug.Log("Either renderer component not found or original limb material not saved");
+            }
+        }
+        else
+        {
+            Debug.LogError("Original limb not found for reattachment");
+        }
+
+
+
+        status.attachLimb(limb);
+
+        status.needsAttatchment[limb] = false;
+
+        if (status.isHealthy())
+        {
+            Cure();
+        }
+        else
+        {
+            alienVoice.SayLine("Thanks for the new limb!");
+        }
     }
 
     public void shrapnelRemoved()
