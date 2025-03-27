@@ -2,8 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
+using System.Linq;
+
 public class Status
 {
+    public bool[] needsAmputation;
+    public bool[] needsAttatchment;
+
     public bool needsInjection;
     public bool needsExtinguishing;
     public bool hasShrapnel;
@@ -11,6 +17,10 @@ public class Status
     public int curSize;
     public int numberOfBadEyes;
     public string bloodType;
+    public bool needsAnAmputation;
+    public bool needsLimbs;
+
+
 
     public Status(){
         System.Random random = new System.Random();
@@ -30,7 +40,7 @@ public class Status
 
     public bool isHealthy()
     {
-        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0 && numberOfBadEyes == 0);
+        return (!needsInjection && !needsExtinguishing && !hasShrapnel && curSize == 0  && !needsAnAmputation && !needsLimbs && numberOfBadEyes == 0);
     }
 
     public string getIllness()
@@ -55,6 +65,14 @@ public class Status
         else if (curSize == 1)
         {
             response += "I am massive get me a shrink pill.\n";
+        }
+        else if (needsAnAmputation)
+        {
+            response += "My arm is ruined! \n";
+        }
+        else if (needsLimbs)
+        {
+            response += "I need body parts! \n";
         }
         else if(numberOfBadEyes != 0)
         {
@@ -82,7 +100,6 @@ public class Status
     public void applyEyeDrop(){
         numberOfBadEyes = numberOfBadEyes -1;
     }
-
 
     public void initiateStatus(PurpleAlien alien, int gameStage){
         System.Random random = new System.Random();
@@ -115,6 +132,13 @@ public class Status
             alien.reward += 150;
             hasShrapnel = true;
             alien.initiateShrapnel();
+        });
+
+        illnesses.Add(() => {
+            needsAnAmputation = true;
+            needsAmputation = new bool[] { false, false, false, false };
+            needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+            alien.initiateAmputation();
         });
 
         illnesses.Add(() => {
@@ -178,6 +202,13 @@ public class Status
         });
 
         illnesses.Add(() => {
+            needsAnAmputation = true;
+            needsAmputation = new bool[] { false, false, false, false };
+            needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+            alien.initiateAmputation();
+        });
+
+        illnesses.Add(() => {
             alien.reward += 100;
             if (random.NextDouble() < 0.5) { // shrink
                 curSize = -1;
@@ -192,6 +223,25 @@ public class Status
         List<Action> shuffledIllnesses = illnesses.OrderBy(x => random.Next()).ToList();
         for (int i = 0; i < numberOfIllnesses; i++) {
             shuffledIllnesses[i]();
+        }
+    }
+
+    public void amputate(int limb){
+        needsAmputation[limb] = false;
+        needsAttatchment[limb] = true;
+        needsLimbs = true;
+
+        if(needsAmputation.All(value => value == false)){
+            needsAnAmputation = false;
+        }
+
+    }
+
+    public void attachLimb(int limb){
+        needsAttatchment[limb] = false;
+
+        if(needsAttatchment.All(value => value == false)){
+            needsLimbs = false;
         }
     }
 
