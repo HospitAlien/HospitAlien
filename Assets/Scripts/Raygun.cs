@@ -8,6 +8,8 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
     public LineRenderer rayPrefab;
     public Transform shootingPoint;
     public float range = 10f;
+    public AudioSource shootSFX;
+    public AudioClip sound;
 
     private bool onCooldown = false;
     private bool shooting = false;
@@ -25,8 +27,30 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
         ray.positionCount = 2; //start and an enpoint
         ray.SetPosition(0,shootingPoint.position);
 
-        Vector3 endPoint = shootingPoint.position + shootingPoint.forward * range;
-        ray.SetPosition(1,endPoint);
+        // Perform the raycast to find where the line hits
+        RaycastHit hit;
+        Vector3 endPoint;
+
+        if (Physics.Raycast(shootingPoint.position, shootingPoint.forward, out hit, range))
+        {
+            // If it hits something, set the endpoint to the hit point
+            endPoint = hit.point;
+            
+            //if its a ghost we want to kill it
+            Ghost ghost = hit.transform.GetComponentInParent<Ghost>();
+            if(ghost)
+            {
+                ghost.GhostKilled();
+            }
+        }
+        else
+        {
+            // If no hit, just use the maximum range
+            endPoint = shootingPoint.position + shootingPoint.forward * range;
+        }
+
+        ray.SetPosition(1, endPoint);
+        shootSFX.PlayOneShot(sound);
 
         Destroy(ray.gameObject, 0.5f);
 
