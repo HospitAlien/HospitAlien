@@ -42,14 +42,10 @@ public class AlienVoice : MonoBehaviour
 
     void Awake()
     {
-        GameObject TTSSpeaker = GameObject.Find("TTSSpeaker");
-        if (TTSSpeaker != null)
+        TTSScript = GetComponentInChildren<TTSSpeaker>();
+        if (TTSScript == null)
         {
-            TTSScript = TTSSpeaker.GetComponent<TTSSpeaker>();
-        }
-        else
-        {
-            Debug.Log("TTSpeaker not found");
+            Debug.LogError("TTSSpeaker component not found in children!");
         }
 
         GameObject VoiceExperienceObject = GameObject.Find("App Voice Experience");

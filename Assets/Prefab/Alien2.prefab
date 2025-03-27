@@ -109,6 +109,135 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3121591530302299071, guid: 78ff52c6508f0d34b981d6f6d5fefec9, type: 3}
+--- !u!1 &956879240790720050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080583622553567712}
+  - component: {fileID: 3647685129554735363}
+  m_Layer: 0
+  m_Name: TTSSpeakerAudio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2080583622553567712
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956879240790720050}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4466460316350898108}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &3647685129554735363
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956879240790720050}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.245
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1361381617287010170
 GameObject:
   m_ObjectHideFlags: 0
@@ -10627,6 +10756,7 @@ Transform:
   - {fileID: 4317326256401068286}
   - {fileID: 7691494237212887644}
   - {fileID: 5485779435719666764}
+  - {fileID: 4466460316350898108}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7639748783128019528
@@ -10649,6 +10779,7 @@ MonoBehaviour:
   coinParticlePrefab: {fileID: 8789034786812375928, guid: e7e3fa7811d5a964f868c145a88fc11e, type: 3}
   growthSFX: {fileID: 3055592492283081037}
   shrinkSFX: {fileID: 7749313618650341203}
+  reward: 200
 --- !u!54 &1174154792580691542
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11014,6 +11145,173 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7575329721238585223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4466460316350898108}
+  - component: {fileID: 2442830509278621851}
+  m_Layer: 0
+  m_Name: TTSSpeaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4466460316350898108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7575329721238585223}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.00000008146035, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.267697, y: -0.0049999948, z: 0.043412156}
+  m_LocalScale: {x: 0.05000001, y: 0.05000001, z: 0.05000001}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2080583622553567712}
+  m_Father: {fileID: 2172677148092330597}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2442830509278621851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7575329721238585223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15403450229c3a4b8455a61d6143a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _events:
+    OnTextPlaybackStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnTextPlaybackCancelled:
+      m_PersistentCalls:
+        m_Calls: []
+    OnTextPlaybackFinished:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAudioClipPlaybackReady:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAudioClipPlaybackStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAudioClipPlaybackCancelled:
+      m_PersistentCalls:
+        m_Calls: []
+    OnAudioClipPlaybackFinished:
+      m_PersistentCalls:
+        m_Calls: []
+    _onInit:
+      m_PersistentCalls:
+        m_Calls: []
+    _onComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    _onLoadBegin:
+      m_PersistentCalls:
+        m_Calls: []
+    _onLoadAbort:
+      m_PersistentCalls:
+        m_Calls: []
+    _onLoadFailed:
+      m_PersistentCalls:
+        m_Calls: []
+    _onLoadSuccess:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackReady:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackStart:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackCancelled:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackClipUpdated:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackQueueBegin:
+      m_PersistentCalls:
+        m_Calls: []
+    _onPlaybackQueueComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataQueued:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipLoadBegin:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataLoadBegin:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipLoadAbort:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataLoadAbort:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipLoadFailed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataLoadFailed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipLoadSuccess:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataLoadSuccess:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataPlaybackReady:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStartSpeaking:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataPlaybackStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCancelledSpeaking:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataPlaybackCancelled:
+      m_PersistentCalls:
+        m_Calls: []
+    OnFinishedSpeaking:
+      m_PersistentCalls:
+        m_Calls: []
+    OnClipDataPlaybackFinished:
+      m_PersistentCalls:
+        m_Calls: []
+  PrependedText: 
+  AppendedText: 
+  _ttsService: {fileID: 0}
+  presetVoiceID: WIT$CARTOON BABY
+  customWitVoiceSettings:
+    SettingsId: 
+    PrependedText: 
+    AppendedText: 
+    voice: Charlie
+    style: default
+    speed: 100
+    pitch: 100
+  verboseLogging: 0
 --- !u!1 &7606870251651721168
 GameObject:
   m_ObjectHideFlags: 0
