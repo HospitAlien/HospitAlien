@@ -36,7 +36,7 @@ public class Alien : MonoBehaviour
 
     public Status status;
     protected AlienVoice alienVoice;
-    protected int reward = 200;
+    public int reward = 200;
 
     protected Dictionary<Vector3, (Vector3, Quaternion)> beds
         = new Dictionary<Vector3, (Vector3, Quaternion)>();
@@ -189,7 +189,7 @@ public class Alien : MonoBehaviour
 
 
     //Add a child to hold colliders to detect axe hits
-    protected virtual void initiateAmputation()
+    public virtual void initiateAmputation()
     {
         Debug.Log("InitiateAmputation not overridden");
     }

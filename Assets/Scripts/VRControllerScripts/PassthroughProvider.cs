@@ -9,6 +9,7 @@ public class PassthroughProvider : MonoBehaviour
     public OVRPassthroughLayer layer;
     private Camera _camera;
     private bool _isPassThroughOn = false;
+    private bool _KeepPassThroughOn = false;
 
     private void Awake()
     {
@@ -28,10 +29,18 @@ public class PassthroughProvider : MonoBehaviour
         }
     }
 
-    public void TogglePassThrough()
+    public void TogglePassThrough(bool isOn)
     {
-        if (_isPassThroughOn) TurnPassThroughOff();
-        else TurnPassThroughOn();
+        if (isOn)
+        {
+            _KeepPassThroughOn = true;
+            TurnPassThroughOn();
+        }
+        else
+        {
+            _KeepPassThroughOn = false;
+            TurnPassThroughOff();
+        }
     }
 
     public void TurnPassThroughOn()

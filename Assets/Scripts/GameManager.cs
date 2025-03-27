@@ -1,15 +1,18 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     private GlobalVariableManager gvm;
 
+    public int currentGameStage;
+
     public int score;
     public int maxPatients = 6;
     public int currentPatientCount = 0;
+
+    public float gameLength = 480f; // this is 8 minutes can change
 
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
@@ -21,18 +24,21 @@ public class GameManager : MonoBehaviour
     // private bool _gamePlaying = false;
 
     public ScoreBoardManager scoreBoard;
+    public GameObject[] endGameObjects;
+    public FinishGameMenuManager finishGameMenu;
+    private Coroutine restartCoroutine;
+    public PassthroughProvider passthroughProvider;
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
-
+    private List<GameObject> spawnedAliens = new List<GameObject>();
     private Transform[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
     //I want to have
 
 
-
-    void UpdateScoreText()
+    public void UpdateScoreText()
     {
         scoreBoard.setScore(score);
     }
@@ -74,62 +80,149 @@ public class GameManager : MonoBehaviour
 
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
-
-        // Start the game manually for debug, comment this line in production
-        // StartCoroutine(SpawnPatients());
-        // StartCoroutine(eventRoutine());
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(false);
+        }
+        StartCoroutine(StartGameCountdown(10.0f));
     }
-
-
-
-    // Update is called once per frame
-    // void Update()
-    // {
-
-    // }
 
     public void GameStatusController(bool gamePlaying)
     {
         if (gamePlaying)
         {
-            // _gamePlaying = true;
-            StartCoroutine(SpawnPatients());
-            StartCoroutine(eventRoutine());
+            StartGame();
         }
         else
         {
-            // _gamePlaying = false;
-            StopAllCoroutines();
+            EndGame();
         }
     }
+
+    IEnumerator StartGameCountdown(float countdownTime)
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < countdownTime)
+        {
+            scoreBoard.SetTimeBeforeStart(countdownTime - (Time.time - startTime));
+            yield return new WaitForSeconds(0.5f);
+        }
+        gvm.IsGamePlaying = true;
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    public void StartRestartCountdown()
+    {
+        if (restartCoroutine != null)
+        {
+            StopCoroutine(restartCoroutine);
+        }
+        restartCoroutine = StartCoroutine(RestartGameCountdown(90.0f));
+    }
+
+    IEnumerator RestartGameCountdown(float countdownTime)
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < countdownTime)
+        {
+            finishGameMenu.SetRestartTime(countdownTime - (Time.time - startTime));
+            yield return new WaitForSeconds(0.5f);
+        }
+        Debug.Log("Restarting game");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Interactive_tutorial");
+    }
+
+    private void StartGame()
+    {
+        score = 0;
+        currentGameStage = 0;
+        UpdateScoreText();
+        currentPatientCount = 0;
+        eventState = 0;
+        spotOccupied = new bool[maxPatients];
+        EventCanvas.SetActive(false);
+
+        StartCoroutine(SpawnPatients());
+        StartCoroutine(eventRoutine());
+        StartCoroutine(timeRemaining());
+    }
+
+
+    private void EndGame()
+    {
+        currentPatientCount = 0;
+        eventState = 0;
+        spotOccupied = new bool[maxPatients];
+        StopAllCoroutines(); // Stop all coroutines first
+        DeleteObjectsWithScript<Alien>();
+        DeleteObjectsWithScript<PizzaScript>();
+        scoreBoard.HideTime();
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(false);
+        }
+        EventCanvas.SetActive(true);
+        eventTextController.StartCongratulations();
+        finishGameMenu.OpenMenu();
+        finishGameMenu.SetScoreText(score);
+        passthroughProvider.TogglePassThrough(true);
+        StartRestartCountdown();
+    }
+
+
+    public void DeleteObjectsWithScript<T>() where T : MonoBehaviour
+    {
+        T[] objectsWithScript = FindObjectsByType<T>(FindObjectsSortMode.None);
+        foreach (T obj in objectsWithScript)
+        {
+            Destroy(obj.gameObject);
+        }
+    }
+
+    IEnumerator timeRemaining()
+    {
+        float gameStartTime = Time.time;
+        while (Time.time - gameStartTime < gameLength)
+        {
+            scoreBoard.setTime(gameLength - (Time.time - gameStartTime));
+            yield return new WaitForSeconds(0.5f);
+        }
+        gvm.IsGamePlaying = false;
+    }
+
 
     IEnumerator eventRoutine()
     {
 
-        while (true)
+        while (currentGameStage < 2)
         {
-            //we first want to find out what event is going to happen 
-            System.Random random = new System.Random();
-            int newEvent = random.Next(1, 1);
-
-            //need to find the time before the next event, should happen around every 2 minutes
-            int waitTime = random.Next(100, 120);
+            int waitTime;
+            if (currentGameStage == 0)
+            {
+                waitTime = 90;
+            }
+            else
+            {
+                waitTime = 120;
+            }
             yield return new WaitForSeconds(waitTime);
 
-            eventState = newEvent;
+            eventState = 1; //pizza time
             Debug.Log("waiting for patients to despawn");
-            if (newEvent == 1)
-            {
-                yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-                yield return StartCoroutine(PizzaTime());
-                Debug.Log("Piza time finished");
-            }
+            yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
+            Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
+            yield return StartCoroutine(PizzaTime());
+            Debug.Log("Piza time finished");
+            currentGameStage++;
         }
     }
 
     IEnumerator PizzaTime()
     {
-        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount }");
+        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount}");
         List<GameObject> spawnedPizzas = new List<GameObject>();
 
         EventCanvas.SetActive(true);
@@ -138,9 +231,9 @@ public class GameManager : MonoBehaviour
 
         //the pizza event is on for 30s It spawns pizza throughout the room this can be eaten by the doctor to earn coins
         float pizzaEventDuration = 30f;
-        float timeElapsed = 0f;
+        float pizzaTimeElapsed = 0f;
 
-        while (timeElapsed < pizzaEventDuration)
+        while (pizzaTimeElapsed < pizzaEventDuration)
         {
 
             Vector3 randomPosition = new Vector3(
@@ -151,7 +244,7 @@ public class GameManager : MonoBehaviour
 
             GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
             Rigidbody rb = pizza.GetComponent<Rigidbody>();
-            
+
             if (rb != null)
             {
                 Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -159,12 +252,12 @@ public class GameManager : MonoBehaviour
                 rb.AddForce(randomDirection * randomForceMagnitude, ForceMode.Impulse);
 
                 Vector3 randomTorque = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f));
-                rb.AddTorque(randomTorque, ForceMode.Impulse); 
+                rb.AddTorque(randomTorque, ForceMode.Impulse);
             }
             spawnedPizzas.Add(pizza);
             yield return new WaitForSeconds(0.5f);
 
-            timeElapsed += 0.5f;
+            pizzaTimeElapsed += 0.5f;
         }
 
         EventCanvas.SetActive(false);
@@ -236,7 +329,6 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
         GameObject patient;
         int alienType = Random.Range(1, 3);
-
         if (alienType == 1)
         {
             patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
@@ -255,6 +347,8 @@ public class GameManager : MonoBehaviour
             patientBehaviour.SetTarget(spawnPoint);
             patientBehaviour.SetIndex(newSpot);
         }
+
+        spawnedAliens.Add(patient);
 
 
         // Increment the patient count

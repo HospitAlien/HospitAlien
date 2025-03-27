@@ -14,13 +14,11 @@ public class SettingButtonEvents : MonoBehaviour
     public void SetComfortModeToNone(bool isOn)
     {
         if (isOn) gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.None;
-        Debug.Log("Comfort mode set to None");
     }
 
     public void SetComfortModeToVignette(bool isOn)
     {
         if (isOn) gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.Vignette;
-        Debug.Log("Comfort mode set to Vignette");
     }
 
     public void SetComfortModeToPassthrough(bool isOn)
