@@ -27,11 +27,11 @@ public class GhostEvent : MonoBehaviour
     private void SpawnGhost()
     {
         Vector3 spawnPosition = Random.onUnitSphere*10;
-        spawnPosition += Camera.main.transform.position;
         if (spawnPosition.y < Camera.main.transform.position.y)
         {
             spawnPosition.y = Mathf.Abs(spawnPosition.y);
         }
+        spawnPosition += Camera.main.transform.position;
         Instantiate(ghost, spawnPosition, Quaternion.identity);
     }
 }
