@@ -356,13 +356,15 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Ghost attack!");
         score -= 50;
-        score = System.Math.Min(score,0);
+        score = System.Math.Max(score,0);
+        UpdateScoreText();
     }
 
     public void KilledGhost()
     {
         Debug.Log("Ghost killed!");
         score += 25;
+        UpdateScoreText();
     }
 
 

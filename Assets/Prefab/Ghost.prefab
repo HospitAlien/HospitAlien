@@ -125,8 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  attackVoiceLine: {fileID: 1728838483006843292}
-  killedVoiceLine: {fileID: 1728838483006843292}
+  audioSource: {fileID: 1728838483006843292}
+  attackVoiceLine: {fileID: 8300000, guid: 304bbf8ba48e30d4491dbbe54723f446, type: 3}
+  killedVoiceLine: {fileID: 8300000, guid: b61449f790b0c6d478c0bd84719a7083, type: 3}
 --- !u!82 &1728838483006843292
 AudioSource:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -148,7 +149,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 3.463911
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0

@@ -3,8 +3,10 @@ using UnityEngine;
 public class Ghost : MonoBehaviour
 {
     public float speed = 2f;
-    public AudioSource attackVoiceLine;
-    public AudioSource killedVoiceLine;
+    public AudioSource audioSource;
+
+    public AudioClip attackVoiceLine;
+    public AudioClip killedVoiceLine;
 
     private GameManager gameManager;
 
@@ -29,14 +31,14 @@ public class Ghost : MonoBehaviour
 
     void Attack() //the attack will cause a spooky voice line and kill the ghost
     {
-        attackVoiceLine.Play();
+        audioSource.PlayOneShot(attackVoiceLine);
         gameManager.AttackedByGhost();
         Destroy(gameObject);
     }
 
-    void GhostKilled() //if the ghost is killed we want to reward points to the player
+    public void GhostKilled() //if the ghost is killed we want to reward points to the player
     {
-        killedVoiceLine.Play();
+        audioSource.PlayOneShot(killedVoiceLine);
         gameManager.KilledGhost();
         Destroy(gameObject);
     }
