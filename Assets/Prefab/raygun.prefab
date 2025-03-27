@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5175008402761017721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4052255357471859800}
+  m_Layer: 0
+  m_Name: BulletPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4052255357471859800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5175008402761017721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0.848}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7643313239884276972}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7014726172573957718
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,6 +67,7 @@ Transform:
   m_Children:
   - {fileID: 4979250186863183197}
   - {fileID: 3136596455423327415}
+  - {fileID: 4052255357471859800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6754655552927214409
@@ -151,7 +183,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 842c5e283f3efca40bc8bde8f557b9af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 30
+  fireRate: 5
+  rayPrefab: {fileID: 740175278095656606, guid: 6fc6d95ca2d68e2488ded30922f9d1d2, type: 3}
+  shootingPoint: {fileID: 4052255357471859800}
+  range: 10
 --- !u!1 &7652483168753212086
 GameObject:
   m_ObjectHideFlags: 0
