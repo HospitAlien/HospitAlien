@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2da3a4a5bf1020b45abf528a1e1421db
+guid: d8dad6e4f5198cd42bc21f8860e3d6d8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,18 +7,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: alien_skin
-    second: {fileID: 2100000, guid: a38d9ad0a0dc2d24e83b33b11f187976, type: 2}
+      name: standardSurface2
+    second: {fileID: 2100000, guid: cfa72ba00fa12734f962672b08d5e56b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: eye
+      name: standardSurface3
     second: {fileID: 2100000, guid: 39bb029f731aa1b4f83f8944998fb466, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: pupil
+      name: standardSurface4
     second: {fileID: 2100000, guid: 0a6e8a8f12b693a46bbbf119c658d610, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standardSurface5
+    second: {fileID: 2100000, guid: a38d9ad0a0dc2d24e83b33b11f187976, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -48,7 +53,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 15
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -103,7 +108,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 15
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
