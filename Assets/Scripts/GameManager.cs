@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
 
     public AppVoiceExperience VoiceExperience;
 
+    public float distanceMultiplier = 5f;  // Multiplier to adjust ray length in Inspector
+    private Camera mainCam;
+    public LineRenderer lineRenderer;
+
 
 
     public void UpdateScoreText()
@@ -104,6 +108,17 @@ public class GameManager : MonoBehaviour
         VoiceExperience.Activate("Warm up");
         Debug.Log("Warming up connection to Wit.ai");
 
+        mainCam = Camera.main;
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 2;
+        }
+
+    }
+
+    void Update()
+    {
+        HandleRaycastAndVisuals();
     }
 
     public void GameStatusController(bool gamePlaying)
@@ -437,5 +452,41 @@ public class GameManager : MonoBehaviour
             total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
         }
         return total;
+    }
+
+    void HandleRaycastAndVisuals()
+    {
+
+        // Set the ray's origin to the camera's current position
+        Vector3 origin = mainCam.transform.position;
+        // Set the ray's direction to where the camera is currently facing
+        Vector3 direction = mainCam.transform.forward;
+
+        // Set a default end position at the maximum ray length from the origin
+        Vector3 endPosition = origin + direction * distanceMultiplier;
+
+        // Perform the raycast using the calculated origin, direction, and maximum distance,
+        // while filtering by the specified layer mask.
+        RaycastHit hit;
+        if (Physics.Raycast(origin, direction, out hit, distanceMultiplier))
+        {
+            // If the ray hits an object, update the end position to the hit point
+            endPosition = hit.point;
+
+            // Check if the hit object has the tag "NPC"
+            if (hit.collider.CompareTag("Alien"))
+            {
+
+            }
+        }
+
+        // Update the LineRenderer to visually represent the ray in-game:
+        // - The start of the line is set to the camera's position.
+        // - The end of the line is either the hit point or the maximum distance.
+        if (lineRenderer != null)
+        {
+            lineRenderer.SetPosition(0, origin);
+            lineRenderer.SetPosition(1, endPosition);
+        }
     }
 }
