@@ -1,6 +1,7 @@
 using UnityEngine;
 using Oculus.Interaction.HandGrab;
 using System.Collections;
+using Oculus.Interaction;
 
 public class Raygun : MonoBehaviour, IHandGrabUseDelegate
 {
@@ -10,6 +11,9 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
     public float range = 10f;
     public AudioSource shootSFX;
     public AudioClip sound;
+    public DistanceGrabInteractable DistanceGrabInteractable;
+
+    private bool pickedUp;
 
     private bool onCooldown = false;
     private bool shooting = false;
@@ -17,6 +21,19 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GetComponent<Rigidbody>().isKinematic = true;
+        Vector3 newPosition = findPosition();
+
+
+        transform.position = newPosition;
+        pickedUp = false;
+        DistanceGrabInteractable.WhenSelectingInteractorAdded.Action += GunHeld;
+    }
+
+    private void GunHeld(DistanceGrabInteractor interactor)
+    {
+        GetComponent<Rigidbody>().isKinematic = false;
+        pickedUp = true;
     }
 
     IEnumerator Shoot()
@@ -65,11 +82,32 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
         {
             StartCoroutine(Shoot());
         }
+
+        else if(!pickedUp) //if its not picked up move it relative to the camera
+        {
+
+            transform.Rotate(Vector3.up, 30f * Time.deltaTime);
+            Vector3 newPosition = findPosition(); 
+            float moveSpeed = 5f;
+            transform.position = Vector3.Lerp(transform.position, newPosition, moveSpeed * Time.deltaTime);
+        }
+    }
+
+    private Vector3 findPosition()
+    {
+        float distanceFromCamera = 2.0f;
+        Camera camera = Camera.main;
+        Vector3 cameraPosition = camera.transform.position;
+        Quaternion cameraRotation = camera.transform.rotation;
+        
+        // Calculate the new position in front of the camera
+        Vector3 offset = cameraRotation * Vector3.forward * distanceFromCamera;
+        Vector3 newPosition = cameraPosition + offset;
+        return newPosition;
     }
 
     public void BeginUse()
     {
-        Debug.Log("GOT HERE");
         shooting = true;
     }
 

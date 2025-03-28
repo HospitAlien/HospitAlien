@@ -3,10 +3,14 @@ using System.Collections;
 public class GhostEvent : MonoBehaviour
 {
     public GameObject ghost;
+    public GameObject raygun;
 
 
     public IEnumerator StartEvent()   //when the game starts we want t give the user Guns and start ghosts spawning
     {
+        //spawn the raygun aswell
+        Instantiate(raygun);
+        yield return new WaitForSeconds(3f);
         yield return StartCoroutine(SpawnGhosts());
     }
 
