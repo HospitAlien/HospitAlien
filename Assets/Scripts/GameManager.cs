@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +25,10 @@ public class GameManager : MonoBehaviour
     // private bool _gamePlaying = false;
 
     public ScoreBoardManager scoreBoard;
+    public GameObject[] endGameObjects;
+    public FinishGameMenuManager finishGameMenu;
+    private Coroutine restartCoroutine;
+    public PassthroughProvider passthroughProvider;
 
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
@@ -36,7 +39,7 @@ public class GameManager : MonoBehaviour
     //I want to have
 
 
-    void UpdateScoreText()
+    public void UpdateScoreText()
     {
         scoreBoard.setScore(score);
     }
@@ -78,19 +81,12 @@ public class GameManager : MonoBehaviour
 
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
-
-        // Start the game manually for debug, comment this line in production
-        // StartCoroutine(SpawnPatients());
-        // StartCoroutine(eventRoutine());
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(false);
+        }
+        StartCoroutine(StartGameCountdown(10.0f));
     }
-
-
-
-    // Update is called once per frame
-    // void Update()
-    // {
-
-    // }
 
     public void GameStatusController(bool gamePlaying)
     {
@@ -102,6 +98,42 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+    }
+
+    IEnumerator StartGameCountdown(float countdownTime)
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < countdownTime)
+        {
+            scoreBoard.SetTimeBeforeStart(countdownTime - (Time.time - startTime));
+            yield return new WaitForSeconds(0.5f);
+        }
+        gvm.IsGamePlaying = true;
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    public void StartRestartCountdown()
+    {
+        if (restartCoroutine != null)
+        {
+            StopCoroutine(restartCoroutine);
+        }
+        restartCoroutine = StartCoroutine(RestartGameCountdown(90.0f));
+    }
+
+    IEnumerator RestartGameCountdown(float countdownTime)
+    {
+        float startTime = Time.time;
+        while (Time.time - startTime < countdownTime)
+        {
+            finishGameMenu.SetRestartTime(countdownTime - (Time.time - startTime));
+            yield return new WaitForSeconds(0.5f);
+        }
+        Debug.Log("Restarting game");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Interactive_tutorial");
     }
 
     private void StartGame()
@@ -125,12 +157,20 @@ public class GameManager : MonoBehaviour
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];
-        EventCanvas.SetActive(false);
-
+        StopAllCoroutines(); // Stop all coroutines first
         DeleteObjectsWithScript<Alien>();
         DeleteObjectsWithScript<PizzaScript>();
-
-        StopAllCoroutines();
+        scoreBoard.HideTime();
+        foreach (GameObject obj in endGameObjects)
+        {
+            obj.SetActive(false);
+        }
+        EventCanvas.SetActive(true);
+        eventTextController.StartCongratulations();
+        finishGameMenu.OpenMenu();
+        finishGameMenu.SetScoreText(score);
+        passthroughProvider.TogglePassThrough(true);
+        StartRestartCountdown();
     }
 
 
@@ -146,14 +186,12 @@ public class GameManager : MonoBehaviour
     IEnumerator timeRemaining()
     {
         float gameStartTime = Time.time;
-        while(Time.time - gameStartTime < gameLength)
+        while (Time.time - gameStartTime < gameLength)
         {
-            scoreBoard.setTime(gameLength -(Time.time - gameStartTime));
-            yield return new WaitForSeconds(1f);
+            scoreBoard.setTime(gameLength - (Time.time - gameStartTime));
+            yield return new WaitForSeconds(0.5f);
         }
         gvm.IsGamePlaying = false;
-
-        //need to change the buton idk how to do that
     }
 
 
@@ -163,9 +201,12 @@ public class GameManager : MonoBehaviour
         while (currentGameStage < 2)
         {
             int waitTime;
-            if(currentGameStage == 0) {
+            if (currentGameStage == 0)
+            {
                 waitTime = 90;
-            }else{
+            }
+            else
+            {
                 waitTime = 120;
             }
             yield return new WaitForSeconds(waitTime);
@@ -197,7 +238,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator PizzaTime()
     {
-        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount }");
+        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount}");
         List<GameObject> spawnedPizzas = new List<GameObject>();
 
         EventCanvas.SetActive(true);
@@ -219,7 +260,7 @@ public class GameManager : MonoBehaviour
 
             GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
             Rigidbody rb = pizza.GetComponent<Rigidbody>();
-            
+
             if (rb != null)
             {
                 Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -227,7 +268,7 @@ public class GameManager : MonoBehaviour
                 rb.AddForce(randomDirection * randomForceMagnitude, ForceMode.Impulse);
 
                 Vector3 randomTorque = new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f));
-                rb.AddTorque(randomTorque, ForceMode.Impulse); 
+                rb.AddTorque(randomTorque, ForceMode.Impulse);
             }
             spawnedPizzas.Add(pizza);
             yield return new WaitForSeconds(0.5f);
@@ -304,7 +345,7 @@ public class GameManager : MonoBehaviour
         Transform spawnPoint = spawnLocations[newSpot];
         GameObject patient;
         int alienType = Random.Range(1, 3);
-        if(alienType == 1)
+        if (alienType == 1)
         {
             patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         }

@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject menu;
     public Renderer menuRenderer;
-    public float distanceFromPlayer = 1.2f;
+    public float distanceFromPlayer = 1f;
     public Slider vignetteSlider;
     public Toggle[] movementToggles;
     public Toggle[] comfortToggles;
@@ -36,20 +36,32 @@ public class MenuManager : MonoBehaviour
     private void OnSettingChanged(GameSettingsIO settings)
     {
         SetCameraHeightText(gvm.gameSettings.CameraHeight * 100);
+        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true;
     }
 
     private void OnComfortSettingChanged(GameSettingsIO settings)
     {
         if (vignetteSlider != null) vignetteSlider.SetValueWithoutNotify(gvm.gameSettings.VignetteStrength);
         SetVignetteStrengthText(gvm.gameSettings.VignetteStrength);
-        if (movementToggles.Length > 0) movementToggles[(int)gvm.gameSettings.MoveModeOption].isOn = true;
         if (comfortToggles.Length > 0) comfortToggles[(int)gvm.gameSettings.ComfortModeOption].isOn = true;
+    }
+
+    public void RefreshMenu()
+    {
+        OnSettingChanged(gvm.gameSettings);
+        OnComfortSettingChanged(gvm.gameSettings);
     }
 
     private void CheckMenuIsVisible()
     {
         if (!menu.activeSelf) return;
         if (!menuRenderer.isVisible) MoveMenuToPlayerSmoothly();
+        if (Math.Abs(_camera.position.y - transform.position.y) > 0.1f) MoveMenuToPlayerSmoothly();
+        float distance = Vector3.Distance(transform.position, _camera.position);
+        if (distance > 2 * distanceFromPlayer)
+        {
+            MoveMenuToPlayerSmoothly();
+        }
         // else if (_isMenuMoving) transform.DOKill();
     }
 
@@ -57,20 +69,11 @@ public class MenuManager : MonoBehaviour
     {
         // If the player presses the "Menu" button on the left controller, open or close the menu
         if (OVRInput.GetDown(OVRInput.Button.Start)) ToggleMenu();
+        if (_isMenuOpen) CheckMenuIsVisible();
     }
 
-    void LateUpdate()
+    public void CloseMenu()
     {
-        float distance = Vector3.Distance(transform.position, _camera.position);
-        if (distance > 2 * distanceFromPlayer)
-        {
-            MoveMenuToPlayerSmoothly();
-        }
-    }
-
-    private void CloseMenu()
-    {
-        CancelInvoke(nameof(CheckMenuIsVisible));
         _isMenuOpen = false;
         menu.SetActive(false);
     }
@@ -81,7 +84,6 @@ public class MenuManager : MonoBehaviour
         menu.SetActive(true);
         RestartRayInteractables();
         MoveMenuToPlayer(offset);
-        InvokeRepeating(nameof(CheckMenuIsVisible), 2f, 0.1f);
     }
 
     // Restart the ray interactables can solve the problem that slider jump back to the original position when gliding outside of the menu
@@ -95,11 +97,20 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ToggleMenu(bool forceOpen = false)
+    public void ToggleMenu()
     {
-        if (forceOpen && _isMenuOpen) CloseMenu();
         if (_isMenuOpen) CloseMenu();
         else OpenMenu();
+    }
+
+    public void OpenMenuInFixPosition(Vector3 position, Vector3 rotation)
+    {
+        if (_isMenuOpen) CloseMenu();
+        menu.SetActive(true);
+        RestartRayInteractables();
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(rotation);
+        _isMenuOpen = true;
     }
 
     public void MoveMenuToPlayer(Vector3 offset = default)
