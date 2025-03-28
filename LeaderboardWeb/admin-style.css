@@ -1,0 +1,120 @@
+/* Based on the leaderboard style for consistency */
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the form vertically */
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.admin-container {
+    background-color: rgba(31, 41, 55, 0.9); /* Slightly less transparent */
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 30px 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 500px; /* Suitable width for a form */
+    border: 1px solid rgba(75, 85, 99, 0.5);
+}
+
+h1 {
+    text-align: center;
+    color: #f3f4f6;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* Style form groups for spacing */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block; /* Make label take its own line */
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #d1d5db;
+    font-size: 0.95em;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #4b5563; /* Slightly visible border */
+    border-radius: 6px;
+    background-color: #374151; /* Darker input background */
+    color: #e5e7eb;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in width */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #6366f1; /* Highlight color on focus */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Subtle glow */
+}
+
+/* Style the submit button */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #4f46e5; /* Primary button color (Indigo) */
+    color: #ffffff;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #4338ca; /* Darker shade on hover */
+}
+
+button[type="submit"]:disabled {
+    background-color: #6b7280; /* Grey out when disabled */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Message Area Styling */
+.message-area {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px; /* Add margin only when message is present */
+    font-size: 0.9em;
+    text-align: center;
+    min-height: 1.5em; /* Reserve some space */
+    line-height: 1.5em;
+    transition: background-color 0.3s ease;
+}
+
+.message-area.info {
+    background-color: rgba(59, 130, 246, 0.2); /* Blueish */
+    color: #93c5fd;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.message-area.success {
+    background-color: rgba(16, 185, 129, 0.2); /* Greenish */
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.message-area.error {
+    background-color: rgba(239, 68, 68, 0.2); /* Reddish */
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}

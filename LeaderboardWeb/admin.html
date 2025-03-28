@@ -1,52 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Admin Panel</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Add Leaderboard Entry</title>
+    <link rel="stylesheet" href="admin-style.css" />
   </head>
   <body>
-    <h1>Add Leaderboard Entry</h1>
+    <div class="admin-container">
+      <h1>Add Leaderboard Entry</h1>
 
-    <label for="name">Name:</label><br />
-    <input type="text" id="name" name="name" /><br /><br />
+      <form id="add-entry-form">
+        <div class="form-group">
+          <label for="name">Player Name:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
 
-    <label for="score">Score:</label><br />
-    <input type="number" id="score" name="score" /><br /><br />
+        <div class="form-group">
+          <label for="score">Score:</label>
+          <input type="number" id="score" name="score" required />
+        </div>
 
-    <button onclick="submitData()">Submit</button>
+        <div id="message-area" class="message-area"></div>
+
+        <div class="form-group">
+          <button type="submit" id="submit-button">Submit Entry</button>
+        </div>
+      </form>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
     <script type="module">
+      // Assuming apikey.js is in the same directory or accessible path
       import { firebaseConfig } from "./apikey.js";
 
-      // Initialize Firebase
+      // --- Firebase Initialization ---
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
 
-      function submitData() {
-        const name = document.getElementById("name").value;
-        const score = parseInt(document.getElementById("score").value);
+      // --- DOM References ---
+      const form = document.getElementById("add-entry-form");
+      const nameInput = document.getElementById("name");
+      const scoreInput = document.getElementById("score");
+      const submitButton = document.getElementById("submit-button");
+      const messageArea = document.getElementById("message-area");
 
-        if (name && !isNaN(score)) {
-          db.collection("leaderboard")
-            .add({
-              name: name,
-              score: score,
-              time: firebase.firestore.FieldValue.serverTimestamp(),
-            })
-            .then((docRef) => {
-              console.log("Document written with ID: ", docRef.id);
-              alert("Data submitted successfully!");
-              document.getElementById("name").value = "";
-              document.getElementById("score").value = "";
-            })
-            .catch((error) => {
-              console.error("Error adding document: ", error);
-              alert("Error submitting data.");
-            });
-        } else {
-          alert("Please enter valid name and score.");
+      // --- Event Listener for Form Submission ---
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent default browser form submission
+
+        const name = nameInput.value.trim(); // Trim whitespace
+        const score = parseInt(scoreInput.value);
+
+        // Clear previous messages
+        messageArea.textContent = "";
+        messageArea.className = "message-area"; // Reset class
+
+        // --- Validation ---
+        if (!name) {
+          displayMessage("Player name cannot be empty.", "error");
+          nameInput.focus();
+          return;
         }
+        if (isNaN(score)) {
+          displayMessage("Please enter a valid number for the score.", "error");
+          scoreInput.focus();
+          return;
+        }
+
+        // --- Disable button and show submitting state ---
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+        displayMessage("Submitting data...", "info");
+
+        // --- Add data to Firestore ---
+        try {
+          const docRef = await db.collection("leaderboard").add({
+            name: name,
+            score: score,
+            // Using serverTimestamp is good practice!
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+
+          console.log("Document written with ID: ", docRef.id);
+          displayMessage(
+            `Entry added successfully (ID: ${docRef.id})!`,
+            "success"
+          );
+
+          // Clear the form fields on success
+          form.reset(); // Resets all form fields
+        } catch (error) {
+          console.error("Error adding document: ", error);
+          displayMessage(`Error submitting data: ${error.message}`, "error");
+        } finally {
+          // --- Re-enable button regardless of success or error ---
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Entry";
+          // Optionally clear info message after a delay if it was successful
+          if (messageArea.classList.contains("success")) {
+            setTimeout(() => {
+              if (messageArea.classList.contains("success")) {
+                // Check again in case an error happened quickly after
+                messageArea.textContent = "";
+                messageArea.className = "message-area";
+              }
+            }, 4000); // Clear success message after 4 seconds
+          }
+        }
+      });
+
+      // --- Helper function to display messages ---
+      function displayMessage(message, type = "info") {
+        // type can be 'info', 'success', 'error'
+        messageArea.textContent = message;
+        messageArea.className = `message-area ${type}`; // Add class for styling
       }
     </script>
   </body>
