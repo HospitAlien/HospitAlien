@@ -179,10 +179,15 @@ public class GameManager : MonoBehaviour
             {
                 yield return StartCoroutine(PizzaTime());
             }
-            if(currentGameStage == 1)
+            else
             {
+                EventCanvas.SetActive(true);
+                eventTextController.SetEventText("Ghosts are attacking! Grab the gun!");
+                eventTextController.SetEventColor(Color.yellow);
                 yield return StartCoroutine(ghostEvent.StartEvent());
             }
+
+            eventState = 0;
 
 
             Debug.Log("Piza time finished");
