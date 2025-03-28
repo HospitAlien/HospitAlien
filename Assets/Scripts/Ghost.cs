@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Ghost : MonoBehaviour
 {
     public float speed = 2f;
@@ -9,9 +9,11 @@ public class Ghost : MonoBehaviour
     public AudioClip killedVoiceLine;
 
     private GameManager gameManager;
+    private bool alive;
 
     void Start() 
     {
+        alive = true;
         gameManager = FindFirstObjectByType<GameManager>();
     }
 
@@ -37,16 +39,46 @@ public class Ghost : MonoBehaviour
 
     void Attack() //the attack will cause a spooky voice line and kill the ghost
     {
-        audioSource.PlayOneShot(attackVoiceLine);
-        gameManager.AttackedByGhost();
-        Destroy(gameObject);
+        if(alive)
+        {
+            audioSource.PlayOneShot(attackVoiceLine);
+            gameManager.AttackedByGhost();
+            foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = false;
+            }
+            StartCoroutine(DestroyAfterSound(attackVoiceLine));
+            alive = false;
+        }
+
+
     }
 
     public void GhostKilled() //if the ghost is killed we want to reward points to the player
     {
-        audioSource.PlayOneShot(killedVoiceLine);
-        gameManager.KilledGhost();
+        if(alive)
+        {
+            audioSource.PlayOneShot(killedVoiceLine);
+            gameManager.KilledGhost();
+            foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = false;
+            }
+            StartCoroutine(DestroyAfterSound(killedVoiceLine));
+            alive = false;
+        }
+
+    }
+
+    private IEnumerator DestroyAfterSound(AudioClip clip)
+    {
+        // Wait until the sound finishes playing
+        yield return new WaitForSeconds(clip.length);
+        
+        // Destroy the game object
         Destroy(gameObject);
     }
+
+    
     
 }
