@@ -27,7 +27,7 @@ public class GhostEvent : MonoBehaviour
     private void SpawnGhost()
     {
         Vector3 spawnPosition = Random.onUnitSphere*10;
-        if (spawnPosition.y < Camera.main.transform.position.y)
+        if (spawnPosition.y < 0f)
         {
             spawnPosition.y = Mathf.Abs(spawnPosition.y);
         }
