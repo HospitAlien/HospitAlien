@@ -154,6 +154,11 @@ public class Alien : MonoBehaviour
         return status.getIllness();
     }
 
+    public string getBloodType()
+    {
+        return status.bloodType;
+    }
+
     protected virtual Material LoadLimbMaterial()
     {
         Debug.Log("LoadLimbMaterial must be overridden");

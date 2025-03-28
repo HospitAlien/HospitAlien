@@ -89,6 +89,12 @@ public class AlienVoice : MonoBehaviour
             Debug.Log("Greeting recognised");
             TTSScript.Speak("I am in agony, help please");
         }
+        else if(IntentMatches(response, "blood_type"))
+        {
+            Debug.Log("Blood type asked");
+            string bloodType = alien.getBloodType();
+            SayLine("I need" + bloodType + " blood!");
+        }
         else
         {
             Debug.Log("Intent doesn't match");
