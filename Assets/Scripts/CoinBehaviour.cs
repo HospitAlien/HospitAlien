@@ -4,13 +4,13 @@ public class CoinBehaviour : MonoBehaviour
 {
 
     private int rateOverTime;
-    private ParticleSystem particleSystem;
+    private ParticleSystem _particleSystem;
     private AudioSource audioSource;
 
     void Start()
     {
         // Get the ParticleSystem component
-        particleSystem = GetComponent<ParticleSystem>();
+        _particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
 
         // Ensure the AudioSource is valid
@@ -25,16 +25,17 @@ public class CoinBehaviour : MonoBehaviour
     void Update()
     {
         // Check if the particle system is still playing
-        if (!particleSystem.isPlaying)
+        if (!_particleSystem.isPlaying)
         {
             // Destroy the GameObject after the particles finish
             Destroy(gameObject);
         }
-        var emission = particleSystem.emission;
+        var emission = _particleSystem.emission;
         emission.rateOverTime = rateOverTime;
     }
 
-    public void SetRate(int rate){
+    public void SetRate(int rate)
+    {
         rateOverTime = rate;
     }
 }

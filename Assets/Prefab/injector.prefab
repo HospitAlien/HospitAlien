@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 3209943938254454339}
   - component: {fileID: 8228694781345668437}
   - component: {fileID: 3825870213104069600}
+  - component: {fileID: 1242195597595182226}
   m_Layer: 0
   m_Name: injector
   m_TagString: Syringe
@@ -632,6 +633,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inactiveMaterial: {fileID: 2100000, guid: b2d23415e8af1684691099ef9cb7b68f, type: 2}
+--- !u!114 &1242195597595182226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4495153602603455775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ec9a9328d7cf64cbde83b041c58d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveDuration: 2
+  startCutoff: -2
+  endCutoff: 2
+  dissolveShader: {fileID: -6465566751694194690, guid: 5b480cdf1a2e53a4486a90fecae7d48d, type: 3}
 --- !u!1 &7753571726143943494
 GameObject:
   m_ObjectHideFlags: 0

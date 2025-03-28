@@ -26,7 +26,6 @@ public class LeaderBoardManager : MonoBehaviour
         {
             if (leaderBoard.topScores[i] != null && leaderBoard.topScores[i].playerName != "")
             {
-                Debug.Log("Updating leaderboard item " + i);
                 leaderboardItems[i].SetActive(true);
                 TextMeshProUGUI nameText = leaderboardItems[i].transform.Find("Text_Name").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI scoreText = leaderboardItems[i].transform.Find("Text_Score").GetComponent<TextMeshProUGUI>();

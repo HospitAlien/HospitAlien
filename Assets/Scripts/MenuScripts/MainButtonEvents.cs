@@ -15,4 +15,9 @@ public class MainButtonEvents : MonoBehaviour
     {
         gvm.IsGamePlaying = start;
     }
+
+    public void GoToSpaceShipScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("HospitAlienSpaceShip");
+    }
 }

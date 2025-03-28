@@ -5,7 +5,7 @@ public class SettingButtonEvents : MonoBehaviour
 {
     private GlobalVariableManager gvm;
 
-    void Start()
+    void Awake()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (gvm == null) Debug.LogError("GlobalVariableManager not found");
@@ -14,13 +14,11 @@ public class SettingButtonEvents : MonoBehaviour
     public void SetComfortModeToNone(bool isOn)
     {
         if (isOn) gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.None;
-        Debug.Log("Comfort mode set to None");
     }
 
     public void SetComfortModeToVignette(bool isOn)
     {
         if (isOn) gvm.gameSettings.ComfortModeOption = GameSettingsIO.comfortMode.Vignette;
-        Debug.Log("Comfort mode set to Vignette");
     }
 
     public void SetComfortModeToPassthrough(bool isOn)
@@ -48,8 +46,8 @@ public class SettingButtonEvents : MonoBehaviour
         gvm.gameSettings.VignetteStrength = strength;
     }
 
-    public void SetGameStart(bool start)
+    public void SetCameraHeight(float height)
     {
-        gvm.IsGamePlaying = start;
+        gvm.gameSettings.CameraHeight = height / 100;
     }
 }

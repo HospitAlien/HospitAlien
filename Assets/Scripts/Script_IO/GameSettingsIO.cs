@@ -19,14 +19,6 @@ public class GameSettingsIO : ScriptableObject
     [Tooltip("Range 0.0 - 50.0")]
     [SerializeField] private float vignetteStrength = 50.0f;
 
-    public enum turnMode
-    {
-        Smooth,
-        Snap
-    }
-    [Header("Turn mode")]
-    [SerializeField] private turnMode turnModeOption = turnMode.Smooth;
-
     public enum moveMode
     {
         teleport,
@@ -35,6 +27,10 @@ public class GameSettingsIO : ScriptableObject
     }
     [Header("Movement Options")]
     [SerializeField] private moveMode moveModeOption = moveMode.teleport;
+
+    [Header("Camera Height")]
+    [Tooltip("Range 0.6m(2ft) - 2.4m(8ft), the base line is 1.8m(6ft)")]
+    [SerializeField] private float cameraHeight = 1.8f;
 
 
     public comfortMode ComfortModeOption
@@ -57,22 +53,22 @@ public class GameSettingsIO : ScriptableObject
         }
     }
 
-    public turnMode TurnModeOption
-    {
-        get => turnModeOption;
-        set
-        {
-            turnModeOption = value;
-            OnSettingChanged?.Invoke(this);
-        }
-    }
-
     public moveMode MoveModeOption
     {
         get => moveModeOption;
         set
         {
             moveModeOption = value;
+            OnSettingChanged?.Invoke(this);
+        }
+    }
+
+    public float CameraHeight
+    {
+        get => cameraHeight;
+        set
+        {
+            cameraHeight = value;
             OnSettingChanged?.Invoke(this);
         }
     }

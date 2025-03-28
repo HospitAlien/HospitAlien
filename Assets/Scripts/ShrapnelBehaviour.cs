@@ -1,4 +1,3 @@
-using System;
 using Oculus.Interaction;
 using UnityEngine;
 using System.Collections;
@@ -10,21 +9,29 @@ public class ShrapnelBehaviour : MonoBehaviour
 
 
     public GrabInteractable GrabInteractable;
+    public GameObject GrabableTip;
     private Coroutine destroyCoroutine;
 
     private Rigidbody rb;
-    private Collider collider;
+    private Collider _collider;
+
+    public Outline outline;
+    private bool outlineVisible;
+
+    private Coroutine myCoroutine;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        outlineVisible = false;
+        outline.OutlineWidth = 0;
         insideAlien = true;
         beingHeld = false;
 
         GrabInteractable.WhenSelectingInteractorAdded.Action += ObjectHeld;
         GrabInteractable.WhenSelectingInteractorRemoved.Action += ObjectReleased;
         rb = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        _collider = GetComponent<Collider>();
     }
 
     void Update()
@@ -37,14 +44,66 @@ public class ShrapnelBehaviour : MonoBehaviour
         {
             rb.isKinematic = false;
         }
+
+        Camera mainCamera = Camera.main;
+        float distance = Vector3.Distance(mainCamera.transform.position, transform.position);
+
+        if (distance > 2)
+        {
+            if (outlineVisible)
+            {
+                if (myCoroutine != null)
+                {
+                    StopCoroutine(myCoroutine);
+                }
+                outline.OutlineWidth = 0;
+                outlineVisible = false;
+            }
+
+        }
+        else if (distance <= 2)
+        {
+            if (!outlineVisible)
+            {
+                myCoroutine = StartCoroutine(Pulse());
+                outlineVisible = true;
+            }
+        }
+
     }
+
+    IEnumerator Pulse()
+    {
+        float transitionTime = 1f;
+        float targetValue = 4f;
+        float startValue = outline.OutlineWidth;
+        float elapsedTime = 0f;
+
+        while (true)
+        {
+            while (elapsedTime < transitionTime)
+            {
+                outline.OutlineWidth = Mathf.Lerp(startValue, targetValue, elapsedTime / transitionTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            outline.OutlineWidth = targetValue;
+
+            targetValue = startValue;
+            startValue = outline.OutlineWidth;
+
+
+            elapsedTime = 0f;
+        }
+    }
+
 
     private void ObjectHeld(GrabInteractor interactor)
     {
         //when the object is held i want it to be isTrigger
         beingHeld = true;
 
-        collider.isTrigger = true;
+        _collider.isTrigger = true;
 
         if (destroyCoroutine != null)
         {
@@ -55,21 +114,18 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     private void ObjectReleased(GrabInteractor interactor)
     {
-        Debug.Log("Object released");
         beingHeld = false;
 
-        collider.isTrigger = false;
+        _collider.isTrigger = false;
 
         if (!insideAlien)
         {
             destroyCoroutine = StartCoroutine(DestroyObjectAfterTime(5f));
             rb.isKinematic = false;
-            Debug.Log("Kinematic false");
         }
         else
         {
             rb.isKinematic = true;
-            Debug.Log("Kinematic true");
         }
     }
 
@@ -81,16 +137,18 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-
         if (!collider.CompareTag("Shrapnel") && beingHeld && insideAlien)
         {
-            AlienBehaviour alien = collider.GetComponentInParent<AlienBehaviour>();
+            Alien alien = collider.GetComponentInParent<Alien>();
             if (alien != null)
             {
-                Debug.Log("Trigger exit " + collider.name);
                 alien.shrapnelRemoved();
                 insideAlien = false;
             }
+        }
+        if (collider.CompareTag("Controller"))
+        {
+            GrabableTip.SetActive(false);
         }
     }
 
@@ -98,7 +156,7 @@ public class ShrapnelBehaviour : MonoBehaviour
     {
         if (!collider.CompareTag("Shrapnel") && !insideAlien)
         {
-            AlienBehaviour alien = collider.GetComponentInParent<AlienBehaviour>();
+            Alien alien = collider.GetComponentInParent<Alien>();
             if (alien != null)
             {
                 alien.shrapnelInserted();
@@ -112,11 +170,13 @@ public class ShrapnelBehaviour : MonoBehaviour
                     // Stop the coroutine if it's running
                     StopCoroutine(destroyCoroutine);
                     destroyCoroutine = null;
-                    Debug.Log("Destroy coroutine stopped.");
                 }
 
             }
-
+        }
+        if (collider.CompareTag("Controller"))
+        {
+            GrabableTip.SetActive(true);
         }
     }
 }
