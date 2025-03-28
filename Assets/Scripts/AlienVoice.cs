@@ -11,10 +11,34 @@ public class AlienVoice : MonoBehaviour
     public AppVoiceExperience VoiceExperience;
     private Alien alien;
 
+    public string[] voicePresets = new string[]
+    {
+        "WIT$BRITISH BUTLER",
+        "WIT$CARL",
+        "WIT$CARTOON BABY",
+        "WIT$CARTOON VILLAIN",
+        "WIT$CHARLIE",
+        "WIT$COLIN",
+        "WIT$HOLLYWOOD",
+        "WIT$PROSPECTOR",
+        "WIT$REBECCA",
+        "WIT$ROSIE",
+        "WIT$SURFER",
+        "WIT$WHIMSICAL",
+        "WIT$VAMPIRE",
+        "WIT$WIZARD"
+    };
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         alien = GetComponent<Alien>();
+
+        //Randomise voice
+        int randomIndex = Random.Range(0, voicePresets.Length);
+        string selectedPreset = voicePresets[randomIndex];
+        Debug.Log("Selected Voice Preset: " + selectedPreset + randomIndex.ToString());
+        TTSScript.VoiceID = selectedPreset;
     }
 
     // Update is called once per frame

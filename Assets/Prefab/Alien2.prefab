@@ -10719,9 +10719,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2172677148092330597}
   - component: {fileID: 7639748783128019528}
+  - component: {fileID: -7388863660229600932}
   - component: {fileID: 1174154792580691542}
   - component: {fileID: 7079399012401254212}
-  - component: {fileID: -4077802698415094081}
   - component: {fileID: 3674693100171984622}
   - component: {fileID: 3055592492283081037}
   - component: {fileID: 7749313618650341203}
@@ -10780,6 +10780,35 @@ MonoBehaviour:
   growthSFX: {fileID: 3055592492283081037}
   shrinkSFX: {fileID: 7749313618650341203}
   reward: 200
+--- !u!114 &-7388863660229600932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7116363738194296861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d5ca45159314f458dbed8a19ecbdfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TTSScript: {fileID: 0}
+  VoiceExperience: {fileID: 0}
+  voicePresets:
+  - WIT$BRITISH BUTLER
+  - WIT$CARL
+  - WIT$CARTOON BABY
+  - WIT$CARTOON VILLAIN
+  - WIT$CHARLIE
+  - WIT$COLIN
+  - WIT$HOLLYWOOD
+  - WIT$PROSPECTOR
+  - WIT$REBECCA
+  - WIT$ROSIE
+  - WIT$SURFER
+  - WIT$WHIMSICAL
+  - WIT$VAMPIRE
+  - WIT$WIZARD
 --- !u!54 &1174154792580691542
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10829,20 +10858,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &-4077802698415094081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7116363738194296861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d5ca45159314f458dbed8a19ecbdfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TTSScript: {fileID: 0}
-  VoiceExperience: {fileID: 0}
 --- !u!64 &3674693100171984622
 MeshCollider:
   m_ObjectHideFlags: 0
