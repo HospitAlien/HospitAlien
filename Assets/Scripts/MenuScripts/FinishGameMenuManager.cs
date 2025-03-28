@@ -1,12 +1,14 @@
 using UnityEngine;
 using TMPro;
 using Oculus.Interaction;
+using DG.Tweening;
+using System;
 
 public class FinishGameMenuManager : MonoBehaviour
 {
     public GameObject menu;
     public Renderer menuRenderer;
-    public float distanceFromPlayer = 1.2f;
+    public float distanceFromPlayer = 1f;
     public RayInteractable[] rayInteractablesToRestart;
     private Transform _camera;
     private bool _isMenuOpen;
@@ -39,6 +41,42 @@ public class FinishGameMenuManager : MonoBehaviour
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
         CloseMenu();
         _camera = Camera.main.transform;
+    }
+
+    private void CheckMenuIsVisible()
+    {
+        if (!menu.activeSelf) return;
+        if (!menuRenderer.isVisible) MoveMenuToPlayerSmoothly();
+        if (Math.Abs(_camera.position.y - transform.position.y) > 0.1f) MoveMenuToPlayerSmoothly();
+        float distance = Vector3.Distance(transform.position, _camera.position);
+        if (distance > 2 * distanceFromPlayer)
+        {
+            MoveMenuToPlayerSmoothly();
+        }
+        // else if (_isMenuMoving) transform.DOKill();
+    }
+
+    public void MoveMenuToPlayerSmoothly(Vector3 offset = default)
+    {
+        Vector3 forwardOnXZ = new Vector3(_camera.forward.x, 0, _camera.forward.z).normalized;
+        Vector3 targetPosition = _camera.position + forwardOnXZ * distanceFromPlayer;
+        targetPosition += offset;
+
+        // If the coroutine is already running, stop it
+        transform.DOKill();
+
+        transform.DOMove(targetPosition, 3f)
+            .SetSpeedBased()
+            .SetEase(Ease.OutCubic)
+            .OnUpdate(() =>
+            {
+                transform.LookAt(_camera.position);
+            });
+    }
+
+    void Update()
+    {
+        if (_isMenuOpen) CheckMenuIsVisible();
     }
 
     private void CloseMenu()
