@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Voice;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class GameManager : MonoBehaviour
     private int eventState = 0;
     private bool[] spotOccupied;
     //I want to have
+
+    public AppVoiceExperience VoiceExperience;
+
 
 
     public void UpdateScoreText()
@@ -85,6 +89,21 @@ public class GameManager : MonoBehaviour
             obj.SetActive(false);
         }
         StartCoroutine(StartGameCountdown(10.0f));
+
+        //Warm up connection to NLP (Wit.ai) for voice interation
+        GameObject VoiceExperienceObject = GameObject.Find("App Voice Experience");
+        if (VoiceExperienceObject != null)
+        {
+            VoiceExperience = VoiceExperienceObject.GetComponent<AppVoiceExperience>();
+        }
+        else
+        {
+            Debug.Log("VoiceExperienceObject not found");
+        }
+
+        VoiceExperience.Activate("Warm up");
+        Debug.Log("Warming up connection to Wit.ai");
+
     }
 
     public void GameStatusController(bool gamePlaying)
