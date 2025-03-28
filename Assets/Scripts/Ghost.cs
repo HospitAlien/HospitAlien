@@ -22,6 +22,12 @@ public class Ghost : MonoBehaviour
         Vector3 directionToCamera = (cameraPosition - transform.position).normalized;
         transform.position += directionToCamera * speed * Time.deltaTime;
 
+        if (directionToCamera.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToCamera);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
+
         float distance = Vector3.Distance(cameraPosition, transform.position);
         if(distance < 0.01)
         {
