@@ -89,30 +89,6 @@
           // --- User is logged in ---
           console.log("User logged in:", user.email);
 
-          // **IMPORTANT**: Here you *should* verify if the user has the admin claim
-          // For now, we just show the content, but Firestore rules will block writes if no claim.
-          // Add this check later when you implement custom claims:
-          /*
-                user.getIdTokenResult()
-                  .then((idTokenResult) => {
-                     if (idTokenResult.claims.admin) {
-                        // User is admin, show content
-                        loginContainer.style.display = 'none';
-                        adminContentContainer.style.display = 'block';
-                        userEmailSpan.textContent = user.email;
-                     } else {
-                        // User is logged in BUT not an admin
-                        console.warn("User is not an admin.");
-                        displayLoginMessage("You are not authorized to access this panel.", "error");
-                        auth.signOut(); // Log them out
-                     }
-                  })
-                  .catch((error) => {
-                    console.error("Error getting token results:", error);
-                    auth.signOut(); // Log out on error
-                  });
-                */
-
           // Simplified version (shows content if logged in, relies on Firestore rules for write protection):
           loginContainer.style.display = "none"; // Hide login form
           adminContentContainer.style.display = "block"; // Show admin content
