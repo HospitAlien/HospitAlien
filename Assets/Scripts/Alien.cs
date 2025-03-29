@@ -10,7 +10,7 @@ public class Alien : MonoBehaviour
     protected int index;
     public Vector3 targetLocation;
 
-    protected float timer = 120;
+    protected float timer = 60;
     protected TextMesh timerText;
 
     protected static GameManager gameManager;
