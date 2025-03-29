@@ -46,9 +46,9 @@ public class PassthroughProvider : MonoBehaviour
     public void TurnPassThroughOn()
     {
         _isPassThroughOn = true;
+        _camera.clearFlags = CameraClearFlags.SolidColor;
         layer.textureOpacity = 1;
         layer.enabled = true;
-        _camera.clearFlags = CameraClearFlags.SolidColor;
         foreach (GameObject obj in _objects)
         {
             obj.GetComponent<Renderer>().enabled = false;
@@ -57,10 +57,11 @@ public class PassthroughProvider : MonoBehaviour
 
     public void TurnPassThroughOff()
     {
+        if (_KeepPassThroughOn) return;
         _isPassThroughOn = false;
+        _camera.clearFlags = CameraClearFlags.Skybox;
         layer.textureOpacity = 0;
         layer.enabled = false;
-        _camera.clearFlags = CameraClearFlags.Skybox;
         foreach (GameObject obj in _objects)
         {
             obj.GetComponent<Renderer>().enabled = true;
