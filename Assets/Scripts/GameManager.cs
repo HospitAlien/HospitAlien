@@ -446,7 +446,7 @@ public class GameManager : MonoBehaviour
         var aliens = FindObjectsByType<Alien>(FindObjectsSortMode.None);
         foreach (Alien alien in aliens)
         {
-            total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
+            total += Mathf.Pow(60-alien.GetRemainingTime(), 1.3f);
         }
         return total;
     }
