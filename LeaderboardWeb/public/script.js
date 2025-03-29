@@ -6,6 +6,7 @@ console.log("Firebase initialized.");
 
 const REFRESH_INTERVAL_MS = 60000;
 const UPDATE_TIMER_INTERVAL_MS = 1000;
+const MAX_LEADERBOARD_SIZE = 10;
 
 // DOM Element References
 const leaderboardBody = document.getElementById("leaderboard-body");
@@ -23,7 +24,7 @@ async function fetchLeaderboardData() {
     const querySnapshot = await db
       .collection("leaderboard")
       .orderBy("score", "desc")
-      .limit(15)
+      .limit(MAX_LEADERBOARD_SIZE + 5)
       .get();
 
     let rawData = [];
@@ -70,6 +71,9 @@ async function fetchLeaderboardData() {
       });
 
       lastScore = player.score;
+      if (processedData.length >= MAX_LEADERBOARD_SIZE) {
+        break;
+      }
     }
 
     return processedData;
