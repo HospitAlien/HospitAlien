@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.IO;
 using System;
-using Unity.Barracuda;
 
 // This script is used to manage global variables that need to be shared between objects and scene.
 // It also manages the saving and loading for variable that need to be stored.

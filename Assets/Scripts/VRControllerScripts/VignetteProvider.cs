@@ -7,12 +7,11 @@ public class VignetteProvider : MonoBehaviour
     public float VignetteStrength = 50;
 
     private const float VIGNETTE_OFF = 120;
-    private float targetVignetteFieldOfView;
+    public float targetVignetteFieldOfView;
 
 
-    void Start()
+    void Awake()
     {
-        vignette.enabled = false;
         targetVignetteFieldOfView = VIGNETTE_OFF;
     }
 
