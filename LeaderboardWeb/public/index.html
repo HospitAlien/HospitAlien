@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Leaderboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+  </head>
+  <body>
+    <div class="leaderboard-container">
+      <h1>Top 10 Doctors in HospitAlien</h1>
+      <div class="last-updated" id="last-updated"></div>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th class="rank">Rank</th>
+            <th class="name">Player</th>
+            <th class="score">Score</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr>
+            <td colspan="4" class="loading">Refreshing leaderboard...</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="update-timer" id="update-timer"></div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
