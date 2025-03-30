@@ -734,7 +734,7 @@ GameObject:
   - component: {fileID: 2935228712633928509}
   m_Layer: 0
   m_Name: head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1234,6 +1234,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TTSScript: {fileID: 0}
   VoiceExperience: {fileID: 0}
+  voicePresets:
+  - WIT$BRITISH BUTLER
+  - WIT$CARL
+  - WIT$CARTOON BABY
+  - WIT$CARTOON VILLAIN
+  - WIT$CHARLIE
+  - WIT$COLIN
+  - WIT$HOLLYWOOD
+  - WIT$PROSPECTOR
+  - WIT$REBECCA
+  - WIT$ROSIE
+  - WIT$SURFER
+  - WIT$WHIMSICAL
+  - WIT$VAMPIRE
+  - WIT$WIZARD
 --- !u!82 &-7582938273775908571
 AudioSource:
   m_ObjectHideFlags: 0

@@ -504,9 +504,36 @@ public class GameManager : MonoBehaviour
             endPosition = hit.point;
 
             // Check if the hit object has the tag "NPC"
-            if (hit.collider.CompareTag("Alien"))
+            if (hit.collider.CompareTag("Head"))
             {
-
+                AlienVoice alienVoice = hit.collider.GetComponentInParent<AlienVoice>();
+                if (alienVoice != null)
+                {
+                    // Call the desired function on the Alien script
+                    if (!VoiceExperience.Active)
+                    {
+                        alienVoice.ActivateListening();
+                        Debug.Log("Listening !");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Alien script not found on parent.");
+                }
+            }
+            else
+            {
+                if (VoiceExperience.Active)
+                {
+                    VoiceExperience.Deactivate();
+                }
+            }
+        }
+        else
+        {
+            if (VoiceExperience.Active)
+            {
+                VoiceExperience.Deactivate();
             }
         }
     }
