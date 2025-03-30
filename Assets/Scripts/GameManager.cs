@@ -41,9 +41,8 @@ public class GameManager : MonoBehaviour
 
     public AppVoiceExperience VoiceExperience;
 
-    public float distanceMultiplier = 5f;  // Multiplier to adjust ray length in Inspector
+    public float distanceMultiplier = 1.25f;  // Multiplier to adjust ray length in Inspector
     private Camera mainCam;
-    public LineRenderer lineRenderer;
 
 
 
@@ -110,15 +109,15 @@ public class GameManager : MonoBehaviour
         Debug.Log("Warming up connection to Wit.ai");
 
         mainCam = Camera.main;
-        if (lineRenderer != null)
-        {
-            lineRenderer.positionCount = 2;
-        }
-
     }
 
     void Update()
     {
+        Vector3 origin = mainCam.transform.position;
+        Vector3 direction = mainCam.transform.forward * distanceMultiplier;
+
+        // Draw a red ray for debugging, visible in the Scene view
+        Debug.DrawRay(origin, direction, Color.red);
         HandleRaycastAndVisuals();
     }
 
@@ -509,15 +508,6 @@ public class GameManager : MonoBehaviour
             {
 
             }
-        }
-
-        // Update the LineRenderer to visually represent the ray in-game:
-        // - The start of the line is set to the camera's position.
-        // - The end of the line is either the hit point or the maximum distance.
-        if (lineRenderer != null)
-        {
-            lineRenderer.SetPosition(0, origin);
-            lineRenderer.SetPosition(1, endPosition);
         }
     }
 }
