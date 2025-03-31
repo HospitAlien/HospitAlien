@@ -417,6 +417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PurpleWalk
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 61b2bed8f3bd7f94ca311f44fa82e325, type: 3}
+      propertyPath: m_TagString
+      value: Alien
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -454,7 +458,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 61b2bed8f3bd7f94ca311f44fa82e325, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1392675587805208787}
+    - targetCorrespondingSourceObject: {fileID: 1248759468880475326, guid: 61b2bed8f3bd7f94ca311f44fa82e325, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4818046964884790558}
   m_SourcePrefab: {fileID: 100100000, guid: 61b2bed8f3bd7f94ca311f44fa82e325, type: 3}
+--- !u!1 &3048729619692487152 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1248759468880475326, guid: 61b2bed8f3bd7f94ca311f44fa82e325, type: 3}
+  m_PrefabInstance: {fileID: 4259067628338623822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &4818046964884790558
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048729619692487152}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7245221339916686368, guid: 92c010339f625b14d8a2821849b2cf57, type: 3}
 --- !u!1 &4024624464912189471 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 61b2bed8f3bd7f94ca311f44fa82e325, type: 3}
