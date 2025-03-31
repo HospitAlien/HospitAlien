@@ -153,6 +153,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+        StartCoroutine(gvm.LoadLeaderboardData());
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];

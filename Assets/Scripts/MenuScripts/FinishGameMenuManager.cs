@@ -16,6 +16,7 @@ public class FinishGameMenuManager : MonoBehaviour
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI restartTimeText;
     private GameManager gameManager;
+    public LeaderBoardManager leaderBoardManager;
 
     public int[] targetScores = new int[] { 0, 2500, 5000, 7500, 10000, 12500, 17500, 999999 };
     public string[] targetRanks = new string[]
@@ -30,17 +31,12 @@ public class FinishGameMenuManager : MonoBehaviour
             "Cheater"
         };
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        gameManager = FindFirstObjectByType<GameManager>();
-    }
-
     void Start()
     {
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
         CloseMenu();
         _camera = Camera.main.transform;
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     private void CheckMenuIsVisible()
@@ -87,6 +83,7 @@ public class FinishGameMenuManager : MonoBehaviour
 
     public void OpenMenu(Vector3 offset = default)
     {
+        if (_isMenuOpen) return;
         _isMenuOpen = true;
         menu.SetActive(true);
         RestartRayInteractables();

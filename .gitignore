@@ -144,3 +144,6 @@ Desktop.ini
 
 # Ignore apikey.js
 **/apikey.js
+
+# Ignore firebase dependence cause its too big
+/Assets/[Ff]irebase/
