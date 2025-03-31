@@ -36,6 +36,13 @@ TagManager:
   - QDSUIBorderlessButton
   - QDSUIToggleSwitch
   - QDSUITextInputField
+  - Head
+  - GreenLeg
+  - Leg
+  - LeftHand
+  - GreenHand
+  - PurpleLeg
+  - PurpleHand
   layers:
   - Default
   - TransparentFX
@@ -44,7 +51,7 @@ TagManager:
   - Water
   - UI
   - Effect Teleport
-  - 
+  - Transcription
   - 
   - 
   - 
