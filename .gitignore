@@ -142,8 +142,5 @@ Desktop.ini
 # Ignore unity build files
 /HospitAlien_BurstDebugInformation_DoNotShip/
 
-# Ignore apikey.js
-**/apikey.js
-
 # Ignore firebase dependence cause its too big
 /Assets/[Ff]irebase/
