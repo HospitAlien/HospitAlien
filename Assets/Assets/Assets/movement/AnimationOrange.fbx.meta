@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 61b2bed8f3bd7f94ca311f44fa82e325
+guid: 8e2aa25d7b5d3104d9030c4bab46416e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeGreen1
+    second: {fileID: 2100000, guid: a38d9ad0a0dc2d24e83b33b11f187976, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeWhite1
+    second: {fileID: 2100000, guid: 0a6e8a8f12b693a46bbbf119c658d610, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pupil
+    second: {fileID: 2100000, guid: 39bb029f731aa1b4f83f8944998fb466, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: skin
+    second: {fileID: 2100000, guid: cfa72ba00fa12734f962672b08d5e56b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -31,18 +51,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: PurpleWalkAnimation
+      name: WalkingAnimation
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: 20
-      lastFrame: 100
+      firstFrame: 1
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -117,7 +137,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.14999999
+    globalScale: 15
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

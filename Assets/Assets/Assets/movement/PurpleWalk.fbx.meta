@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8e2aa25d7b5d3104d9030c4bab46416e
+guid: 61b2bed8f3bd7f94ca311f44fa82e325
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,23 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: eyeGreen1
-    second: {fileID: 2100000, guid: a38d9ad0a0dc2d24e83b33b11f187976, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eyeWhite1
-    second: {fileID: 2100000, guid: 0a6e8a8f12b693a46bbbf119c658d610, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: pupil
-    second: {fileID: 2100000, guid: 39bb029f731aa1b4f83f8944998fb466, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
       name: skin
-    second: {fileID: 2100000, guid: cfa72ba00fa12734f962672b08d5e56b, type: 2}
+    second: {fileID: 2100000, guid: 3b6f7a39ddb6ccc40af0ab6f4e383b44, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -49,7 +34,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: PurpleWalkAnimation
+      takeName: Take 001
+      internalID: 1827226128182048838
+      firstFrame: 20
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
     isReadable: 0
   meshes:
     lODScreenPercentages: []
