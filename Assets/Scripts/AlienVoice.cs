@@ -77,15 +77,28 @@ public class AlienVoice : MonoBehaviour
         if (VoiceExperience != null)
         {
             Debug.Log("Activating VoiceExperience and listening");
+
             VoiceExperience.VoiceEvents.OnResponse.AddListener(HandleWitResponse);
             VoiceExperience.VoiceEvents.OnPartialTranscription.AddListener(HandlePartialTranscription);
+
             VoiceExperience.Activate();
+
             transcriptText.text = "<sprite=0> Listening!";
+            transcriptText.gameObject.SetActive(true);
         }
         else
         {
             Debug.Log("Voice Experience not linked to gameObject");
         }
+    }
+
+    public void Deactivate()
+    {
+        VoiceExperience.Deactivate();
+        VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
+        VoiceExperience.VoiceEvents.OnPartialTranscription.RemoveListener(HandlePartialTranscription);
+        transcriptText.gameObject.SetActive(false);
+        Debug.Log("Voice deactivated");
     }
 
     private void HandleWitResponse(WitResponseNode response)
@@ -112,14 +125,13 @@ public class AlienVoice : MonoBehaviour
         {
             Debug.Log("Intent doesn't match");
         }
-        VoiceExperience.Deactivate();
 
-        VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
-        VoiceExperience.VoiceEvents.OnPartialTranscription.RemoveListener(HandlePartialTranscription);
+        Deactivate();
 
-        HandleStoppedListening();
 
     }
+
+    
 
     public void SayIllness()
     {
@@ -154,17 +166,10 @@ public class AlienVoice : MonoBehaviour
         if (transcriptText != null)
         {
             // Ensure the text is visible and prepend a sprite (adjust the sprite tag as needed)
-            transcriptText.gameObject.SetActive(true);
             transcriptText.text = "<sprite=0> " + transcription;
         }
     }
 
-    private void HandleStoppedListening()
-    {
-        if (transcriptText != null)
-        {
-            // Hide the transcript text when voice experience stops listening.
-            transcriptText.gameObject.SetActive(false);
-        }
-    }
+
+
 }

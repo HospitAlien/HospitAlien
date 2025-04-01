@@ -41,8 +41,9 @@ public class GameManager : MonoBehaviour
 
     public AppVoiceExperience VoiceExperience;
 
-    public float distanceMultiplier = 1.25f;  // Multiplier to adjust ray length in Inspector
+    private float distanceMultiplier = 2f;  // Multiplier to adjust ray length in Inspector
     private Camera mainCam;
+    AlienVoice alienVoice;
 
 
 
@@ -506,7 +507,7 @@ public class GameManager : MonoBehaviour
             // Check if the hit object has the tag "NPC"
             if (hit.collider.CompareTag("Head"))
             {
-                AlienVoice alienVoice = hit.collider.GetComponentInParent<AlienVoice>();
+                alienVoice = hit.collider.GetComponentInParent<AlienVoice>();
                 if (alienVoice != null)
                 {
                     // Call the desired function on the Alien script
@@ -518,14 +519,17 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Alien script not found on parent.");
+                    Debug.Log("Alien voice not found.");
                 }
             }
             else
             {
                 if (VoiceExperience.Active)
                 {
-                    VoiceExperience.Deactivate();
+                    if (alienVoice != null)
+                    {
+                        alienVoice.Deactivate();
+                    }
                 }
             }
         }
@@ -533,7 +537,10 @@ public class GameManager : MonoBehaviour
         {
             if (VoiceExperience.Active)
             {
-                VoiceExperience.Deactivate();
+                if (alienVoice != null)
+                {
+                    alienVoice.Deactivate();
+                }
             }
         }
     }
