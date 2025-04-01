@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
 
+    public GhostEvent ghostEvent;
     public GameObject pizzaPrefab;
     public GameObject EventCanvas;
     public GameObject Portal;
@@ -211,11 +212,26 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(waitTime);
 
-            eventState = 1; //pizza time
+            eventState = 1; //event on going, stops aliens spawning
             Debug.Log("waiting for patients to despawn");
             yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
             Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
-            yield return StartCoroutine(PizzaTime());
+
+            if(currentGameStage == 0)
+            {
+                yield return StartCoroutine(PizzaTime());
+            }
+            else
+            {
+                EventCanvas.SetActive(true);
+                eventTextController.SetEventText("Ghosts are attacking! Grab the gun!");
+                eventTextController.SetEventColor(Color.yellow);
+                yield return StartCoroutine(ghostEvent.StartEvent());
+            }
+
+            eventState = 0;
+
+
             Debug.Log("Piza time finished");
             currentGameStage++;
         }
@@ -383,6 +399,21 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
     }
 
+    public void AttackedByGhost()
+    {
+        Debug.Log("Ghost attack!");
+        score -= 50;
+        score = System.Math.Max(score,0);
+        UpdateScoreText();
+    }
+
+    public void KilledGhost()
+    {
+        Debug.Log("Ghost killed!");
+        score += 25;
+        UpdateScoreText();
+    }
+
 
 
 
@@ -416,7 +447,7 @@ public class GameManager : MonoBehaviour
         var aliens = FindObjectsByType<Alien>(FindObjectsSortMode.None);
         foreach (Alien alien in aliens)
         {
-            total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
+            total += Mathf.Pow(60-alien.GetRemainingTime(), 1.3f);
         }
         return total;
     }

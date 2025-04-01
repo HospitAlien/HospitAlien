@@ -10649,6 +10649,7 @@ MonoBehaviour:
   coinParticlePrefab: {fileID: 8789034786812375928, guid: e7e3fa7811d5a964f868c145a88fc11e, type: 3}
   growthSFX: {fileID: 3055592492283081037}
   shrinkSFX: {fileID: 7749313618650341203}
+  reward: 200
 --- !u!54 &1174154792580691542
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10838,7 +10839,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7116363738194296861}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 304bbf8ba48e30d4491dbbe54723f446, type: 3}
