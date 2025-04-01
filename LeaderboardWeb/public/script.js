@@ -6,7 +6,12 @@ console.log("Firebase initialized.");
 
 const REFRESH_INTERVAL_MS = 60000;
 const UPDATE_TIMER_INTERVAL_MS = 1000;
-const MAX_LEADERBOARD_SIZE = 10;
+
+const urlParams = new URLSearchParams(window.location.search);
+const maxPlayers = parseInt(urlParams.get("max")) || 10;
+
+const leaderboardTitle = document.getElementById("leaderboard-title");
+leaderboardTitle.textContent = `Top ${maxPlayers} Doctors in HospitAlien`;
 
 // DOM Element References
 const leaderboardBody = document.getElementById("leaderboard-body");
@@ -24,7 +29,7 @@ async function fetchLeaderboardData() {
     const querySnapshot = await db
       .collection("leaderboard")
       .orderBy("score", "desc")
-      .limit(MAX_LEADERBOARD_SIZE + 5)
+      .limit(maxPlayers + 5)
       .get();
 
     let rawData = [];
@@ -71,7 +76,7 @@ async function fetchLeaderboardData() {
       });
 
       lastScore = player.score;
-      if (processedData.length >= MAX_LEADERBOARD_SIZE) {
+      if (processedData.length >= maxPlayers) {
         break;
       }
     }

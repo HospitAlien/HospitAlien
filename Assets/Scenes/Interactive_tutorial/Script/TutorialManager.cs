@@ -16,7 +16,6 @@ public class TutorialManager : MonoBehaviour
     public GameObject TouchTutorial;
     public GameObject DistanceGrabUseTutorial;
     public GameObject GrabAndThrowTutorial;
-    private bool isFinished = false;
 
     void Start()
     {
@@ -103,6 +102,5 @@ public class TutorialManager : MonoBehaviour
         TouchTutorial.SetActive(false);
         FinishTutorial.SetActive(true);
         FinishTips.SetActive(true);
-        isFinished = true;
     }
 }

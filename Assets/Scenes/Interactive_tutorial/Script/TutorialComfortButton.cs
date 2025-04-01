@@ -148,4 +148,9 @@ public class TutorialComfortButton : MonoBehaviour
                 break;
         }
     }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnComfortSettingChanged -= OnComfortSettingChanged;
+    }
 }
