@@ -2496,6 +2496,8 @@ MonoBehaviour:
   shrinkSFX: {fileID: 4453717283854032023}
   animator: {fileID: 1783838203211063395}
   reward: 200
+  handPrefab: {fileID: 3083314923980270241, guid: 9d70165ffd1c3e84d8a5db6fa0a78c8c, type: 3}
+  legPrefab: {fileID: 1183674390221421487, guid: 0e6ea43c496b7ff498bbe2b5b704f8b8, type: 3}
 --- !u!54 &8209018455420726324
 Rigidbody:
   m_ObjectHideFlags: 0

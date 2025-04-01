@@ -39,6 +39,9 @@ public class Alien : MonoBehaviour
     protected AlienVoice alienVoice;
     public int reward = 200;
 
+    public GameObject handPrefab;
+    public GameObject legPrefab;
+
 
     void Start()
     {
@@ -230,20 +233,28 @@ public class Alien : MonoBehaviour
        
         if (limbTransform != null)
         {
-            //Clone limb then add gravity
-            GameObject limbClone = Instantiate(limbTransform.gameObject, limbTransform.position, limbTransform.rotation);
-            Rigidbody rb = limbClone.AddComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.isKinematic = false;
-
             // Deactivate the original limb
             limbTransform.gameObject.SetActive(false);
 
-            //Detach clone
-            limbClone.transform.parent = null;
+            //Drop a limb to show amputation
+            GameObject limbPrefab = null;
+            switch (limb)
+            {
+                case 0:
+                   limbPrefab = handPrefab;
+                    break;
+                case 1:
+                   limbPrefab = handPrefab;
+                    break;
+                case 2:
+                    limbPrefab = legPrefab;
+                    break;
+                case 3:
+                    limbPrefab = legPrefab;
+                    break;
+            }
 
-
-
+            GameObject limbClone = Instantiate(limbPrefab, limbTransform.position, limbTransform.rotation);
 
             if (Time.time - lastVoiceTime >= voiceCooldownTime)
             {
