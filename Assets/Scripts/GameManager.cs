@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     private Transform[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
+    public float restartTime = 90.0f;
+    public float waitTimeBeforeStart = 10.0f;
     //I want to have
 
 
@@ -85,7 +87,7 @@ public class GameManager : MonoBehaviour
         {
             obj.SetActive(false);
         }
-        StartCoroutine(StartGameCountdown(10.0f));
+        StartCoroutine(StartGameCountdown(waitTimeBeforeStart));
     }
 
     public void GameStatusController(bool gamePlaying)
@@ -121,7 +123,7 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(restartCoroutine);
         }
-        restartCoroutine = StartCoroutine(RestartGameCountdown(90.0f));
+        restartCoroutine = StartCoroutine(RestartGameCountdown(restartTime));
     }
 
     IEnumerator RestartGameCountdown(float countdownTime)
@@ -144,7 +146,6 @@ public class GameManager : MonoBehaviour
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];
-        EventCanvas.SetActive(false);
 
         StartCoroutine(SpawnPatients());
         StartCoroutine(eventRoutine());
@@ -154,6 +155,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+        StartCoroutine(gvm.LoadLeaderboardData());
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];
@@ -216,7 +218,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
             Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
 
-            if(currentGameStage == 0)
+            if (currentGameStage == 0)
             {
                 yield return StartCoroutine(PizzaTime());
             }
@@ -402,7 +404,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Ghost attack!");
         score -= 50;
-        score = System.Math.Max(score,0);
+        score = System.Math.Max(score, 0);
         UpdateScoreText();
     }
 
@@ -446,8 +448,17 @@ public class GameManager : MonoBehaviour
         var aliens = FindObjectsByType<Alien>(FindObjectsSortMode.None);
         foreach (Alien alien in aliens)
         {
-            total += Mathf.Pow(60-alien.GetRemainingTime(), 1.3f);
+            total += Mathf.Pow(60 - alien.GetRemainingTime(), 1.3f);
         }
         return total;
+    }
+
+    void OnDestroy()
+    {
+        gvm.OnGamePlayingChangedEvent -= GameStatusController;
+        if (restartCoroutine != null)
+        {
+            StopCoroutine(restartCoroutine);
+        }
     }
 }

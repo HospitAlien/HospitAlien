@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comfortModeOption: 0
   vignetteStrength: 50
-  turnModeOption: 0
   moveModeOption: 1
   cameraHeight: 1.83
