@@ -214,16 +214,16 @@ public class Alien : MonoBehaviour
         switch (limb)
         {
             case 0:
-                limbTransform = transform.Find("hands/left_hand");
+                limbTransform = transform.Find("body/hands/left_hand");
                 break;
             case 1:
-                limbTransform = transform.Find("hands/right_hand");
+                limbTransform = transform.Find("body/hands/right_hand");
                 break;
             case 2:
-                limbTransform = transform.Find("feet/foot_left");
+                limbTransform = transform.Find("body/feet/foot_left");
                 break;
             case 3:
-                limbTransform = transform.Find("feet/foot_right");
+                limbTransform = transform.Find("body/feet/foot_right");
                 break;
 
         }
@@ -277,16 +277,16 @@ public class Alien : MonoBehaviour
         switch (limb)
         {
             case 0:
-                originalLimb = transform.Find("hands/left_hand");
+                originalLimb = transform.Find("body/hands/left_hand");
                 break;
             case 1:
-                originalLimb = transform.Find("hands/right_hand");
+                originalLimb = transform.Find("body/hands/right_hand");
                 break;
             case 2:
-                originalLimb = transform.Find("feet/foot_left");
+                originalLimb = transform.Find("body/feet/foot_left");
                 break;
             case 3:
-                originalLimb = transform.Find("feet/foot_right");
+                originalLimb = transform.Find("body/feet/foot_right");
                 break;
         }
 

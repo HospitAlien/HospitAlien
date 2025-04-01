@@ -431,6 +431,7 @@ MonoBehaviour:
   coinParticlePrefab: {fileID: 8789034786812375928, guid: e7e3fa7811d5a964f868c145a88fc11e, type: 3}
   growthSFX: {fileID: 641126468340207422}
   shrinkSFX: {fileID: 4370339957360134240}
+  animator: {fileID: 0}
   reward: 200
 --- !u!4 &4238734203348441142 stripped
 Transform:

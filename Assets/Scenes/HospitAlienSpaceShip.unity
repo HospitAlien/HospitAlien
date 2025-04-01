@@ -8903,7 +8903,7 @@ MonoBehaviour:
   currentPatientCount: 0
   gameLength: 480
   purpleAlienPrefab: {fileID: 5879373601513950369, guid: e6ac4d4b9aace1b4ab0a309b2ffd6396, type: 3}
-  greenAlienPrefab: {fileID: 7116363738194296861, guid: e9a362a85f4e0214ba707adad440b8c3, type: 3}
+  greenAlienPrefab: {fileID: 9168981020138702835, guid: f8920f44ed024a943b440b666ebcf86e, type: 3}
   orangeAlienPrefab: {fileID: 3573838165130183308, guid: f38c8c6ef69afe3499a4ad9ea72568e1, type: 3}
   ghostEvent: {fileID: 2054673945}
   pizzaPrefab: {fileID: 3336058304413499452, guid: 2f027f81d5f396f4faa1a113b53eeb38, type: 3}

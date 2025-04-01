@@ -322,7 +322,7 @@ public class GameManager : MonoBehaviour
         // Select a random spawn location from the spawnLocations array
         Transform spawnPoint = spawnLocations[newSpot];
         GameObject patient;
-        patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         // int alienType = Random.Range(1, 4);
         // if (alienType == 1)
         // {

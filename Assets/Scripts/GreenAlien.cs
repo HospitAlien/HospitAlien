@@ -48,16 +48,16 @@ public class GreenAlien : Alien
                 switch (i)
                 {
                     case 0:
-                        ChangeLimbMaterial(transform.Find("hands/left_hand"));
+                        ChangeLimbMaterial(transform.Find("body/hands/left_hand"));
                         break;
                     case 1:
-                        ChangeLimbMaterial(transform.Find("hands/right_hand"));
+                        ChangeLimbMaterial(transform.Find("body/hands/right_hand"));
                         break;
                     case 2:
-                        ChangeLimbMaterial(transform.Find("feet/foot_left"));
+                        ChangeLimbMaterial(transform.Find("body/feet/foot_left"));
                         break;
                     case 3:
-                        ChangeLimbMaterial(transform.Find("feet/foot_right"));
+                        ChangeLimbMaterial(transform.Find("body/feet/foot_right"));
                         break;
 
                 }
