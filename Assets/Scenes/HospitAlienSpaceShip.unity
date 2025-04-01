@@ -8417,6 +8417,7 @@ MonoBehaviour:
   - {fileID: 777508757}
   finishGameMenu: {fileID: 1392460103}
   passthroughProvider: {fileID: 2004195714}
+  VoiceExperience: {fileID: 0}
 --- !u!4 &30385979553072343
 Transform:
   m_ObjectHideFlags: 0

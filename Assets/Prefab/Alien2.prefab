@@ -5901,13 +5901,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5046897742058613224}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1624319737201405293}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -11310,6 +11310,7 @@ GameObject:
   - component: {fileID: 2197802792004360593}
   - component: {fileID: 7849846096991123801}
   - component: {fileID: 5148850683249686916}
+  - component: {fileID: 7947176479549494711}
   m_Layer: 0
   m_Name: VoiceTranscription
   m_TagString: Untagged
@@ -11325,7 +11326,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7282986660498399861}
   m_LocalRotation: {x: -0, y: -0.7071069, z: -0.70710677, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0286}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0217}
   m_LocalScale: {x: 0.00042000003, y: 0.0003150001, z: 1.0500002}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11400,6 +11401,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7947176479549494711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7282986660498399861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6050eca0febc64bb889739bfbd621a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7575329721238585223
 GameObject:
   m_ObjectHideFlags: 0
