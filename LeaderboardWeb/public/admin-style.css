@@ -1,0 +1,212 @@
+/* ===========================
+   Admin Panel Stylesheet
+   =========================== */
+
+/* === Base Styles === */
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%); /* Dark background gradient */
+    color: #e5e7eb; /* Light grey text */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    padding: 20px; /* Add some padding around the content */
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* === Container === */
+/* Shared style for both login and admin content boxes */
+.admin-container {
+    background-color: rgba(31, 41, 55, 0.9); /* Semi-transparent dark background */
+    backdrop-filter: blur(8px); /* Optional: Frosted glass effect */
+    border-radius: 12px; /* Rounded corners */
+    padding: 30px 40px; /* Inner spacing */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Drop shadow for depth */
+    width: 100%; /* Responsive width */
+    max-width: 500px; /* Max width for the main admin content */
+    border: 1px solid rgba(75, 85, 99, 0.5); /* Subtle border */
+    /* Note: display: none; is controlled by JavaScript via inline styles */
+}
+
+/* Specific width adjustment for the login box (can be narrower) */
+#login-container {
+     max-width: 400px;
+}
+
+/* === Headings === */
+h1 {
+    text-align: center;
+    color: #f3f4f6; /* Slightly brighter white */
+    margin-top: 0; /* Remove default top margin */
+    margin-bottom: 30px; /* Space below heading */
+    font-size: 1.8em; /* Heading size */
+    font-weight: 700; /* Bold heading */
+}
+
+/* === Form Structure & Labels === */
+.form-group {
+    margin-bottom: 20px; /* Space between form fields */
+}
+
+label {
+    display: block; /* Ensure label is on its own line */
+    margin-bottom: 8px; /* Space between label and input */
+    font-weight: 600; /* Make labels slightly bolder */
+    color: #d1d5db; /* Label color */
+    font-size: 0.95em;
+}
+
+/* === Input Fields === */
+/* Style for all text-based input types */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Make inputs fill their container */
+    padding: 12px 15px; /* Inner padding */
+    border: 1px solid #4b5563; /* Input border color */
+    border-radius: 6px; /* Rounded corners for inputs */
+    background-color: #374151; /* Dark input background */
+    color: #e5e7eb; /* Text color inside input */
+    font-size: 1em; /* Input text size */
+    box-sizing: border-box; /* Ensure padding/border are included in width */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth focus transition */
+}
+
+/* Style for focused inputs */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none; /* Remove default browser outline */
+    border-color: #6366f1; /* Highlight border color (Indigo) */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Add a subtle glow */
+}
+
+/* === Message Areas === */
+/* Shared style for #message-area and #login-message-area */
+.message-area {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px; /* Space below message area */
+    font-size: 0.9em;
+    text-align: center;
+    min-height: 1.5em; /* Reserve vertical space even when empty */
+    line-height: 1.5em; /* Vertically center text */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+    /* Default state (empty/no message) */
+    color: transparent;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+/* Info message style (e.g., "Submitting...") */
+.message-area.info {
+    background-color: rgba(59, 130, 246, 0.2); /* Blueish background */
+    color: #93c5fd; /* Light blue text */
+    border-color: rgba(59, 130, 246, 0.4); /* Blueish border */
+}
+
+/* Success message style */
+.message-area.success {
+    background-color: rgba(16, 185, 129, 0.2); /* Greenish background */
+    color: #6ee7b7; /* Light green text */
+    border-color: rgba(16, 185, 129, 0.4); /* Greenish border */
+}
+
+/* Error message style */
+.message-area.error {
+    background-color: rgba(239, 68, 68, 0.2); /* Reddish background */
+    color: #fca5a5; /* Light red text */
+    border-color: rgba(239, 68, 68, 0.4); /* Reddish border */
+}
+
+/* === Buttons === */
+/* General Button Reset/Base (Optional) */
+button {
+    font-family: inherit; /* Use the body's font */
+    border: none; /* Remove default border */
+    border-radius: 6px; /* Consistent rounded corners */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Smooth transitions */
+    padding: 12px 20px; /* Default padding */
+    font-size: 1.1em; /* Default font size */
+    font-weight: 600; /* Default font weight */
+    width: 100%; /* Make buttons full width by default */
+    color: #ffffff; /* Default text color */
+}
+
+/* Login Button Specific Styles */
+#login-button {
+    background-color: #16a34a; /* Green */
+}
+#login-button:hover {
+    background-color: #15803d; /* Darker green */
+}
+
+/* Submit Entry Button Specific Styles */
+#submit-button {
+    background-color: #4f46e5; /* Indigo */
+}
+#submit-button:hover {
+    background-color: #4338ca; /* Darker Indigo */
+}
+
+/* Disabled state for Login and Submit buttons */
+#login-button:disabled,
+#submit-button:disabled {
+    background-color: #6b7280; /* Grey background when disabled */
+    cursor: not-allowed; /* Change cursor */
+    opacity: 0.7; /* Make it look faded */
+}
+
+/* Logout Button Specific Styles */
+#logout-button {
+    background-color: #dc2626; /* Red */
+    font-size: 0.9em; /* Smaller font size */
+    font-weight: 500; /* Normal weight */
+    padding: 6px 12px; /* Smaller padding */
+    width: auto; /* Allow button to size based on content */
+    margin: 0; /* Remove default margins */
+}
+#logout-button:hover {
+    background-color: #b91c1c; /* Darker red */
+}
+
+/* === Admin Content Header Bar === */
+/* Styles for the header section when logged in */
+.header-bar {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out title and user info */
+    align-items: center; /* Vertically align items */
+    margin-bottom: 30px; /* Increased space below header bar */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 15px; /* Add spacing between items when they wrap */
+    border-bottom: 1px solid rgba(75, 85, 99, 0.5); /* Add a separator line */
+    padding-bottom: 15px; /* Space below the separator line */
+}
+
+/* Adjust header H1 within the bar */
+.header-bar h1 {
+    margin-bottom: 0; /* Remove bottom margin */
+    margin-right: 10px; /* Space after title */
+    font-size: 1.5em; /* Slightly smaller H1 in header */
+    flex-shrink: 0; /* Prevent title shrinking too much */
+}
+
+.user-info {
+    display: flex;
+    align-items: center; /* Vertically align email and button */
+    font-size: 0.9em;
+    color: #9ca3af; /* Dimmer text color */
+    flex-grow: 1; /* Allow user info to take remaining space */
+    justify-content: flex-end; /* Align items (email, button) to the right */
+    gap: 15px; /* Space between email and logout button */
+}
+
+#user-email {
+    word-break: break-all; /* Break long emails nicely */
+    text-align: right; /* Align email text to the right */
+}

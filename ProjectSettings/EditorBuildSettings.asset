@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/AdminLogin.unity
+    guid: 1d4e90d5bf52f4b418168a386559a42c
+  - enabled: 1
+    path: Assets/Scenes/Interactive_tutorial.unity
+    guid: 1f4107d81c2d44b4cb00f2b56f1eea94
+  - enabled: 1
     path: Assets/Scenes/HospitAlienSpaceShip.unity
     guid: 6626e826602e21b49a0b99ad2881090e
   m_configObjects:

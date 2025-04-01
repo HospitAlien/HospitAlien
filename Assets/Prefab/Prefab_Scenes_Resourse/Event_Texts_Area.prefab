@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5298984748771649792}
   - component: {fileID: 1241525734123994291}
   m_Layer: 0
-  m_Name: Text2
+  m_Name: TextN2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,8 +186,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollSpeed: 300
   textWidth: 800
-  eventText: Pizza Time! Grab Pizza And Eat!
-  eventTextColor: {r: 1, g: 0.84313726, b: 0, a: 1}
+  eventText: Sample Text
+  eventTextColor: {r: 1, g: 1, b: 1, a: 1}
+  TMPCollection:
+  - {fileID: 8544332026460280537}
+  - {fileID: 7807712322215756274}
+  - {fileID: 5802171810733767299}
+  - {fileID: 5780428176700197301}
+  - {fileID: 6873884795282742505}
+  - {fileID: 7668840241001383278}
+  - {fileID: 223765969790319568}
+  - {fileID: 1241525734123994291}
+  ImageCollection:
+  - {fileID: 9135427144657519144}
+  - {fileID: 397216949734708147}
+  - {fileID: 6241419041171280380}
+  - {fileID: 6784290338069160876}
 --- !u!1 &2776301441131374533
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +214,7 @@ GameObject:
   - component: {fileID: 7448347210552360754}
   - component: {fileID: 7807712322215756274}
   m_Layer: 0
-  m_Name: Text2
+  m_Name: TextE2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,7 +350,7 @@ GameObject:
   - component: {fileID: 4037980700919550941}
   - component: {fileID: 8544332026460280537}
   m_Layer: 0
-  m_Name: Text1
+  m_Name: TextE1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -472,7 +486,7 @@ GameObject:
   - component: {fileID: 178697932651234795}
   - component: {fileID: 223765969790319568}
   m_Layer: 0
-  m_Name: Text1
+  m_Name: TextN1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -608,7 +622,7 @@ GameObject:
   - component: {fileID: 2370738939159146534}
   - component: {fileID: 6873884795282742505}
   m_Layer: 0
-  m_Name: Text1
+  m_Name: TextW1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -744,7 +758,7 @@ GameObject:
   - component: {fileID: 1783684536922721787}
   - component: {fileID: 5802171810733767299}
   m_Layer: 0
-  m_Name: Text1
+  m_Name: TextS1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -880,7 +894,7 @@ GameObject:
   - component: {fileID: 8659225483452591188}
   - component: {fileID: 5780428176700197301}
   m_Layer: 0
-  m_Name: Text2
+  m_Name: TextS2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1132,7 +1146,7 @@ GameObject:
   - component: {fileID: 131648216816830710}
   - component: {fileID: 7668840241001383278}
   m_Layer: 0
-  m_Name: Text2
+  m_Name: TextW2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

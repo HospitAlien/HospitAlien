@@ -14,38 +14,46 @@ public class ComfortManager : MonoBehaviour
     private Vector3 lastPosition;
     private GlobalVariableManager gvm;
     private GameSettingsIO.comfortMode comfortMode;
+    private bool isComfortModeActive = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
-        gvm.gameSettings.OnComfortSettingChanged += OnComfortModeChanged;
         _passthroughProvider = FindFirstObjectByType<PassthroughProvider>();
+        gvm.gameSettings.OnComfortSettingChanged += OnComfortSettingChanged;
+        comfortMode = gvm.gameSettings.ComfortModeOption;
+        SwitchProvider(comfortMode);
+        lastRotation = cameraRig.transform.rotation;
     }
 
-    private void OnComfortModeChanged(GameSettingsIO settings)
+    private void OnComfortSettingChanged(GameSettingsIO settings)
     {
-        comfortMode = settings.ComfortModeOption;
-        if (comfortMode == GameSettingsIO.comfortMode.Vignette)
+        SwitchProvider(settings.ComfortModeOption);
+        ActiveComfortMode(1f);
+    }
+
+    private void SwitchProvider(GameSettingsIO.comfortMode newComfortMode)
+    {
+        if (comfortMode != newComfortMode) TurnOffComfortMode(true);
+        if (newComfortMode == GameSettingsIO.comfortMode.Vignette)
         {
             vignetteProvider.enabled = true;
             _passthroughProvider.enabled = false;
-            vignetteProvider.UpdateVignetteStrength(settings.VignetteStrength);
+            vignetteProvider.UpdateVignetteStrength(gvm.gameSettings.VignetteStrength);
         }
-        else if (comfortMode == GameSettingsIO.comfortMode.Passthrough)
+        else if (newComfortMode == GameSettingsIO.comfortMode.Passthrough)
         {
-            vignetteProvider.TurnVignetteOff(true);
             vignetteProvider.enabled = false;
             _passthroughProvider.enabled = true;
         }
         else
         {
-            vignetteProvider.TurnVignetteOff(true);
             vignetteProvider.enabled = false;
             _passthroughProvider.enabled = false;
         }
-        ActiveComfortMode(1f);
+        comfortMode = newComfortMode;
     }
 
     // Update is called once per frame
@@ -54,17 +62,14 @@ public class ComfortManager : MonoBehaviour
         // do nothing if the comfort mode is none
         if (comfortMode == GameSettingsIO.comfortMode.None) return;
 
-        if (gvm.gameSettings.TurnModeOption == GameSettingsIO.turnMode.Smooth)
+        // get the rotation of the camera rig
+        Quaternion currentRotation = cameraRig.transform.rotation;
+        // if camera is rotating bigger than 5 degree per sec, turn on the vignette
+        if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 5)
         {
-            // get the rotation of the camera rig
-            Quaternion currentRotation = cameraRig.transform.rotation;
-            // if camera is rotating bigger than 5 degree per sec, turn on the vignette
-            if (Quaternion.Angle(currentRotation, lastRotation) / Time.deltaTime > 5)
-            {
-                ActiveComfortMode(0.05f);
-            }
-            lastRotation = currentRotation;
+            ActiveComfortMode(0.05f);
         }
+        lastRotation = currentRotation;
 
         if (gvm.gameSettings.MoveModeOption != GameSettingsIO.moveMode.teleport)
         {
@@ -72,7 +77,7 @@ public class ComfortManager : MonoBehaviour
             Vector3 currentPosition = cameraRig.transform.position;
             // if camera is smoothly moving, turn on the vignette
             float speed = Vector3.Distance(currentPosition, lastPosition) / Time.deltaTime;
-            if (speed > 0.1f && speed < 7)
+            if (speed > 0.1f && speed < 7f)
             {
                 ActiveComfortMode(0.05f);
             }
@@ -94,19 +99,29 @@ public class ComfortManager : MonoBehaviour
             vignetteProvider.TurnVignetteOn();
         else if (comfortMode == GameSettingsIO.comfortMode.Passthrough)
             _passthroughProvider.TurnPassThroughOn();
+        isComfortModeActive = true;
     }
 
-    private void TurnOffComfortMode()
+    private void TurnOffComfortMode(bool immediate = false)
     {
+        if (!isComfortModeActive) return;
         if (comfortMode == GameSettingsIO.comfortMode.Vignette)
-            vignetteProvider.TurnVignetteOff();
+        {
+            vignetteProvider.TurnVignetteOff(immediate);
+        }
         else if (comfortMode == GameSettingsIO.comfortMode.Passthrough)
             _passthroughProvider.TurnPassThroughOff();
+        isComfortModeActive = false;
     }
 
     public void ActiveComfortMode(float seconds)
     {
-        TurnOnComfortMode();
         remainTime = seconds;
+        TurnOnComfortMode();
+    }
+
+    void OnDestroy()
+    {
+        gvm.gameSettings.OnComfortSettingChanged -= OnComfortSettingChanged;
     }
 }

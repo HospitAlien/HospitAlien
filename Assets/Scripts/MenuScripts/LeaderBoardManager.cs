@@ -2,42 +2,53 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-// this script should attached to game setting menu to let buttons work
 public class LeaderBoardManager : MonoBehaviour
 {
     public List<GameObject> leaderboardItems;
-
+    public GameObject LoadingSign;
     private GlobalVariableManager gvm;
-    private string scoreString = "£%0";
 
-
-    void Start()
+    void Awake()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
-        if (gvm == null) Debug.LogError("GlobalVariableManager not found");
-        gvm.leaderBoard.OnLeaderBoardChanged += UpdateLeaderBoard;
-
-        UpdateLeaderBoard(gvm.leaderBoard);
+        gvm.OnLeaderboardLoadedEvent += OnLeaderboardLoaded;
+        OnLeaderboardLoaded(gvm.LeaderBoardData);
     }
 
-    void UpdateLeaderBoard(LeaderBoardIO leaderBoard)
+    private void OnLeaderboardLoaded(List<ScoreEntry> newScores)
     {
-        for (int i = 0; i < leaderboardItems.Count; i++)
-        {
-            if (leaderBoard.topScores[i] != null && leaderBoard.topScores[i].playerName != "")
-            {
-                Debug.Log("Updating leaderboard item " + i);
-                leaderboardItems[i].SetActive(true);
-                TextMeshProUGUI nameText = leaderboardItems[i].transform.Find("Text_Name").GetComponent<TextMeshProUGUI>();
-                TextMeshProUGUI scoreText = leaderboardItems[i].transform.Find("Text_Score").GetComponent<TextMeshProUGUI>();
+        UpdateLeaderBoard(newScores);
+        LoadingSign.SetActive(false);
+    }
 
-                nameText.text = leaderBoard.topScores[i].playerName;
-                scoreText.text = scoreString.Replace("%0", leaderBoard.topScores[i].score.ToString());
-            }
-            else
-            {
-                leaderboardItems[i].SetActive(false);
-            }
+    public void UpdateLeaderBoard(List<ScoreEntry> newScores)
+    {
+
+        for (int i = 0; i < newScores.Count && i < leaderboardItems.Count; i++)
+        {
+            leaderboardItems[i].SetActive(true);
+            TextMeshProUGUI nameText = leaderboardItems[i].transform.Find("Text_Name").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI scoreText = leaderboardItems[i].transform.Find("Text_Score").GetComponent<TextMeshProUGUI>();
+
+            nameText.text = newScores[i].name;
+            scoreText.text = newScores[i].score.ToString();
+        }
+        for (int i = newScores.Count; i < leaderboardItems.Count; i++)
+        {
+            leaderboardItems[i].SetActive(false);
         }
     }
+
+    public void RefreshLeaderBoard()
+    {
+        StartCoroutine(gvm.LoadLeaderboardData());
+        LoadingSign.SetActive(true);
+    }
+
+    void OnDestroy()
+    {
+        gvm.OnLeaderboardLoadedEvent -= OnLeaderboardLoaded;
+    }
 }
+
+

@@ -19,6 +19,23 @@ TagManager:
   - QDSUIToggleCheckboxRadio
   - Shrapnel
   - AlienTranslator
+  - Axe
+  - SyringeTip
+  - GreenAlienBlood
+  - RedAlienBlood
+  - BlueAlienBlood
+  - Eyeball1
+  - Eyeball2
+  - Eyeball3
+  - Eye-Dropper
+  - QDSUISection
+  - QDSUITooltip
+  - QDSUIToggleButton
+  - QDSUITextSecondaryColor
+  - QDSUIToggleBorderlessButton
+  - QDSUIBorderlessButton
+  - QDSUIToggleSwitch
+  - QDSUITextInputField
   layers:
   - Default
   - TransparentFX
@@ -48,7 +65,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - InitUI
   - 
   - 
   - 
