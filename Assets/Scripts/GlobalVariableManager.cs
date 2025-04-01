@@ -7,6 +7,7 @@ using Firebase.Firestore;
 using Firebase;
 using Firebase.Extensions;
 using System.Collections;
+using Firebase.Auth;
 
 [Serializable]
 public class ScoreEntry
@@ -37,7 +38,10 @@ public class GlobalVariableManager : MonoBehaviour
     public int MaxLeaderBoardSize = 10;
     public List<ScoreEntry> LeaderBoardData = new List<ScoreEntry>();
     public bool isFirebaseInitialized = false;
+    protected FirebaseApp app = null;
     public FirebaseFirestore db = null;
+    protected FirebaseAuth auth;
+    public FirebaseUser currentUser;
     public event Action<bool> OnGamePlayingChangedEvent;
     public bool IsGamePlaying
     {
@@ -90,7 +94,8 @@ public class GlobalVariableManager : MonoBehaviour
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                FirebaseApp app = FirebaseApp.DefaultInstance;
+                app = FirebaseApp.DefaultInstance;
+                auth = FirebaseAuth.DefaultInstance;
                 db = FirebaseFirestore.DefaultInstance;
                 isFirebaseInitialized = true;
                 Debug.Log("Firebase initialized successfully.");
@@ -102,6 +107,24 @@ public class GlobalVariableManager : MonoBehaviour
                 isFirebaseInitialized = false;
             }
         });
+    }
+
+    void AuthStateChanged(object sender, EventArgs eventArgs)
+    {
+        if (auth.CurrentUser != currentUser)
+        {
+            bool signedIn = currentUser != auth.CurrentUser && auth.CurrentUser != null;
+            if (!signedIn && currentUser != null)
+            {
+                Debug.Log("Signed out " + currentUser.UserId);
+            }
+            currentUser = auth.CurrentUser;
+            if (signedIn)
+            {
+                Debug.Log("Signed in " + currentUser.UserId);
+                // You could potentially trigger UI changes or data loading here
+            }
+        }
     }
 
     // Load the settings if the file exists
@@ -229,6 +252,81 @@ public class GlobalVariableManager : MonoBehaviour
         }
     }
 
+    public void LoginUser(string email, string password)
+    {
+        if (auth == null)
+        {
+            Debug.LogError("Firebase Auth not initialized!");
+            return;
+        }
+
+        Debug.Log($"Attempting to login with email: {email}");
+
+        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"SignInWithEmailAndPasswordAsync encountered an error: {task.Exception}");
+                return;
+            }
+
+            // Login successful
+            currentUser = task.Result.User;
+            Debug.Log($"User signed in successfully: {currentUser.DisplayName} ({currentUser.UserId})");
+        });
+    }
+
+    // Uploads data to Firestore
+    private bool UploadScoreToFirestore(string playerName, long playerScore)
+    {
+        if (db == null)
+        {
+            Debug.LogError("Firestore database instance is null. Cannot upload data.");
+            return false;
+        }
+        if (currentUser == null)
+        {
+            Debug.LogError("User is not logged in. Cannot upload data.");
+            return false;
+        }
+
+        CollectionReference scoresRef = db.Collection("leaderboard");
+
+        Dictionary<string, object> scoreData = new Dictionary<string, object>
+        {
+            { "name", playerName },
+            { "score", playerScore },
+            { "time", FieldValue.ServerTimestamp }
+        };
+
+        Debug.Log($"Attempting to add score data");
+
+        scoresRef.AddAsync(scoreData).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                Debug.Log("Score data added successfully to Firestore. Document ID: " + task.Result.Id);
+                OnUploadScoreEvent?.Invoke(true);
+            }
+            else if (task.IsFaulted)
+            {
+                Debug.LogError($"Error adding score data to Firestore: {task.Exception}");
+                OnUploadScoreEvent?.Invoke(false);
+            }
+            else if (task.IsCanceled)
+            {
+                Debug.LogError("AddAsync was canceled.");
+                OnUploadScoreEvent?.Invoke(false);
+            }
+        });
+        return true;
+    }
+
     public IEnumerator LoadLeaderboardData()
     {
         if (!isFirebaseInitialized || db == null)
@@ -250,6 +348,21 @@ public class GlobalVariableManager : MonoBehaviour
         });
     }
 
+    public event Action<bool> OnUploadScoreEvent;
+
 
     public event Action<List<ScoreEntry>> OnLeaderboardLoadedEvent;
+
+
+    void OnDestroy()
+    {
+        if (auth != null)
+        {
+            auth.StateChanged -= AuthStateChanged;
+        }
+        // app, auth, db might be null if initialization failed
+        auth = null;
+        db = null;
+        app = null;
+    }
 }
