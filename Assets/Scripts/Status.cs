@@ -157,7 +157,7 @@ public class Status
             alien.reward += 75;
             numberOfBadEyes = 1;
             int eyeNumber = random.Next(1, 4);
-            EyeScript eye = alien.transform.Find($"eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
+            EyeScript eye = alien.transform.Find($"head/eye{eyeNumber}").gameObject.GetComponent<EyeScript>();
             eye.activate(alien);
         });
 

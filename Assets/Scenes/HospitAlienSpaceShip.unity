@@ -286,6 +286,11 @@ MonoBehaviour:
     speed: 100
     pitch: 100
   verboseLogging: 0
+--- !u!4 &111902617 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163637382168842533, guid: 4f465a0978a385e4688da3c54191eb95, type: 3}
+  m_PrefabInstance: {fileID: 1086446535574748847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &144498798 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7801596383050679802, guid: a179997fd42d2bc4a839e3975c840d69, type: 3}
@@ -1202,6 +1207,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &385562879 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163637382168842533, guid: 4f465a0978a385e4688da3c54191eb95, type: 3}
+  m_PrefabInstance: {fileID: 906866195}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &442002702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1512,6 +1522,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76155d5548a2a6748b46fed8a2566e0c, type: 3}
+--- !u!4 &507008531 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163637382168842533, guid: 4f465a0978a385e4688da3c54191eb95, type: 3}
+  m_PrefabInstance: {fileID: 2023610297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &562216009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3286,6 +3301,11 @@ Transform:
   - {fileID: 1265240241}
   m_Father: {fileID: 2064679431}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!4 &1251384743 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163637382168842533, guid: 4f465a0978a385e4688da3c54191eb95, type: 3}
+  m_PrefabInstance: {fileID: 442002702}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1257185014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6971,6 +6991,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96591589799c38c4f83432739f41dc28, type: 3}
+--- !u!4 &1583360125 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163637382168842533, guid: 4f465a0978a385e4688da3c54191eb95, type: 3}
+  m_PrefabInstance: {fileID: 2079516334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1600088002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2619912815461690495, guid: c61f0778848cb2d41a1afb9734e35307, type: 3}
@@ -8439,6 +8464,11 @@ MonoBehaviour:
   edgeRenderingEnabled_: 0
   edgeColor_: {r: 1, g: 1, b: 1, a: 1}
   colorMapType: 0
+--- !u!4 &2012768655 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1163637382168842533, guid: 4f465a0978a385e4688da3c54191eb95, type: 3}
+  m_PrefabInstance: {fileID: 1841611952}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2023610297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8874,6 +8904,7 @@ MonoBehaviour:
   gameLength: 480
   purpleAlienPrefab: {fileID: 5879373601513950369, guid: e6ac4d4b9aace1b4ab0a309b2ffd6396, type: 3}
   greenAlienPrefab: {fileID: 7116363738194296861, guid: e9a362a85f4e0214ba707adad440b8c3, type: 3}
+  orangeAlienPrefab: {fileID: 3573838165130183308, guid: f38c8c6ef69afe3499a4ad9ea72568e1, type: 3}
   ghostEvent: {fileID: 2054673945}
   pizzaPrefab: {fileID: 3336058304413499452, guid: 2f027f81d5f396f4faa1a113b53eeb38, type: 3}
   EventCanvas: {fileID: 1605188005}
@@ -8884,6 +8915,13 @@ MonoBehaviour:
   - {fileID: 777508757}
   finishGameMenu: {fileID: 1392460103}
   passthroughProvider: {fileID: 2004195714}
+  spawnLocations:
+  - {fileID: 111902617}
+  - {fileID: 1583360125}
+  - {fileID: 507008531}
+  - {fileID: 2012768655}
+  - {fileID: 385562879}
+  - {fileID: 1251384743}
 --- !u!4 &30385979553072343
 Transform:
   m_ObjectHideFlags: 0

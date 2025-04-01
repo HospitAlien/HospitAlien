@@ -29,6 +29,7 @@ public class Alien : MonoBehaviour
     public AudioSource shrinkSFX;
     protected Material amputateMaterial;
     protected Material originalLimbMaterial;
+    public Animator animator;
 
 
     protected float lastVoiceTime = -Mathf.Infinity;
@@ -38,13 +39,13 @@ public class Alien : MonoBehaviour
     protected AlienVoice alienVoice;
     public int reward = 200;
 
-    protected Dictionary<Vector3, (Vector3, Quaternion)> beds
-        = new Dictionary<Vector3, (Vector3, Quaternion)>();
-
 
     void Start()
     {
         status = new Status();
+
+        animator = GetComponent<Animator>();
+        // animator.Play();
 
         alienVoice = GetComponent<AlienVoice>();
 
@@ -64,13 +65,6 @@ public class Alien : MonoBehaviour
             InitiateStatus();
         }
         InitiateTimer();
-
-        beds[new Vector3(-2f, 2f, 2)] = (new Vector3(-2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(0f, 2f, 2f)] = (new Vector3(0, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(2f, 2f, 2f)] = (new Vector3(2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(2f, 2f, 0f)] = (new Vector3(3.6f, 1, -1), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(2f, 2f, -2f)] = (new Vector3(2, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
-        beds[new Vector3(0f, 2f, -2f)] = (new Vector3(0, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
     }
 
     protected virtual void InitiateStatus(){
@@ -128,11 +122,27 @@ public class Alien : MonoBehaviour
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
                 //Move the alien to bed and disable path-finding
-                agent.Warp(beds[target.position].Item1);
+                // Stop the animation by setting the speed to 0 (freeze the animation)
+                animator.speed = 0f;
+                animator.enabled = false;
                 agent.enabled = false;
-                transform.rotation = beds[target.position].Item2;
-                target = null;
+
+
                 isReady = true;
+                // Play the animation from the first frame (assuming the default animation is set)
+                animator.Play(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name, 0, 0f);
+
+                Debug.Log("#found his place");
+                Debug.Log(target.position);
+                Debug.Log(target.rotation);
+                // Set the position and rotation to match the target
+                transform.position = target.position;
+                transform.rotation = target.rotation;
+                transform.position += new Vector3(0f,0.5f,0f);
+                transform.localPosition += target.forward * -1f; 
+                transform.rotation = target.rotation * Quaternion.Euler(-90f, 180f, 0f);
+
+
                 //Reposition timer so it's not on the floor (it's rotated alongside the alien")
                 Transform timerText = transform.Find("TimerText");
                 if (timerText != null)
@@ -140,9 +150,11 @@ public class Alien : MonoBehaviour
                     timerText.localPosition = new Vector3(0f, 0.15f, 0.06f);
                     timerText.localRotation = Quaternion.Euler(-90f, 180f, 0f);
                 }
+                target = null;
             }
             else
             {
+                Debug.Log(target);
                 agent.SetDestination(targetLocation);
                 isReady = false;
             }

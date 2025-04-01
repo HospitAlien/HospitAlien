@@ -48,14 +48,14 @@ public class MusicManager : MonoBehaviour
         float eventState = gameManager.GetEvent();
 
         // Log the game parameters.
-        Debug.Log($"Game Params - Patients: {numPatients}, Injuries: {totalInjuries}, TimeLeft: {totalTimeLeft}, EventState: {eventState}");
+        // Debug.Log($"Game Params - Patients: {numPatients}, Injuries: {totalInjuries}, TimeLeft: {totalTimeLeft}, EventState: {eventState}");
         
         // Check for pizza event: if eventState == 1 and no patients.
         if (eventState == 1 && gameManager.currentPatientCount == 0)
         {
             if (!pizzaTrack.isPlaying)
             {
-                Debug.Log("Pizza event active: starting pizza track, muting all other stems.");
+                // Debug.Log("Pizza event active: starting pizza track, muting all other stems.");
                 pizzaTrack.Play();
             }
             // Mute all other stems.
@@ -95,10 +95,10 @@ public class MusicManager : MonoBehaviour
             float song3_lowPassVol = outputs[8];
             
             // Log NN outputs.
-            Debug.Log($"NN Outputs - ActiveTrack: {activeTrackValue}, Tempo: {tempo}, " +
-                      $"Song1 Keys: {song1_keysVol}, Song1 Drums: {song1_drumsVol}, " +
-                      $"Song2 Keys: {song2_keysVol}, Song2 Drums: {song2_drumsVol}, Song2 Bass: {song2_bassVol}, " +
-                      $"Song3 HiPass: {song3_hiPassVol}, Song3 LowPass: {song3_lowPassVol}");
+            // Debug.Log($"NN Outputs - ActiveTrack: {activeTrackValue}, Tempo: {tempo}, " +
+            //           $"Song1 Keys: {song1_keysVol}, Song1 Drums: {song1_drumsVol}, " +
+            //           $"Song2 Keys: {song2_keysVol}, Song2 Drums: {song2_drumsVol}, Song2 Bass: {song2_bassVol}, " +
+            //           $"Song3 HiPass: {song3_hiPassVol}, Song3 LowPass: {song3_lowPassVol}");
             
             // Calculate pitch.
             float pitchValue = tempo / baseBPM;
@@ -106,7 +106,7 @@ public class MusicManager : MonoBehaviour
             // Decide which track to play based on activeTrack.
             // We round the activeTrack output to an integer (0, 1, or 2).
             int trackDecision = Mathf.Clamp(Mathf.RoundToInt(activeTrackValue), 0, 2);
-            Debug.Log("Active Track Decision: " + trackDecision);
+            // Debug.Log("Active Track Decision: " + trackDecision);
             
             // Reset all volumes (they are all playing continuously).
             song1_keys.volume = 0f;
