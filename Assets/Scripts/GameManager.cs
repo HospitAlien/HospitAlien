@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
     private List<GameObject> spawnedAliens = new List<GameObject>();
-    public Transform[] spawnLocations;
+    public GameObject[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
     //I want to have
@@ -320,7 +320,7 @@ public class GameManager : MonoBehaviour
 
 
         // Select a random spawn location from the spawnLocations array
-        Transform spawnPoint = spawnLocations[newSpot];
+        GameObject spawnPoint = spawnLocations[newSpot];
         GameObject patient;
         patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         // int alienType = Random.Range(1, 4);

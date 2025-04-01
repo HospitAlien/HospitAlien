@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Oculus.Interaction;
+using TMPro;
 
 public class Alien : MonoBehaviour
 {
-    protected Transform target;
+    protected GameObject target;
     protected int index;
-    public Vector3 targetLocation;
 
     protected float timer = 80;
-    protected TextMesh timerText;
+    protected TextMeshProUGUI timerText;
 
     protected static GameManager gameManager;
     protected NavMeshAgent agent;
@@ -57,8 +57,7 @@ public class Alien : MonoBehaviour
 
 
         agent = GetComponent<NavMeshAgent>();
-        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
-        agent.SetDestination(targetLocation);
+        agent.SetDestination(target.transform.position);
 
         while (status.isHealthy())
         {
@@ -75,16 +74,11 @@ public class Alien : MonoBehaviour
     protected void InitiateTimer()
     {
         // Create a new TextMesh object for displaying the countdown
-        GameObject timerGO = new GameObject("TimerText");
-        timerGO.transform.SetParent(transform);
-        timerGO.transform.localPosition = new Vector3(0, 0.2f, 0); // Position it above the alien's head
+        timerText = target.GetComponentInChildren<TextMeshProUGUI>();
 
-        timerText = timerGO.AddComponent<TextMesh>();
-        timerText.fontSize = 100;
-        timerText.transform.localScale = new Vector3(0.005f, 0.005f, 0.005f);
-        timerText.color = Color.black;
-        timerText.alignment = TextAlignment.Center;
-        timerText.anchor = TextAnchor.MiddleCenter;
+        Debug.Log("GOT HERE");
+        Debug.Log(timerText);
+
 
         // Start the countdown coroutine
         StartCoroutine(CountdownTimer());
@@ -106,6 +100,8 @@ public class Alien : MonoBehaviour
     protected void Kill()
     {
         alienVoice.SayLine("You failed me!");
+        StopAllCoroutines();
+        timerText.text = "";
 
         gameManager.PatientDied(index);
         Destroy(gameObject);
@@ -132,15 +128,12 @@ public class Alien : MonoBehaviour
                 // Play the animation from the first frame (assuming the default animation is set)
                 animator.Play(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name, 0, 0f);
 
-                Debug.Log("#found his place");
-                Debug.Log(target.position);
-                Debug.Log(target.rotation);
                 // Set the position and rotation to match the target
-                transform.position = target.position;
-                transform.rotation = target.rotation;
+                transform.position = target.transform.position;
+                transform.rotation = target.transform.rotation;
                 transform.position += new Vector3(0f,0.5f,0f);
-                transform.localPosition += target.forward * -1f; 
-                transform.rotation = target.rotation * Quaternion.Euler(-90f, 180f, 0f);
+                transform.localPosition += target.transform.forward * -1f; 
+                transform.rotation = target.transform.rotation * Quaternion.Euler(-90f, 180f, 0f);
 
 
                 //Reposition timer so it's not on the floor (it's rotated alongside the alien")
@@ -154,8 +147,7 @@ public class Alien : MonoBehaviour
             }
             else
             {
-                Debug.Log(target);
-                agent.SetDestination(targetLocation);
+                agent.SetDestination(target.transform.position);
                 isReady = false;
             }
         }
@@ -447,7 +439,7 @@ public class Alien : MonoBehaviour
     }
 
 
-    public void SetTarget(Transform newTarget)
+    public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
     }
