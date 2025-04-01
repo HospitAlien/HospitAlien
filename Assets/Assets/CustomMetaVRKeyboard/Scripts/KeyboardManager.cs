@@ -5,10 +5,31 @@ using UnityEngine;
 public class KeyboardManager : MonoBehaviour
 {
     public GameObject keyboardPanel;
-    public TMP_InputField inputField;
-
+    public inputFieldRef inputFieldRef;
+    private TMP_InputField inputField;
     private bool isCapsLockOn = false;
     private bool isCapInput = false;
+
+    void Start()
+    {
+        inputFieldRef.OnInputFieldChangedEvent += SetInputField;
+        inputField = inputFieldRef.GetCurrentInputField();
+        HideKeyboard();
+    }
+
+    void OnDestroy()
+    {
+        inputFieldRef.OnInputFieldChangedEvent -= SetInputField;
+    }
+
+    private void SetInputField(TMP_InputField newInputField)
+    {
+        inputField = newInputField;
+        if (inputField != null)
+        {
+            ShowKeyboard();
+        }
+    }
 
     public void ToggleCapsLock()
     {
@@ -36,7 +57,9 @@ public class KeyboardManager : MonoBehaviour
     {
         if (inputField != null)
         {
-            inputField.text += character;
+            int caretPos = inputField.caretPosition;
+            inputField.text = inputField.text.Insert(caretPos, character);
+            inputField.caretPosition = caretPos + character.Length;
         }
         if (isCapInput && !isCapsLockOn)
         {
@@ -45,20 +68,29 @@ public class KeyboardManager : MonoBehaviour
         }
     }
 
+    public void SpaceInput()
+    {
+        if (inputField != null)
+        {
+            int caretPos = inputField.caretPosition;
+            inputField.text = inputField.text.Insert(caretPos, " ");
+            inputField.caretPosition = caretPos + 1;
+        }
+    }
+
     public void BackspaceInput()
     {
-        if (inputField.text.Length > 0)
+        if (inputField != null && inputField.caretPosition > 0)
         {
-            inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
+            int caretPos = inputField.caretPosition;
+            inputField.text = inputField.text.Remove(caretPos - 1, 1);
+            inputField.caretPosition = caretPos - 1;
         }
     }
 
     public void EnterInput()
     {
-        if (inputField != null)
-        {
-            HideKeyboard();
-        }
+        HideKeyboard();
     }
 
     public event Action<bool> OnCapInputChangedEvent;
@@ -66,11 +98,11 @@ public class KeyboardManager : MonoBehaviour
 
     public void ShowKeyboard()
     {
-        keyboardPanel.SetActive(true); // 显示键盘
+        keyboardPanel.SetActive(true);
     }
 
     public void HideKeyboard()
     {
-        keyboardPanel.SetActive(false); // 隐藏键盘
+        keyboardPanel.SetActive(false);
     }
 }

@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class ShiftKey : MonoBehaviour
 {
-    public Image Image_Cap;
-    public Image Image_Lower;
+    public GameObject ImageLower;
+    public Image ImageLowerIcon;
+    public GameObject ImageCap;
 
     public KeyboardManager keyboardManager;
     private bool isCapsLockOn = false;
@@ -35,15 +36,15 @@ public class ShiftKey : MonoBehaviour
     {
         if (isCapsLockOn)
         {
-            Image_Cap.gameObject.SetActive(true);
-            Image_Lower.gameObject.SetActive(false);
+            ImageLower.SetActive(false);
+            ImageCap.SetActive(true);
         }
         else
         {
-            Image_Cap.gameObject.SetActive(false);
-            Image_Lower.gameObject.SetActive(true);
-            if (isCapInput) Image_Lower.color = Color.green;
-            else Image_Lower.color = Color.white;
+            ImageCap.SetActive(false);
+            ImageLower.SetActive(true);
+            if (isCapInput) ImageLowerIcon.color = Color.green;
+            else ImageLowerIcon.color = Color.white;
         }
     }
 
