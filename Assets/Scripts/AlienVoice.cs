@@ -3,6 +3,7 @@ using Meta.WitAi.TTS.Utilities;
 using Oculus.Voice;
 using Meta.WitAi.Json;
 using System.Collections;
+using TMPro;
 
 public class AlienVoice : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class AlienVoice : MonoBehaviour
     public TTSSpeaker TTSScript;
     public AppVoiceExperience VoiceExperience;
     private Alien alien;
+
+    public TMP_Text transcriptText;
+
 
     public string[] voicePresets = new string[]
     {
@@ -74,7 +78,9 @@ public class AlienVoice : MonoBehaviour
         {
             Debug.Log("Activating VoiceExperience and listening");
             VoiceExperience.VoiceEvents.OnResponse.AddListener(HandleWitResponse);
+            VoiceExperience.VoiceEvents.OnPartialTranscription.AddListener(HandlePartialTranscription);
             VoiceExperience.Activate();
+            transcriptText.text = "<sprite=0> Listening!";
         }
         else
         {
@@ -109,6 +115,9 @@ public class AlienVoice : MonoBehaviour
         VoiceExperience.Deactivate();
 
         VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
+        VoiceExperience.VoiceEvents.OnPartialTranscription.RemoveListener(HandlePartialTranscription);
+
+        HandleStoppedListening();
 
     }
 
@@ -138,5 +147,24 @@ public class AlienVoice : MonoBehaviour
     public void SayLine(string Line){
         Debug.Log("Say line called");
         TTSScript.Speak(Line);
+    }
+
+    private void HandlePartialTranscription(string transcription)
+    {
+        if (transcriptText != null)
+        {
+            // Ensure the text is visible and prepend a sprite (adjust the sprite tag as needed)
+            transcriptText.gameObject.SetActive(true);
+            transcriptText.text = "<sprite=0> " + transcription;
+        }
+    }
+
+    private void HandleStoppedListening()
+    {
+        if (transcriptText != null)
+        {
+            // Hide the transcript text when voice experience stops listening.
+            transcriptText.gameObject.SetActive(false);
+        }
     }
 }
