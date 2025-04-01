@@ -3,7 +3,6 @@ using TMPro;
 using Oculus.Interaction;
 using DG.Tweening;
 using System;
-using UnityEngine.UI;
 
 public class FinishGameMenuManager : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class FinishGameMenuManager : MonoBehaviour
     public TextMeshProUGUI restartTimeText;
     private GameManager gameManager;
 
-    public GlobalVariableManager gvm;
+    private GlobalVariableManager gvm;
     public GameObject UploadArea;
     public TextMeshProUGUI UploadTipsText;
     public TMP_InputField playerNameInputField;
@@ -38,6 +37,7 @@ public class FinishGameMenuManager : MonoBehaviour
 
     void Start()
     {
+        gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
         CloseMenu();
         _camera = Camera.main.transform;
@@ -161,15 +161,7 @@ public class FinishGameMenuManager : MonoBehaviour
 
     public void UploadScore()
     {
-        if (gvm != null && gvm.currentUser != null)
-        {
-            UploadArea.SetActive(false);
-            gvm.UploadScoreToFirestore(playerNameInputField.text, gameManager.score);
-        }
-        else
-        {
-            Debug.Log("GlobalVariableManager or currentUser is not set.");
-            UploadTipsText.text = "Upload failed! Please ask our member for help.";
-        }
+        UploadArea.SetActive(false);
+        gvm.UploadScoreToFirestore(playerNameInputField.text, gameManager.score);
     }
 }

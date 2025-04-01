@@ -2,18 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-
-
 public class LeaderBoardManager : MonoBehaviour
 {
     public List<GameObject> leaderboardItems;
     public GameObject LoadingSign;
     private GlobalVariableManager gvm;
 
-    void Start()
+    void Awake()
     {
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         gvm.OnLeaderboardLoadedEvent += OnLeaderboardLoaded;
+        OnLeaderboardLoaded(gvm.LeaderBoardData);
     }
 
     private void OnLeaderboardLoaded(List<ScoreEntry> newScores)
@@ -44,6 +43,11 @@ public class LeaderBoardManager : MonoBehaviour
     {
         StartCoroutine(gvm.LoadLeaderboardData());
         LoadingSign.SetActive(true);
+    }
+
+    void OnDestroy()
+    {
+        gvm.OnLeaderboardLoadedEvent -= OnLeaderboardLoaded;
     }
 }
 

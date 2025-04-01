@@ -38,8 +38,8 @@ public class GlobalVariableManager : MonoBehaviour
     public int MaxLeaderBoardSize = 10;
     public List<ScoreEntry> LeaderBoardData = new List<ScoreEntry>();
     public bool isFirebaseInitialized = false;
-    protected FirebaseApp app = null;
-    public FirebaseFirestore db = null;
+    protected FirebaseApp app;
+    public FirebaseFirestore db;
     protected FirebaseAuth auth;
     public FirebaseUser currentUser;
     public event Action<bool> OnGamePlayingChangedEvent;
@@ -284,14 +284,10 @@ public class GlobalVariableManager : MonoBehaviour
     // Uploads data to Firestore
     public bool UploadScoreToFirestore(string playerName, long playerScore)
     {
-        if (db == null)
+        if (!isFirebaseInitialized)
         {
-            Debug.LogError("Firestore database instance is null. Cannot upload data.");
-            return false;
-        }
-        if (currentUser == null)
-        {
-            Debug.LogError("User is not logged in. Cannot upload data.");
+            Debug.LogError("Firebase Firestore is not initialized.");
+            OnUploadScoreEvent?.Invoke(false);
             return false;
         }
 
@@ -312,6 +308,7 @@ public class GlobalVariableManager : MonoBehaviour
             {
                 Debug.Log("Score data added successfully to Firestore. Document ID: " + task.Result.Id);
                 OnUploadScoreEvent?.Invoke(true);
+                StartCoroutine(LoadLeaderboardData());
             }
             else if (task.IsFaulted)
             {
@@ -349,7 +346,6 @@ public class GlobalVariableManager : MonoBehaviour
     }
 
     public event Action<bool> OnUploadScoreEvent;
-
 
     public event Action<List<ScoreEntry>> OnLeaderboardLoadedEvent;
 
