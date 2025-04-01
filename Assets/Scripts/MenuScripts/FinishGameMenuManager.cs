@@ -3,6 +3,7 @@ using TMPro;
 using Oculus.Interaction;
 using DG.Tweening;
 using System;
+using UnityEngine.UI;
 
 public class FinishGameMenuManager : MonoBehaviour
 {
@@ -16,7 +17,11 @@ public class FinishGameMenuManager : MonoBehaviour
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI restartTimeText;
     private GameManager gameManager;
-    public LeaderBoardManager leaderBoardManager;
+
+    public GlobalVariableManager gvm;
+    public GameObject UploadArea;
+    public TextMeshProUGUI UploadTipsText;
+    public TMP_InputField playerNameInputField;
 
     public int[] targetScores = new int[] { 0, 2500, 5000, 7500, 10000, 12500, 17500, 999999 };
     public string[] targetRanks = new string[]
@@ -37,6 +42,20 @@ public class FinishGameMenuManager : MonoBehaviour
         CloseMenu();
         _camera = Camera.main.transform;
         gameManager = FindFirstObjectByType<GameManager>();
+        gvm.OnUploadScoreEvent += (bool isSuccessful) =>
+        {
+            if (!isSuccessful)
+            {
+                UploadArea.SetActive(true);
+                UploadTipsText.text = "Upload failed! Please try again or tell our member.";
+                gameManager.StartRestartCountdown();
+                return;
+            }
+            else
+            {
+                UploadArea.SetActive(false);
+            }
+        };
     }
 
     private void CheckMenuIsVisible()
@@ -138,5 +157,19 @@ public class FinishGameMenuManager : MonoBehaviour
     public void ResetRestartTime()
     {
         gameManager.StartRestartCountdown();
+    }
+
+    public void UploadScore()
+    {
+        if (gvm != null && gvm.currentUser != null)
+        {
+            UploadArea.SetActive(false);
+            gvm.UploadScoreToFirestore(playerNameInputField.text, gameManager.score);
+        }
+        else
+        {
+            Debug.Log("GlobalVariableManager or currentUser is not set.");
+            UploadTipsText.text = "Upload failed! Please ask our member for help.";
+        }
     }
 }

@@ -282,7 +282,7 @@ public class GlobalVariableManager : MonoBehaviour
     }
 
     // Uploads data to Firestore
-    private bool UploadScoreToFirestore(string playerName, long playerScore)
+    public bool UploadScoreToFirestore(string playerName, long playerScore)
     {
         if (db == null)
         {

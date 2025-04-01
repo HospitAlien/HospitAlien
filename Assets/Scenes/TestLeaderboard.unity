@@ -2387,6 +2387,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e839100ffc661f498350c729fb17274, type: 3}
+--- !u!114 &918275731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2762170988594759783, guid: 9e839100ffc661f498350c729fb17274, type: 3}
+  m_PrefabInstance: {fileID: 918275730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79722aee75ae59b488d3cb78dd2d855e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &924631732
 GameObject:
   m_ObjectHideFlags: 0
@@ -12851,6 +12862,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6841273747558637545, guid: 2103335f1abefd74a832e2a0b66aa5ac, type: 3}
+      propertyPath: gvm
+      value: 
+      objectReference: {fileID: 918275731}
     - target: {fileID: 6873844528843517088, guid: 2103335f1abefd74a832e2a0b66aa5ac, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
