@@ -14627,8 +14627,38 @@ PrefabInstance:
       addedObject: {fileID: 8510563155729576410}
     - targetCorrespondingSourceObject: {fileID: -5563135984220552868, guid: a9052727293004946aecf9000391547d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2324288322805407956}
+      addedObject: {fileID: 8968357959840307260}
+    - targetCorrespondingSourceObject: {fileID: -4241282163499686788, guid: a9052727293004946aecf9000391547d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7149460781539076437}
   m_SourcePrefab: {fileID: 100100000, guid: a9052727293004946aecf9000391547d, type: 3}
+--- !u!1 &1832252776825716867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4241282163499686788, guid: a9052727293004946aecf9000391547d, type: 3}
+  m_PrefabInstance: {fileID: 6651403674177053951}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &7149460781539076437
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832252776825716867}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5908151445137377015, guid: a9052727293004946aecf9000391547d, type: 3}
 --- !u!1 &5805106622090975662 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a9052727293004946aecf9000391547d, type: 3}
@@ -14971,8 +15001,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -5563135984220552868, guid: a9052727293004946aecf9000391547d, type: 3}
   m_PrefabInstance: {fileID: 6651403674177053951}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &2324288322805407956
-MeshCollider:
+--- !u!136 &8968357959840307260
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -14989,7 +15019,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4568602041052912305, guid: a9052727293004946aecf9000391547d, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.27351278
+  m_Height: 1.2179517
+  m_Direction: 1
+  m_Center: {x: -0.7628186, y: 0.96729153, z: 0.047088474}
