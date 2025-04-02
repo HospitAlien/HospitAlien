@@ -181,7 +181,7 @@ public class Status
         }
 
         List<Action> illnesses = new List<Action>();
-        /*
+        
         illnesses.Add(() => {
             needsInjection = true;
             alien.sweatParticles.Play();
@@ -200,7 +200,7 @@ public class Status
             hasShrapnel = true;
             alien.initiateShrapnel();
         });
-        */
+        
 
         illnesses.Add(() => {
             needsAnAmputation = true;
@@ -208,7 +208,7 @@ public class Status
             needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
             alien.initiateAmputation();
         });
-        /*
+        
 
         illnesses.Add(() => {
             alien.reward += 100;
@@ -221,7 +221,7 @@ public class Status
                 alien.transform.localScale *= 1.4f;
             }
         });
-        */
+        
 
         numberOfIllnesses = 1;
 
@@ -262,13 +262,6 @@ public class Status
             alien.reward += 150;
             hasShrapnel = true;
             alien.initiateShrapnel();
-        });
-
-        illnesses.Add(() => {
-            needsAnAmputation = true;
-            needsAmputation = new bool[] { false, false, false, false };
-            needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
-            alien.initiateAmputation();
         });
 
         illnesses.Add(() => {

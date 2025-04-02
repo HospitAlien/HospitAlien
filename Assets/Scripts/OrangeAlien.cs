@@ -14,75 +14,75 @@ public class OrangeAlien : Alien
         return amputateMaterial;
     }
 
-    public override void initiateAmputation()
-    {
+    // public override void initiateAmputation()
+    // {
 
-        bool limbSet = false;
-        System.Random random = new System.Random();
-        for (int i = 0; i < status.needsAttatchment.Length; i++)
-        {
-            if (random.NextDouble() < 0.3)
-            {
-                status.needsAmputation[i] = true;
-                limbSet = true;
-            }
-        }
+    //     bool limbSet = false;
+    //     System.Random random = new System.Random();
+    //     for (int i = 0; i < status.needsAttatchment.Length; i++)
+    //     {
+    //         if (random.NextDouble() < 0.3)
+    //         {
+    //             status.needsAmputation[i] = true;
+    //             limbSet = true;
+    //         }
+    //     }
 
-        if (!limbSet)
-        {
-            status.needsAmputation[random.Next(0, 4)] = true;
-        }
+    //     if (!limbSet)
+    //     {
+    //         status.needsAmputation[random.Next(0, 4)] = true;
+    //     }
 
 
-        // Create a new GameObject to detect axe hits
-        GameObject amputationDetector = new GameObject("AmputationDetector");
-        amputationDetector.transform.SetParent(transform);
-        amputationDetector.transform.localPosition = Vector3.zero;
-        amputationDetector.transform.localRotation = Quaternion.identity;
-        amputationDetector.AddComponent<AmputationBehaviourGreen>();
+    //     // Create a new GameObject to detect axe hits
+    //     GameObject amputationDetector = new GameObject("AmputationDetector");
+    //     amputationDetector.transform.SetParent(transform);
+    //     amputationDetector.transform.localPosition = Vector3.zero;
+    //     amputationDetector.transform.localRotation = Quaternion.identity;
+    //     amputationDetector.AddComponent<AmputationBehaviourGreen>();
 
-        for (int i = 0; i < status.needsAmputation.Length; i++)
-        {
-            if (status.needsAmputation[i])
-            {
-                switch (i)
-                {
-                    case 0:
-                        ChangeLimbMaterial(transform.Find("body/hands/left_hand"));
-                        break;
-                    case 1:
-                        ChangeLimbMaterial(transform.Find("body/hands/right_hand"));
-                        break;
-                    case 2:
-                        ChangeLimbMaterial(transform.Find("body/feet/foot_left"));
-                        break;
-                    case 3:
-                        ChangeLimbMaterial(transform.Find("body/feet/foot_right"));
-                        break;
+    //     for (int i = 0; i < status.needsAmputation.Length; i++)
+    //     {
+    //         if (status.needsAmputation[i])
+    //         {
+    //             switch (i)
+    //             {
+    //                 case 0:
+    //                     ChangeLimbMaterial(transform.Find("body/hands/left_hand"));
+    //                     break;
+    //                 case 1:
+    //                     ChangeLimbMaterial(transform.Find("body/hands/right_hand"));
+    //                     break;
+    //                 case 2:
+    //                     ChangeLimbMaterial(transform.Find("body/feet/foot_left"));
+    //                     break;
+    //                 case 3:
+    //                     ChangeLimbMaterial(transform.Find("body/feet/foot_right"));
+    //                     break;
 
-                }
-            }
-        }
-    }
+    //             }
+    //         }
+    //     }
+    // }
 
-    protected override void initiateAttachHand()
-    {
-        Transform amputationDetectorTransform = transform.Find("AmputationDetector");
+    // protected override void initiateAttachHand()
+    // {
+    //     Transform amputationDetectorTransform = transform.Find("AmputationDetector");
 
-        //Add attachment script.
-        if (amputationDetectorTransform.gameObject.GetComponent<AttachHandGreen>() == null)
-        {
-            amputationDetectorTransform.gameObject.AddComponent<AttachHandGreen>();
-        }
-    }
+    //     //Add attachment script.
+    //     if (amputationDetectorTransform.gameObject.GetComponent<AttachHandGreen>() == null)
+    //     {
+    //         amputationDetectorTransform.gameObject.AddComponent<AttachHandGreen>();
+    //     }
+    // }
 
     public void initiateShrapnel()
     {
         int count = 0;
         while (count < 4)
         {
-            float offsetX = UnityEngine.Random.Range(-0.16f, 0.16f);
-            float offsetY = UnityEngine.Random.Range(1.2f, 1.7f);
+            float offsetX = UnityEngine.Random.Range(-0.2f, 0.2f);
+            float offsetY = UnityEngine.Random.Range(-0.25f, 0.16f);
             float offsetZ = 0.1f;
 
             // Spawn the new shrapnel at the calculated position
