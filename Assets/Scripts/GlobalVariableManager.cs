@@ -97,6 +97,7 @@ public class GlobalVariableManager : MonoBehaviour
                 app = FirebaseApp.DefaultInstance;
                 auth = FirebaseAuth.DefaultInstance;
                 db = FirebaseFirestore.DefaultInstance;
+                currentUser = auth.CurrentUser;
                 isFirebaseInitialized = true;
                 Debug.Log("Firebase initialized successfully.");
                 StartCoroutine(LoadLeaderboardData());
