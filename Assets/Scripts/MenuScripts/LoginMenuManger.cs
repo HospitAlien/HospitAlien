@@ -41,13 +41,13 @@ public class LoginMenuManager : MonoBehaviour
     private IEnumerator Wait5Second()
     {
         yield return new WaitForSeconds(5f);
-        if (gvm.currentUser == null)
+        if (gvm.currentUser != null)
         {
-            statusText.text = "Login failed. Please try again.";
+            statusText.text = "Logged in as: " + gvm.currentUser.Email;
         }
         else
         {
-            statusText.text = "Logged in as: " + gvm.currentUser.Email;
+            statusText.text = "Login failed. Please try again.";
         }
     }
 }
