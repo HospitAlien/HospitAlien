@@ -192,9 +192,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
 
             eventState = 1; //event on going, stops aliens spawning
-            Debug.Log("waiting for patients to despawn");
             yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-            Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
 
             if (currentGameStage == 0)
             {
@@ -207,11 +205,10 @@ public class GameManager : MonoBehaviour
                 eventTextController.SetEventColor(Color.yellow);
                 yield return StartCoroutine(ghostEvent.StartEvent());
             }
-
+            
+            EventCanvas.SetActive(false);
             eventState = 0;
 
-
-            Debug.Log("Piza time finished");
             currentGameStage++;
         }
     }
@@ -233,9 +230,9 @@ public class GameManager : MonoBehaviour
         {
 
             Vector3 randomPosition = new Vector3(
-                Random.Range(-10f, 10f),
+                Random.Range(-8f, 8f),
                 1f,
-                Random.Range(-10f, 10f)
+                Random.Range(-8f, 8f)
             );
 
             GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
@@ -255,8 +252,6 @@ public class GameManager : MonoBehaviour
 
             pizzaTimeElapsed += 0.5f;
         }
-
-        EventCanvas.SetActive(false);
         //once the loop ends we need to delete all the pizzas
         foreach (GameObject pizza in spawnedPizzas)
         {

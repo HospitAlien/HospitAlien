@@ -453,6 +453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnimationOrange
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8e2aa25d7b5d3104d9030c4bab46416e, type: 3}
+      propertyPath: m_TagString
+      value: Alien
+      objectReference: {fileID: 0}
     - target: {fileID: 6828613326037297784, guid: 8e2aa25d7b5d3104d9030c4bab46416e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.1
@@ -839,7 +843,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc14338513663ff408d2a7229a8f69ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLocation: {x: 0, y: 0, z: 0}
   sweatParticles: {fileID: 6294591012474736967}
   fireParticles: {fileID: 6737921779962273641}
   shrapnel: {fileID: 4177759664629391277, guid: b0ff8cc36a5f4234fbe29e045fd88b53, type: 3}

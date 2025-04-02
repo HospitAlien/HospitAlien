@@ -48,7 +48,6 @@ public class Alien : MonoBehaviour
         status = new Status();
 
         animator = GetComponent<Animator>();
-        // animator.Play();
 
         alienVoice = GetComponent<AlienVoice>();
 
@@ -62,10 +61,7 @@ public class Alien : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.SetDestination(target.transform.position);
 
-        while (status.isHealthy())
-        {
-            InitiateStatus();
-        }
+        InitiateStatus();
         InitiateTimer();
     }
 
@@ -120,16 +116,14 @@ public class Alien : MonoBehaviour
             // Check if the agent has reached the destination
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                //Move the alien to bed and disable path-finding
-                // Stop the animation by setting the speed to 0 (freeze the animation)
+                animator.Play(animator.GetCurrentAnimatorStateInfo(0).shortNameHash,0,0f);
                 animator.speed = 0f;
                 animator.enabled = false;
                 agent.enabled = false;
 
 
                 isReady = true;
-                // Play the animation from the first frame (assuming the default animation is set)
-                animator.Play(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name, 0, 0f);
+                
 
                 // Set the position and rotation to match the target
                 transform.position = target.transform.position;
@@ -482,6 +476,10 @@ public class Alien : MonoBehaviour
             CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
             theCoins.SetRate(12);
         }
+
+        StopAllCoroutines();
+        timerText.text = "";
+
         Destroy(gameObject);
     }
 

@@ -252,9 +252,6 @@ public class Status
                 alien.transform.localScale *= 1.4f;
             }
         });
-        
-
-        numberOfIllnesses = 1;
 
         List<Action> shuffledIllnesses = illnesses.OrderBy(x => random.Next()).ToList();
         for (int i = 0; i < numberOfIllnesses; i++)
