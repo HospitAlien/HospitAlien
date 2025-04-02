@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
+    public GameObject orangeAlienPrefab;
 
     public GhostEvent ghostEvent;
     public GameObject pizzaPrefab;
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
     private List<GameObject> spawnedAliens = new List<GameObject>();
-    private Transform[] spawnLocations;
+    public GameObject[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
     public float restartTime = 90.0f;
@@ -57,29 +58,6 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
         spotOccupied = new bool[maxPatients]; //Initially these will all be false
 
-
-
-        // Define 6 spawn locations programmatically
-        spawnLocations = new Transform[6];  // Array of 6 spawn locations
-
-        // Defining spawn points at specific positions
-        spawnLocations[0] = new GameObject("SpawnPoint1").transform;
-        spawnLocations[0].position = new Vector3(2, 2, -2);  // Position 1
-
-        spawnLocations[1] = new GameObject("SpawnPoint2").transform;
-        spawnLocations[1].position = new Vector3(2, 2, 0);  // Position 2
-
-        spawnLocations[2] = new GameObject("SpawnPoint3").transform;
-        spawnLocations[2].position = new Vector3(2, 2, 2);  // Position 3
-
-        spawnLocations[3] = new GameObject("SpawnPoint4").transform;
-        spawnLocations[3].position = new Vector3(0, 2, -2);  // Position 4
-
-        spawnLocations[4] = new GameObject("SpawnPoint5").transform;
-        spawnLocations[4].position = new Vector3(0, 2, 2);  // Position 5
-
-        spawnLocations[5] = new GameObject("SpawnPoint6").transform;
-        spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
 
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
@@ -344,17 +322,22 @@ public class GameManager : MonoBehaviour
 
 
         // Select a random spawn location from the spawnLocations array
-        Transform spawnPoint = spawnLocations[newSpot];
+        GameObject spawnPoint = spawnLocations[newSpot];
         GameObject patient;
-        int alienType = Random.Range(1, 3);
-        if (alienType == 1)
-        {
-            patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
-        }
-        else
-        {
-            patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
-        }
+        patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        // int alienType = Random.Range(1, 4);
+        // if (alienType == 1)
+        // {
+        //     patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        // }
+        // else if (alienType == 2)
+        // {
+        //     patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        // }
+        // else
+        // {
+        //     patient = Instantiate(orangeAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        // }
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         Alien patientBehaviour = patient.GetComponent<Alien>();
