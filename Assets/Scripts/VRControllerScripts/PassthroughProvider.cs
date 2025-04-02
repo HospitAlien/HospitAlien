@@ -51,7 +51,11 @@ public class PassthroughProvider : MonoBehaviour
         layer.enabled = true;
         foreach (GameObject obj in _objects)
         {
-            obj.GetComponent<Renderer>().enabled = false;
+            // Check if the renderer is not null before accessing it
+            if (obj.GetComponent<Renderer>() != null)
+            {
+                obj.GetComponent<Renderer>().enabled = false;
+            }
         }
     }
 
@@ -64,7 +68,11 @@ public class PassthroughProvider : MonoBehaviour
         layer.enabled = false;
         foreach (GameObject obj in _objects)
         {
-            obj.GetComponent<Renderer>().enabled = true;
+            // Check if the renderer is not null before accessing it
+            if (obj.GetComponent<Renderer>() != null)
+            {
+                obj.GetComponent<Renderer>().enabled = true;
+            }
         }
     }
 }
