@@ -39,6 +39,9 @@ public class Alien : MonoBehaviour
     protected AlienVoice alienVoice;
     public int reward = 200;
 
+    public GameObject handPrefab;
+    public GameObject legPrefab;
+
 
     void Start()
     {
@@ -206,36 +209,44 @@ public class Alien : MonoBehaviour
         switch (limb)
         {
             case 0:
-                limbTransform = transform.Find("hands/left_hand");
+                limbTransform = transform.Find("body/hands/left_hand");
                 break;
             case 1:
-                limbTransform = transform.Find("hands/right_hand");
+                limbTransform = transform.Find("body/hands/right_hand");
                 break;
             case 2:
-                limbTransform = transform.Find("feet/foot_left");
+                limbTransform = transform.Find("body/feet/foot_left");
                 break;
             case 3:
-                limbTransform = transform.Find("feet/foot_right");
+                limbTransform = transform.Find("body/feet/foot_right");
                 break;
 
         }
        
         if (limbTransform != null)
         {
-            //Clone limb then add gravity
-            GameObject limbClone = Instantiate(limbTransform.gameObject, limbTransform.position, limbTransform.rotation);
-            Rigidbody rb = limbClone.AddComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.isKinematic = false;
-
             // Deactivate the original limb
             limbTransform.gameObject.SetActive(false);
 
-            //Detach clone
-            limbClone.transform.parent = null;
+            //Drop a limb to show amputation
+            GameObject limbPrefab = null;
+            switch (limb)
+            {
+                case 0:
+                   limbPrefab = handPrefab;
+                    break;
+                case 1:
+                   limbPrefab = handPrefab;
+                    break;
+                case 2:
+                    limbPrefab = legPrefab;
+                    break;
+                case 3:
+                    limbPrefab = legPrefab;
+                    break;
+            }
 
-
-
+            GameObject limbClone = Instantiate(limbPrefab, limbTransform.position, limbTransform.rotation);
 
             if (Time.time - lastVoiceTime >= voiceCooldownTime)
             {
@@ -269,16 +280,16 @@ public class Alien : MonoBehaviour
         switch (limb)
         {
             case 0:
-                originalLimb = transform.Find("hands/left_hand");
+                originalLimb = transform.Find("body/hands/left_hand");
                 break;
             case 1:
-                originalLimb = transform.Find("hands/right_hand");
+                originalLimb = transform.Find("body/hands/right_hand");
                 break;
             case 2:
-                originalLimb = transform.Find("feet/foot_left");
+                originalLimb = transform.Find("body/feet/foot_left");
                 break;
             case 3:
-                originalLimb = transform.Find("feet/foot_right");
+                originalLimb = transform.Find("body/feet/foot_right");
                 break;
         }
 

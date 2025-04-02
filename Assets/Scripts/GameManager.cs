@@ -324,20 +324,20 @@ public class GameManager : MonoBehaviour
         // Select a random spawn location from the spawnLocations array
         GameObject spawnPoint = spawnLocations[newSpot];
         GameObject patient;
-        patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
-        // int alienType = Random.Range(1, 4);
-        // if (alienType == 1)
-        // {
-        //     patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
-        // }
-        // else if (alienType == 2)
-        // {
-        //     patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
-        // }
-        // else
-        // {
-        //     patient = Instantiate(orangeAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
-        // }
+        int alienType = Random.Range(1, 4);
+
+        if (alienType == 1)
+        {
+            patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        }
+        else if (alienType == 2)
+        {
+            patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            patient = Instantiate(orangeAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        }
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
         Alien patientBehaviour = patient.GetComponent<Alien>();
