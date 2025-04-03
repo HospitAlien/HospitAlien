@@ -482,6 +482,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2432678314856577190}
+        m_TargetAssemblyTypeName: KeyboardManager, Assembly-CSharp
+        m_MethodName: HideKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!95 &8691324041926729382
 Animator:
@@ -9222,6 +9234,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9af3d7ae10a7e0146a385da95a325385, type: 3}
+--- !u!114 &2432678314856577190 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6879177139855326076, guid: 9af3d7ae10a7e0146a385da95a325385, type: 3}
+  m_PrefabInstance: {fileID: 9130242442354885594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958d38967a4ea0b47b9e38aaac39b8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2703415946701405560 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6571127178468097698, guid: 9af3d7ae10a7e0146a385da95a325385, type: 3}
