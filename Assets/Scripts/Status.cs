@@ -128,7 +128,7 @@ public class Status
         {
             needsInjection = true;
             alien.sweatParticles.Play();
-            alien.reward += 100;
+            alien.reward += 200;
         });
 
         illnesses.Add(() =>
@@ -226,7 +226,7 @@ public class Status
         {
             needsInjection = true;
             alien.sweatParticles.Play();
-            alien.reward += 100;
+            alien.reward += 200;
         });
 
         illnesses.Add(() =>
@@ -314,7 +314,7 @@ public class Status
         {
             needsInjection = true;
             alien.sweatParticles.Play();
-            alien.reward += 100;
+            alien.reward += 200;
         });
 
         illnesses.Add(() =>

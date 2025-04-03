@@ -18,22 +18,24 @@ public class GreenAlien : Alien
     {
 
         bool limbSet = false;
-        int amputateLimit = 0;
+        int amputateCount = 0;
         System.Random random = new System.Random();
         for (int i = 0; i < status.needsAttatchment.Length; i++)
         {
-            if (amputateLimit < 2 && random.NextDouble() < 0.3)
+            if (amputateCount < 2 && random.NextDouble() < 0.3)
             {
                 status.needsAmputation[i] = true;
                 limbSet = true;
-                amputateLimit++;
+                amputateCount++;
             }
         }
 
         if (!limbSet)
         {
             status.needsAmputation[random.Next(0, 4)] = true;
+            amputateCount++;
         }
+        reward += 100 * amputateCount;
 
 
         // Create a new GameObject to detect axe hits

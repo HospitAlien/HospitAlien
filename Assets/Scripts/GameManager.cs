@@ -414,14 +414,14 @@ public class GameManager : MonoBehaviour
 
     public void AttackedByGhost()
     {
-        score -= 50;
+        score -= 25;
         score = System.Math.Max(score, 0);
         UpdateScoreText();
     }
 
     public void KilledGhost()
     {
-        score += 25;
+        score += 50;
         UpdateScoreText();
     }
 

@@ -32,22 +32,29 @@ public class PurpleAlien : Alien
     {
 
         bool limbSet = false;
-        int amputateLimit = 0;
+        int amputationCount = 0;
         System.Random random = new System.Random();
+        // Randomly select limbs to be amputated based on the count
+
+
+
         for (int i = 0; i < status.needsAttatchment.Length; i++)
         {
-            if (amputateLimit < 2 && random.NextDouble() < 0.3)
+            if (amputationCount < 2 && random.NextDouble() < 0.3)
             {
                 status.needsAmputation[i] = true;
                 limbSet = true;
-                amputateLimit++;
+                amputationCount++;
             }
         }
 
         if (!limbSet)
         {
             status.needsAmputation[random.Next(0, 4)] = true;
+            amputationCount++;
         }
+
+        reward += 100 * amputationCount;
 
 
         // Create a new GameObject to detect axe hits
