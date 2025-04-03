@@ -22,10 +22,15 @@ MonoBehaviour:
     isPrivate: 1
     createdAt: 2025-01-28T06:26:11-0800
     trainingStatus: 1
-    lastTrainDuration: 58
-    lastTrainedAt: 2025-02-10T09:43:11-0800
-    nextTrainAt: 2025-02-10T09:42:13-0800
+    lastTrainDuration: 78
+    lastTrainedAt: 2025-03-30T19:20:30-0700
+    nextTrainAt: 2025-03-30T19:19:12-0700
     intents:
+    - id: 1166749851348241
+      name: blood_type
+      entities:
+      - name: colour:colour
+        id: 1022459989713207
     - id: 594341850054781
       name: change_color
       entities:
@@ -35,6 +40,9 @@ MonoBehaviour:
         id: 1243030700129943
     - id: 957594249833861
       name: find_issue
+      entities: []
+    - id: 990107779691264
+      name: greeting
       entities: []
     - id: 1734385430476876
       name: wit$create_timer
@@ -51,6 +59,12 @@ MonoBehaviour:
       - name: colour
         id: 1022459989713207
       keywords:
+      - keyword: blood
+        synonyms:
+        - blood
+      - keyword: colour
+        synonyms:
+        - colour
       - keyword: green
         synonyms:
         - green
