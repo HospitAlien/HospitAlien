@@ -23214,6 +23214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Syringe animated
       objectReference: {fileID: 0}
+    - target: {fileID: 2158664651132153251, guid: bd2dc4b93a1641d458e998f4332323c4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.143
+      objectReference: {fileID: 0}
     - target: {fileID: 2217289673762544570, guid: bd2dc4b93a1641d458e998f4332323c4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.817
