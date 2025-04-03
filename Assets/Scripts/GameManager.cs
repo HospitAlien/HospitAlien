@@ -44,7 +44,9 @@ public class GameManager : MonoBehaviour
 
     public AppVoiceExperience VoiceExperience;
 
-    private float distanceMultiplier = 2f;  // Multiplier to adjust ray length in Inspector
+    public float distanceMultiplier = 2.25f;  // Multiplier to adjust ray length
+    public float rayOriginYOffset = 0.2f; // Adjust this value in the Inspector to shift the ray down
+
     private Camera mainCam;
     AlienVoice alienVoice;
 
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Vector3 origin = mainCam.transform.position;
+        Vector3 origin = mainCam.transform.position + new Vector3(0, -rayOriginYOffset, 0);
         Vector3 direction = mainCam.transform.forward * distanceMultiplier;
 
         // Draw a red ray for debugging, visible in the Scene view
@@ -478,7 +480,7 @@ public class GameManager : MonoBehaviour
     {
 
         // Set the ray's origin to the camera's current position
-        Vector3 origin = mainCam.transform.position;
+        Vector3 origin = mainCam.transform.position + new Vector3(0, -rayOriginYOffset, 0);
         // Set the ray's direction to where the camera is currently facing
         Vector3 direction = mainCam.transform.forward;
 
