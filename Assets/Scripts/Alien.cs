@@ -67,7 +67,6 @@ public class Alien : MonoBehaviour
 
     protected virtual void InitiateStatus()
     {
-        Debug.Log("initiate the status of the alien");
     }
 
 
@@ -75,11 +74,6 @@ public class Alien : MonoBehaviour
     {
         // Create a new TextMesh object for displaying the countdown
         timerText = target.GetComponentInChildren<TextMeshProUGUI>();
-
-        Debug.Log("GOT HERE");
-        Debug.Log(timerText);
-
-
         // Start the countdown coroutine
         StartCoroutine(CountdownTimer());
     }
@@ -159,7 +153,7 @@ public class Alien : MonoBehaviour
 
     protected virtual Material LoadLimbMaterial()
     {
-        Debug.Log("LoadLimbMaterial must be overridden");
+        Debug.LogError("LoadLimbMaterial must be overridden");
         return null;
     }
 
@@ -194,7 +188,7 @@ public class Alien : MonoBehaviour
     //Add a child to hold colliders to detect axe hits
     public virtual void initiateAmputation()
     {
-        Debug.Log("InitiateAmputation not overridden");
+        Debug.LogError("InitiateAmputation not overridden");
     }
 
     public void Amputate(int limb)
@@ -265,7 +259,7 @@ public class Alien : MonoBehaviour
 
     protected virtual void initiateAttachHand()
     {
-        Debug.Log("initiateAttachHand must be overridden");
+        Debug.LogError("initiateAttachHand must be overridden");
     }
 
     public void attachLimb(GameObject bodyPart, int limb)
@@ -303,7 +297,7 @@ public class Alien : MonoBehaviour
             }
             else
             {
-                Debug.Log("Either renderer component not found or original limb material not saved");
+                Debug.LogError("Either renderer component not found or original limb material not saved");
             }
         }
         else
@@ -498,11 +492,6 @@ public class Alien : MonoBehaviour
     {
 
         // Check if the particle colliding with the alien is from the fire extinguisher
-        // if (particle.CompareTag("Fire-Extinguisher"))
-        // {
-        //     Debug.Log("FIRE Particle hit the alien!");
-
-        // }
         if (isReady)
         {
             if (particle.CompareTag("Fire-Extinguisher") && status.needsExtinguishing)

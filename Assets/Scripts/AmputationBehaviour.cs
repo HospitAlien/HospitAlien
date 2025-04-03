@@ -27,7 +27,7 @@ public class AmputationBehaviour : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.volume = 0.2f;
-       
+
         hitSound = Resources.Load<AudioClip>("AxeHitSound");
 
     }
@@ -35,10 +35,10 @@ public class AmputationBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
-        
+
+
 
     // Counts up hits.
     void OnCollisionEnter(Collision collision)
@@ -76,7 +76,6 @@ public class AmputationBehaviour : MonoBehaviour
     {
         audioSource.PlayOneShot(hitSound);
         bloodParticlesArray[limb].Play();
-        Debug.Log("Hit by axe: " + hitCount);
 
         if (hitCount >= 5)
         {
@@ -102,6 +101,6 @@ public class AmputationBehaviour : MonoBehaviour
 
     public virtual void CreateCollider()
     {
-        Debug.Log("Create collider needs to be overridden");
+        Debug.LogError("Create collider needs to be overridden");
     }
 }

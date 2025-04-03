@@ -34,8 +34,8 @@ public class SyringeTipBehaviour : MonoBehaviour
 
         Alien alien = other.GetComponentInParent<Alien>();
         if (alien != null)
-            {
-                syringe.TipEnteredAlien(alien);
+        {
+            syringe.TipEnteredAlien(alien);
         }
     }
 

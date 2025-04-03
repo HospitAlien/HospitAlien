@@ -182,8 +182,6 @@ public class GlobalVariableManager : MonoBehaviour
             Debug.LogError("Firebase Firestore is not initialized.");
             return null;
         }
-
-        Debug.Log("Start loading data...");
         List<ScoreEntry> LoadedData = new List<ScoreEntry>();
 
         try
@@ -261,8 +259,6 @@ public class GlobalVariableManager : MonoBehaviour
             return;
         }
 
-        Debug.Log($"Attempting to login with email: {email}");
-
         auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
@@ -300,8 +296,6 @@ public class GlobalVariableManager : MonoBehaviour
             { "score", playerScore },
             { "time", FieldValue.ServerTimestamp }
         };
-
-        Debug.Log($"Attempting to add score data");
 
         scoresRef.AddAsync(scoreData).ContinueWithOnMainThread(task =>
         {

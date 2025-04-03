@@ -14,7 +14,6 @@ public class PrintArea : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Object exited print area" + other.gameObject.name);
         transform.parent.GetComponent<VendingMachine>().DeregisterObject(other.gameObject);
         objectsInside.Remove(other.gameObject);
     }

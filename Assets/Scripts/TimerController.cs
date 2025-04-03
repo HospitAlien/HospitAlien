@@ -36,13 +36,11 @@ public class TimerController : MonoBehaviour
 
     private void Log(string msg)
     {
-        Debug.Log(msg);
         logTextPro.text = "Log: " + msg;
     }
 
     public void Test()
     {
-        Debug.Log("Test Successful");
         logTextPro.text = "Log: Test Successful";
     }
 
@@ -81,7 +79,6 @@ public class TimerController : MonoBehaviour
     /// <param name="entityValues">countdown in minutes.</param>
     public void CreateTimer(string[] entityValues)
     {
-        Test();
         if (_timerExist)
         {
             Log("A timer already exist.");

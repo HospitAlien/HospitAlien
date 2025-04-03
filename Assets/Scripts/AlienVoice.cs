@@ -41,7 +41,6 @@ public class AlienVoice : MonoBehaviour
         //Randomise voice
         int randomIndex = Random.Range(0, voicePresets.Length);
         string selectedPreset = voicePresets[randomIndex];
-        Debug.Log("Selected Voice Preset: " + selectedPreset + randomIndex.ToString());
         TTSScript.VoiceID = selectedPreset;
     }
 
@@ -66,7 +65,7 @@ public class AlienVoice : MonoBehaviour
         }
         else
         {
-            Debug.Log("VoiceExperienceObject not found");
+            Debug.LogError("VoiceExperienceObject not found");
         }
     }
 
@@ -76,8 +75,6 @@ public class AlienVoice : MonoBehaviour
     {
         if (VoiceExperience != null)
         {
-            Debug.Log("Activating VoiceExperience and listening");
-
             VoiceExperience.VoiceEvents.OnResponse.AddListener(HandleWitResponse);
             VoiceExperience.VoiceEvents.OnPartialTranscription.AddListener(HandlePartialTranscription);
 
@@ -88,7 +85,7 @@ public class AlienVoice : MonoBehaviour
         }
         else
         {
-            Debug.Log("Voice Experience not linked to gameObject");
+            Debug.LogError("Voice Experience not linked to gameObject");
         }
     }
 
@@ -98,32 +95,26 @@ public class AlienVoice : MonoBehaviour
         VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
         VoiceExperience.VoiceEvents.OnPartialTranscription.RemoveListener(HandlePartialTranscription);
         transcriptText.gameObject.SetActive(false);
-        Debug.Log("Voice deactivated");
     }
 
     private void HandleWitResponse(WitResponseNode response)
     {
-        Debug.Log("WitResponse received by handler!");
-
         if (IntentMatches(response, "find_issue"))
         {
-            Debug.Log("Intent matches");
             SayIllness();
         }
         else if (IntentMatches(response, "greeting"))
         {
-            Debug.Log("Greeting recognised");
             TTSScript.Speak("I am in agony, help please");
         }
-        else if(IntentMatches(response, "blood_type"))
+        else if (IntentMatches(response, "blood_type"))
         {
-            Debug.Log("Blood type asked");
             string bloodType = alien.getBloodType();
             SayLine("I need" + bloodType + " blood!");
         }
         else
         {
-            Debug.Log("Intent doesn't match");
+            Debug.LogWarning("Intent doesn't match");
         }
 
         Deactivate();
@@ -131,33 +122,30 @@ public class AlienVoice : MonoBehaviour
 
     }
 
-    
+
 
     public void SayIllness()
     {
-        Debug.Log("SayIllness Called");
         TTSScript.Speak(alien.getVoiceLine());
     }
 
     private bool IntentMatches(WitResponseNode response, string Intent)
     {
         var ReceivedIntent = response?["intents"]?[0]?["name"]?.Value;
-        Debug.Log(ReceivedIntent);
-        Debug.Log(Intent);
         if (ReceivedIntent != null)
         {
             return string.Equals(ReceivedIntent, Intent, System.StringComparison.OrdinalIgnoreCase);
         }
         else
         {
-            Debug.Log("Response Node when accessed returns null");
+            Debug.LogError("Response Node when accessed returns null");
         }
 
         return false;
     }
 
-    public void SayLine(string Line){
-        Debug.Log("Say line called");
+    public void SayLine(string Line)
+    {
         TTSScript.Speak(Line);
     }
 

@@ -36,9 +36,6 @@ public class Status
         {
             bloodType = "Red";
         }
-
-        Debug.Log(result);
-        Debug.Log(bloodType);
     }
 
     public bool isHealthy()
@@ -246,9 +243,6 @@ public class Status
             hasShrapnel = true;
             alien.initiateShrapnel();
         });
-
-
-
 
         illnesses.Add(() =>
         {

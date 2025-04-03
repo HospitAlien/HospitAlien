@@ -39,10 +39,9 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
     IEnumerator Shoot()
     {
         onCooldown = true;
-        Debug.Log("SHOOTING");
         LineRenderer ray = Instantiate(rayPrefab);
         ray.positionCount = 2; //start and an enpoint
-        ray.SetPosition(0,shootingPoint.position);
+        ray.SetPosition(0, shootingPoint.position);
 
         // Perform the raycast to find where the line hits
         RaycastHit hit;
@@ -52,10 +51,10 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
         {
             // If it hits something, set the endpoint to the hit point
             endPoint = hit.point;
-            
+
             //if its a ghost we want to kill it
             Ghost ghost = hit.transform.GetComponentInParent<Ghost>();
-            if(ghost)
+            if (ghost)
             {
                 ghost.GhostKilled();
             }
@@ -83,11 +82,11 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
             StartCoroutine(Shoot());
         }
 
-        else if(!pickedUp) //if its not picked up move it relative to the camera
+        else if (!pickedUp) //if its not picked up move it relative to the camera
         {
 
             transform.Rotate(Vector3.up, 30f * Time.deltaTime);
-            Vector3 newPosition = findPosition(); 
+            Vector3 newPosition = findPosition();
             float moveSpeed = 5f;
             transform.position = Vector3.Lerp(transform.position, newPosition, moveSpeed * Time.deltaTime);
         }
@@ -99,7 +98,7 @@ public class Raygun : MonoBehaviour, IHandGrabUseDelegate
         Camera camera = Camera.main;
         Vector3 cameraPosition = camera.transform.position;
         Quaternion cameraRotation = camera.transform.rotation;
-        
+
         // Calculate the new position in front of the camera
         Vector3 offset = cameraRotation * Vector3.forward * distanceFromCamera;
         Vector3 newPosition = cameraPosition + offset;

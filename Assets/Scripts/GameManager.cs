@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("VoiceExperienceObject not found");
+            Debug.LogError("VoiceExperienceObject not found");
         }
 
         VoiceExperience.Activate("Warm up");
@@ -251,7 +251,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator PizzaTime()
     {
-        Debug.Log($"Pizza time starting, Current patient count: {currentPatientCount}");
         List<GameObject> spawnedPizzas = new List<GameObject>();
 
         EventCanvas.SetActive(true);
@@ -310,7 +309,6 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(2f);
                     if (eventState == 0)
                     {
-                        Debug.Log("Spawning patient");
                         SpawnPatient();
                     }
                 }
@@ -325,7 +323,6 @@ public class GameManager : MonoBehaviour
 
                     if (chance <= spawnChance && eventState == 0)
                     {
-                        Debug.Log("Spawning patient");
                         SpawnPatient();
                     }
                 }
@@ -404,7 +401,6 @@ public class GameManager : MonoBehaviour
 
     public void PatientDied(int patientIndex)
     {
-        Debug.Log("Alien with index " + patientIndex + " has been deleted.");
         spotOccupied[patientIndex] = false;
         currentPatientCount--;
         UpdateScoreText();
@@ -412,14 +408,12 @@ public class GameManager : MonoBehaviour
 
     public void PizzaEaten()
     {
-        Debug.Log("Pizza slice has been eaten, reward some score");
         score += 50;
         UpdateScoreText();
     }
 
     public void AttackedByGhost()
     {
-        Debug.Log("Ghost attack!");
         score -= 50;
         score = System.Math.Max(score, 0);
         UpdateScoreText();
@@ -427,7 +421,6 @@ public class GameManager : MonoBehaviour
 
     public void KilledGhost()
     {
-        Debug.Log("Ghost killed!");
         score += 25;
         UpdateScoreText();
     }
@@ -508,12 +501,11 @@ public class GameManager : MonoBehaviour
                     if (!VoiceExperience.Active)
                     {
                         alienVoice.ActivateListening();
-                        Debug.Log("Listening !");
                     }
                 }
                 else
                 {
-                    Debug.Log("Alien voice not found.");
+                    Debug.LogError("Alien voice not found.");
                 }
             }
             else

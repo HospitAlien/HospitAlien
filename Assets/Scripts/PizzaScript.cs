@@ -32,8 +32,6 @@ public class PizzaScript : MonoBehaviour
             GameObject newObject = Instantiate(coinParticlePrefab, transform.position, Quaternion.Euler(-90f, 0f, 0f));
             CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
             theCoins.SetRate(3);
-
-            Debug.Log("Coins spawned");
         }
 
         //if the pizza is eaten we want to call the function within gameManager to update score
@@ -43,9 +41,6 @@ public class PizzaScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Pizza collided with " + other.gameObject.name);
-
-
         if (other.gameObject.CompareTag("MainCamera"))
         {
             PizzaEaten();
