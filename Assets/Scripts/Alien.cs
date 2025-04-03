@@ -152,6 +152,11 @@ public class Alien : MonoBehaviour
         return status.getIllness();
     }
 
+    public string getBloodType()
+    {
+        return status.bloodType;
+    }
+
     protected virtual Material LoadLimbMaterial()
     {
         Debug.Log("LoadLimbMaterial must be overridden");
@@ -483,18 +488,6 @@ public class Alien : MonoBehaviour
 
         Destroy(gameObject);
     }
-
-    // Detect collision with the player's controller
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("AlienTranslator")) // Cure the alien if it collides with the controller
-        {
-            //Voice chat function
-            alienVoice.ActivateListening();
-        }
-
-    }
-
 
     //Detect collision with fire extinguisher foam
     void OnParticleCollision(GameObject particle)

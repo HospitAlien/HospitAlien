@@ -2,7 +2,8 @@ using UnityEngine;
 using Meta.WitAi.TTS.Utilities;
 using Oculus.Voice;
 using Meta.WitAi.Json;
-
+using System.Collections;
+using TMPro;
 
 public class AlienVoice : MonoBehaviour
 {
@@ -11,10 +12,37 @@ public class AlienVoice : MonoBehaviour
     public AppVoiceExperience VoiceExperience;
     private Alien alien;
 
+    public TMP_Text transcriptText;
+
+
+    public string[] voicePresets = new string[]
+    {
+        "WIT$BRITISH BUTLER",
+        "WIT$CARL",
+        "WIT$CARTOON BABY",
+        "WIT$CARTOON VILLAIN",
+        "WIT$CHARLIE",
+        "WIT$COLIN",
+        "WIT$HOLLYWOOD",
+        "WIT$PROSPECTOR",
+        "WIT$REBECCA",
+        "WIT$ROSIE",
+        "WIT$SURFER",
+        "WIT$WHIMSICAL",
+        "WIT$VAMPIRE",
+        "WIT$WIZARD"
+    };
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         alien = GetComponent<Alien>();
+
+        //Randomise voice
+        int randomIndex = Random.Range(0, voicePresets.Length);
+        string selectedPreset = voicePresets[randomIndex];
+        Debug.Log("Selected Voice Preset: " + selectedPreset + randomIndex.ToString());
+        TTSScript.VoiceID = selectedPreset;
     }
 
     // Update is called once per frame
@@ -25,14 +53,10 @@ public class AlienVoice : MonoBehaviour
 
     void Awake()
     {
-        GameObject TTSSpeaker = GameObject.Find("TTSSpeaker");
-        if (TTSSpeaker != null)
+        TTSScript = GetComponentInChildren<TTSSpeaker>();
+        if (TTSScript == null)
         {
-            TTSScript = TTSSpeaker.GetComponent<TTSSpeaker>();
-        }
-        else
-        {
-            Debug.Log("TTSpeaker not found");
+            Debug.LogError("TTSSpeaker component not found in children!");
         }
 
         GameObject VoiceExperienceObject = GameObject.Find("App Voice Experience");
@@ -53,13 +77,28 @@ public class AlienVoice : MonoBehaviour
         if (VoiceExperience != null)
         {
             Debug.Log("Activating VoiceExperience and listening");
+
             VoiceExperience.VoiceEvents.OnResponse.AddListener(HandleWitResponse);
+            VoiceExperience.VoiceEvents.OnPartialTranscription.AddListener(HandlePartialTranscription);
+
             VoiceExperience.Activate();
+
+            transcriptText.text = "<sprite=0> Listening!";
+            transcriptText.gameObject.SetActive(true);
         }
         else
         {
             Debug.Log("Voice Experience not linked to gameObject");
         }
+    }
+
+    public void Deactivate()
+    {
+        VoiceExperience.Deactivate();
+        VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
+        VoiceExperience.VoiceEvents.OnPartialTranscription.RemoveListener(HandlePartialTranscription);
+        transcriptText.gameObject.SetActive(false);
+        Debug.Log("Voice deactivated");
     }
 
     private void HandleWitResponse(WitResponseNode response)
@@ -76,15 +115,23 @@ public class AlienVoice : MonoBehaviour
             Debug.Log("Greeting recognised");
             TTSScript.Speak("I am in agony, help please");
         }
+        else if(IntentMatches(response, "blood_type"))
+        {
+            Debug.Log("Blood type asked");
+            string bloodType = alien.getBloodType();
+            SayLine("I need" + bloodType + " blood!");
+        }
         else
         {
             Debug.Log("Intent doesn't match");
         }
-        VoiceExperience.Deactivate();
 
-        VoiceExperience.VoiceEvents.OnResponse.RemoveListener(HandleWitResponse);
+        Deactivate();
+
 
     }
+
+    
 
     public void SayIllness()
     {
@@ -113,4 +160,16 @@ public class AlienVoice : MonoBehaviour
         Debug.Log("Say line called");
         TTSScript.Speak(Line);
     }
+
+    private void HandlePartialTranscription(string transcription)
+    {
+        if (transcriptText != null)
+        {
+            // Ensure the text is visible and prepend a sprite (adjust the sprite tag as needed)
+            transcriptText.text = "<sprite=0> " + transcription;
+        }
+    }
+
+
+
 }

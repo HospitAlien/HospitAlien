@@ -71,7 +71,7 @@ public class Status
         }
         else if (needsAnAmputation)
         {
-            response += "My arm is ruined! \n";
+            response += "The corruption is spreading! You need to cut some of my limbs off! \n";
         }
         else if (needsLimbs)
         {

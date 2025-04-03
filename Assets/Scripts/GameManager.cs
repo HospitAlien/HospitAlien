@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Voice;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,6 +42,15 @@ public class GameManager : MonoBehaviour
     public float waitTimeBeforeStart = 10.0f;
     //I want to have
 
+    public AppVoiceExperience VoiceExperience;
+
+    public float distanceMultiplier = 2.25f;  // Multiplier to adjust ray length
+    public float rayOriginYOffset = 0.2f; // Adjust this value in the Inspector to shift the ray down
+
+    private Camera mainCam;
+    AlienVoice alienVoice;
+
+
 
     public void UpdateScoreText()
     {
@@ -66,6 +76,32 @@ public class GameManager : MonoBehaviour
             obj.SetActive(false);
         }
         StartCoroutine(StartGameCountdown(waitTimeBeforeStart));
+
+        //Warm up connection to NLP (Wit.ai) for voice interation
+        GameObject VoiceExperienceObject = GameObject.Find("App Voice Experience");
+        if (VoiceExperienceObject != null)
+        {
+            VoiceExperience = VoiceExperienceObject.GetComponent<AppVoiceExperience>();
+        }
+        else
+        {
+            Debug.Log("VoiceExperienceObject not found");
+        }
+
+        VoiceExperience.Activate("Warm up");
+        Debug.Log("Warming up connection to Wit.ai");
+
+        mainCam = Camera.main;
+    }
+
+    void Update()
+    {
+        Vector3 origin = mainCam.transform.position + new Vector3(0, -rayOriginYOffset, 0);
+        Vector3 direction = mainCam.transform.forward * distanceMultiplier;
+
+        // Draw a red ray for debugging, visible in the Scene view
+        Debug.DrawRay(origin, direction, Color.red);
+        HandleRaycastAndVisuals();
     }
 
     public void GameStatusController(bool gamePlaying)
@@ -101,7 +137,7 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(restartCoroutine);
         }
-        restartCoroutine = StartCoroutine(RestartGameCountdown(restartTime));
+        restartCoroutine = StartCoroutine(RestartGameCountdown(90.0f));
     }
 
     IEnumerator RestartGameCountdown(float countdownTime)
@@ -437,6 +473,66 @@ public class GameManager : MonoBehaviour
         if (restartCoroutine != null)
         {
             StopCoroutine(restartCoroutine);
+        }
+    }
+
+    void HandleRaycastAndVisuals()
+    {
+
+        // Set the ray's origin to the camera's current position
+        Vector3 origin = mainCam.transform.position + new Vector3(0, -rayOriginYOffset, 0);
+        // Set the ray's direction to where the camera is currently facing
+        Vector3 direction = mainCam.transform.forward;
+
+        // Set a default end position at the maximum ray length from the origin
+        Vector3 endPosition = origin + direction * distanceMultiplier;
+
+        // Perform the raycast using the calculated origin, direction, and maximum distance,
+        // while filtering by the specified layer mask.
+        RaycastHit hit;
+        if (Physics.Raycast(origin, direction, out hit, distanceMultiplier))
+        {
+            // If the ray hits an object, update the end position to the hit point
+            endPosition = hit.point;
+
+            // Check if the hit object has the tag "NPC"
+            if (hit.collider.CompareTag("Head"))
+            {
+                alienVoice = hit.collider.GetComponentInParent<AlienVoice>();
+                if (alienVoice != null)
+                {
+                    // Call the desired function on the Alien script
+                    if (!VoiceExperience.Active)
+                    {
+                        alienVoice.ActivateListening();
+                        Debug.Log("Listening !");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Alien voice not found.");
+                }
+            }
+            else
+            {
+                if (VoiceExperience.Active)
+                {
+                    if (alienVoice != null)
+                    {
+                        alienVoice.Deactivate();
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (VoiceExperience.Active)
+            {
+                if (alienVoice != null)
+                {
+                    alienVoice.Deactivate();
+                }
+            }
         }
     }
 }
