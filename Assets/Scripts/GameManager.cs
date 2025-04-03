@@ -320,7 +320,10 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(1f);
 
                     float chance = Random.Range(0f, 1f);
-                    if (chance <= 0.08f && eventState == 0)
+                    float spawnChance = 0.08f;
+                    if (currentGameStage == 0) spawnChance = 0.05f;
+
+                    if (chance <= spawnChance && eventState == 0)
                     {
                         Debug.Log("Spawning patient");
                         SpawnPatient();
