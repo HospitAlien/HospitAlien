@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="admin-style.css" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+  </head>
+  <body>
+    <div id="login-container" class="admin-container">
+      <h1>Admin Login</h1>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email:</label>
+          <input type="email" id="login-email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password:</label>
+          <input type="password" id="login-password" name="password" required />
+        </div>
+        <div id="login-message-area" class="message-area"></div>
+        <div class="form-group">
+          <button type="submit" id="login-button">Login</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="admin-content" class="admin-container" style="display: none">
+      <div class="header-bar">
+        <h1>Add Leaderboard Entry</h1>
+        <div class="user-info">
+          <span id="user-email"></span>
+          <button id="logout-button">Logout</button>
+        </div>
+      </div>
+
+      <form id="add-entry-form">
+        <div class="form-group">
+          <label for="name">Player Name:</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="score">Score:</label>
+          <input type="number" id="score" name="score" required />
+        </div>
+        <div id="message-area" class="message-area"></div>
+        <div class="form-group">
+          <button type="submit" id="submit-button">Submit Entry</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <script type="module">
+      // Assuming apikey.js is in the same directory or accessible path
+      import { firebaseConfig } from "./apikey.js";
+
+      // --- Firebase Initialization ---
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      const auth = firebase.auth(); // Get Authentication instance
+
+      // --- DOM References ---
+      // Login elements
+      const loginContainer = document.getElementById("login-container");
+      const loginForm = document.getElementById("login-form");
+      const loginEmailInput = document.getElementById("login-email");
+      const loginPasswordInput = document.getElementById("login-password");
+      const loginButton = document.getElementById("login-button");
+      const loginMessageArea = document.getElementById("login-message-area");
+
+      // Admin content elements
+      const adminContentContainer = document.getElementById("admin-content");
+      const addEntryForm = document.getElementById("add-entry-form");
+      const nameInput = document.getElementById("name");
+      const scoreInput = document.getElementById("score");
+      const submitButton = document.getElementById("submit-button");
+      const messageArea = document.getElementById("message-area"); // For add entry form
+      const userEmailSpan = document.getElementById("user-email");
+      const logoutButton = document.getElementById("logout-button");
+
+      // --- Authentication State Listener ---
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          // --- User is logged in ---
+          console.log("User logged in:", user.email);
+
+          // Simplified version (shows content if logged in, relies on Firestore rules for write protection):
+          loginContainer.style.display = "none"; // Hide login form
+          adminContentContainer.style.display = "block"; // Show admin content
+          userEmailSpan.textContent = `Logged in as: ${user.email}`; // Show user email
+        } else {
+          // --- User is logged out ---
+          console.log("User logged out.");
+          loginContainer.style.display = "block"; // Show login form
+          adminContentContainer.style.display = "none"; // Hide admin content
+          userEmailSpan.textContent = ""; // Clear user email display
+          // Clear any leftover messages
+          loginMessageArea.textContent = "";
+          loginMessageArea.className = "message-area";
+          messageArea.textContent = "";
+          messageArea.className = "message-area";
+          // Ensure login form fields are clear (optional)
+          loginForm.reset();
+        }
+      });
+
+      // --- Login Form Submission ---
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const email = loginEmailInput.value;
+        const password = loginPasswordInput.value;
+
+        // Clear previous login messages
+        displayLoginMessage("", "info"); // Clear message area
+        loginButton.disabled = true;
+        loginButton.textContent = "Logging in...";
+
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+          // Login successful: onAuthStateChanged will handle UI changes.
+          console.log("Login successful");
+          // No need to manually hide/show here, listener does it.
+          // Clear password field after attempt
+          loginPasswordInput.value = "";
+        } catch (error) {
+          console.error("Login failed:", error);
+          displayLoginMessage(`Login failed: ${error.message}`, "error");
+          // Clear password field after failed attempt
+          loginPasswordInput.value = "";
+        } finally {
+          loginButton.disabled = false;
+          loginButton.textContent = "Login";
+        }
+      });
+
+      // --- Logout Button ---
+      logoutButton.addEventListener("click", () => {
+        auth
+          .signOut()
+          .then(() => {
+            console.log("Sign-out successful.");
+            // onAuthStateChanged will handle UI changes.
+          })
+          .catch((error) => {
+            console.error("Sign-out failed:", error);
+            // Optionally display an error message if signout fails
+            displayMessage("Error logging out. Please try again.", "error"); // Use main message area?
+          });
+      });
+
+      // --- Add Entry Form Submission (Existing Logic) ---
+      // This listener remains largely the same, but is now only active
+      // when the admin content container is visible (i.e., user logged in)
+      addEntryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        // Check if user is logged in (redundant due to UI hiding, but safe)
+        if (!auth.currentUser) {
+          displayMessage("You must be logged in to submit.", "error");
+          return;
+        }
+
+        const name = nameInput.value.trim();
+        const score = parseInt(scoreInput.value);
+
+        messageArea.textContent = "";
+        messageArea.className = "message-area";
+
+        if (!name) {
+          displayMessage("Player name cannot be empty.", "error");
+          nameInput.focus();
+          return;
+        }
+        if (isNaN(score)) {
+          displayMessage("Please enter a valid number for the score.", "error");
+          scoreInput.focus();
+          return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+        displayMessage("Submitting data...", "info");
+
+        try {
+          // Firestore rule 'request.auth.token.admin === true' will be checked here!
+          const docRef = await db.collection("leaderboard").add({
+            name: name,
+            score: score,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+
+          console.log("Document written with ID: ", docRef.id);
+          displayMessage(
+            `Entry added successfully (ID: ${docRef.id})!`,
+            "success"
+          );
+          addEntryForm.reset();
+        } catch (error) {
+          console.error("Error adding document: ", error);
+          // Check if it's a permission error from security rules
+          if (error.code === "permission-denied") {
+            displayMessage(
+              "Permission denied. You might not have admin privileges.",
+              "error"
+            );
+          } else {
+            displayMessage(`Error submitting data: ${error.message}`, "error");
+          }
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Submit Entry";
+          if (messageArea.classList.contains("success")) {
+            setTimeout(() => {
+              if (messageArea.classList.contains("success")) {
+                messageArea.textContent = "";
+                messageArea.className = "message-area";
+              }
+            }, 4000);
+          }
+        }
+      });
+
+      // --- Helper function to display messages in MAIN message area ---
+      function displayMessage(message, type = "info") {
+        messageArea.textContent = message;
+        messageArea.className = `message-area ${type}`;
+      }
+
+      // --- Helper function to display messages in LOGIN message area ---
+      function displayLoginMessage(message, type = "info") {
+        loginMessageArea.textContent = message;
+        loginMessageArea.className = `message-area ${type}`;
+      }
+    </script>
+  </body>
+</html>

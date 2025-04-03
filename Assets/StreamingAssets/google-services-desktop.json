@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "732911659834",
+    "project_id": "hospitalien-leaderboard",
+    "storage_bucket": "hospitalien-leaderboard.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732911659834:android:05ccb4be3999182c497e03",
+        "android_client_info": {
+          "package_name": "com.Ubifox.HospitAlien"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWsH81gXZofPhBfSKt8pNam6SfPmbVeD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

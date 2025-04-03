@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 6c311af5426ad2f49bc61220fc07415d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bloodShotMaterial: {fileID: 2100000, guid: 9d26f9604db650246aaee62c8e6c31ab, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

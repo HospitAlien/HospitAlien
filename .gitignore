@@ -135,3 +135,9 @@ Thumbs.db
 Desktop.ini
 
 **/ignore.conf
+
+# Ignore unity temp files
+/.utmp/
+
+# Ignore unity build files
+/HospitAlien_BurstDebugInformation_DoNotShip/
