@@ -459,6 +459,10 @@ public class Alien : MonoBehaviour
 
     public float GetRemainingTime()
     {
+        if (timer > 60f)
+        {
+            return 60f;
+        }
         return timer;
     }
 
