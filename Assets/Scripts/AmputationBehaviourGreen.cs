@@ -17,12 +17,12 @@ public class AmputationBehaviourGreen : AmputationBehaviour
                 {
                     case 0:
                         colliderObject = new GameObject("LeftHand");
-                        offset = new Vector3(-0.204f, 1.473f, 0.0048f);
+                        offset = new Vector3(-0.1962f, 1.473f, 0.0048f);
                         size = new Vector3(0.05f, 0.13f, 0.09f);
                         break;
                     case 1:
                         colliderObject = new GameObject("RightHand");
-                        offset = new Vector3(0.178f, 1.473f, 0.0048f);
+                        offset = new Vector3(0.164f, 1.473f, 0.0048f);
                         size = new Vector3(0.05f, 0.13f, 0.09f);
                         break;
                     case 2:

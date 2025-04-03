@@ -101,4 +101,9 @@ public class TutorialMoveModeButton : MonoBehaviour
                 break;
         }
     }
+
+    private void OnDestroy()
+    {
+        gvm.gameSettings.OnSettingChanged -= OnSettingChanged;
+    }
 }

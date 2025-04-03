@@ -1,12 +1,14 @@
 using UnityEngine;
 using TMPro;
 using Oculus.Interaction;
+using DG.Tweening;
+using System;
 
 public class FinishGameMenuManager : MonoBehaviour
 {
     public GameObject menu;
     public Renderer menuRenderer;
-    public float distanceFromPlayer = 1.2f;
+    public float distanceFromPlayer = 1f;
     public RayInteractable[] rayInteractablesToRestart;
     private Transform _camera;
     private bool _isMenuOpen;
@@ -14,6 +16,11 @@ public class FinishGameMenuManager : MonoBehaviour
     public TextMeshProUGUI titleText;
     public TextMeshProUGUI restartTimeText;
     private GameManager gameManager;
+
+    private GlobalVariableManager gvm;
+    public GameObject UploadArea;
+    public TextMeshProUGUI UploadTipsText;
+    public TMP_InputField playerNameInputField;
 
     public int[] targetScores = new int[] { 0, 2500, 5000, 7500, 10000, 12500, 17500, 999999 };
     public string[] targetRanks = new string[]
@@ -28,17 +35,63 @@ public class FinishGameMenuManager : MonoBehaviour
             "Cheater"
         };
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        gameManager = FindFirstObjectByType<GameManager>();
-    }
-
     void Start()
     {
+        gvm = FindFirstObjectByType<GlobalVariableManager>();
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
         CloseMenu();
         _camera = Camera.main.transform;
+        gameManager = FindFirstObjectByType<GameManager>();
+        gvm.OnUploadScoreEvent += (bool isSuccessful) =>
+        {
+            if (!isSuccessful)
+            {
+                UploadArea.SetActive(true);
+                UploadTipsText.text = "Upload failed! Please try again or tell our member.";
+                gameManager.StartRestartCountdown();
+                return;
+            }
+            else
+            {
+                UploadArea.SetActive(false);
+            }
+        };
+    }
+
+    private void CheckMenuIsVisible()
+    {
+        if (!menu.activeSelf) return;
+        if (!menuRenderer.isVisible) MoveMenuToPlayerSmoothly();
+        if (Math.Abs(_camera.position.y - transform.position.y) > 0.1f) MoveMenuToPlayerSmoothly();
+        float distance = Vector3.Distance(transform.position, _camera.position);
+        if (distance > 2 * distanceFromPlayer)
+        {
+            MoveMenuToPlayerSmoothly();
+        }
+        // else if (_isMenuMoving) transform.DOKill();
+    }
+
+    public void MoveMenuToPlayerSmoothly(Vector3 offset = default)
+    {
+        Vector3 forwardOnXZ = new Vector3(_camera.forward.x, 0, _camera.forward.z).normalized;
+        Vector3 targetPosition = _camera.position + forwardOnXZ * distanceFromPlayer;
+        targetPosition += offset;
+
+        // If the coroutine is already running, stop it
+        transform.DOKill();
+
+        transform.DOMove(targetPosition, 3f)
+            .SetSpeedBased()
+            .SetEase(Ease.OutCubic)
+            .OnUpdate(() =>
+            {
+                transform.LookAt(_camera.position);
+            });
+    }
+
+    void Update()
+    {
+        if (_isMenuOpen) CheckMenuIsVisible();
     }
 
     private void CloseMenu()
@@ -49,6 +102,7 @@ public class FinishGameMenuManager : MonoBehaviour
 
     public void OpenMenu(Vector3 offset = default)
     {
+        if (_isMenuOpen) return;
         _isMenuOpen = true;
         menu.SetActive(true);
         RestartRayInteractables();
@@ -103,5 +157,11 @@ public class FinishGameMenuManager : MonoBehaviour
     public void ResetRestartTime()
     {
         gameManager.StartRestartCountdown();
+    }
+
+    public void UploadScore()
+    {
+        UploadArea.SetActive(false);
+        gvm.UploadScoreToFirestore(playerNameInputField.text, gameManager.score);
     }
 }

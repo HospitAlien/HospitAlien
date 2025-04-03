@@ -19,18 +19,20 @@ public class MenuManager : MonoBehaviour
     private Transform _camera;
     private GlobalVariableManager gvm;
     private bool _isMenuOpen;
+    public bool CloseOnStart = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (menu == null) Debug.LogError("Menu object is not set in the inspector!");
-        CloseMenu();
         gvm = FindFirstObjectByType<GlobalVariableManager>();
         _camera = Camera.main.transform;
         OnSettingChanged(gvm.gameSettings);
         OnComfortSettingChanged(gvm.gameSettings);
         gvm.gameSettings.OnSettingChanged += OnSettingChanged;
         gvm.gameSettings.OnComfortSettingChanged += OnComfortSettingChanged;
+        if (CloseOnStart) CloseMenu();
+        else OpenMenu();
     }
 
     private void OnSettingChanged(GameSettingsIO settings)

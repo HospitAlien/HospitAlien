@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Oculus.Interaction;
+using TMPro;
 
 public class Alien : MonoBehaviour
 {
-    protected Transform target;
+    protected GameObject target;
     protected int index;
-    public Vector3 targetLocation;
 
     protected float timer = 80;
-    protected TextMesh timerText;
+    protected TextMeshProUGUI timerText;
 
     protected static GameManager gameManager;
     protected NavMeshAgent agent;
@@ -29,6 +29,7 @@ public class Alien : MonoBehaviour
     public AudioSource shrinkSFX;
     protected Material amputateMaterial;
     protected Material originalLimbMaterial;
+    public Animator animator;
 
 
     protected float lastVoiceTime = -Mathf.Infinity;
@@ -38,13 +39,15 @@ public class Alien : MonoBehaviour
     protected AlienVoice alienVoice;
     public int reward = 200;
 
-    protected Dictionary<Vector3, (Vector3, Quaternion)> beds
-        = new Dictionary<Vector3, (Vector3, Quaternion)>();
+    public GameObject handPrefab;
+    public GameObject legPrefab;
 
 
     void Start()
     {
         status = new Status();
+
+        animator = GetComponent<Animator>();
 
         alienVoice = GetComponent<AlienVoice>();
 
@@ -56,21 +59,10 @@ public class Alien : MonoBehaviour
 
 
         agent = GetComponent<NavMeshAgent>();
-        targetLocation = new Vector3(target.position.x, transform.position.y, target.position.z);
-        agent.SetDestination(targetLocation);
+        agent.SetDestination(target.transform.position);
 
-        while (status.isHealthy())
-        {
-            InitiateStatus();
-        }
+        InitiateStatus();
         InitiateTimer();
-
-        beds[new Vector3(-2f, 2f, 2)] = (new Vector3(-2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(0f, 2f, 2f)] = (new Vector3(0, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(2f, 2f, 2f)] = (new Vector3(2, 1, 2.575f), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(2f, 2f, 0f)] = (new Vector3(3.6f, 1, -1), Quaternion.Euler(-90, 180, 0));
-        beds[new Vector3(2f, 2f, -2f)] = (new Vector3(2, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
-        beds[new Vector3(0f, 2f, -2f)] = (new Vector3(0, 1, -2.5f), Quaternion.Euler(-90, 0, 0));
     }
 
     protected virtual void InitiateStatus(){
@@ -81,16 +73,11 @@ public class Alien : MonoBehaviour
     protected void InitiateTimer()
     {
         // Create a new TextMesh object for displaying the countdown
-        GameObject timerGO = new GameObject("TimerText");
-        timerGO.transform.SetParent(transform);
-        timerGO.transform.localPosition = new Vector3(0, 0.2f, 0); // Position it above the alien's head
+        timerText = target.GetComponentInChildren<TextMeshProUGUI>();
 
-        timerText = timerGO.AddComponent<TextMesh>();
-        timerText.fontSize = 100;
-        timerText.transform.localScale = new Vector3(0.005f, 0.005f, 0.005f);
-        timerText.color = Color.black;
-        timerText.alignment = TextAlignment.Center;
-        timerText.anchor = TextAnchor.MiddleCenter;
+        Debug.Log("GOT HERE");
+        Debug.Log(timerText);
+
 
         // Start the countdown coroutine
         StartCoroutine(CountdownTimer());
@@ -112,6 +99,8 @@ public class Alien : MonoBehaviour
     protected void Kill()
     {
         alienVoice.SayLine("You failed me!");
+        StopAllCoroutines();
+        timerText.text = "";
 
         gameManager.PatientDied(index);
         Destroy(gameObject);
@@ -127,12 +116,23 @@ public class Alien : MonoBehaviour
             // Check if the agent has reached the destination
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                //Move the alien to bed and disable path-finding
-                agent.Warp(beds[target.position].Item1);
+                animator.Play(animator.GetCurrentAnimatorStateInfo(0).shortNameHash,0,0f);
+                animator.speed = 0f;
+                animator.enabled = false;
                 agent.enabled = false;
-                transform.rotation = beds[target.position].Item2;
-                target = null;
+
+
                 isReady = true;
+                
+
+                // Set the position and rotation to match the target
+                transform.position = target.transform.position;
+                transform.rotation = target.transform.rotation;
+                transform.position += new Vector3(0f,0.5f,0f);
+                transform.localPosition += target.transform.forward * -1f; 
+                transform.rotation = target.transform.rotation * Quaternion.Euler(-90f, 180f, 0f);
+
+
                 //Reposition timer so it's not on the floor (it's rotated alongside the alien")
                 Transform timerText = transform.Find("TimerText");
                 if (timerText != null)
@@ -140,10 +140,11 @@ public class Alien : MonoBehaviour
                     timerText.localPosition = new Vector3(0f, 0.15f, 0.06f);
                     timerText.localRotation = Quaternion.Euler(-90f, 180f, 0f);
                 }
+                target = null;
             }
             else
             {
-                agent.SetDestination(targetLocation);
+                agent.SetDestination(target.transform.position);
                 isReady = false;
             }
         }
@@ -207,36 +208,44 @@ public class Alien : MonoBehaviour
         switch (limb)
         {
             case 0:
-                limbTransform = transform.Find("hands/left_hand");
+                limbTransform = transform.Find("body/hands/left_hand");
                 break;
             case 1:
-                limbTransform = transform.Find("hands/right_hand");
+                limbTransform = transform.Find("body/hands/right_hand");
                 break;
             case 2:
-                limbTransform = transform.Find("feet/foot_left");
+                limbTransform = transform.Find("body/feet/foot_left");
                 break;
             case 3:
-                limbTransform = transform.Find("feet/foot_right");
+                limbTransform = transform.Find("body/feet/foot_right");
                 break;
 
         }
        
         if (limbTransform != null)
         {
-            //Clone limb then add gravity
-            GameObject limbClone = Instantiate(limbTransform.gameObject, limbTransform.position, limbTransform.rotation);
-            Rigidbody rb = limbClone.AddComponent<Rigidbody>();
-            rb.useGravity = true;
-            rb.isKinematic = false;
-
             // Deactivate the original limb
             limbTransform.gameObject.SetActive(false);
 
-            //Detach clone
-            limbClone.transform.parent = null;
+            //Drop a limb to show amputation
+            GameObject limbPrefab = null;
+            switch (limb)
+            {
+                case 0:
+                   limbPrefab = handPrefab;
+                    break;
+                case 1:
+                   limbPrefab = handPrefab;
+                    break;
+                case 2:
+                    limbPrefab = legPrefab;
+                    break;
+                case 3:
+                    limbPrefab = legPrefab;
+                    break;
+            }
 
-
-
+            GameObject limbClone = Instantiate(limbPrefab, limbTransform.position, limbTransform.rotation);
 
             if (Time.time - lastVoiceTime >= voiceCooldownTime)
             {
@@ -270,16 +279,16 @@ public class Alien : MonoBehaviour
         switch (limb)
         {
             case 0:
-                originalLimb = transform.Find("hands/left_hand");
+                originalLimb = transform.Find("body/hands/left_hand");
                 break;
             case 1:
-                originalLimb = transform.Find("hands/right_hand");
+                originalLimb = transform.Find("body/hands/right_hand");
                 break;
             case 2:
-                originalLimb = transform.Find("feet/foot_left");
+                originalLimb = transform.Find("body/feet/foot_left");
                 break;
             case 3:
-                originalLimb = transform.Find("feet/foot_right");
+                originalLimb = transform.Find("body/feet/foot_right");
                 break;
         }
 
@@ -440,7 +449,7 @@ public class Alien : MonoBehaviour
     }
 
 
-    public void SetTarget(Transform newTarget)
+    public void SetTarget(GameObject newTarget)
     {
         target = newTarget;
     }
@@ -472,6 +481,10 @@ public class Alien : MonoBehaviour
             CoinBehaviour theCoins = newObject.GetComponent<CoinBehaviour>();
             theCoins.SetRate(12);
         }
+
+        StopAllCoroutines();
+        timerText.text = "";
+
         Destroy(gameObject);
     }
 

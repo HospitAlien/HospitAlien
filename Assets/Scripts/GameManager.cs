@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject purpleAlienPrefab;
     public GameObject greenAlienPrefab;
+    public GameObject orangeAlienPrefab;
 
     public GhostEvent ghostEvent;
     public GameObject pizzaPrefab;
@@ -34,9 +35,11 @@ public class GameManager : MonoBehaviour
     //the event state indicates the current event, if it is 0 it means there is no ongoing event, if it is 1 is it pizza time
 
     private List<GameObject> spawnedAliens = new List<GameObject>();
-    private Transform[] spawnLocations;
+    public GameObject[] spawnLocations;
     private int eventState = 0;
     private bool[] spotOccupied;
+    public float restartTime = 90.0f;
+    public float waitTimeBeforeStart = 10.0f;
     //I want to have
 
     public AppVoiceExperience VoiceExperience;
@@ -64,36 +67,13 @@ public class GameManager : MonoBehaviour
         spotOccupied = new bool[maxPatients]; //Initially these will all be false
 
 
-
-        // Define 6 spawn locations programmatically
-        spawnLocations = new Transform[6];  // Array of 6 spawn locations
-
-        // Defining spawn points at specific positions
-        spawnLocations[0] = new GameObject("SpawnPoint1").transform;
-        spawnLocations[0].position = new Vector3(2, 2, -2);  // Position 1
-
-        spawnLocations[1] = new GameObject("SpawnPoint2").transform;
-        spawnLocations[1].position = new Vector3(2, 2, 0);  // Position 2
-
-        spawnLocations[2] = new GameObject("SpawnPoint3").transform;
-        spawnLocations[2].position = new Vector3(2, 2, 2);  // Position 3
-
-        spawnLocations[3] = new GameObject("SpawnPoint4").transform;
-        spawnLocations[3].position = new Vector3(0, 2, -2);  // Position 4
-
-        spawnLocations[4] = new GameObject("SpawnPoint5").transform;
-        spawnLocations[4].position = new Vector3(0, 2, 2);  // Position 5
-
-        spawnLocations[5] = new GameObject("SpawnPoint6").transform;
-        spawnLocations[5].position = new Vector3(-2, 2, 2);  // Position 6
-
         eventTextController = EventCanvas.GetComponent<EventTextController>();
         EventCanvas.SetActive(false);
         foreach (GameObject obj in endGameObjects)
         {
             obj.SetActive(false);
         }
-        StartCoroutine(StartGameCountdown(10.0f));
+        StartCoroutine(StartGameCountdown(waitTimeBeforeStart));
 
         //Warm up connection to NLP (Wit.ai) for voice interation
         GameObject VoiceExperienceObject = GameObject.Find("App Voice Experience");
@@ -178,7 +158,6 @@ public class GameManager : MonoBehaviour
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];
-        EventCanvas.SetActive(false);
 
         StartCoroutine(SpawnPatients());
         StartCoroutine(eventRoutine());
@@ -188,6 +167,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+        StartCoroutine(gvm.LoadLeaderboardData());
         currentPatientCount = 0;
         eventState = 0;
         spotOccupied = new bool[maxPatients];
@@ -246,11 +226,9 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
 
             eventState = 1; //event on going, stops aliens spawning
-            Debug.Log("waiting for patients to despawn");
             yield return new WaitUntil(() => currentPatientCount == 0); //gotta wait till no aliens are around before we start the event
-            Debug.Log($"NO PATIENTS LEFT {currentPatientCount}");
 
-            if(currentGameStage == 0)
+            if (currentGameStage == 0)
             {
                 yield return StartCoroutine(PizzaTime());
             }
@@ -262,10 +240,9 @@ public class GameManager : MonoBehaviour
                 yield return StartCoroutine(ghostEvent.StartEvent());
             }
 
+            EventCanvas.SetActive(false);
             eventState = 0;
 
-
-            Debug.Log("Piza time finished");
             currentGameStage++;
         }
     }
@@ -287,9 +264,9 @@ public class GameManager : MonoBehaviour
         {
 
             Vector3 randomPosition = new Vector3(
-                Random.Range(-10f, 10f),
+                Random.Range(-8f, 8f),
                 1f,
-                Random.Range(-10f, 10f)
+                Random.Range(-8f, 8f)
             );
 
             GameObject pizza = Instantiate(pizzaPrefab, randomPosition, Quaternion.identity);
@@ -309,8 +286,6 @@ public class GameManager : MonoBehaviour
 
             pizzaTimeElapsed += 0.5f;
         }
-
-        EventCanvas.SetActive(false);
         //once the loop ends we need to delete all the pizzas
         foreach (GameObject pizza in spawnedPizzas)
         {
@@ -376,16 +351,21 @@ public class GameManager : MonoBehaviour
 
 
         // Select a random spawn location from the spawnLocations array
-        Transform spawnPoint = spawnLocations[newSpot];
+        GameObject spawnPoint = spawnLocations[newSpot];
         GameObject patient;
-        int alienType = Random.Range(1, 3);
+        int alienType = Random.Range(1, 4);
+
         if (alienType == 1)
         {
             patient = Instantiate(purpleAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         }
-        else
+        else if (alienType == 2)
         {
             patient = Instantiate(greenAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            patient = Instantiate(orangeAlienPrefab, Portal.transform.position + new Vector3(1, 0, 0), Quaternion.identity);
         }
 
         // Access the AlienBehaviour (or equivalent) script on the newly spawned patient and set its target
@@ -436,7 +416,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Ghost attack!");
         score -= 50;
-        score = System.Math.Max(score,0);
+        score = System.Math.Max(score, 0);
         UpdateScoreText();
     }
 
@@ -480,9 +460,18 @@ public class GameManager : MonoBehaviour
         var aliens = FindObjectsByType<Alien>(FindObjectsSortMode.None);
         foreach (Alien alien in aliens)
         {
-            total += Mathf.Pow(alien.GetRemainingTime(), 1.3f);
+            total += Mathf.Pow(60 - alien.GetRemainingTime(), 1.3f);
         }
         return total;
+    }
+
+    void OnDestroy()
+    {
+        gvm.OnGamePlayingChangedEvent -= GameStatusController;
+        if (restartCoroutine != null)
+        {
+            StopCoroutine(restartCoroutine);
+        }
     }
 
     void HandleRaycastAndVisuals()
