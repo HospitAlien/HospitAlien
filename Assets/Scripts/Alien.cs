@@ -65,7 +65,8 @@ public class Alien : MonoBehaviour
         InitiateTimer();
     }
 
-    protected virtual void InitiateStatus(){
+    protected virtual void InitiateStatus()
+    {
         Debug.Log("initiate the status of the alien");
     }
 
@@ -116,20 +117,16 @@ public class Alien : MonoBehaviour
             // Check if the agent has reached the destination
             if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
             {
-                animator.Play(animator.GetCurrentAnimatorStateInfo(0).shortNameHash,0,0f);
-                animator.speed = 0f;
-                animator.enabled = false;
+                animator.SetTrigger("Ready");
                 agent.enabled = false;
 
-
                 isReady = true;
-                
 
                 // Set the position and rotation to match the target
                 transform.position = target.transform.position;
                 transform.rotation = target.transform.rotation;
-                transform.position += new Vector3(0f,0.5f,0f);
-                transform.localPosition += target.transform.forward * -1f; 
+                transform.position += new Vector3(0f, 0.5f, 0f);
+                transform.localPosition += target.transform.forward * -1f;
                 transform.rotation = target.transform.rotation * Quaternion.Euler(-90f, 180f, 0f);
 
 
@@ -221,7 +218,7 @@ public class Alien : MonoBehaviour
                 break;
 
         }
-       
+
         if (limbTransform != null)
         {
             // Deactivate the original limb
@@ -232,10 +229,10 @@ public class Alien : MonoBehaviour
             switch (limb)
             {
                 case 0:
-                   limbPrefab = handPrefab;
+                    limbPrefab = handPrefab;
                     break;
                 case 1:
-                   limbPrefab = handPrefab;
+                    limbPrefab = handPrefab;
                     break;
                 case 2:
                     limbPrefab = legPrefab;
@@ -252,7 +249,7 @@ public class Alien : MonoBehaviour
                 alienVoice.SayLine("Thanks for cutting it off!");
                 lastVoiceTime = Time.time; // Update the time the voice line was last played
             }
- 
+
 
             //Despawn clone in 10s. Could be changed so that players have to bin the arm.
             Destroy(limbClone.gameObject, 10f);
@@ -271,7 +268,8 @@ public class Alien : MonoBehaviour
         Debug.Log("initiateAttachHand must be overridden");
     }
 
-    public void attachLimb(GameObject bodyPart, int limb){
+    public void attachLimb(GameObject bodyPart, int limb)
+    {
         Destroy(bodyPart); //Destroy the donor arm
 
         //Find and restore limb
@@ -459,11 +457,13 @@ public class Alien : MonoBehaviour
         index = newIndex;
     }
 
-    public float GetRemainingTime(){
+    public float GetRemainingTime()
+    {
         return timer;
     }
 
-    public int GetInjuryCount(){
+    public int GetInjuryCount()
+    {
         int injuries = 0;
         if (status.needsInjection) injuries++;
         if (status.needsExtinguishing) injuries++;
@@ -471,7 +471,8 @@ public class Alien : MonoBehaviour
         return injuries;
     }
 
-    public void Cure(){
+    public void Cure()
+    {
         alienVoice.SayLine("Ah... Much better");
         gameManager.PatientCured(index, reward);
         if (coinParticlePrefab != null)

@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
         // Select a random spawn location from the spawnLocations array
         GameObject spawnPoint = spawnLocations[newSpot];
         GameObject patient;
-        int alienType = Random.Range(1, 4);
+        int alienType = 2;
 
         if (alienType == 1)
         {
