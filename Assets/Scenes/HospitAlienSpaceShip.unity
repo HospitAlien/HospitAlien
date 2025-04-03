@@ -13310,6 +13310,7 @@ MonoBehaviour:
     audioType: 1
     audioStream: 1
     useEvents: 1
+    audioStreamTimeoutMs: 10000
     audioStreamPreloadCount: 5
     audioReadyDuration: 1.5
     audioMaxDuration: 15
