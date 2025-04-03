@@ -305,9 +305,9 @@ public class GameManager : MonoBehaviour
             if (currentPatientCount < 6 && eventState == 0)
             {
 
-                if (currentPatientCount == 0) //if there are no patients we should spawn one in 5 seconds
+                if (currentPatientCount == 0) //if there are no patients we should spawn one in 2 seconds
                 {
-                    yield return new WaitForSeconds(5f);
+                    yield return new WaitForSeconds(2f);
                     if (eventState == 0)
                     {
                         Debug.Log("Spawning patient");

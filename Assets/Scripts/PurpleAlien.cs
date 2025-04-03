@@ -3,18 +3,20 @@ using UnityEngine;
 
 public class PurpleAlien : Alien
 {
-   
+
 
     //TODO: I think its better to roll a random number to decide how many troubles the alien has then select from a list with weighted probabilities
     protected override void InitiateStatus()
-    { 
+    {
         status.initiateStatus(this, gameManager.currentGameStage);
     }
 
 
-    public void applyEyedrop(){
+    public void applyEyedrop()
+    {
         status.applyEyeDrop();
-        if(status.isHealthy()){
+        if (status.isHealthy())
+        {
             Cure();
         }
     }
@@ -30,13 +32,15 @@ public class PurpleAlien : Alien
     {
 
         bool limbSet = false;
+        int amputateLimit = 0;
         System.Random random = new System.Random();
         for (int i = 0; i < status.needsAttatchment.Length; i++)
         {
-            if (random.NextDouble() < 0.3)
+            if (amputateLimit < 2 && random.NextDouble() < 0.3)
             {
                 status.needsAmputation[i] = true;
                 limbSet = true;
+                amputateLimit++;
             }
         }
 

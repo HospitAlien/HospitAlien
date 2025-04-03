@@ -124,6 +124,8 @@ public class Status
         }
 
 
+        bool specialIllnessAvailable = true;
+
         List<Action> illnesses = new List<Action>();
         illnesses.Add(() =>
         {
@@ -149,24 +151,40 @@ public class Status
 
         illnesses.Add(() =>
         {
-            needsAnAmputation = true;
-            needsAmputation = new bool[] { false, false, false, false };
-            needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
-            alien.initiateAmputation();
+            if (specialIllnessAvailable)
+            {
+                specialIllnessAvailable = false;
+                needsAnAmputation = true;
+                needsAmputation = new bool[] { false, false, false, false };
+                needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+                alien.initiateAmputation();
+            }
+            else
+            {
+                numberOfIllnesses++;
+            }
         });
 
         illnesses.Add(() =>
         {
-            alien.reward += 100;
-            if (random.NextDouble() < 0.5)
-            { // shrink
-                curSize = -1;
-                alien.transform.localScale /= 2f;
+            if (specialIllnessAvailable)
+            {
+                specialIllnessAvailable = false;
+                alien.reward += 100;
+                if (random.NextDouble() < 0.5)
+                { // shrink
+                    curSize = -1;
+                    alien.transform.localScale /= 2f;
+                }
+                else
+                { // enlargement
+                    curSize = 1;
+                    alien.transform.localScale *= 1.4f;
+                }
             }
             else
-            { // enlargement
-                curSize = 1;
-                alien.transform.localScale *= 1.4f;
+            {
+                numberOfIllnesses++;
             }
         });
 
@@ -189,6 +207,7 @@ public class Status
 
     public void initiateStatus(GreenAlien alien, int gameStage)
     {
+        bool specialIllnessAvailable = true;
         System.Random random = new System.Random();
 
         int numberOfIllnesses;
@@ -227,16 +246,97 @@ public class Status
             hasShrapnel = true;
             alien.initiateShrapnel();
         });
-        
+
+
+
 
         illnesses.Add(() =>
         {
-            needsAnAmputation = true;
-            needsAmputation = new bool[] { false, false, false, false };
-            needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
-            alien.initiateAmputation();
+            if (specialIllnessAvailable)
+            {
+                specialIllnessAvailable = false;
+                needsAnAmputation = true;
+                needsAmputation = new bool[] { false, false, false, false };
+                needsAttatchment = new bool[] { false, false, false, false }; //initially none of them need attatching it is only once a limb is removed
+                alien.initiateAmputation();
+            }
+            else
+            {
+                numberOfIllnesses++;
+            }
         });
-        
+
+        illnesses.Add(() =>
+        {
+            if (specialIllnessAvailable)
+            {
+                specialIllnessAvailable = false;
+                alien.reward += 100;
+                if (random.NextDouble() < 0.5)
+                { // shrink
+                    curSize = -1;
+                    alien.transform.localScale /= 2f;
+                }
+                else
+                { // enlargement
+                    curSize = 1;
+                    alien.transform.localScale *= 1.4f;
+                }
+            }
+            else
+            {
+                numberOfIllnesses++;
+            }
+        });
+
+        List<Action> shuffledIllnesses = illnesses.OrderBy(x => random.Next()).ToList();
+        for (int i = 0; i < numberOfIllnesses; i++)
+        {
+            shuffledIllnesses[i]();
+        }
+    }
+
+    public void initiateStatus(OrangeAlien alien, int gameStage)
+    {
+        System.Random random = new System.Random();
+
+        int numberOfIllnesses;
+        if (gameStage == 0)
+        { //first stage
+            numberOfIllnesses = random.Next(1, 3);
+        }
+        else if (gameStage == 1)
+        {
+            numberOfIllnesses = random.Next(2, 5);
+        }
+        else
+        {
+            numberOfIllnesses = random.Next(3, 5);
+        }
+
+
+        List<Action> illnesses = new List<Action>();
+        illnesses.Add(() =>
+        {
+            needsInjection = true;
+            alien.sweatParticles.Play();
+            alien.reward += 100;
+        });
+
+        illnesses.Add(() =>
+        {
+            needsExtinguishing = true;
+            alien.fireParticles.Play();
+            alien.reward += 50;
+        });
+
+        illnesses.Add(() =>
+        {
+            shrapnelCount = 4;
+            alien.reward += 150;
+            hasShrapnel = true;
+            alien.initiateShrapnel();
+        });
 
         illnesses.Add(() =>
         {
@@ -260,58 +360,8 @@ public class Status
         }
     }
 
-    public void initiateStatus(OrangeAlien alien, int gameStage){
-        System.Random random = new System.Random();
-
-        int numberOfIllnesses;
-        if(gameStage == 0){ //first stage
-            numberOfIllnesses = random.Next(1, 3);
-        }else if(gameStage == 1){
-            numberOfIllnesses = random.Next(2,5);
-        }else{
-            numberOfIllnesses = random.Next(3,5);
-        }
-
-
-        List<Action> illnesses = new List<Action>();
-        illnesses.Add(() => {
-            needsInjection = true;
-            alien.sweatParticles.Play();
-            alien.reward += 100;
-        });
-
-        illnesses.Add(() => {
-            needsExtinguishing = true;
-            alien.fireParticles.Play();
-            alien.reward += 50;
-        });
-
-        illnesses.Add(() => {
-            shrapnelCount = 4;
-            alien.reward += 150;
-            hasShrapnel = true;
-            alien.initiateShrapnel();
-        });
-
-        illnesses.Add(() => {
-            alien.reward += 100;
-            if (random.NextDouble() < 0.5) { // shrink
-                curSize = -1;
-                alien.transform.localScale /= 2f;
-            }
-            else { // enlargement
-                curSize = 1;
-                alien.transform.localScale *= 1.4f;
-            }
-        });
-
-        List<Action> shuffledIllnesses = illnesses.OrderBy(x => random.Next()).ToList();
-        for (int i = 0; i < numberOfIllnesses; i++) {
-            shuffledIllnesses[i]();
-        }
-    }
-    
-    public void amputate(int limb){
+    public void amputate(int limb)
+    {
         needsAmputation[limb] = false;
         needsAttatchment[limb] = true;
         needsLimbs = true;
