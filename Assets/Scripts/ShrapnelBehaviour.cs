@@ -137,7 +137,7 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (!collider.CompareTag("Shrapnel") && beingHeld && insideAlien)
+        if (!collider.CompareTag("Shrapnel") && !collider.CompareTag("Head") && beingHeld && insideAlien)
         {
             Alien alien = collider.GetComponentInParent<Alien>();
             if (alien != null)
@@ -154,7 +154,7 @@ public class ShrapnelBehaviour : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (!collider.CompareTag("Shrapnel") && !insideAlien)
+        if (!collider.CompareTag("Shrapnel") && !collider.CompareTag("Head") && !insideAlien)
         {
             Alien alien = collider.GetComponentInParent<Alien>();
             if (alien != null)

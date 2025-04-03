@@ -1,13 +1,13 @@
 using UnityEngine;
-using Unity.Barracuda;
+using System.Collections;
 
 public class MusicManager : MonoBehaviour
 {
     public GameManager gameManager;
-    
+
     // Reference to the model controller that runs the NN.
     public MusicModelController modelController;
-    
+
     // AudioSources for the individual song stems:
     // Song 1: keys and drums
     public AudioSource song1_keys;
@@ -19,14 +19,22 @@ public class MusicManager : MonoBehaviour
     // Song 3: hi pass and low pass
     public AudioSource song3_hiPass;
     public AudioSource song3_lowPass;
-    
+
     // AudioSource for the pizza track
     public AudioSource pizzaTrack;
-    
+
     // Base BPM used for adjusting pitch.
     public float baseBPM = 120f;
-    
-    void Start() {
+
+    // --- New variables for crossfade management ---
+    // -1 indicates that no track is active yet.
+    private int currentActiveTrack = -1;
+    private bool isCrossfading = false;
+    // Duration of the crossfade (in seconds)
+    private float fadeDuration = 1f;
+
+    void Start()
+    {
         // Start playing all stems so they can be modulated.
         song1_keys.Play();
         song1_drums.Play();
@@ -35,131 +43,182 @@ public class MusicManager : MonoBehaviour
         song2_bass.Play();
         song3_hiPass.Play();
         song3_lowPass.Play();
-        
+
         // Ensure pizza track is stopped at start.
         pizzaTrack.Stop();
     }
 
     void Update()
     {
-        float numPatients = gameManager.GetNumberOfPatients();
-        float totalInjuries = gameManager.GetTotalInjuries();
-        float totalTimeLeft = gameManager.GetTotalTimeLeft();
+        // First, handle the pizza event case.
         float eventState = gameManager.GetEvent();
-
-        // Log the game parameters.
-        // Debug.Log($"Game Params - Patients: {numPatients}, Injuries: {totalInjuries}, TimeLeft: {totalTimeLeft}, EventState: {eventState}");
-        
-        // Check for pizza event: if eventState == 1 and no patients.
         if (eventState == 1 && gameManager.currentPatientCount == 0)
         {
             if (!pizzaTrack.isPlaying)
             {
-                // Debug.Log("Pizza event active: starting pizza track, muting all other stems.");
                 pizzaTrack.Play();
             }
-            // Mute all other stems.
-            song1_keys.volume = 0f;
-            song1_drums.volume = 0f;
-            song2_keys.volume = 0f;
-            song2_drums.volume = 0f;
-            song2_bass.volume = 0f;
-            song3_hiPass.volume = 0f;
-            song3_lowPass.volume = 0f;
+            // Mute all other stems immediately.
+            SetAllStemsVolume(0f);
+            return;
         }
         else
         {
-            // Ensure pizza track is muted.
             if (pizzaTrack.isPlaying)
                 pizzaTrack.Stop();
-            
-            // Evaluate the NN.
-            // Expected NN outputs:
-            // [activeTrack, tempo, song1_keysVol, song1_drumsVol,
-            //  song2_keysVol, song2_drumsVol, song2_bassVol,
-            //  song3_hiPassVol, song3_lowPassVol]
-            float[] outputs = modelController.EvaluateModel(numPatients, totalInjuries, totalTimeLeft);
-            
-            // Extract outputs.
-            float activeTrackValue = outputs[0];
-            float tempo = outputs[1];
-            // For Song 1:
-            float song1_keysVol = outputs[2];
-            float song1_drumsVol = outputs[3];
-            // For Song 2:
-            float song2_keysVol = outputs[4];
-            float song2_drumsVol = outputs[5];
-            float song2_bassVol = outputs[6];
-            // For Song 3:
-            float song3_hiPassVol = outputs[7];
-            float song3_lowPassVol = outputs[8];
-            
-            // Log NN outputs.
-            // Debug.Log($"NN Outputs - ActiveTrack: {activeTrackValue}, Tempo: {tempo}, " +
-            //           $"Song1 Keys: {song1_keysVol}, Song1 Drums: {song1_drumsVol}, " +
-            //           $"Song2 Keys: {song2_keysVol}, Song2 Drums: {song2_drumsVol}, Song2 Bass: {song2_bassVol}, " +
-            //           $"Song3 HiPass: {song3_hiPassVol}, Song3 LowPass: {song3_lowPassVol}");
-            
-            // Calculate pitch.
-            float pitchValue = tempo / baseBPM;
-            
-            // Decide which track to play based on activeTrack.
-            // We round the activeTrack output to an integer (0, 1, or 2).
-            int trackDecision = Mathf.Clamp(Mathf.RoundToInt(activeTrackValue), 0, 2);
-            // Debug.Log("Active Track Decision: " + trackDecision);
-            
-            // Reset all volumes (they are all playing continuously).
-            song1_keys.volume = 0f;
-            song1_drums.volume = 0f;
-            song2_keys.volume = 0f;
-            song2_drums.volume = 0f;
-            song2_bass.volume = 0f;
-            song3_hiPass.volume = 0f;
-            song3_lowPass.volume = 0f;
-            
-            // Apply pitch and volumes only to the chosen track.
-            if (trackDecision == 0)
+        }
+
+        // Evaluate the NN.
+        // Expected NN outputs:
+        // [activeTrack, tempo, song1_keysVol, song1_drumsVol,
+        //  song2_keysVol, song2_drumsVol, song2_bassVol,
+        //  song3_hiPassVol, song3_lowPassVol]
+        float numPatients = gameManager.GetNumberOfPatients();
+        float totalInjuries = gameManager.GetTotalInjuries();
+        float totalTimeLeft = gameManager.GetTotalTimeLeft();
+        float[] outputs = modelController.EvaluateModel(numPatients, totalInjuries, totalTimeLeft);
+
+        // Extract outputs.
+        float activeTrackValue = outputs[0];
+        float tempo = outputs[1];
+        // For Song 1:
+        float song1_keysTarget = outputs[2];
+        float song1_drumsTarget = outputs[3];
+        // For Song 2:
+        float song2_keysTarget = outputs[4];
+        float song2_drumsTarget = outputs[5];
+        float song2_bassTarget = outputs[6];
+        // For Song 3:
+        float song3_hiPassTarget = outputs[7];
+        float song3_lowPassTarget = outputs[8];
+
+        // Calculate pitch.
+        float pitchValue = tempo / baseBPM;
+
+        // Decide which track to play based on activeTrack.
+        // We round the activeTrack output to an integer (0, 1, or 2).
+        int newTrackDecision = Mathf.Clamp(Mathf.RoundToInt(activeTrackValue), 0, 2);
+
+        // If we are currently crossfading, skip direct volume updates.
+        if (isCrossfading)
+            return;
+
+        // If the track decision has changed, initiate a crossfade.
+        if (newTrackDecision != currentActiveTrack)
+        {
+            // Prepare target volumes for the new track.
+            float[] newTargetVolumes = null;
+            if (newTrackDecision == 0)
+                newTargetVolumes = new float[] { song1_keysTarget, song1_drumsTarget };
+            else if (newTrackDecision == 1)
+                newTargetVolumes = new float[] { song2_keysTarget, song2_drumsTarget, song2_bassTarget };
+            else if (newTrackDecision == 2)
+                newTargetVolumes = new float[] { song3_hiPassTarget, song3_lowPassTarget };
+
+            StartCoroutine(CrossfadeTracks(currentActiveTrack, newTrackDecision, newTargetVolumes, pitchValue));
+            currentActiveTrack = newTrackDecision;
+        }
+        else
+        {
+            // No track change: update the active track's pitch and volumes instantly.
+            AudioSource[] activeSources = GetAudioSourcesForTrack(currentActiveTrack);
+            float[] targetVolumes = null;
+            if (currentActiveTrack == 0)
+                targetVolumes = new float[] { song1_keysTarget, song1_drumsTarget };
+            else if (currentActiveTrack == 1)
+                targetVolumes = new float[] { song2_keysTarget, song2_drumsTarget, song2_bassTarget };
+            else if (currentActiveTrack == 2)
+                targetVolumes = new float[] { song3_hiPassTarget, song3_lowPassTarget };
+
+            // First, mute all stems.
+            SetAllStemsVolume(0f);
+
+            // Then update active stems.
+            for (int i = 0; i < activeSources.Length; i++)
             {
-                song1_keys.pitch = pitchValue;
-                song1_keys.volume = song1_keysVol;
-                song1_drums.pitch = pitchValue;
-                song1_drums.volume = song1_drumsVol;
-            }
-            else if (trackDecision == 1)
-            {
-                song2_keys.pitch = pitchValue;
-                song2_keys.volume = song2_keysVol;
-                song2_drums.pitch = pitchValue;
-                song2_drums.volume = song2_drumsVol;
-                song2_bass.pitch = pitchValue;
-                song2_bass.volume = song2_bassVol;
-            }
-            else if (trackDecision == 2)
-            {
-                song3_hiPass.pitch = pitchValue;
-                song3_hiPass.volume = song3_hiPassVol;
-                song3_lowPass.pitch = pitchValue;
-                song3_lowPass.volume = song3_lowPassVol;
-            }
-            
-            // Ensure that the stems of the active track are playing.
-            // (They were started in Start() so we only need to check if they were muted/stopped.)
-            if (trackDecision == 0)
-            {
-                if (!song1_keys.isPlaying) song1_keys.Play();
-                if (!song1_drums.isPlaying) song1_drums.Play();
-            }
-            else if (trackDecision == 1)
-            {
-                if (!song2_keys.isPlaying) song2_keys.Play();
-                if (!song2_drums.isPlaying) song2_drums.Play();
-                if (!song2_bass.isPlaying) song2_bass.Play();
-            }
-            else if (trackDecision == 2)
-            {
-                if (!song3_hiPass.isPlaying) song3_hiPass.Play();
-                if (!song3_lowPass.isPlaying) song3_lowPass.Play();
+                activeSources[i].pitch = pitchValue;
+                activeSources[i].volume = targetVolumes[i];
+                if (!activeSources[i].isPlaying)
+                    activeSources[i].Play();
             }
         }
+    }
+
+    // Helper method to immediately set volume of all stems to a given value.
+    void SetAllStemsVolume(float volume)
+    {
+        song1_keys.volume = volume;
+        song1_drums.volume = volume;
+        song2_keys.volume = volume;
+        song2_drums.volume = volume;
+        song2_bass.volume = volume;
+        song3_hiPass.volume = volume;
+        song3_lowPass.volume = volume;
+    }
+
+    // Returns the AudioSources belonging to a given track.
+    AudioSource[] GetAudioSourcesForTrack(int track)
+    {
+        if (track == 0)
+            return new AudioSource[] { song1_keys, song1_drums };
+        else if (track == 1)
+            return new AudioSource[] { song2_keys, song2_drums, song2_bass };
+        else if (track == 2)
+            return new AudioSource[] { song3_hiPass, song3_lowPass };
+        return new AudioSource[0];
+    }
+
+    // Coroutine to crossfade from the old track to the new one over fadeDuration seconds.
+    IEnumerator CrossfadeTracks(int oldTrack, int newTrack, float[] newTargetVolumes, float pitchValue)
+    {
+        isCrossfading = true;
+        float timeElapsed = 0f;
+
+        // Get old and new track sources.
+        AudioSource[] oldSources = GetAudioSourcesForTrack(oldTrack);
+        AudioSource[] newSources = GetAudioSourcesForTrack(newTrack);
+
+        // For old sources, store their initial volumes.
+        float[] oldInitialVolumes = new float[oldSources.Length];
+        for (int i = 0; i < oldSources.Length; i++)
+            oldInitialVolumes[i] = oldSources[i].volume;
+
+        // Ensure new sources start at 0.
+        foreach (AudioSource src in newSources)
+        {
+            src.volume = 0f;
+            src.pitch = pitchValue;
+            if (!src.isPlaying)
+                src.Play();
+        }
+
+        while (timeElapsed < fadeDuration)
+        {
+            float t = timeElapsed / fadeDuration;
+            // Fade out old track.
+            for (int i = 0; i < oldSources.Length; i++)
+            {
+                oldSources[i].volume = Mathf.Lerp(oldInitialVolumes[i], 0f, t);
+            }
+            // Fade in new track.
+            for (int i = 0; i < newSources.Length; i++)
+            {
+                float targetVol = newTargetVolumes[i];
+                newSources[i].volume = Mathf.Lerp(0f, targetVol, t);
+                newSources[i].pitch = pitchValue; // update pitch continuously.
+            }
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure final volumes.
+        for (int i = 0; i < oldSources.Length; i++)
+            oldSources[i].volume = 0f;
+        for (int i = 0; i < newSources.Length; i++)
+        {
+            newSources[i].volume = newTargetVolumes[i];
+            newSources[i].pitch = pitchValue;
+        }
+        isCrossfading = false;
     }
 }
