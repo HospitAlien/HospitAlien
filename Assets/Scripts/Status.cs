@@ -113,11 +113,11 @@ public class Status
         }
         else if (gameStage == 1)
         {
-            numberOfIllnesses = random.Next(2, 4);
+            numberOfIllnesses = random.Next(1, 4);
         }
         else
         {
-            numberOfIllnesses = random.Next(2, 5);
+            numberOfIllnesses = random.Next(2, 4);
         }
 
 

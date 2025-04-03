@@ -4,7 +4,7 @@ public class GreenAlien : Alien
 {
 
     protected override void InitiateStatus()
-    { 
+    {
         status.initiateStatus(this, gameManager.currentGameStage);
     }
 
@@ -18,13 +18,15 @@ public class GreenAlien : Alien
     {
 
         bool limbSet = false;
+        int amputateLimit = 0;
         System.Random random = new System.Random();
         for (int i = 0; i < status.needsAttatchment.Length; i++)
         {
-            if (random.NextDouble() < 0.3)
+            if (amputateLimit < 2 && random.NextDouble() < 0.3)
             {
                 status.needsAmputation[i] = true;
                 limbSet = true;
+                amputateLimit++;
             }
         }
 
