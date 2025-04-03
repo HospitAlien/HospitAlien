@@ -4,7 +4,7 @@ using Oculus.Interaction.HandGrab;
 public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
 {
     private bool fullLiquid;
-    private string currentBloodType; 
+    private string currentBloodType;
     private Animator animator;
     private bool tipInContactWithAlienBlood;
     private int tipInContactWithAlien;
@@ -55,8 +55,14 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
     public void TipExitedAlien()
     {
         tipInContactWithAlien -= 1;
-        if(tipInContactWithAlien == 0){
+        if (tipInContactWithAlien == 0)
+        {
             alien = null;
+        }
+
+        if (tipInContactWithAlien < 0)
+        {
+            tipInContactWithAlien = 0;
         }
         Debug.Log($"LEVELS DEEP {tipInContactWithAlien}");
     }
@@ -89,11 +95,16 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
                 // Change the material based on the current blood type
                 if (liquidRenderer != null)
                 {
-                    if(currentBloodType == "Red"){
+                    if (currentBloodType == "Red")
+                    {
                         liquidRenderer.material = redBloodMaterial;  // Directly assign the material
-                    }else if(currentBloodType == "Blue"){
+                    }
+                    else if (currentBloodType == "Blue")
+                    {
                         liquidRenderer.material = blueBloodMaterial;
-                    }else{
+                    }
+                    else
+                    {
                         liquidRenderer.material = greenBloodMaterial;
                     }
                 }
