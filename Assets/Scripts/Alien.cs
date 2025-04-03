@@ -372,54 +372,68 @@ public class Alien : MonoBehaviour
         }
     }
 
-    protected void EnlargementPilled()
+    public bool EnlargementPilled()
     {
-
-        if (status.curSize == -1)
+        if (isReady)
         {
-            status.curSize += 1;
-            growthSFX.Play();
-            StartCoroutine(ScaleOverTime(2f, growthSFX.clip.length));
-        }
-        else if (status.curSize == 0)
-        {
-            status.curSize += 1;
-            growthSFX.Play();
-            StartCoroutine(ScaleOverTime(1.4f, growthSFX.clip.length));
-        }
-
-        if (status.curSize == 0)
-        {
-            if (status.isHealthy())
+            if (status.curSize == -1)
             {
-                Cure();
+                status.curSize += 1;
+                growthSFX.Play();
+                StartCoroutine(ScaleOverTime(2f, growthSFX.clip.length));
             }
+            else if (status.curSize == 0)
+            {
+                status.curSize += 1;
+                growthSFX.Play();
+                StartCoroutine(ScaleOverTime(1.4f, growthSFX.clip.length));
+            }
+
+            if (status.curSize == 0)
+            {
+                if (status.isHealthy())
+                {
+                    Cure();
+                }
+            }
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
 
-    protected void ShrinkPilled()
+    public bool ShrinkPilled()
     {
-
-        if (status.curSize == 1)
+        if (isReady)
         {
-            status.curSize -= 1;
-            shrinkSFX.Play();
-            StartCoroutine(ScaleOverTime((1 / (1.4f)), shrinkSFX.clip.length));
-        }
-        else if (status.curSize == 0)
-        {
-            status.curSize -= 1;
-            shrinkSFX.Play();
-            StartCoroutine(ScaleOverTime(0.5f, shrinkSFX.clip.length));
-        }
-
-        if (status.curSize == 0)
-        {
-            if (status.isHealthy())
+            if (status.curSize == 1)
             {
-                Cure();
+                status.curSize -= 1;
+                shrinkSFX.Play();
+                StartCoroutine(ScaleOverTime((1 / (1.4f)), shrinkSFX.clip.length));
             }
+            else if (status.curSize == 0)
+            {
+                status.curSize -= 1;
+                shrinkSFX.Play();
+                StartCoroutine(ScaleOverTime(0.5f, shrinkSFX.clip.length));
+            }
+
+            if (status.curSize == 0)
+            {
+                if (status.isHealthy())
+                {
+                    Cure();
+                }
+            }
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
