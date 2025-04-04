@@ -82,7 +82,6 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
             }
 
             fullLiquid = false;
-            currentBloodType = "";
         }
         else
         {
@@ -103,9 +102,13 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
                     {
                         liquidRenderer.material = blueBloodMaterial;
                     }
-                    else
+                    else if (currentBloodType == "Green")
                     {
                         liquidRenderer.material = greenBloodMaterial;
+                    }
+                    else
+                    {
+                        Debug.LogError("Unknown blood type: " + currentBloodType);
                     }
                 }
                 else
