@@ -7,13 +7,11 @@ public class MusicModelController : MonoBehaviour
     private Model runtimeModel;
     private IWorker worker;
 
-    // Updated input normalization parameters (from the new training scaler)
     // Input Mean: [3.10545024, 14.62440758, 533.78145158]
     // Input Std:  [1.96281031, 8.90936041, 310.85870281]
     private Vector3 inputMean = new Vector3(3.10545024f, 14.62440758f, 533.78145158f);
     private Vector3 inputStd  = new Vector3(1.96281031f, 8.90936041f, 310.85870281f);
 
-    // Updated output inverse transformation parameters (from the new training scaler)
     // Output Mean: [0.97630332, 125.55557353, 0.21112221, 0.20068607, 0.23485669,
     //               0.22881629, 0.23403013, 0.25823629, 0.25833559]
     // Output Std:  [0.8228995, 17.07588504, 0.28940052, 0.27646851, 0.34807077,
@@ -27,16 +25,16 @@ public class MusicModelController : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.Auto, runtimeModel);
     }
 
-    // Evaluate the model using 3 input parameters: PatientCount, InjuryCount, TimeLeft.
-    // The method normalizes the inputs, runs the model, then applies the inverse transformation to the 9 outputs.
+    // Evaluate the model using 3 input parameters: PatientCount, InjuryCount, TimeLeft
+    // normalises the inputs, runs the model, then applies the inverse transformation to the 9 outputs
     public float[] EvaluateModel(float patientCount, float injuryCount, float timeLeft)
     {
-        // Normalize inputs
+        // Normalise inputs
         float normPatient = (patientCount - inputMean.x) / inputStd.x;
         float normInjury = (injuryCount - inputMean.y) / inputStd.y;
         float normTime   = (timeLeft - inputMean.z) / inputStd.z;
 
-        // Create a 1x3 input tensor with normalized values.
+        // Create a 1x3 input tensor with normalised values.
         Tensor inputTensor = new Tensor(1, 3);
         inputTensor[0, 0] = normPatient;
         inputTensor[0, 1] = normInjury;
@@ -45,8 +43,8 @@ public class MusicModelController : MonoBehaviour
         // Execute the model.
         worker.Execute(inputTensor);
 
-        // Retrieve the raw outputs from the "output" layer.
-        // Now the model outputs 9 values.
+        // get the raw outputs from the "output" layer.
+        // Now the model outputs 9 values
         Tensor outputTensor = worker.PeekOutput("output");
         float[] modelOutput = new float[9];
         for (int i = 0; i < 9; i++)
@@ -61,7 +59,7 @@ public class MusicModelController : MonoBehaviour
             modelOutput[i] = modelOutput[i] * outputStd[i] + outputMean[i];
         }
 
-        // Dispose tensors to free resources.
+        // Dispose tensors to free resources
         inputTensor.Dispose();
         outputTensor.Dispose();
 
