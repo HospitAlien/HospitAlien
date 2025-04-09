@@ -8,7 +8,7 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
     private Animator animator;
     private bool tipInContactWithAlienBlood;
     private int tipInContactWithAlien;
-    public Renderer liquidRenderer; // Public reference to be assigned in the Inspector
+    public Renderer liquidRenderer; 
     Alien alien;
 
     // Materials for each blood type
