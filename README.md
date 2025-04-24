@@ -23,12 +23,6 @@
 </div>
 
 
-
-<!-- TABLE OF CONTENTS -->
-
-[TOC]
-
-
 <!-- ABOUT THE PROJECT -->
 
 # Overview
