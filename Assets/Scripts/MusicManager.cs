@@ -5,28 +5,21 @@ public class MusicManager : MonoBehaviour
 {
     public GameManager gameManager;
 
-    // Reference to the model controller that runs the NN.
     public MusicModelController modelController;
 
-    // AudioSources for the individual song stems:
-    // Song 1: keys and drums
     public AudioSource song1_keys;
     public AudioSource song1_drums;
-    // Song 2: keys, drums, and bass
     public AudioSource song2_keys;
     public AudioSource song2_drums;
     public AudioSource song2_bass;
-    // Song 3: hi pass and low pass
     public AudioSource song3_hiPass;
     public AudioSource song3_lowPass;
 
-    // AudioSource for the pizza track
     public AudioSource pizzaTrack;
 
     // Base BPM used for adjusting pitch.
     public float baseBPM = 120f;
 
-    // --- New variables for crossfade management ---
     // -1 indicates that no track is active yet.
     private int currentActiveTrack = -1;
     private bool isCrossfading = false;
@@ -35,7 +28,6 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        // Start playing all stems so they can be modulated.
         song1_keys.Play();
         song1_drums.Play();
         song2_keys.Play();
@@ -44,13 +36,11 @@ public class MusicManager : MonoBehaviour
         song3_hiPass.Play();
         song3_lowPass.Play();
 
-        // Ensure pizza track is stopped at start.
         pizzaTrack.Stop();
     }
 
     void Update()
     {
-        // First, handle the pizza event case.
         float eventState = gameManager.GetEvent();
         if (eventState == 1 && gameManager.currentPatientCount == 0)
         {
@@ -81,21 +71,18 @@ public class MusicManager : MonoBehaviour
         // Extract outputs.
         float activeTrackValue = outputs[0];
         float tempo = outputs[1];
-        // For Song 1:
         float song1_keysTarget = outputs[2];
         float song1_drumsTarget = outputs[3];
-        // For Song 2:
         float song2_keysTarget = outputs[4];
         float song2_drumsTarget = outputs[5];
         float song2_bassTarget = outputs[6];
-        // For Song 3:
         float song3_hiPassTarget = outputs[7];
         float song3_lowPassTarget = outputs[8];
 
         // Calculate pitch.
         float pitchValue = tempo / baseBPM;
 
-        // Decide which track to play based on activeTrack.
+        // Decide which track to play 
         // We round the activeTrack output to an integer (0, 1, or 2).
         int newTrackDecision = Mathf.Clamp(Mathf.RoundToInt(activeTrackValue), 0, 2);
 
@@ -144,7 +131,7 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    // Helper method to immediately set volume of all stems to a given value.
+    // method to immediately set volume of all stems to a given value.
     void SetAllStemsVolume(float volume)
     {
         song1_keys.volume = volume;
@@ -211,7 +198,6 @@ public class MusicManager : MonoBehaviour
             yield return null;
         }
 
-        // Ensure final volumes.
         for (int i = 0; i < oldSources.Length; i++)
             oldSources[i].volume = 0f;
         for (int i = 0; i < newSources.Length; i++)

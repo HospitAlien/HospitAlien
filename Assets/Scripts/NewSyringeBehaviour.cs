@@ -8,7 +8,7 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
     private Animator animator;
     private bool tipInContactWithAlienBlood;
     private int tipInContactWithAlien;
-    public Renderer liquidRenderer; // Public reference to be assigned in the Inspector
+    public Renderer liquidRenderer; 
     Alien alien;
 
     // Materials for each blood type
@@ -82,7 +82,6 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
             }
 
             fullLiquid = false;
-            currentBloodType = "";
         }
         else
         {
@@ -103,9 +102,13 @@ public class NewSyringeBehaviour : MonoBehaviour, IHandGrabUseDelegate
                     {
                         liquidRenderer.material = blueBloodMaterial;
                     }
-                    else
+                    else if (currentBloodType == "Green")
                     {
                         liquidRenderer.material = greenBloodMaterial;
+                    }
+                    else
+                    {
+                        Debug.LogError("Unknown blood type: " + currentBloodType);
                     }
                 }
                 else
